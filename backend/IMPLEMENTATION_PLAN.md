@@ -500,7 +500,7 @@ Rollback:
 ### 3.1 Repository Structure
 
 ```text
-scoop/
+backend/
   go.mod
   go.sum
   cmd/

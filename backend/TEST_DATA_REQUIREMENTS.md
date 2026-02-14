@@ -6,7 +6,7 @@ This document defines what test data is needed for reliable ingest/dedup testing
 
 Save all test news items under:
 
-`scoop/testdata/news_items/`
+`backend/testdata/news_items/`
 
 Recommended layout:
 

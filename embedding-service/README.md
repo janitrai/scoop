@@ -71,13 +71,13 @@ curl -s http://127.0.0.1:8844/v1/embeddings \
 Use the embedding service endpoint from `scoop`:
 
 ```bash
-cd ~/scoop/scoop
+cd ~/scoop/backend
 go run ./cmd/scoop embed --env .env --endpoint http://127.0.0.1:8844/embed
 ```
 
 Or for full cycle:
 
 ```bash
-cd ~/scoop/scoop
+cd ~/scoop/backend
 go run ./cmd/scoop process --env .env --embed-endpoint http://127.0.0.1:8844/embed
 ```

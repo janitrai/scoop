@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: "/assets/",
   build: {
-    outDir: "../internal/httpapi/assets",
+    outDir: "../backend/internal/httpapi/assets",
     emptyOutDir: true,
     sourcemap: false,
     rollupOptions: {

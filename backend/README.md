@@ -23,8 +23,8 @@ Open in browser:
 - `http://<host>:8090/` (story viewer web app)
 
 Frontend stack:
-- React + Vite + strict TypeScript (source in `frontend/`)
-- Tailwind CSS (component layer via `@apply` in `frontend/src/styles.css`)
+- React + Vite + strict TypeScript (source in `../frontend/`)
+- Tailwind CSS (component layer via `@apply` in `../frontend/src/styles.css`)
 - TanStack Router (typed route/search state)
 - TanStack Query (typed API caching/fetching)
 - built output is written to `internal/httpapi/assets` and served by Echo
@@ -32,8 +32,8 @@ Frontend stack:
 Build frontend assets:
 
 ```bash
-npm --prefix frontend install
-npm --prefix frontend run build
+npm --prefix ../frontend install
+npm --prefix ../frontend run build
 ```
 
 Web app day browsing:

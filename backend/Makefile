@@ -49,13 +49,13 @@ run-serve:
 .PHONY: web-build
 web-build:
 	@echo "$(CYAN)Building frontend assets...$(RESET)"
-	npm --prefix frontend run build
+	npm --prefix ../frontend run build
 
 ## web-dev: Run Vite frontend dev server
 .PHONY: web-dev
 web-dev:
 	@echo "$(CYAN)Starting frontend dev server...$(RESET)"
-	npm --prefix frontend run dev
+	npm --prefix ../frontend run dev
 
 ## run-ingest-smoke: Run one manual ingest event
 .PHONY: run-ingest-smoke

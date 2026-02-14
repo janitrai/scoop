@@ -3,4 +3,3 @@ tmp/
 coverage.out
 coverage.html
 .env
-frontend/node_modules/
