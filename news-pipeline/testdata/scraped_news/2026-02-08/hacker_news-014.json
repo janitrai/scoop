@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.cnbc.com_2026_02_06_google-microsoft-pay-creators-500000-and-more-to-promote-ai.html",
+  "title": "Google and Microsoft Paying Creators $500K+ to Promote AI Tools",
+  "canonical_url": "https://www.cnbc.com/2026/02/06/google-microsoft-pay-creators-500000-and-more-to-promote-ai.html",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.cnbc.com",
+  "source_metadata": {
+    "hn_score": 18,
+    "hn_comments": 1,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-014",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "fad9694b-f3aa-57cf-bb88-1f950ab6c5ae"
+  }
+}

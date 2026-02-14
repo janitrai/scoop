@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12257v1",
+  "title": "On the implicit regularization of Langevin dynamics with projected noise",
+  "canonical_url": "http://arxiv.org/abs/2602.12257v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-074",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "2009bb3b-98f2-5e17-8c8b-ab283d592255"
+  },
+  "body_text": "[math.PR, cs.AI] We study Langevin dynamics with noise projected onto the directions orthogonal to an isometric group action. This mathematical model is introduced to shed new light on the effects of"
+}

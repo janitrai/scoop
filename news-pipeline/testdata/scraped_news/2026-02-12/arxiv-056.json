@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11142v1",
+  "title": "Data-Efficient Hierarchical Goal-Conditioned Reinforcement Learning via Normalizing Flows",
+  "canonical_url": "http://arxiv.org/abs/2602.11142v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-056",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "f4284b90-4b69-5efd-8f0d-23007a9a67bc"
+  },
+  "body_text": "[cs.RO, cs.AI, cs.LG] Hierarchical goal-conditioned reinforcement learning (H-GCRL) provides a powerful framework for tackling complex, long-horizon tasks by decomposing them into structured subgoals."
+}

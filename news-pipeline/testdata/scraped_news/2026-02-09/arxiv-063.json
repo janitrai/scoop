@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06955v1",
+  "title": "Improving Credit Card Fraud Detection with an Optimized Explainable Boosting Machine",
+  "canonical_url": "http://arxiv.org/abs/2602.06955v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-063",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "495acb3a-cc75-5aae-9756-214f7fc5c66e"
+  },
+  "body_text": "[cs.LG] Addressing class imbalance is a central challenge in credit card fraud detection, as it directly impacts predictive reliability in real-world financial systems. To overcome this, the study pro"
+}

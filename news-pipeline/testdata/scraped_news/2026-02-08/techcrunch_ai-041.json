@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_video_how-elon-musk-is-rewriting-the-rules-on-founder-power",
+  "title": "How Elon Musk is rewriting the rules on founder power",
+  "canonical_url": "https://techcrunch.com/video/how-elon-musk-is-rewriting-the-rules-on-founder-power/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-041",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "2e3fb49a-318c-56ac-8034-4ae171af7dfb"
+  },
+  "body_text": "Elon Musk has merged SpaceX and xAI, creating what might be the blueprint for a new Silicon Valley power structure. With his $800 billion net worth already rivaling historic conglomerate GE’s peak mar"
+}

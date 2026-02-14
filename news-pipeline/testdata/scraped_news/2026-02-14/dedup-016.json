@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "thehill.com_policy_international_5737485-us-leadership-challenged-merz",
+  "title": "German Chancellor Merz says US leadership 'lost,' calls for repair of relations",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-016",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "70dc99ad-0b3b-5cd5-8e38-f6d8a75ef708"
+  },
+  "canonical_url": "https://thehill.com/policy/international/5737485-us-leadership-challenged-merz/",
+  "source_domain": "thehill.com",
+  "body_text": "At the Munich Security Conference, new German Chancellor Merz declared US leadership 'lost' and called on Europe to step up, saying the US is 'not powerful enough to go it alone.'",
+  "published_at": "2026-02-14T08:00:00Z"
+}

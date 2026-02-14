@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_senior-engineers-including-co-founders-exit-xai-amid-controversy",
+  "title": "Elon Musk suggests spate of xAI exits have been push, not pull",
+  "canonical_url": "https://techcrunch.com/2026/02/11/senior-engineers-including-co-founders-exit-xai-amid-controversy/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-041",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "ac9cae26-d62d-583d-941b-9467444cd29f"
+  },
+  "body_text": "At least nine engineers, including two co-founders, have announced their exits from xAI in the past week, fueling online speculation and raising questions about stability at Musk’s AI company amid mou"
+}

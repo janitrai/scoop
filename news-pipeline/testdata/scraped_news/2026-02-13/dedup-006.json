@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "arstechnica.com_ai_2026_02_sixteen-claude-ai-agents-working-together-created-a-new-c-compiler",
+  "title": "16 Claude AI agents built a new C compiler",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-006",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "92727a2e-13e3-56a3-a6f6-8110f8008339"
+  },
+  "canonical_url": "https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/",
+  "source_domain": "arstechnica.com",
+  "body_text": "$20K experiment using 16 coordinated Claude agents compiled a Linux kernel.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

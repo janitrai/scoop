@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_8_thomas-ptacek",
+  "title": "Quoting Thomas Ptacek",
+  "canonical_url": "https://simonwillison.net/2026/Feb/8/thomas-ptacek/#atom-everything",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_simon_willison-035",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "3ee39148-26f4-509d-8416-9003fcb96f8d"
+  },
+  "body_text": "People on the orange site are laughing at this, assuming it's just an ad and that there's nothing to it. Vulnerability researchers I talk to do not think this is a joke. As an erstwhile vuln researche"
+}

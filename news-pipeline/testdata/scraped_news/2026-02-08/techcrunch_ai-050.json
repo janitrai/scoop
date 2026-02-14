@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_05_openai-launches-new-agentic-coding-model-only-minutes-after-anthropic-drops-its-own",
+  "title": "OpenAI launches new agentic coding model only minutes after Anthropic drops its own",
+  "canonical_url": "https://techcrunch.com/2026/02/05/openai-launches-new-agentic-coding-model-only-minutes-after-anthropic-drops-its-own/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-050",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "652f7296-51b2-5cd3-ab07-792b5c456c45"
+  },
+  "body_text": "The new model is built to accelerate the capabilities of Codex, the agentic coding tool OpenAI launched earlier this week. ---"
+}

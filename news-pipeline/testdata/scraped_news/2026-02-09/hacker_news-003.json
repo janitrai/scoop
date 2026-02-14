@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.github.io_gh-aw",
+  "title": "GitHub Agentic Workflows",
+  "canonical_url": "https://github.github.io/gh-aw/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "github.github.io",
+  "source_metadata": {
+    "hn_score": 247,
+    "hn_comments": 121,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-003",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "b02f3730-2d54-59b0-bd20-bba3c02845c7"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_6_karel-doosterlinck",
+  "title": "Quoting Karel D'Oosterlinck",
+  "canonical_url": "https://simonwillison.net/2026/Feb/6/karel-doosterlinck/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-040",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "7eae8125-f4af-5c70-80c9-8df488b5cd02"
+  },
+  "body_text": "When I want to quickly implement a one-off experiment in a part of the codebase I am unfamiliar with, I get codex to do extensive due diligence. Codex explores relevant slack channels, reads related d"
+}

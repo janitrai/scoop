@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "status.railway.com",
+  "title": "Railway (PaaS) global outage",
+  "canonical_url": "https://status.railway.com",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "status.railway.com",
+  "source_metadata": {
+    "hn_score": 85,
+    "hn_comments": 66,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-013",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "fcfbf546-9449-5197-92b6-bf257dd6362d"
+  }
+}

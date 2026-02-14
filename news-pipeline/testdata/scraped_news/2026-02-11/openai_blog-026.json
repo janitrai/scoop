@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_testing-ads-in-chatgpt",
+  "title": "Testing ads in ChatGPT",
+  "canonical_url": "https://openai.com/index/testing-ads-in-chatgpt",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-026",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "38012ab4-4db4-51fb-b119-d33cb0766d39"
+  },
+  "body_text": "OpenAI begins testing ads in ChatGPT to support free access, with clear labeling, answer independence, strong privacy protections, and user control."
+}

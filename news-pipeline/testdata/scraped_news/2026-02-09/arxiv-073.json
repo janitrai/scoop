@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06937v1",
+  "title": "Reciprocal Latent Fields for Precomputed Sound Propagation",
+  "canonical_url": "http://arxiv.org/abs/2602.06937v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-073",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "50617807-44da-5996-a88a-9ab0e200d6ff"
+  },
+  "body_text": "[cs.SD, cs.LG, eess.AS] Realistic sound propagation is essential for immersion in a virtual scene, yet physically accurate wave-based simulations remain computationally prohibitive for real-time appli"
+}

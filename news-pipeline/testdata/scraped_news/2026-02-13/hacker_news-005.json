@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "blog.can.ac_2026_02_12_the-harness-problem",
+  "title": "Improving 15 LLMs at Coding in One Afternoon. Only the Harness Changed",
+  "canonical_url": "http://blog.can.ac/2026/02/12/the-harness-problem/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "blog.can.ac",
+  "source_metadata": {
+    "hn_score": 647,
+    "hn_comments": 247,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-005",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "52ba287b-085c-5ab3-a2cc-43c90fae11d1"
+  }
+}

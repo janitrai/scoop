@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_uber-eats-launches-ai-assistant-to-help-with-grocery-cart-creation",
+  "title": "Uber Eats launches AI assistant to help with grocery cart creation",
+  "canonical_url": "https://techcrunch.com/2026/02/11/uber-eats-launches-ai-assistant-to-help-with-grocery-cart-creation/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-038",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "6aa76c23-2655-5ea5-8d9b-77a81f090285"
+  },
+  "body_text": "Uber Eats launched a new AI feature, “Cart Assistant,” that can automatically add items to your cart based on text or image prompts."
+}

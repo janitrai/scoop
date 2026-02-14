@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_apple_container_releases_tag_0.9.0",
+  "title": "Apple Container 0.9.0",
+  "canonical_url": "https://github.com/apple/container/releases/tag/0.9.0",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 44,
+    "hn_comments": 11,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-014",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "5df13b64-7c08-5db9-9331-527675e4de78"
+  }
+}

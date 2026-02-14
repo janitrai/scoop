@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_12_anthropic",
+  "title": "Quoting Anthropic",
+  "canonical_url": "https://simonwillison.net/2026/Feb/12/anthropic/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-032",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "8e707250-ae46-5b20-8f7e-4be472f61261"
+  },
+  "body_text": "Claude Code was made available to the general public in May 2025. Today, Claude Code’s run-rate revenue has grown to over $2.5 billion; this figure has more than doubled since the beginning of 2026. T"
+}

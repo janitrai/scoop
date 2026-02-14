@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.aerotime.aero_articles_india-39-billion-purchase-114-rafale-fighter-jet",
+  "title": "India approves $39 billion purchase of 114 Rafale jets",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-024",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "d4ffe93c-c31a-561f-84f6-3d4b2777a8c2"
+  },
+  "canonical_url": "https://www.aerotime.aero/articles/india-39-billion-purchase-114-rafale-fighter-jet",
+  "source_domain": "www.aerotime.aero",
+  "body_text": "India greenlit a massive $39B deal for 114 Dassault Rafale fighter jets, one of the largest defense procurements in history.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

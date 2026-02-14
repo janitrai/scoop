@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_10_13_data-infrastructure_ocp-summit-2025-the-open-future-of-networking-hardware-for-ai",
+  "title": "OCP Summit 2025: The Open Future of Networking Hardware for AI",
+  "canonical_url": "https://engineering.fb.com/2025/10/13/data-infrastructure/ocp-summit-2025-the-open-future-of-networking-hardware-for-ai/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_meta_engineering_(ml)-023",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "9b92faac-a27a-5b94-b962-7152fd9ea403"
+  },
+  "body_text": "At Open Compute Project Summit (OCP) 2025, we’re sharing details about the direction of next-generation network fabrics for our AI training clusters. We’ve expanded our network hardware portfolio and"
+}

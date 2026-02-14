@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_scientist-simulator",
+  "title": "The Scientist and the Simulator",
+  "canonical_url": "https://www.latent.space/p/scientist-simulator",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_latent_space_(swyx)-032",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "713087a6-8f41-5ed1-beb5-76c1d85a0c0f"
+  },
+  "body_text": "LLMs (alone) won’t cure cancer"
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "ezhik.jp_ai-slop-terrifies-me",
+  "title": "(AI) Slop Terrifies Me",
+  "canonical_url": "https://ezhik.jp/ai-slop-terrifies-me/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "ezhik.jp",
+  "source_metadata": {
+    "hn_score": 20,
+    "hn_comments": 8,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-012",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "1b5668dc-b875-5d85-9938-7a90ee938f0a"
+  }
+}

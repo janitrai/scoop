@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10063v1",
+  "title": "Chain of Mindset: Reasoning with Adaptive Cognitive Modes",
+  "canonical_url": "http://arxiv.org/abs/2602.10063v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-073",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "80142bb5-bd42-576f-9d8c-5ea512331eb3"
+  },
+  "body_text": "[cs.AI] Human problem-solving is never the repetition of a single mindset, by which we mean a distinct mode of cognitive processing. When tackling a specific task, we do not rely on a single mindset;"
+}

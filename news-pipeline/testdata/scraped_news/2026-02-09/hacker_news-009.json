@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "cinegraphs.ai",
+  "title": "Show HN: Fine-tuned Qwen2.5-7B on 100 films for probabilistic story graphs",
+  "canonical_url": "https://cinegraphs.ai/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "cinegraphs.ai",
+  "source_metadata": {
+    "hn_score": 92,
+    "hn_comments": 20,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-009",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "8aa3baf9-e36f-5bbb-917d-4fa99a33fdc7"
+  }
+}

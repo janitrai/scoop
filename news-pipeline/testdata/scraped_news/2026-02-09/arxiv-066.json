@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06948v1",
+  "title": "Agentic Uncertainty Reveals Agentic Overconfidence",
+  "canonical_url": "http://arxiv.org/abs/2602.06948v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-066",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "b14a085e-a7b5-5dd6-bd6f-8dc73bc552e3"
+  },
+  "body_text": "[cs.AI, cs.LG] Can AI agents predict whether they will succeed at a task? We study agentic uncertainty by eliciting success probability estimates before, during, and after task execution. All results"
+}

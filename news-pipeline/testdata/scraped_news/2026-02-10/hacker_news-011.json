@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_antirez_voxtral.c",
+  "title": "Pure C, CPU-only inference with Mistral Voxtral Realtime 4B speech to text model",
+  "canonical_url": "https://github.com/antirez/voxtral.c",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 89,
+    "hn_comments": 5,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-011",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "a1ed05f5-25a5-5e3e-bfc6-7717104afb0b"
+  }
+}

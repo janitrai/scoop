@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_science",
+  "title": "It's Time to Science",
+  "canonical_url": "https://www.latent.space/p/science",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_latent_space_(swyx)-033",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "8285fad3-48f4-528b-9ae7-bd339950e3b6"
+  },
+  "body_text": "Why the time is right to start the world's first dedicated AI for Science podcast, and why AI Engineers should care"
+}

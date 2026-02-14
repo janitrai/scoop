@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_12_15_android_how-ai-transforming-secure-by-default-mobile-frameworks-adoption",
+  "title": "How AI Is Transforming the Adoption of Secure-by-Default Mobile Frameworks",
+  "canonical_url": "https://engineering.fb.com/2025/12/15/android/how-ai-transforming-secure-by-default-mobile-frameworks-adoption/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_meta_engineering_(ml)-018",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "4700da36-9287-58c3-b1d7-40016e4dda25"
+  },
+  "body_text": "Meta’s secure-by-default frameworks wrap potentially unsafe OS and third-party functions, making security the default while preserving developer speed and usability. These frameworks are designed to c"
+}

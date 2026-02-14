@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11128v1",
+  "title": "Asymmetric Prompt Weighting for Reinforcement Learning with Verifiable Rewards",
+  "canonical_url": "http://arxiv.org/abs/2602.11128v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-063",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "454c7542-52f8-501f-afe9-dde117760e9f"
+  },
+  "body_text": "[cs.LG] Reinforcement learning with verifiable rewards has driven recent advances in LLM post-training, in particular for reasoning. Policy optimization algorithms generate a number of responses for a"
+}

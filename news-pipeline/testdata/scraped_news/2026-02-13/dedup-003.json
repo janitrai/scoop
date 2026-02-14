@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "www.anthropic.com_news_anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+  "title": "Anthropic raises $30B Series G at $380B valuation",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-003",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "3948c987-8c50-5066-a306-ae1f82ab1ed1"
+  },
+  "canonical_url": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+  "source_domain": "www.anthropic.com",
+  "body_text": "Led by GIC and Coatue. Run-rate revenue at $14B, growing 10x annually. Claude Code at $2.5B run-rate.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

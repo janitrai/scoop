@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "raven.tavuslabs.org",
+  "title": "Show HN: Multimodal perception system for real-time conversation",
+  "canonical_url": "https://raven.tavuslabs.org",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "raven.tavuslabs.org",
+  "source_metadata": {
+    "hn_score": 48,
+    "hn_comments": 12,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-014",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "bd3fa0c5-ea47-5024-9cb3-103a41333340"
+  }
+}

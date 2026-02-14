@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06949v1",
+  "title": "DreamDojo: A Generalist Robot World Model from Large-Scale Human Videos",
+  "canonical_url": "http://arxiv.org/abs/2602.06949v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-065",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "bd8e05a0-36cd-5843-90f3-0a8b70852b52"
+  },
+  "body_text": "[cs.RO, cs.AI, cs.CV] Being able to simulate the outcomes of actions in varied environments will revolutionize the development of generalist agents at scale. However, modeling these world dynamics, es"
+}

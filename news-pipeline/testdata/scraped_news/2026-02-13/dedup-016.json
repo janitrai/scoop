@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.bbc.com_sport_articles_c309pj8d8qqo",
+  "title": "'Price of dignity' says Ukrainian athlete banned over helmet",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-016",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "e6f7eb93-f923-5edf-981c-809ea2a301e7"
+  },
+  "canonical_url": "https://www.bbc.com/sport/articles/c309pj8d8qqo",
+  "source_domain": "www.bbc.com",
+  "body_text": "A Ukrainian athlete was banned from competition over wearing a helmet with national symbols, calling it the 'price of dignity' amid ongoing war.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

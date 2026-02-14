@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_02_openai-sidesteps-nvidia-with-unusually-fast-coding-model-on-plate-sized-chips",
+  "title": "OpenAI sidesteps Nvidia with unusually fast coding model on plate-sized chips",
+  "canonical_url": "https://arstechnica.com/ai/2026/02/openai-sidesteps-nvidia-with-unusually-fast-coding-model-on-plate-sized-chips/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_ars_technica_ai-046",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "b596f5ca-c5a4-51bb-aeed-7b8a599d5c54"
+  },
+  "body_text": "OpenAI's new GPT‑5.3‑Codex‑Spark is 15 times faster at coding than its predecessor."
+}

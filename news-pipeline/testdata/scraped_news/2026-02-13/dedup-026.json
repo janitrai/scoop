@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.bbc.com_news_articles_cn0e1g7kwglo",
+  "title": "Kim Jong Un chooses daughter Kim Ju Ae as heir, Seoul says",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-026",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "6e285716-ee92-54d8-a0f8-9c7ed6841266"
+  },
+  "canonical_url": "https://www.bbc.com/news/articles/cn0e1g7kwglo",
+  "source_domain": "www.bbc.com",
+  "body_text": "South Korean intelligence says Kim Jong Un has designated his daughter Kim Ju Ae as his successor, a historic move for the North Korean dynasty.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

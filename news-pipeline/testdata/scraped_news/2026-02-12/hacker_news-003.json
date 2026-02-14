@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "z.ai_blog_glm-5",
+  "title": "GLM-5: Targeting complex systems engineering and long-horizon agentic tasks",
+  "canonical_url": "https://z.ai/blog/glm-5",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "z.ai",
+  "source_metadata": {
+    "hn_score": 351,
+    "hn_comments": 435,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-003",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "b2611ab8-217c-5709-9f82-947f9d943bb3"
+  }
+}

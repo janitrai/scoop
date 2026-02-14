@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10067v1",
+  "title": "Features as Rewards: Scalable Supervision for Open-Ended Tasks via Interpretability",
+  "canonical_url": "http://arxiv.org/abs/2602.10067v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-072",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "cd2bedf8-63f8-5487-a481-d6ccc422626d"
+  },
+  "body_text": "[cs.LG] Language models trained on large-scale datasets have been shown to learn features that encode abstract concepts such as factuality or intent. Such features are traditionally used for test-time"
+}

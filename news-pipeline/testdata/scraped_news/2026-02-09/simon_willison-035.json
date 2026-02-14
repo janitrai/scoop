@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_7_david-crawshaw",
+  "title": "Quoting David Crawshaw",
+  "canonical_url": "https://simonwillison.net/2026/Feb/7/david-crawshaw/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-035",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "e8a27862-b312-51e9-837a-f5638fe4b280"
+  },
+  "body_text": "I am having more fun programming than I ever have, because so many more of the programs I wish I could find the time to write actually exist. I wish I could share this joy with the people who are fear"
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.threads.com_@qa_test_hq_post_DUkC_zjiGQh",
+  "title": "Vercel's CEO offers to cover expenses of 'Jmail'",
+  "canonical_url": "https://www.threads.com/@qa_test_hq/post/DUkC_zjiGQh",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "www.threads.com",
+  "source_metadata": {
+    "hn_score": 281,
+    "hn_comments": 188,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-003",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "3aea3d21-10c3-5b39-97e9-b9e6cee67a36"
+  }
+}

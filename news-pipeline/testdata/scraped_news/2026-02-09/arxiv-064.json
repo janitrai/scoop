@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06953v1",
+  "title": "DAWN: Dependency-Aware Fast Inference for Diffusion LLMs",
+  "canonical_url": "http://arxiv.org/abs/2602.06953v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-064",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "e220965a-e81a-5880-915c-a3e79c0605fd"
+  },
+  "body_text": "[cs.CL] Diffusion large language models (dLLMs) have shown advantages in text generation, particularly due to their inherent ability for parallel decoding. However, constrained by the quality--speed t"
+}

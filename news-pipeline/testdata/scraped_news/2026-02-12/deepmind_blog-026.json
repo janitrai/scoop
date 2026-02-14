@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_facts-benchmark-suite-systematically-evaluating-the-factuality-of-large-language-models",
+  "title": "FACTS Benchmark Suite: Systematically evaluating the factuality of large language models",
+  "canonical_url": "https://deepmind.google/blog/facts-benchmark-suite-systematically-evaluating-the-factuality-of-large-language-models/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_deepmind_blog-026",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "e9094ca9-b11a-5b13-a962-230a3434ea33"
+  },
+  "body_text": "Systematically evaluating the factuality of large language models with the FACTS Benchmark Suite."
+}

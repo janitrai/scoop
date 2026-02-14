@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_7_vouch",
+  "title": "Vouch",
+  "canonical_url": "https://simonwillison.net/2026/Feb/7/vouch/#atom-everything",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_simon_willison-035",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "3311e747-bed7-5ed0-bf04-fc1340f983ff"
+  },
+  "body_text": "Vouch Mitchell Hashimoto's new system to help address the deluge of worthless AI-generated PRs faced by open source projects now that the friction involved in contributing has dropped so low. He says:"
+}

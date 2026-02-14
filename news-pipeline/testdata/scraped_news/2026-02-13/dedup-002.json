@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "openai.com_index_introducing-gpt-5-3-codex-spark",
+  "title": "OpenAI launches GPT-5.3-Codex-Spark on Cerebras chips",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-002",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "c0c91b71-1f3e-52b5-8062-b36d4e6fbe8c"
+  },
+  "canonical_url": "https://openai.com/index/introducing-gpt-5-3-codex-spark/",
+  "source_domain": "openai.com",
+  "body_text": "OpenAI sidesteps Nvidia with ultra-fast coding model running on Cerebras wafer-scale chips. 15x faster at coding.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

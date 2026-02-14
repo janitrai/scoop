@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://horse.fit/news-pipeline/schema/news_item.schema.json",
+  "title": "News Pipeline Canonical News Item v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "payload_version",
+    "source",
+    "source_item_id",
+    "title",
+    "source_metadata"
+  ],
+  "properties": {
+    "payload_version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "source_item_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "source_metadata": {
+      "type": "object",
+      "required": [
+        "collection",
+        "job_name",
+        "job_run_id",
+        "scraped_at"
+      ],
+      "properties": {
+        "collection": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "job_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "job_run_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "scraped_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true
+    },
+    "canonical_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 4096
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "body_text": {
+      "type": "string",
+      "maxLength": 500000
+    },
+    "language": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 35
+    },
+    "source_domain": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "authors": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      }
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 4096
+    }
+  }
+}

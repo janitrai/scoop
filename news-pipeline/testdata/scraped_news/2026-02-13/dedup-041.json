@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_science_article_3343346_10-9-8-rocket-test-puts-china-neck-and-neck-us-moon-race",
+  "title": "Rocket test puts China neck and neck with US in moon race",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-041",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "01c0725c-d508-596d-b1e1-4c05cf5f8798"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/science/article/3343346/10-9-8-rocket-test-puts-china-neck-and-neck-us-moon-race",
+  "source_domain": "www.scmp.com",
+  "body_text": "China's successful Long March 10 test called a significant milestone by space analysts.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_01_report-china-approves-import-of-high-end-nvidia-ai-chips-after-weeks-of-uncertainty",
+  "title": "Report: China approves import of high-end Nvidia AI chips after weeks of uncertainty",
+  "canonical_url": "https://arstechnica.com/ai/2026/01/report-china-approves-import-of-high-end-nvidia-ai-chips-after-weeks-of-uncertainty/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_ars_technica_ai-057",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "686c7b49-8cce-57af-9461-38e0dab9eb1f"
+  },
+  "body_text": "Over 400,000 H200 chips coming to tech giants as China tries to balance tech needs with self-reliance."
+}

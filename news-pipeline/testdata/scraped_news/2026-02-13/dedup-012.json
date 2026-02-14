@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "simonwillison.net_2026_Feb_11_glm-5",
+  "title": "GLM-5: 754B parameter MIT-licensed model released",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-012",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "c27dccc0-f865-5f4d-b80f-220cebbfd2dc"
+  },
+  "canonical_url": "https://simonwillison.net/2026/Feb/11/glm-5/",
+  "source_domain": "simonwillison.net",
+  "body_text": "Zhipu AI releases GLM-5, 754B params MIT-licensed. Biggest open-weight model yet.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

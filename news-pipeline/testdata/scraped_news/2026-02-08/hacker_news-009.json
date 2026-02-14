@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "simonwillison.net_2026_Feb_7_software-factory",
+  "title": "StrongDM's AI team build serious software without even looking at the code",
+  "canonical_url": "https://simonwillison.net/2026/Feb/7/software-factory/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "hn_score": 41,
+    "hn_comments": 1,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-009",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "3c2cdfe0-506c-58cc-9c77-ae664fbba410"
+  }
+}

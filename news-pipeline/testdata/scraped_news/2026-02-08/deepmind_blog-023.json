@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_deepening-our-partnership-with-the-uk-ai-security-institute",
+  "title": "Deepening our partnership with the UK AI Security Institute",
+  "canonical_url": "https://deepmind.google/blog/deepening-our-partnership-with-the-uk-ai-security-institute/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-023",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "eb657126-2eb1-5314-8771-dc1dcae45b57"
+  },
+  "body_text": "Google DeepMind and UK AI Security Institute (AISI) strengthen collaboration on critical AI safety and security research"
+}

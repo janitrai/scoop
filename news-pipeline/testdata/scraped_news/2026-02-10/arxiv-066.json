@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09009v1",
+  "title": "ANCRe: Adaptive Neural Connection Reassignment for Efficient Depth Scaling",
+  "canonical_url": "http://arxiv.org/abs/2602.09009v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-066",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "a80d314a-d75e-5ba1-b8f4-375ba6f98789"
+  },
+  "body_text": "[cs.LG, cs.AI] Scaling network depth has been a central driver behind the success of modern foundation models, yet recent investigations suggest that deep layers are often underutilized. This paper re"
+}

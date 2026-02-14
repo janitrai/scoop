@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.cnbc.com_2026_02_13_venezuela-oil-sales-qatar-chris-wright-trump.html",
+  "title": "Venezuela oil sales top $1 billion, funds redirected from Qatar",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-029",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "30981fc2-fb72-5a9f-bdd9-26af1295071c"
+  },
+  "canonical_url": "https://www.cnbc.com/2026/02/13/venezuela-oil-sales-qatar-chris-wright-trump.html",
+  "source_domain": "www.cnbc.com",
+  "body_text": "Venezuela's oil sales have topped $1 billion, with the Trump administration redirecting funds away from the Qatar escrow account that had been set up under the previous arrangement.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

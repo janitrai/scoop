@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "blog.stuffedcow.net_2024_06_microwave-failure-spontaneously-turns-on",
+  "title": "Microwave Oven Failure: Spontaneously turned on by its LED display (2024)",
+  "canonical_url": "https://blog.stuffedcow.net/2024/06/microwave-failure-spontaneously-turns-on/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "blog.stuffedcow.net",
+  "source_metadata": {
+    "hn_score": 93,
+    "hn_comments": 30,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-011",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "546ed2c9-d05f-5a98-a517-cdea9ba75d8c"
+  }
+}

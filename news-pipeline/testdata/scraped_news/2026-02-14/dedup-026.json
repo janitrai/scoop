@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.reuters.com_world_time-europe-become-geopolitical-power-frances-macron-says-2026-02-13",
+  "title": "Time for Europe to become geopolitical power, Macron says",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-026",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "c38687a4-3272-5b3d-8e44-3eddb0201f68"
+  },
+  "canonical_url": "https://www.reuters.com/world/time-europe-become-geopolitical-power-frances-macron-says-2026-02-13/",
+  "source_domain": "www.reuters.com",
+  "body_text": "French President Macron called for Europe to become a geopolitical power in its own right, echoing Merz's message at the Munich Security Conference.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.sciencedirect.com_science_article_pii_S0160289625000649",
+  "title": "Humans peak in midlife: A combined cognitive and personality trait perspective",
+  "canonical_url": "https://www.sciencedirect.com/science/article/pii/S0160289625000649",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.sciencedirect.com",
+  "source_metadata": {
+    "hn_score": 156,
+    "hn_comments": 63,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-010",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "ac7c3192-63dc-50c8-8aae-c7b2de301e50"
+  }
+}

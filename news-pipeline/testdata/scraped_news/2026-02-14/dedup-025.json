@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "gwaramedia.com_en_6000-north-korean-troops-were-killed-or-wounded-in-russias-war-against-ukraine-seoul-says",
+  "title": "6,000 North Korean troops killed or wounded in Russia's war against Ukraine, Seoul says",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-025",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "67a1d281-0c51-5e51-aee6-aab70ba17f23"
+  },
+  "canonical_url": "https://gwaramedia.com/en/6000-north-korean-troops-were-killed-or-wounded-in-russias-war-against-ukraine-seoul-says/",
+  "source_domain": "gwaramedia.com",
+  "body_text": "South Korea reports that 6,000 North Korean troops have been killed or wounded fighting for Russia in Ukraine, revealing the scale of Pyongyang's military involvement.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

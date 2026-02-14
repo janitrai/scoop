@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10058v1",
+  "title": "Evaluating Disentangled Representations for Controllable Music Generation",
+  "canonical_url": "http://arxiv.org/abs/2602.10058v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-075",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "ff171852-1414-5510-8c55-e6c136e13b22"
+  },
+  "body_text": "[cs.SD, cs.LG, eess.AS] Recent approaches in music generation rely on disentangled representations, often labeled as structure and timbre or local and global, to enable controllable synthesis. Yet the --- *2065 stories collected from 22 sources*"
+}

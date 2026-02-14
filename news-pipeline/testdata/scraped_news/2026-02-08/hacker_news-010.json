@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_jingkaihe_matchlock",
+  "title": "Matchlock: Linux-based sandboxing for AI agents",
+  "canonical_url": "https://github.com/jingkaihe/matchlock",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 37,
+    "hn_comments": 5,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-010",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "71b603e5-e2e7-5d63-bbdf-c1e769d84777"
+  }
+}

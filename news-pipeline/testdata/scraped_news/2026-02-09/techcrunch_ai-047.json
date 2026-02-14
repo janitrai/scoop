@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_08_okay-im-slightly-less-mad-about-that-magnificent-ambersons-ai-project",
+  "title": "Okay, I’m slightly less mad about that ‘Magnificent Ambersons’ AI project",
+  "canonical_url": "https://techcrunch.com/2026/02/08/okay-im-slightly-less-mad-about-that-magnificent-ambersons-ai-project/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_techcrunch_ai-047",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "6f5f27bd-ee40-5a80-9a26-5a392461cd94"
+  },
+  "body_text": "But this is still a bad idea."
+}

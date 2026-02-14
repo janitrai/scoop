@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06042v1",
+  "title": "Pseudo-Invertible Neural Networks",
+  "canonical_url": "http://arxiv.org/abs/2602.06042v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-052",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "349c1f14-c79d-5309-97d2-68cca49f9b1d"
+  },
+  "body_text": "[cs.LG, cs.CV] The Moore-Penrose Pseudo-inverse (PInv) serves as the fundamental solution for linear systems. In this paper, we propose a natural generalization of PInv to the nonlinear regime in gene"
+}

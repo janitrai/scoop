@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "harshanu.space_en_tech_ccc-vs-gcc",
+  "title": "Claude’s C Compiler vs. GCC",
+  "canonical_url": "https://harshanu.space/en/tech/ccc-vs-gcc/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "harshanu.space",
+  "source_metadata": {
+    "hn_score": 214,
+    "hn_comments": 175,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-004",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "7ec9f27e-43c8-5bb1-a15e-26ce8b0da433"
+  }
+}

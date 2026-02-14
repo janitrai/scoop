@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_military_article_3343361_what-chinas-central-military-commission-and-how-does-it-operate-amid-anti-graft-drive",
+  "title": "What is China's Central Military Commission amid anti-graft purge",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-045",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "9415d511-34da-5105-be24-48483352c9bb"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/military/article/3343361/what-chinas-central-military-commission-and-how-does-it-operate-amid-anti-graft-drive",
+  "source_domain": "www.scmp.com",
+  "body_text": "Downfall of two more CMC members leaves just Xi and one other active.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

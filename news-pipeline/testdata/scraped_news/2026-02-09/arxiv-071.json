@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06939v1",
+  "title": "Cochain Perspectives on Temporal-Difference Signals for Learning Beyond Markov Dynamics",
+  "canonical_url": "http://arxiv.org/abs/2602.06939v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-071",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "7f7d219d-75e6-56d2-931c-d20dafbf7601"
+  },
+  "body_text": "[cs.LG, cs.AI] Non-Markovian dynamics are commonly found in real-world environments due to long-range dependencies, partial observability, and memory effects. The Bellman equation that is the central"
+}

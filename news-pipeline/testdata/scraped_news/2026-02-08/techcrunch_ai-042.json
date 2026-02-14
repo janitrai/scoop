@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_podcast_how-far-will-elon-musk-take-the-everything-business-as-spacex-and-xai-merge",
+  "title": "How far will Elon Musk take the ‘everything’ business as SpaceX and xAI merge?",
+  "canonical_url": "https://techcrunch.com/podcast/how-far-will-elon-musk-take-the-everything-business-as-spacex-and-xai-merge/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-042",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "e4768c60-562a-5eab-a64d-07a67f60f065"
+  },
+  "body_text": "Elon Musk has merged SpaceX and xAI, creating what might be the blueprint for a new Silicon Valley power structure. With his $800 billion net worth already rivaling historic conglomerate GE’s peak mar"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_09_30_security_llms-are-the-key-to-mutation-testing-and-better-compliance",
+  "title": "LLMs Are the Key to Mutation Testing and Better Compliance",
+  "canonical_url": "https://engineering.fb.com/2025/09/30/security/llms-are-the-key-to-mutation-testing-and-better-compliance/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_meta_engineering_(ml)-024",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "a27632dc-d023-5ea6-a2bc-5204cdcf54d1"
+  },
+  "body_text": "Following our keynote presentations at FSE 2025 and Eurostar 2025, we’re delving further into the development of Meta’s Automated Compliance Hardening (ACH) tool, an LLM-based tool for software testin"
+}

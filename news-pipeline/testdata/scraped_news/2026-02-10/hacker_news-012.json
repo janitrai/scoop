@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.reuters.com_investigations_ai-enters-operating-room-reports-arise-botched-surgeries-misidentified-body-2026-02-09",
+  "title": "As AI enters the operating room, reports arise of botched surgeries",
+  "canonical_url": "https://www.reuters.com/investigations/ai-enters-operating-room-reports-arise-botched-surgeries-misidentified-body-2026-02-09/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.reuters.com",
+  "source_metadata": {
+    "hn_score": 60,
+    "hn_comments": 18,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-012",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "98cc51dd-1aad-5e65-9321-6423a3fed144"
+  }
+}

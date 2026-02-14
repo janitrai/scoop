@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11130v1",
+  "title": "From Circuits to Dynamics: Understanding and Stabilizing Failure in 3D Diffusion Transformers",
+  "canonical_url": "http://arxiv.org/abs/2602.11130v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-062",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "4e01d92b-9ce8-5206-84f1-3c1bd595d971"
+  },
+  "body_text": "[cs.LG, cs.CV] Reliable surface completion from sparse point clouds underpins many applications spanning content creation and robotics. While 3D diffusion transformers attain state-of-the-art results"
+}

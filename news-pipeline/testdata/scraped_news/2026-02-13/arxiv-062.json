@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12279v1",
+  "title": "UniT: Unified Multimodal Chain-of-Thought Test-time Scaling",
+  "canonical_url": "http://arxiv.org/abs/2602.12279v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-062",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "3d91f8bd-935a-59d1-8e42-9ae35cddff57"
+  },
+  "body_text": "[cs.CV, cs.AI, cs.LG] Unified models can handle both multimodal understanding and generation within a single architecture, yet they typically operate in a single pass without iteratively refining thei"
+}

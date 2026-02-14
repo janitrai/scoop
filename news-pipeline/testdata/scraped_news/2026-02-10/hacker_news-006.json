@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "arxiv.org_abs_2512.20798",
+  "title": "Frontier AI agents violate ethical constraints 30–50% of time, pressured by KPIs",
+  "canonical_url": "https://arxiv.org/abs/2512.20798",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "hn_score": 200,
+    "hn_comments": 123,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-006",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "5645fdf5-3501-57ef-a198-7c8a6d48a8cf"
+  }
+}

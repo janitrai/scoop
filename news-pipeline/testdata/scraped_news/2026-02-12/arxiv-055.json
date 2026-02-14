@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11144v1",
+  "title": "GENIUS: Generative Fluid Intelligence Evaluation Suite",
+  "canonical_url": "http://arxiv.org/abs/2602.11144v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-055",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "07797dcf-2bb6-5fa6-a913-ce26460be913"
+  },
+  "body_text": "[cs.LG, cs.AI, cs.CV] Unified Multimodal Models (UMMs) have shown remarkable progress in visual generation. Yet, existing benchmarks predominantly assess $\\textit{Crystallized Intelligence}$, which re"
+}

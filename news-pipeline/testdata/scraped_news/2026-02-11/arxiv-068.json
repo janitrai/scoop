@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10090v1",
+  "title": "Agent World Model: Infinity Synthetic Environments for Agentic Reinforcement Learning",
+  "canonical_url": "http://arxiv.org/abs/2602.10090v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-068",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "5718f278-2fbc-57c4-97cb-8b5b380f55e5"
+  },
+  "body_text": "[cs.AI, cs.CL, cs.LG] Recent advances in large language model (LLM) have empowered autonomous agents to perform complex tasks that require multi-turn interactions with tools and environments. However,"
+}

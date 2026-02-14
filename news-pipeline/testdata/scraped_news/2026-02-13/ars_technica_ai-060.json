@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_information-technology_2026_01_does-anthropic-believe-its-ai-is-conscious-or-is-that-just-what-it-wants-claude-to-think",
+  "title": "Does Anthropic believe its AI is conscious, or is that just what it wants Claude to think?",
+  "canonical_url": "https://arstechnica.com/information-technology/2026/01/does-anthropic-believe-its-ai-is-conscious-or-is-that-just-what-it-wants-claude-to-think/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_ars_technica_ai-060",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "62f2ca0a-711e-58d2-98a7-2235756c7d41"
+  },
+  "body_text": "We have no proof that AI models suffer, but Anthropic acts like they might for training purposes. ---"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "openai.com_index_introducing-openai-frontier",
+  "title": "OpenAI launches Frontier — enterprise AI agent platform",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-007",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "1a606dc9-89be-5ff2-9c5c-08c039327d54"
+  },
+  "canonical_url": "https://openai.com/index/introducing-openai-frontier",
+  "source_domain": "openai.com",
+  "body_text": "Enterprise platform for building and managing AI agents.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

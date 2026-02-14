@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "truthout.org_articles_super-bowl-ad-for-ring-cameras-touted-ai-surveillance-network",
+  "title": "Super Bowl Ad for Ring Cameras Touted AI Surveillance Network",
+  "canonical_url": "https://truthout.org/articles/super-bowl-ad-for-ring-cameras-touted-ai-surveillance-network/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "truthout.org",
+  "source_metadata": {
+    "hn_score": 179,
+    "hn_comments": 123,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-007",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "4aeed3ba-72b2-56ca-b543-fd0545be124e"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12262v1",
+  "title": "T3D: Few-Step Diffusion Language Models via Trajectory Self-Distillation with Direct Discriminative Optimization",
+  "canonical_url": "http://arxiv.org/abs/2602.12262v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-072",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "d54ffa3d-7181-51f1-9650-101bf2a8fc5e"
+  },
+  "body_text": "[cs.CL, cs.LG] Diffusion large language models (DLLMs) have the potential to enable fast text generation by decoding multiple tokens in parallel. However, in practice, their inference efficiency is co"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "montrealgazette.com_news_local-news_air-transat-suspending-all-flights-to-u-s-as-of-this-spring",
+  "title": "Air Transat suspending all flights to U.S. as of this spring",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-024",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "a4983514-d4ce-50ee-a70e-8a85d5360950"
+  },
+  "canonical_url": "https://montrealgazette.com/news/local-news/air-transat-suspending-all-flights-to-u-s-as-of-this-spring",
+  "source_domain": "montrealgazette.com",
+  "body_text": "Canadian airline Air Transat will suspend all US-bound flights this spring amid deteriorating Canada-US relations and declining demand.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

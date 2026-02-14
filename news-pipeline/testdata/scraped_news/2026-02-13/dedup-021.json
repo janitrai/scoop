@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.reuters.com_business_aerospace-defense_sweden-send-fighter-jets-patrol-around-greenland-part-natos-arctic-sentry-2026-02-12",
+  "title": "Sweden to send fighter jets to patrol around Greenland as part of NATO's Arctic Sentry",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-021",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "1b10926e-5f7a-5a6b-b378-ecd75d9ccbc3"
+  },
+  "canonical_url": "https://www.reuters.com/business/aerospace-defense/sweden-send-fighter-jets-patrol-around-greenland-part-natos-arctic-sentry-2026-02-12/",
+  "source_domain": "www.reuters.com",
+  "body_text": "Sweden is deploying fighter jets to patrol Greenland airspace under NATO's new Arctic Sentry initiative, strengthening Alliance presence in the Arctic.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

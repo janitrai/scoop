@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06036v1",
+  "title": "DFlash: Block Diffusion for Flash Speculative Decoding",
+  "canonical_url": "http://arxiv.org/abs/2602.06036v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-055",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "05cf391e-3a78-556d-b2fe-9916e70f6164"
+  },
+  "body_text": "[cs.CL] Autoregressive large language models (LLMs) deliver strong performance but require inherently sequential decoding, leading to high inference latency and poor GPU utilization. Speculative decod"
+}

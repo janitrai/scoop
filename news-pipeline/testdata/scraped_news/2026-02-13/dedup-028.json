@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www3.nhk.or.jp_nhkworld_en_news_20260213_03",
+  "title": "Japan captures Chinese fishing boat, arrests captain in EEZ",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-028",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "e69bb0dd-8a37-5190-8704-b9a19526c52e"
+  },
+  "canonical_url": "https://www3.nhk.or.jp/nhkworld/en/news/20260213_03/",
+  "source_domain": "www3.nhk.or.jp",
+  "body_text": "Japan seized a Chinese fishing vessel and arrested its captain for operating illegally in Japan's exclusive economic zone, raising East Asian maritime tensions.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

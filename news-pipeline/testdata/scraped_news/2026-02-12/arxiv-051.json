@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11150v1",
+  "title": "YOR: Your Own Mobile Manipulator for Generalizable Robotics",
+  "canonical_url": "http://arxiv.org/abs/2602.11150v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-051",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "1008b1d9-12af-54b9-a2ec-4bc23c820cbb"
+  },
+  "body_text": "[cs.RO, cs.LG] Recent advances in robot learning have generated significant interest in capable platforms that may eventually approach human-level competence. This interest, combined with the commodit"
+}

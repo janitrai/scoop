@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.theverge.com_news_878447_ring-flock-partnership-canceled",
+  "title": "Ring cancels its partnership with Flock Safety after surveillance backlash",
+  "canonical_url": "https://www.theverge.com/news/878447/ring-flock-partnership-canceled",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "www.theverge.com",
+  "source_metadata": {
+    "hn_score": 368,
+    "hn_comments": 191,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-008",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "f3bc584f-2fee-59ef-bed6-035123ecd34c"
+  }
+}

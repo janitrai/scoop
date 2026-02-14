@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_how-were-bringing-ai-image-verification-to-the-gemini-app",
+  "title": "How we’re bringing AI image verification to the Gemini app",
+  "canonical_url": "https://deepmind.google/blog/how-were-bringing-ai-image-verification-to-the-gemini-app/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-030",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "1c63230f-a924-528a-aa4c-4860c20513b7"
+  },
+  "body_text": "---"
+}

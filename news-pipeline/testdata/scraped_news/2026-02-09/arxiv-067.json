@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06944v1",
+  "title": "Optimal Derivative Feedback Control for an Active Magnetic Levitation System: An Experimental Study on Data-Driven Approaches",
+  "canonical_url": "http://arxiv.org/abs/2602.06944v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-067",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "5541a161-43ad-584d-9702-95474bdbf4da"
+  },
+  "body_text": "[eess.SY, cs.LG] This paper presents the design and implementation of data-driven optimal derivative feedback controllers for an active magnetic levitation system. A direct, model-free control design"
+}

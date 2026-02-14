@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_podcast_glean-arvind-jain-equity-podcast-own-the-ai-layer-inside-every-company",
+  "title": "Glean’s fight to own the AI layer inside every company",
+  "canonical_url": "https://techcrunch.com/podcast/glean-arvind-jain-equity-podcast-own-the-ai-layer-inside-every-company/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-039",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "2ac2328a-b2bf-5344-a8b2-c2b702543f78"
+  },
+  "body_text": "Enterprise AI is shifting fast from chatbots that answer questions to systems that actually do the work across an organization. But who will own the AI layer that powers all of it?  Glean, which start"
+}

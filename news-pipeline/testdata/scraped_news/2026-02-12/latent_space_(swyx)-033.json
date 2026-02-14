@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_adversarial-reasoning",
+  "title": "Experts Have World Models. LLMs Have Word Models.",
+  "canonical_url": "https://www.latent.space/p/adversarial-reasoning",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_latent_space_(swyx)-033",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "29eee918-65af-53a7-8a9c-270292eb217c"
+  },
+  "body_text": "Most expert work isn’t “produce a probable artifact”; it's \"choose a good move considering other agents, guessing hidden state\". LLMs default to single-shot artifacts and need World Models to progress"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "euromaidanpress.com_2026_02_13_sweden-confirms-ukraine-to-use-eus-95-bn-defense-tranche-for-gripen-fighter-purchase",
+  "title": "Sweden confirms Ukraine to use EU's €95 bn defense tranche for Gripen fighter purchase",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-021",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "c5bd4d87-291c-5363-88f2-9c0bedb342d8"
+  },
+  "canonical_url": "https://euromaidanpress.com/2026/02/13/sweden-confirms-ukraine-to-use-eus-95-bn-defense-tranche-for-gripen-fighter-purchase/",
+  "source_domain": "euromaidanpress.com",
+  "body_text": "Sweden confirmed that Ukraine will use part of the EU's €95 billion defense tranche to purchase Gripen fighter jets, boosting Ukraine's air capabilities.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

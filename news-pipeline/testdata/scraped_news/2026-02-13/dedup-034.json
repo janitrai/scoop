@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_article_3343384_us-china-clash-over-perus-chancay-megaport-after-court-bars-regulator-oversight",
+  "title": "US-China clash over Peru Chancay megaport after court bars regulator oversight",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-034",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "fd3bbb00-30d0-5b52-b91e-7effdf9ffcce"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/article/3343384/us-china-clash-over-perus-chancay-megaport-after-court-bars-regulator-oversight",
+  "source_domain": "www.scmp.com",
+  "body_text": "Court ruling limits state supervision of Chinese-controlled Chancay hub, prompting US sovereignty warning.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

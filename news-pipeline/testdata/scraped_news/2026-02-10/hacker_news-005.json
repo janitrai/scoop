@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "hbr.org_2026_02_ai-doesnt-reduce-work-it-intensifies-it",
+  "title": "AI Doesn't Reduce Work–It Intensifies It",
+  "canonical_url": "https://hbr.org/2026/02/ai-doesnt-reduce-work-it-intensifies-it",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "hbr.org",
+  "source_metadata": {
+    "hn_score": 201,
+    "hn_comments": 155,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-005",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "190d2496-0b59-5b9f-84b9-06c9507e10bc"
+  }
+}

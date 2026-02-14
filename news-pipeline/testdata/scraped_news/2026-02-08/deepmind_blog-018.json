@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_veo-3-1-ingredients-to-video-more-consistency-creativity-and-control",
+  "title": "Veo 3.1 Ingredients to Video: More consistency, creativity and control",
+  "canonical_url": "https://deepmind.google/blog/veo-3-1-ingredients-to-video-more-consistency-creativity-and-control/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-018",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "624f6b42-ee28-5600-b813-c7235752a97e"
+  },
+  "body_text": "Our latest Veo update generates lively, dynamic clips that feel natural and engaging — and supports vertical video generation."
+}

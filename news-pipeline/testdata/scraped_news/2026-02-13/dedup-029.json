@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.politico.eu_article_friedrich-merz-calls-on-germans-to-work-more-and-sparks-a-fierce-backlash",
+  "title": "Merz calls on Germans to work more — and draws a withering backlash",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-029",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "cf750902-3b4e-5a1d-9f38-b7b40f59419f"
+  },
+  "canonical_url": "https://www.politico.eu/article/friedrich-merz-calls-on-germans-to-work-more-and-sparks-a-fierce-backlash/",
+  "source_domain": "www.politico.eu",
+  "body_text": "Incoming German Chancellor Friedrich Merz sparked fierce debate by calling on Germans to work more, drawing backlash from unions and workers.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

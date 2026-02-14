@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.08998v1",
+  "title": "Universal Coefficients and Mayer-Vietoris Sequence for Groupoid Homology",
+  "canonical_url": "http://arxiv.org/abs/2602.08998v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-074",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "4a07aa09-0112-52ae-84c5-bb6be037c67a"
+  },
+  "body_text": "[math.AT, cs.LG, math.OA] We study homology of ample groupoids via the compactly supported Moore complex of the nerve. Let $A$ be a topological abelian group. For $n\\ge 0$ set $C_n(\\mathcal G;A) := C_"
+}

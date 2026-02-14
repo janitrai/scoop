@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_8_kakapo-mug",
+  "title": "Kākāpō mug by Karen James",
+  "canonical_url": "https://simonwillison.net/2026/Feb/8/kakapo-mug/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-044",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "850ce67b-ed99-5b13-825a-f4dd66980eb3"
+  },
+  "body_text": "Friend and neighbour Karen James made me a Kākāpō mug. It has a charismatic Kākāpō, four Kākāpō chicks (in celebration of the 2026 breeding season) and even has some rimu fruit! I love it so much."
+}

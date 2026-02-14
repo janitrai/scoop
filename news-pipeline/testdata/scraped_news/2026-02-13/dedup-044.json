@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.theguardian.com_environment_2026_feb_12_china-yangtze-river-recovery-after-fishing-ban",
+  "title": "Yangtze River shows signs of recovery after fishing ban",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-044",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "d1533ab1-3e3e-5197-a015-a922bfd0e5aa"
+  },
+  "canonical_url": "https://www.theguardian.com/environment/2026/feb/12/china-yangtze-river-recovery-after-fishing-ban",
+  "source_domain": "www.theguardian.com",
+  "body_text": "Fish biomass doubled and endangered species rebounding after China fishing moratorium.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

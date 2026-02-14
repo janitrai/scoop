@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.zdnet.com_article_ai-failed-test-on-remote-freelance-jobs",
+  "title": "Top AI models fail at >96% of tasks",
+  "canonical_url": "https://www.zdnet.com/article/ai-failed-test-on-remote-freelance-jobs/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.zdnet.com",
+  "source_metadata": {
+    "hn_score": 21,
+    "hn_comments": 5,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-011",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "fcaac45a-efb5-5c5f-b1b4-3c68b55eaef6"
+  }
+}

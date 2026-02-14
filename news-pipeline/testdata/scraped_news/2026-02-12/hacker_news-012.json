@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_adenhq_hive_blob_main_README.md",
+  "title": "Show HN: Agent framework that generates its own topology and evolves at runtime",
+  "canonical_url": "https://github.com/adenhq/hive/blob/main/README.md",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 86,
+    "hn_comments": 25,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-012",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "16b0e4e0-f486-59c9-a59b-8d3160fb1a1b"
+  }
+}

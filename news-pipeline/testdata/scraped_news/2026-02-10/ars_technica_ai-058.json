@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_01_viral-ai-assistant-moltbot-rapidly-gains-popularity-but-poses-security-risks",
+  "title": "Users flock to open source Moltbot for always-on AI, despite major risks",
+  "canonical_url": "https://arstechnica.com/ai/2026/01/viral-ai-assistant-moltbot-rapidly-gains-popularity-but-poses-security-risks/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_ars_technica_ai-058",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "36a34a83-d7bf-524b-af6d-0a80584448e1"
+  },
+  "body_text": "The open source \"Jarvis\" chats via WhatsApp but requires access to your files and accounts."
+}

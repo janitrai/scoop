@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "the-ai-native.company",
+  "title": "AI-First Company Memos",
+  "canonical_url": "https://the-ai-native.company/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "the-ai-native.company",
+  "source_metadata": {
+    "hn_score": 123,
+    "hn_comments": 187,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-010",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "0c71c702-d718-5bae-a1c9-833b0c1fc40b"
+  }
+}

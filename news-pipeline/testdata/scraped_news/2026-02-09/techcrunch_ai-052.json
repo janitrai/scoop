@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_maybe-ai-agents-can-be-lawyers-after-all",
+  "title": "Maybe AI agents can be lawyers after all",
+  "canonical_url": "https://techcrunch.com/2026/02/06/maybe-ai-agents-can-be-lawyers-after-all/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_techcrunch_ai-052",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "d76175b2-b926-54b4-90e6-f0fdf96fcb56"
+  },
+  "body_text": "This week's release of Opus 4.6 shook up the agentic AI leaderboards."
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.npr.org_2026_02_12_g-s1-109738_u-s-says-peru-could-lose-sovereignty-to-china",
+  "title": "US warns Peru could lose its sovereignty to China",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-019",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "41e68dfb-6353-5903-b953-da238d12ea20"
+  },
+  "canonical_url": "https://www.npr.org/2026/02/12/g-s1-109738/u-s-says-peru-could-lose-sovereignty-to-china",
+  "source_domain": "www.npr.org",
+  "body_text": "In a blunt warning, the US told Peru it risks losing sovereignty to China, reflecting intensifying US-China competition in Latin America.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

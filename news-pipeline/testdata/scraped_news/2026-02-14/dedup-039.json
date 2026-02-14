@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "reddit.com_r_canada_comments_1r3tngf_mario_canseco_only_30_of_canadians_hold_positive",
+  "title": "Canadian favorable views of China jump 9 points, surpassing US for first time",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-039",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "27115f95-c993-530f-8cb4-fe7c23867e97"
+  },
+  "canonical_url": "https://reddit.com/r/canada/comments/1r3tngf/mario_canseco_only_30_of_canadians_hold_positive/",
+  "source_domain": "reddit.com",
+  "body_text": "Research Co. poll shows Canadian favorable views of China surpass US for first time.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

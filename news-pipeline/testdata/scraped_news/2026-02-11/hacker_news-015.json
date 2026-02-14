@@ -1,0 +1,20 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "livedocs.com",
+  "title": "Launch HN: Livedocs (YC W22) – An AI-native notebook for data analysis",
+  "canonical_url": "https://livedocs.com",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "livedocs.com",
+  "source_metadata": {
+    "hn_score": 45,
+    "hn_comments": 18,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-015",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "225e36b2-6921-5ad9-bcaf-47f4472fc468"
+  },
+  "body_text": "---"
+}

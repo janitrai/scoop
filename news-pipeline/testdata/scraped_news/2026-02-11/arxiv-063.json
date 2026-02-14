@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10100v1",
+  "title": "Towards Explainable Federated Learning: Understanding the Impact of Differential Privacy",
+  "canonical_url": "http://arxiv.org/abs/2602.10100v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-063",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "ab675432-4dcc-5276-b466-6056836617ce"
+  },
+  "body_text": "[cs.LG, cs.CR] Data privacy and eXplainable Artificial Intelligence (XAI) are two important aspects for modern Machine Learning systems. To enhance data privacy, recent machine learning models have be"
+}

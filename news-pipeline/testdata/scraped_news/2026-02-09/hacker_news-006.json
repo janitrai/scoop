@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "arxiv.org_abs_2510.25417",
+  "title": "Shifts in U.S. Social Media Use, 2020–2024: Decline, Fragmentation, Polarization (2025)",
+  "canonical_url": "https://arxiv.org/abs/2510.25417",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "hn_score": 183,
+    "hn_comments": 166,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-006",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "0985ab2b-dc1b-526f-8fe3-5431273f9433"
+  }
+}

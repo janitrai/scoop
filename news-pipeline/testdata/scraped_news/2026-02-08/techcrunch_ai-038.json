@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_super-bowl-60-ai-ads-svedka-anthropic-brands-commercials",
+  "title": "From Svedka to Anthropic, brands make bold plays with AI in Super Bowl ads",
+  "canonical_url": "https://techcrunch.com/2026/02/06/super-bowl-60-ai-ads-svedka-anthropic-brands-commercials/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-038",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "84abc80b-4f9d-5cf8-b495-828d2a32b8e8"
+  },
+  "body_text": "From the first AI-generated Big Game ad courtesy of Svedka to Anthropic's beef with OpenAI, here are the biggest ads from Super Bowl LX."
+}

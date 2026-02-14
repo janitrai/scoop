@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2026_01_14_ml-applications_adapting-the-facebook-reels-recsys-ai-model-based-on-user-feedback",
+  "title": "Adapting the Facebook Reels RecSys AI Model Based on User Feedback",
+  "canonical_url": "https://engineering.fb.com/2026/01/14/ml-applications/adapting-the-facebook-reels-recsys-ai-model-based-on-user-feedback/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_meta_engineering_(ml)-016",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "7993e910-973c-590f-94df-6f6f714007a0"
+  },
+  "body_text": "We’ve improved personalized video recommendations on Facebook Reels by moving beyond metrics such as likes and watch time and directly leveraging user feedback.  Our new User True Interest Survey (UTI"
+}

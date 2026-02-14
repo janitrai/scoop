@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_diplomacy_article_3343363_taiwan-tensions-poised-be-primary-flashpoint-donald-trumps-beijing-agenda",
+  "title": "Taiwan tensions poised to be primary flashpoint of Trump-Xi April summit",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-032",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "9c0f39c4-8e6d-5733-9293-8e3e64d7a63e"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/diplomacy/article/3343363/taiwan-tensions-poised-be-primary-flashpoint-donald-trumps-beijing-agenda",
+  "source_domain": "www.scmp.com",
+  "body_text": "Analysts expect exceptionally intense strategic maneuvering on Taiwan when Trump and Xi Jinping meet in April.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

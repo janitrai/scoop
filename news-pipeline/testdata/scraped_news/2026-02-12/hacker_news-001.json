@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "symmetrybreak.ing_blog_claude-code-is-being-dumbed-down",
+  "title": "Claude Code is being dumbed down?",
+  "canonical_url": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "symmetrybreak.ing",
+  "source_metadata": {
+    "hn_score": 881,
+    "hn_comments": 575,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-001",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "ec42ad4c-d99d-5cfb-993d-443503447706"
+  }
+}

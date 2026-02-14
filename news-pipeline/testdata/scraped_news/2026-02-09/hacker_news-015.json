@@ -1,0 +1,20 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "twitter.com_Gavriel_Cohen_status_2020701159175155874",
+  "title": "NanoClaw now supports Claude's Agent Swarms in containers",
+  "canonical_url": "https://twitter.com/Gavriel_Cohen/status/2020701159175155874",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "twitter.com",
+  "source_metadata": {
+    "hn_score": 37,
+    "hn_comments": 4,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-015",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "989303ad-80ca-5379-9df1-ae37c6aa6bc6"
+  },
+  "body_text": "---"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06043v1",
+  "title": "Shared LoRA Subspaces for almost Strict Continual Learning",
+  "canonical_url": "http://arxiv.org/abs/2602.06043v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-051",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "5fc1eff2-cfae-5825-a3e6-702946e11e8d"
+  },
+  "body_text": "[cs.LG, cs.AI, cs.CV] Adapting large pretrained models to new tasks efficiently and continually is crucial for real-world deployment but remains challenging due to catastrophic forgetting and the high"
+}

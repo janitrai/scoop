@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.business-standard.com_companies_news_russia-iran-accuse-elon-musk-s-starlink-of-violating-international-law-126021100134_1.html",
+  "title": "Russia, Iran accuse Elon Musk's Starlink of violating international law",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-017",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "6be8d4e6-2069-5e4d-86a7-78a731bbcf9a"
+  },
+  "canonical_url": "https://www.business-standard.com/companies/news/russia-iran-accuse-elon-musk-s-starlink-of-violating-international-law-126021100134_1.html",
+  "source_domain": "www.business-standard.com",
+  "body_text": "Russia and Iran jointly accused SpaceX's Starlink satellite internet service of violating international law, escalating tensions over space-based communications.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

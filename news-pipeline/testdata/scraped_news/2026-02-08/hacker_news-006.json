@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "spillhistorie.no_2026_02_06_interview-with-sierra-veteran-al-lowe",
+  "title": "Al Lowe on model trains, funny deaths and working with Disney",
+  "canonical_url": "https://spillhistorie.no/2026/02/06/interview-with-sierra-veteran-al-lowe/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "spillhistorie.no",
+  "source_metadata": {
+    "hn_score": 114,
+    "hn_comments": 27,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-006",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "d3f2f733-f2e0-5be4-a6ae-afacaab6077c"
+  }
+}

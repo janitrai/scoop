@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.jpost.com_israel-news_article-886544",
+  "title": "Herzog responds to Trump request for Netanyahu pardon: 'I am the president of Israel'",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-018",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "74b47251-7d60-559e-86ad-0cb1f3ee97b3"
+  },
+  "canonical_url": "https://www.jpost.com/israel-news/article-886544",
+  "source_domain": "www.jpost.com",
+  "body_text": "Israeli President Herzog pushed back on Trump's request for a Netanyahu pardon, pointedly reminding that he is the president of Israel, not Trump.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

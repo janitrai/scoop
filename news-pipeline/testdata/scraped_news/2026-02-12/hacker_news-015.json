@@ -1,0 +1,20 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "truthout.org_articles_children-are-getting-sick-inside-ices-massive-family-jail-in-texas",
+  "title": "Illness Is Rampant Among Children Trapped in ICE's Jail in Texas",
+  "canonical_url": "https://truthout.org/articles/children-are-getting-sick-inside-ices-massive-family-jail-in-texas/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "truthout.org",
+  "source_metadata": {
+    "hn_score": 79,
+    "hn_comments": 12,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-015",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "5c4dde63-bcd5-5400-9696-d89bd619385c"
+  },
+  "body_text": "---"
+}

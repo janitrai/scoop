@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "finance.yahoo.com_news_openai-exec-becomes-top-trump-230342268.html",
+  "title": "OpenAI exec becomes top Trump donor with $25M gift",
+  "canonical_url": "https://finance.yahoo.com/news/openai-exec-becomes-top-trump-230342268.html",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "finance.yahoo.com",
+  "source_metadata": {
+    "hn_score": 47,
+    "hn_comments": 32,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-013",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "093722b1-2545-50a6-864e-39b2b15a390d"
+  }
+}

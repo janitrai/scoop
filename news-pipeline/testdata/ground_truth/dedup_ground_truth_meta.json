@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-02-14T11:36:45.232864+00:00",
+  "items_total": 516,
+  "stories_total": 356,
+  "stories_with_duplicates": 88,
+  "duplicate_items_total": 160,
+  "cluster_size_histogram": {
+    "1": 268,
+    "2": 43,
+    "3": 22,
+    "4": 19,
+    "5": 4
+  },
+  "manual_merge_rules": [
+    {
+      "id": "manual_merge_001",
+      "reason": "TechCrunch article re-published on a new date URL path; same title and same article body context.",
+      "files": [
+        "testdata/scraped_news/2026-02-08/techcrunch_ai-038.json",
+        "testdata/scraped_news/2026-02-09/techcrunch_ai-048.json"
+      ]
+    },
+    {
+      "id": "manual_merge_002",
+      "reason": "HBR source article and Simon Willison linklog entry describing the same piece (same headline).",
+      "files": [
+        "testdata/scraped_news/2026-02-10/hacker_news-005.json",
+        "testdata/scraped_news/2026-02-10/simon_willison-032.json",
+        "testdata/scraped_news/2026-02-11/simon_willison-033.json",
+        "testdata/scraped_news/2026-02-13/simon_willison-043.json"
+      ]
+    },
+    {
+      "id": "manual_merge_003",
+      "reason": "Google Gemini 3 Deep Think announcement and Simon commentary article are same news event.",
+      "files": [
+        "testdata/scraped_news/2026-02-13/hacker_news-003.json",
+        "testdata/scraped_news/2026-02-13/dedup-001.json",
+        "testdata/scraped_news/2026-02-13/simon_willison-034.json"
+      ]
+    },
+    {
+      "id": "manual_merge_004",
+      "reason": "Original hit-piece story and Simon commentary linklog entry refer to the same concrete incident.",
+      "files": [
+        "testdata/scraped_news/2026-02-13/hacker_news-001.json",
+        "testdata/scraped_news/2026-02-13/dedup-004.json",
+        "testdata/scraped_news/2026-02-13/simon_willison-035.json"
+      ]
+    }
+  ],
+  "method": {
+    "base_union_keys": [
+      "normalized_canonical_url",
+      "item_uuid",
+      "source+source_item_id"
+    ],
+    "manual_review_scope": "all duplicate clusters and high-title-similarity cross-cluster candidates"
+  }
+}

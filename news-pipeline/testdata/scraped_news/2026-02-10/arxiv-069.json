@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09006v1",
+  "title": "ARO: A New Lens On Matrix Optimization For Large Models",
+  "canonical_url": "http://arxiv.org/abs/2602.09006v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-069",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "9b5a91db-7899-5f0c-9a90-be13631802d0"
+  },
+  "body_text": "[cs.LG, cs.AI, math.OC] Matrix-based optimizers have attracted growing interest for improving LLM training efficiency, with significant progress centered on orthogonalization/whitening based methods."
+}

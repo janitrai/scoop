@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_11_skills-in-openai-api",
+  "title": "Skills in OpenAI API",
+  "canonical_url": "https://simonwillison.net/2026/Feb/11/skills-in-openai-api/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-038",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "a0a4b4c0-35ef-59b5-847f-d382f61fe5da"
+  },
+  "body_text": "Skills in OpenAI API OpenAI's adoption of Skills continues to gain ground. You can now use Skills directly in the OpenAI API with their shell tool. You can zip skills up and upload them first, but I t"
+}

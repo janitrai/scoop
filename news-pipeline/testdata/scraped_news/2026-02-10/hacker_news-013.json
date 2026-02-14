@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.omnara.com_blog_what-is-an-async-agent-really",
+  "title": "Everyone’s building “async agents,” but almost no one can define them",
+  "canonical_url": "https://www.omnara.com/blog/what-is-an-async-agent-really",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.omnara.com",
+  "source_metadata": {
+    "hn_score": 45,
+    "hn_comments": 37,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-013",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "87a1ccec-0a07-5d3a-a9c6-e7ea3bc4649c"
+  }
+}

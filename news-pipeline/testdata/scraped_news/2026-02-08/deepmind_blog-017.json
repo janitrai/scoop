@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_d4rt-teaching-ai-to-see-the-world-in-four-dimensions",
+  "title": "D4RT: Teaching AI to see the world in four dimensions",
+  "canonical_url": "https://deepmind.google/blog/d4rt-teaching-ai-to-see-the-world-in-four-dimensions/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-017",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "0698affe-f5e0-5208-abd7-5724d47957d6"
+  },
+  "body_text": "D4RT: Unified, efficient 4D reconstruction and tracking up to 300x faster than prior methods."
+}

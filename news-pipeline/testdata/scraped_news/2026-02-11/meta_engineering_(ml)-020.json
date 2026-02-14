@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_11_14_production-engineering_open-source-is-good-for-the-environment",
+  "title": "Open Source Is Good for the Environment",
+  "canonical_url": "https://engineering.fb.com/2025/11/14/production-engineering/open-source-is-good-for-the-environment/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_meta_engineering_(ml)-020",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "dd6e69e3-e0ef-5de6-98bd-f6f7b18c1343"
+  },
+  "body_text": "Most people have heard of open-source software. But have you heard about open hardware? And did you know open source can have a positive impact on the environment? On this episode of the Meta Tech Pod"
+}

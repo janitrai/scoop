@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_11_glm-5",
+  "title": "GLM-5: From Vibe Coding to Agentic Engineering",
+  "canonical_url": "https://simonwillison.net/2026/Feb/11/glm-5/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-039",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "15278796-ae48-5411-9581-52e60189f551"
+  },
+  "body_text": "GLM-5: From Vibe Coding to Agentic Engineering This is a huge new MIT-licensed model: 754B parameters and 1.51TB on Hugging Face twice the size of GLM-4.7 which was 368B and 717GB (4.5 and 4.6 were ar"
+}

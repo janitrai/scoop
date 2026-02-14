@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "blog.google_innovation-and-ai_models-and-research_gemini-models_gemini-3-deep-think",
+  "title": "Gemini 3 Deep Think",
+  "canonical_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-deep-think/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "blog.google",
+  "source_metadata": {
+    "hn_score": 816,
+    "hn_comments": 519,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-003",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "e55e570f-2307-5847-a029-d6d5f4e04a97"
+  }
+}

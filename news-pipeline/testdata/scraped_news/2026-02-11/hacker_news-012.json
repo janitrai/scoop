@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "steve-yegge.medium.com_the-ai-vampire-eda6e4f07163",
+  "title": "The AI Vampire",
+  "canonical_url": "https://steve-yegge.medium.com/the-ai-vampire-eda6e4f07163",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "steve-yegge.medium.com",
+  "source_metadata": {
+    "hn_score": 53,
+    "hn_comments": 65,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-012",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "e0cdb8d8-2a80-5703-baee-b2eaa5961183"
+  }
+}

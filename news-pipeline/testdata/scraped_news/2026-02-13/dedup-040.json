@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_diplomacy_article_3343347_africas-yuan-pivot-why-more-top-lenders-are-eyeing-chinas-bond-market",
+  "title": "As China seeks to globalize the yuan, it finds a new vehicle in Africa",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-040",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "74d968d3-3162-514d-804e-bc4e972490f6"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/diplomacy/article/3343347/africas-yuan-pivot-why-more-top-lenders-are-eyeing-chinas-bond-market",
+  "source_domain": "www.scmp.com",
+  "body_text": "More African top lenders eyeing China's bond market as Beijing pushes yuan internationalization.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

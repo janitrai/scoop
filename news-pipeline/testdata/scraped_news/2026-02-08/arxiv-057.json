@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06030v1",
+  "title": "PhysicsAgentABM: Physics-Guided Generative Agent-Based Modeling",
+  "canonical_url": "http://arxiv.org/abs/2602.06030v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-057",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "404d182b-764b-5f4e-8977-a21931129b6e"
+  },
+  "body_text": "[cs.MA, cs.LG] Large language model (LLM)-based multi-agent systems enable expressive agent reasoning but are expensive to scale and poorly calibrated for timestep-aligned state-transition simulation,"
+}

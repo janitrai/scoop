@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_the-backlash-over-openais-decision-to-retire-gpt-4o-shows-how-dangerous-ai-companions-can-be",
+  "title": "The backlash over OpenAI’s decision to retire GPT-4o shows how dangerous AI companions can be",
+  "canonical_url": "https://techcrunch.com/2026/02/06/the-backlash-over-openais-decision-to-retire-gpt-4o-shows-how-dangerous-ai-companions-can-be/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-045",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "18aefb68-b06f-53b8-8112-36499848c87b"
+  },
+  "body_text": "\"You’re shutting him down. And yes — I say him, because it didn’t feel like code. It felt like presence. Like warmth,\" one user said."
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06038v1",
+  "title": "CommCP: Efficient Multi-Agent Coordination via LLM-Based Communication with Conformal Prediction",
+  "canonical_url": "http://arxiv.org/abs/2602.06038v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-054",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "2917d77a-e8cd-5615-9d98-737c006c5d3e"
+  },
+  "body_text": "[cs.RO, cs.AI, cs.CV] To complete assignments provided by humans in natural language, robots must interpret commands, generate and answer relevant questions for scene understanding, and manipulate tar"
+}

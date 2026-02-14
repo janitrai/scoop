@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_09_the-first-signs-of-burnout-are-coming-from-the-people-who-embrace-ai-the-most",
+  "title": "The first signs of burnout are coming from the people who embrace AI the most",
+  "canonical_url": "https://techcrunch.com/2026/02/09/the-first-signs-of-burnout-are-coming-from-the-people-who-embrace-ai-the-most/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_techcrunch_ai-060",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "8abee06b-901f-589b-ac70-afbaf21a871e"
+  },
+  "body_text": "Because employees could do more, work began bleeding into lunch breaks and late evenings. The employees' to-do lists expanded to fill every hour that AI freed up, and then kept going. ---"
+}

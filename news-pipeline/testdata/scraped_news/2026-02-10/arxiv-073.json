@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09000v1",
+  "title": "iGRPO: Self-Feedback-Driven LLM Reasoning",
+  "canonical_url": "http://arxiv.org/abs/2602.09000v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-073",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "788095b4-c3ba-5c10-b963-ca2563d8ad50"
+  },
+  "body_text": "[cs.AI] Large Language Models (LLMs) have shown promise in solving complex mathematical problems, yet they still fall short of producing accurate and consistent solutions. Reinforcement Learning (RL)"
+}

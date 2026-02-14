@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_diplomacy_article_3343497_how-policy-convergence-could-pave-way-us-china-cooperation-ai",
+  "title": "Policy convergence could pave way for US-China AI cooperation",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-035",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "047eb20e-5fc1-555f-8ee1-fa0904b254c3"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/diplomacy/article/3343497/how-policy-convergence-could-pave-way-us-china-cooperation-ai",
+  "source_domain": "www.scmp.com",
+  "body_text": "Researchers suggest US-China cooperation possible on AI governance and safety.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

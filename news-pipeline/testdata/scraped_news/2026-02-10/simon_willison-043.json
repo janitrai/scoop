@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_5_ai-adoption-journey",
+  "title": "Mitchell Hashimoto: My AI Adoption Journey",
+  "canonical_url": "https://simonwillison.net/2026/Feb/5/ai-adoption-journey/#atom-everything",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_simon_willison-043",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "77d12d2f-ea69-578f-a11f-66560305b0f9"
+  },
+  "body_text": "Mitchell Hashimoto: My AI Adoption Journey Some really good and unconventional tips in here for getting to a place with coding agents where they demonstrably improve your workflow and productivity. I"
+}

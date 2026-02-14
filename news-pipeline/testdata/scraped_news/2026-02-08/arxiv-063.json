@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06021v1",
+  "title": "Diffusion Model's Generalization Can Be Characterized by Inductive Biases toward a Data-Dependent Ridge Manifold",
+  "canonical_url": "http://arxiv.org/abs/2602.06021v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-063",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "fdccffde-b80b-5e11-8e76-ce82f28e80f3"
+  },
+  "body_text": "[stat.ML, cs.LG, math.NA] When a diffusion model is not memorizing the training data set, how does it generalize exactly? A quantitative understanding of the distribution it generates would be benefic"
+}

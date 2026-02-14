@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12273v1",
+  "title": "Learning to Control: The iUzawa-Net for Nonsmooth Optimal Control of Linear PDEs",
+  "canonical_url": "http://arxiv.org/abs/2602.12273v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-067",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "649bb1af-c36f-5e24-bd86-60684a02b013"
+  },
+  "body_text": "[math.OC, cs.LG, math.NA] We propose an optimization-informed deep neural network approach, named iUzawa-Net, aiming for the first solver that enables real-time solutions for a class of nonsmooth opti"
+}

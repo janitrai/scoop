@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.bbc.co.uk_news_articles_czr4rx04xjpo",
+  "title": "Italy Railways Sabotaged",
+  "canonical_url": "https://www.bbc.co.uk/news/articles/czr4rx04xjpo",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.bbc.co.uk",
+  "source_metadata": {
+    "hn_score": 102,
+    "hn_comments": 120,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-007",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "d127c12b-21ea-5199-93ad-fd231ec7e6b3"
+  }
+}

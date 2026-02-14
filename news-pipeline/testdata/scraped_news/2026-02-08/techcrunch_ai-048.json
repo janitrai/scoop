@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_05_aws-revenue-continues-to-soar-as-cloud-demand-remains-high",
+  "title": "AWS revenue continues to soar as cloud demand remains high",
+  "canonical_url": "https://techcrunch.com/2026/02/05/aws-revenue-continues-to-soar-as-cloud-demand-remains-high/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-048",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "b95b1bdf-3815-568d-85a0-df567a8b60fe"
+  },
+  "body_text": "AWS recorded its best quarter, in terms of revenue growth, in 13 quarters in Q4 2025 as AI drives AWS adoption."
+}

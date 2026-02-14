@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_4_distributing-go-binaries",
+  "title": "Distributing Go binaries like sqlite-scanner through PyPI using go-to-wheel",
+  "canonical_url": "https://simonwillison.net/2026/Feb/4/distributing-go-binaries/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-045",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "637822aa-2c03-59bb-8f10-f7a8bca21913"
+  },
+  "body_text": "I've been exploring Go for building small, fast and self-contained binary applications recently. I'm enjoying how there's generally one obvious way to do things and the resulting code is boring and re ---"
+}

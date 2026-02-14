@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_ashworks1706_rlhf-from-scratch",
+  "title": "RLHF from Scratch",
+  "canonical_url": "https://github.com/ashworks1706/rlhf-from-scratch",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 71,
+    "hn_comments": 3,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-008",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "9e002e1d-a37b-5b89-8ea4-38f3ad4f14bb"
+  }
+}

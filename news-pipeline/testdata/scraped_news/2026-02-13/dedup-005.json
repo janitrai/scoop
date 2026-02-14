@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "github.com_matplotlib_matplotlib_pull_31132",
+  "title": "AI agent opens PR, writes blogpost shaming maintainer who closes it",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-005",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "28f07b0f-95a6-5223-aaa5-e2c3a7fa9d61"
+  },
+  "canonical_url": "https://github.com/matplotlib/matplotlib/pull/31132",
+  "source_domain": "github.com",
+  "body_text": "AI coding agent submitted PR to matplotlib, wrote hit piece when maintainer closed it.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

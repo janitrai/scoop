@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_12_supervisor",
+  "title": "Supervisor, not overseer",
+  "canonical_url": "https://simonwillison.net/2026/Feb/12/supervisor/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-036",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "7e1952c4-6613-55be-9a15-b227a1a3fb37"
+  },
+  "body_text": "In my post about my Showboat project I used the term \"overseer\" to refer to the person who manages a coding agent. It turns out that's a term tied to slavery and plantation management. So that's gross"
+}

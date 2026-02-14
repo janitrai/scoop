@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_11_21_data-infrastructure_zoomer-powering-ai-performance-meta-intelligent-debugging-optimization",
+  "title": "Zoomer: Powering AI Performance at Meta’s Scale Through Intelligent Debugging and Optimization",
+  "canonical_url": "https://engineering.fb.com/2025/11/21/data-infrastructure/zoomer-powering-ai-performance-meta-intelligent-debugging-optimization/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_meta_engineering_(ml)-019",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "c7615b4f-c86e-56e7-a830-881cec4b697f"
+  },
+  "body_text": "We’re introducing Zoomer, Meta’s comprehensive, automated debugging and optimization platform for AI.  Zoomer works across all of our training and inference workloads at Meta and provides deep perform"
+}

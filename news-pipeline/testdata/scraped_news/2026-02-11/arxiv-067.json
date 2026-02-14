@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.10092v1",
+  "title": "Quantum-Audit: Evaluating the Reasoning Limits of LLMs on Quantum Computing",
+  "canonical_url": "http://arxiv.org/abs/2602.10092v1",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_arxiv-067",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "0bfcb1d3-a979-5aad-a20f-0d22faf31fd9"
+  },
+  "body_text": "[cs.CL] Language models have become practical tools for quantum computing education and research, from summarizing technical papers to explaining theoretical concepts and answering questions about rec"
+}

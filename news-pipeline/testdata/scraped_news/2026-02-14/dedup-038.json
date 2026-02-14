@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.theguardian.com_world_ng-interactive_2026_feb_13_these-charts-show-how-trump-is-isolating-the-us-on-the-world-stage",
+  "title": "Charts show world moving closer to China as Trump isolates the US",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-038",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "d2ed8a57-a47a-527e-9b42-949d9a30f560"
+  },
+  "canonical_url": "https://www.theguardian.com/world/ng-interactive/2026/feb/13/these-charts-show-how-trump-is-isolating-the-us-on-the-world-stage",
+  "source_domain": "www.theguardian.com",
+  "body_text": "Guardian analysis shows global shift toward China as Trump pulls US back from multilateral institutions.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

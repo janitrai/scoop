@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "english.alarabiya.net_amp_News_world_2026_02_12_over-220000-people-in-russia-s-belgorod-region-without-electricity-after-attack",
+  "title": "Over 220,000 in Russia's Belgorod region without electricity after attack",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-030",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "743794ba-3eca-5e0d-b2e6-6741ab40d9fa"
+  },
+  "canonical_url": "https://english.alarabiya.net/amp/News/world/2026/02/12/over-220000-people-in-russia-s-belgorod-region-without-electricity-after-attack",
+  "source_domain": "english.alarabiya.net",
+  "body_text": "More than 220,000 people in Russia's Belgorod region lost power after an attack, escalating the infrastructure warfare in the Russia-Ukraine conflict.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

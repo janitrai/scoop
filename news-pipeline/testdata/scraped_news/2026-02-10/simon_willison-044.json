@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_5_two-new-models",
+  "title": "Opus 4.6 and Codex 5.3",
+  "canonical_url": "https://simonwillison.net/2026/Feb/5/two-new-models/#atom-everything",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_simon_willison-044",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "0734862e-1e0b-5612-985c-3fccd6122f85"
+  },
+  "body_text": "Two major new model releases today, within about 15 minutes of each other. Anthropic released Opus 4.6. Here's its pelican: OpenAI release GPT-5.3-Codex, albeit only via their Codex app, not yet in t"
+}

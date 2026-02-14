@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_10_with-co-founders-leaving-and-an-ipo-looming-elon-musk-turns-talk-to-the-moon",
+  "title": "With co-founders leaving and an IPO looming, Elon Musk turns talk to the moon",
+  "canonical_url": "https://techcrunch.com/2026/02/10/with-co-founders-leaving-and-an-ipo-looming-elon-musk-turns-talk-to-the-moon/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_techcrunch_ai-060",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "2843b59c-36eb-58ec-abfb-bfd269fc9d62"
+  },
+  "body_text": "According to The New York Times, which reports that it heard the meeting, Musk told employees that xAI needs a lunar manufacturing facility, a factory on the moon that will build AI satellites and fli ---"
+}

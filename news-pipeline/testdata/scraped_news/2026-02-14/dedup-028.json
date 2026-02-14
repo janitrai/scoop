@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "asia.nikkei.com_economy_trade-war_trump-tariffs_japan-says-companies-shouldn-t-take-losses-to-join-trump-trade-deal",
+  "title": "Japan says companies shouldn't take losses to join Trump trade deal",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-028",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "61958ae7-2d8f-59ba-b396-1a594659ac3d"
+  },
+  "canonical_url": "https://asia.nikkei.com/economy/trade-war/trump-tariffs/japan-says-companies-shouldn-t-take-losses-to-join-trump-trade-deal",
+  "source_domain": "asia.nikkei.com",
+  "body_text": "Japan pushed back on the Trump administration's trade demands, saying Japanese companies should not be forced to absorb losses for a deal with the US.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

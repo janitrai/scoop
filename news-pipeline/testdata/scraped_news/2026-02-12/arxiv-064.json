@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11126v1",
+  "title": "The Offline-Frontier Shift: Diagnosing Distributional Limits in Generative Multi-Objective Optimization",
+  "canonical_url": "http://arxiv.org/abs/2602.11126v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-064",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "28f70e1f-6625-57a7-bb5b-37347c0c6bf0"
+  },
+  "body_text": "[cs.LG] Offline multi-objective optimization (MOO) aims to recover Pareto-optimal designs given a finite, static dataset. Recent generative approaches, including diffusion models, show strong performa --- *2066 stories collected from 22 sources*"
+}

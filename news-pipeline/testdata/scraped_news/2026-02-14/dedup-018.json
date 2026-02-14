@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.reuters.com_world_middle-east_us-military-preparing-potentially-weeks-long-iran-operations-2026-02-13",
+  "title": "US military preparing for potentially weeks-long Iran operations",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-018",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "07f73e1a-c29b-5d18-bf05-a2e489870944"
+  },
+  "canonical_url": "https://www.reuters.com/world/middle-east/us-military-preparing-potentially-weeks-long-iran-operations-2026-02-13/",
+  "source_domain": "www.reuters.com",
+  "body_text": "The US military is preparing for potentially weeks-long operations against Iran, according to Reuters, signaling a major escalation in Middle East tensions.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

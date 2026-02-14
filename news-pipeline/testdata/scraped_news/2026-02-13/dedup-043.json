@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "reddit.com_r_interestingasfuck_comments_1r2uzef_huge_sinkhole_swallows_major_stretch_of_roadway",
+  "title": "Huge sinkhole swallows major stretch of roadway in Shanghai",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-043",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "f0b7422d-3f1c-5091-a005-21de10a018c7"
+  },
+  "canonical_url": "https://reddit.com/r/interestingasfuck/comments/1r2uzef/huge_sinkhole_swallows_major_stretch_of_roadway/",
+  "source_domain": "reddit.com",
+  "body_text": "Massive sinkhole suddenly opened in Shanghai, swallowing a large stretch of road.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

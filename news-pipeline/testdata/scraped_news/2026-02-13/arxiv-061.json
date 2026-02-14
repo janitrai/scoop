@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12281v1",
+  "title": "Scaling Verification Can Be More Effective than Scaling Policy Learning for Vision-Language-Action Alignment",
+  "canonical_url": "http://arxiv.org/abs/2602.12281v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-061",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "d9a06674-ccef-56ae-87e6-1a6a8b389fce"
+  },
+  "body_text": "[cs.RO, cs.AI, eess.SY] The long-standing vision of general-purpose robots hinges on their ability to understand and act upon natural language instructions. Vision-Language-Action (VLA) models have ma"
+}

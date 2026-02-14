@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_4_voxtral-2",
+  "title": "Voxtral transcribes at the speed of sound",
+  "canonical_url": "https://simonwillison.net/2026/Feb/4/voxtral-2/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-044",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "70c3819e-ceeb-551e-8d40-d167db24dcc9"
+  },
+  "body_text": "Voxtral transcribes at the speed of sound Mistral just released Voxtral Transcribe 2 - a family of two new models, one open weights, for transcribing audio to text. This is the latest in their Whisper"
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.anthropic.com_news_anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+  "title": "Anthropic raises $30B in Series G funding at $380B post-money valuation",
+  "canonical_url": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "www.anthropic.com",
+  "source_metadata": {
+    "hn_score": 333,
+    "hn_comments": 349,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-009",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "060e97b8-3636-5f0e-a8f3-7d4f02a49633"
+  }
+}

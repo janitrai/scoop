@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_10_14_data-center-engineering_how-meta-is-leveraging-ai-to-improve-the-quality-of-scope-3-emission-estimates-for-it-hardware",
+  "title": "How Meta Is Leveraging AI To Improve the Quality of Scope 3 Emission Estimates for IT Hardware",
+  "canonical_url": "https://engineering.fb.com/2025/10/14/data-center-engineering/how-meta-is-leveraging-ai-to-improve-the-quality-of-scope-3-emission-estimates-for-it-hardware/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_meta_engineering_(ml)-022",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "a8989da1-4932-5e5e-a9f5-4fbb69d4332f"
+  },
+  "body_text": "As we focus on our goal of achieving net zero emissions in 2030, we also aim to create a common taxonomy for the entire industry to measure carbon emissions. We’re sharing details on a new methodology"
+}

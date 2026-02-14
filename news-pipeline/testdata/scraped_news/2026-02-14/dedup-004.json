@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "theconversation.com_openai-has-deleted-the-word-safely-from-its-mission-and-its-new-structure-is-a-test-for-whether-ai-serves-society-or-shareholders-274467",
+  "title": "OpenAI deletes 'safely' from its mission statement",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-004",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "5a8ce793-cb9a-5ea5-ac80-42bcbd8aa301"
+  },
+  "canonical_url": "https://theconversation.com/openai-has-deleted-the-word-safely-from-its-mission-and-its-new-structure-is-a-test-for-whether-ai-serves-society-or-shareholders-274467",
+  "source_domain": "theconversation.com",
+  "body_text": "IRS filings reveal 'safely' was removed from OpenAI's mission.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

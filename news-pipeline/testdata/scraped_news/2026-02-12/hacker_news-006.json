@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "ploum.net_2026-02-11-do_not_apologize_for_replying_to_my_email.html",
+  "title": "Do not apologize for replying late to my email",
+  "canonical_url": "https://ploum.net/2026-02-11-do_not_apologize_for_replying_to_my_email.html",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "ploum.net",
+  "source_metadata": {
+    "hn_score": 208,
+    "hn_comments": 178,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-006",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "d54cc2de-c4dc-500c-96cd-b5cb371e8438"
+  }
+}

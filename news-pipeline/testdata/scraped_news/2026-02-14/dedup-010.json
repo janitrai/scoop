@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "www.wired.com_story_cbp-signs-clearview-ai-deal-to-use-face-recognition-for-tactical-targeting",
+  "title": "CBP signs Clearview AI deal for facial recognition",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-010",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "329e321d-8e92-5f1d-b6d0-304242ef3754"
+  },
+  "canonical_url": "https://www.wired.com/story/cbp-signs-clearview-ai-deal-to-use-face-recognition-for-tactical-targeting/",
+  "source_domain": "www.wired.com",
+  "body_text": "US CBP signs deal with Clearview AI for face recognition tactical targeting.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

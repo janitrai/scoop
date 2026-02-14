@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.theregister.com_2026_02_09_matrix_element_secure_chat",
+  "title": "Matrix messaging gaining ground in government IT",
+  "canonical_url": "https://www.theregister.com/2026/02/09/matrix_element_secure_chat/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.theregister.com",
+  "source_metadata": {
+    "hn_score": 219,
+    "hn_comments": 173,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-003",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "a9630686-327b-5e60-87db-c022283c4e90"
+  }
+}

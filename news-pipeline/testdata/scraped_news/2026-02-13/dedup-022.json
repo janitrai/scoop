@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "kyivindependent.com_ukraine-will-not-accept-a-bad-peace-deal-zelensky-says",
+  "title": "Ukraine will not accept a bad peace deal, Zelensky says",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-022",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "41f804d9-5cd9-5b38-8c5a-daac1bf976b9"
+  },
+  "canonical_url": "https://kyivindependent.com/ukraine-will-not-accept-a-bad-peace-deal-zelensky-says/",
+  "source_domain": "kyivindependent.com",
+  "body_text": "President Zelensky reiterated Ukraine will reject any peace deal that compromises its sovereignty or territorial integrity.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

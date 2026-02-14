@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09007v1",
+  "title": "GEBench: Benchmarking Image Generation Models as GUI Environments",
+  "canonical_url": "http://arxiv.org/abs/2602.09007v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-068",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "9be72db0-84d9-55ba-b1bd-8add55332ec4"
+  },
+  "body_text": "[cs.AI, cs.CV] Recent advancements in image generation models have enabled the prediction of future Graphical User Interface (GUI) states based on user instructions. However, existing benchmarks prima"
+}

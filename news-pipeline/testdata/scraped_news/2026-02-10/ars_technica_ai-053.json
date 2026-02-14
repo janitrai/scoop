@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_02_the-rise-of-moltbook-suggests-viral-ai-prompts-may-be-the-next-big-security-threat",
+  "title": "The rise of Moltbook suggests viral AI prompts may be the next big security threat",
+  "canonical_url": "https://arstechnica.com/ai/2026/02/the-rise-of-moltbook-suggests-viral-ai-prompts-may-be-the-next-big-security-threat/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_ars_technica_ai-053",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "f73ab095-d671-525a-a65b-14a8cdb14da2"
+  },
+  "body_text": "We don't need self-replicating AI models to have problems, just self-replicating prompts."
+}

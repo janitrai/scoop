@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_tambo-ai_tambo",
+  "title": "Tambo 1.0: Open-source toolkit for agents that render React components",
+  "canonical_url": "https://github.com/tambo-ai/tambo",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 90,
+    "hn_comments": 20,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-005",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "b3462be9-fa6a-5773-92db-09e3c455f4c8"
+  }
+}

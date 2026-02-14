@@ -1,0 +1,11 @@
+[project]
+name = "embedding-service"
+version = "0.1.0"
+description = "Local embedding service using Qwen3-Embedding-8B on NVIDIA Jetson AGX Thor"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "nvidia-cudnn-cu12>=9.19.0.56",
+    "sympy>=1.14.0",
+    "transformers",
+]

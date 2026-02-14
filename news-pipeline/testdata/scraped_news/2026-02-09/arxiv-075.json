@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06932v1",
+  "title": "When RL Meets Adaptive Speculative Training: A Unified Training-Serving System",
+  "canonical_url": "http://arxiv.org/abs/2602.06932v1",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_arxiv-075",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "346bc309-dfaf-57aa-a6dd-35ffcbf36acd"
+  },
+  "body_text": "[cs.LG] Speculative decoding can significantly accelerate LLM serving, yet most deployments today disentangle speculator training from serving, treating speculator training as a standalone offline mod --- *2063 stories collected from 22 sources*"
+}

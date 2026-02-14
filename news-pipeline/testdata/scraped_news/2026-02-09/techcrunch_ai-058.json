@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_05_sapiom-raises-15m-to-help-ai-agents-buy-their-own-tech-tools",
+  "title": "Sapiom raises $15M to help AI agents buy their own tech tools",
+  "canonical_url": "https://techcrunch.com/2026/02/05/sapiom-raises-15m-to-help-ai-agents-buy-their-own-tech-tools/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_techcrunch_ai-058",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "eb577667-beac-5d66-af37-eb7e5a890298"
+  },
+  "body_text": "The startup -- with backing from Accel -- is building a financial layer that handles the authentication and micro-payments required for AI agents."
+}

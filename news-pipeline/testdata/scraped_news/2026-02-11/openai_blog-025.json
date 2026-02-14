@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_bringing-chatgpt-to-genaimil",
+  "title": "Bringing ChatGPT to GenAI.mil",
+  "canonical_url": "https://openai.com/index/bringing-chatgpt-to-genaimil",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-025",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "99e95d90-bf26-5089-b6ff-c87fc4405e1b"
+  },
+  "body_text": "OpenAI for Government announces the deployment of a custom ChatGPT on GenAI.mil, bringing secure, safety-forward AI to U.S. defense teams."
+}

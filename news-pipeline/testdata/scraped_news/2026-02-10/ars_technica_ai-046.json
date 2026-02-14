@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_02_sixteen-claude-ai-agents-working-together-created-a-new-c-compiler",
+  "title": "Sixteen Claude AI agents working together created a new C compiler",
+  "canonical_url": "https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_ars_technica_ai-046",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "609aefec-4bc2-5ca5-b588-f8712d868c34"
+  },
+  "body_text": "The $20,000 experiment compiled a Linux kernel but needed deep human management."
+}

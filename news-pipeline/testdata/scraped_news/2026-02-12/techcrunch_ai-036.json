@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_ai-inference-startup-modal-labs-in-talks-to-raise-at-2-5b-valuation-sources-say",
+  "title": "AI inference startup Modal Labs in talks to raise at $2.5B valuation, sources say",
+  "canonical_url": "https://techcrunch.com/2026/02/11/ai-inference-startup-modal-labs-in-talks-to-raise-at-2-5b-valuation-sources-say/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-036",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "5253b345-c5c1-5705-b6a6-f959f556b0b2"
+  },
+  "body_text": "General Catalyst is in talks to lead the round for the four-year-old startup, according to our sources."
+}

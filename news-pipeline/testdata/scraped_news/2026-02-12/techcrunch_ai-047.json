@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_meridian-ai-raises-17-million-to-remake-the-agentic-spreadsheet",
+  "title": "Meridian raises $17 million to remake the agentic spreadsheet",
+  "canonical_url": "https://techcrunch.com/2026/02/11/meridian-ai-raises-17-million-to-remake-the-agentic-spreadsheet/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-047",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "c1da4229-156e-5112-a309-aba46afde459"
+  },
+  "body_text": "A new company called Meridian.AI has emerged from stealth with an IDE-based approach to agentic financial modeling."
+}

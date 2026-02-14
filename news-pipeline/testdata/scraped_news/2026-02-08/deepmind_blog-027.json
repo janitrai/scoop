@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_alphafold-five-years-of-impact",
+  "title": "AlphaFold: Five years of impact",
+  "canonical_url": "https://deepmind.google/blog/alphafold-five-years-of-impact/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-027",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "a7cbed99-faf3-514c-9967-af157bd4997d"
+  },
+  "body_text": "Explore how AlphaFold has accelerated science and fueled a global wave of biological discovery."
+}

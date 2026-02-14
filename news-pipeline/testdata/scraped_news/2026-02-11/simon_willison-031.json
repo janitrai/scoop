@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_10_showboat-and-rodney",
+  "title": "Introducing Showboat and Rodney, so agents can demo what they’ve built",
+  "canonical_url": "https://simonwillison.net/2026/Feb/10/showboat-and-rodney/#atom-everything",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_simon_willison-031",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "738a626d-c0df-574e-80d8-6dc5c0f01a9c"
+  },
+  "body_text": "A key challenge working with coding agents is having them both test what they’ve built and demonstrate that software to you, their overseer. This goes beyond automated tests - we need artifacts that s"
+}

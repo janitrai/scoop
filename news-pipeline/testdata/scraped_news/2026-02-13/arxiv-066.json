@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.12274v1",
+  "title": "Function-Space Decoupled Diffusion for Forward and Inverse Modeling in Carbon Capture and Storage",
+  "canonical_url": "http://arxiv.org/abs/2602.12274v1",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_arxiv-066",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "b1c5bdfc-4689-5de8-a3ac-0bae02e5b41e"
+  },
+  "body_text": "[cs.LG, physics.geo-ph] Accurate characterization of subsurface flow is critical for Carbon Capture and Storage (CCS) but remains challenged by the ill-posed nature of inverse problems with sparse obs"
+}

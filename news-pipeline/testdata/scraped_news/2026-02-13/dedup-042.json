@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.theguardian.com_world_2026_feb_09_china-iran-technology-internet-control",
+  "title": "Chinese technology underpins Iran's internet control architecture",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-042",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "ea07697a-4b44-5709-bf7b-e733a834eaed"
+  },
+  "canonical_url": "https://www.theguardian.com/world/2026/feb/09/china-iran-technology-internet-control",
+  "source_domain": "www.theguardian.com",
+  "body_text": "Iran's internet control built on Chinese technologies including facial recognition tools used on Uyghurs.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

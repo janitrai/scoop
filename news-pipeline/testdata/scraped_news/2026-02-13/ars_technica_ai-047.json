@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_02_attackers-prompted-gemini-over-100000-times-while-trying-to-clone-it-google-says",
+  "title": "Attackers prompted Gemini over 100,000 times while trying to clone it, Google says",
+  "canonical_url": "https://arstechnica.com/ai/2026/02/attackers-prompted-gemini-over-100000-times-while-trying-to-clone-it-google-says/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_ars_technica_ai-047",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "5bcc7b08-5aa1-5fe0-97fd-41ba952cdf30"
+  },
+  "body_text": "Distillation technique lets copycats mimic Gemini at a fraction of the development cost."
+}

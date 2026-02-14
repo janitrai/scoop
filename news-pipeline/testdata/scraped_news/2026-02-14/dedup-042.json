@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.youtube.com_watch",
+  "title": "Kim's Observation: Structural contradictions in China's economy, US-Taiwan trade deal",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-042",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "87a20ca6-c2ce-5285-89b5-021d533ab34a"
+  },
+  "canonical_url": "https://www.youtube.com/watch?v=Jc4R3HTpsoc",
+  "source_domain": "www.youtube.com",
+  "body_text": "Commentary on China economic risks, US-Taiwan trade agreement, and cross-strait electoral eligibility.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

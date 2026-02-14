@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_why-the-economics-of-orbital-ai-are-so-brutal",
+  "title": "Why the economics of orbital AI are so brutal",
+  "canonical_url": "https://techcrunch.com/2026/02/11/why-the-economics-of-orbital-ai-are-so-brutal/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-042",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "381a28a8-da42-528f-963e-f9ebcdbd4e3d"
+  },
+  "body_text": "A 1 GW orbital data center would cost roughly $42.4 billion — almost three times its ground-bound equivalent."
+}

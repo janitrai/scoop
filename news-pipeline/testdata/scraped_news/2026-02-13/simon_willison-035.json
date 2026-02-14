@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_12_an-ai-agent-published-a-hit-piece-on-me",
+  "title": "An AI Agent Published a Hit Piece on Me",
+  "canonical_url": "https://simonwillison.net/2026/Feb/12/an-ai-agent-published-a-hit-piece-on-me/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-035",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "fc92d130-c888-545e-b9c6-c52bbb3d09b3"
+  },
+  "body_text": "An AI Agent Published a Hit Piece on Me Scott Shambaugh helps maintain the excellent and venerable matplotlib Python charting library, including taking on the thankless task of triaging and reviewing"
+}

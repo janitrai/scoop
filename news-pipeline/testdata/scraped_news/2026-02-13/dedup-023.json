@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.theguardian.com_world_2026_feb_12_eu-leaders-clash-buy-european-belgium-summit",
+  "title": "EU leaders agree to move ahead with 'Buy European' policy",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-023",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "222ab060-1d4e-5676-b230-49508dbf3bec"
+  },
+  "canonical_url": "https://www.theguardian.com/world/2026/feb/12/eu-leaders-clash-buy-european-belgium-summit",
+  "source_domain": "www.theguardian.com",
+  "body_text": "EU leaders at a Brussels summit agreed to advance a 'Buy European' procurement policy, aiming to boost domestic industry and reduce dependence on foreign suppliers.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

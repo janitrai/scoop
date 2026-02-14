@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_security_2026_02_once-hobbled-lumma-stealer-is-back-with-lures-that-are-hard-to-resist",
+  "title": "Once-hobbled Lumma Stealer is back with lures that are hard to resist",
+  "canonical_url": "https://arstechnica.com/security/2026/02/once-hobbled-lumma-stealer-is-back-with-lures-that-are-hard-to-resist/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_ars_technica_ai-048",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "5fc446ed-9466-57d1-bc6f-a6bd305c239c"
+  },
+  "body_text": "ClickFix bait, combined with advanced Castleloader malware, is installing Lumma \"at scale.\""
+}

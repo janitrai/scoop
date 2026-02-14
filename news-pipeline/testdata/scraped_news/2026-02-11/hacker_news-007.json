@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.nytimes.com_2026_02_11_us_faa-el-paso-flight-restrictions.html",
+  "title": "FAA Halts All Flights at El Paso Airport for 10 Days",
+  "canonical_url": "https://www.nytimes.com/2026/02/11/us/faa-el-paso-flight-restrictions.html",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "www.nytimes.com",
+  "source_metadata": {
+    "hn_score": 75,
+    "hn_comments": 33,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-007",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "70b00621-f894-558c-9b3a-820082e50d96"
+  }
+}

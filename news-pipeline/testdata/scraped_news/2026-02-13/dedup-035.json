@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_military_article_3343312_xis-new-year-message-military-reveals-pla-cyberspace-force-post-south-china-sea",
+  "title": "Xi's New Year greeting reveals PLA Cyberspace Force post on Fiery Cross Reef",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-035",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "1b0fd55d-45cd-5caa-aca1-ddc014cbd235"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/military/article/3343312/xis-new-year-message-military-reveals-pla-cyberspace-force-post-south-china-sea",
+  "source_domain": "www.scmp.com",
+  "body_text": "Deployment signals PLA cyber warfare capabilities no longer confined to the mainland.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

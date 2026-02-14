@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "reddit.com_r_UpliftingNews_comments_1r2ypqw_chinas_carbon_dioxide_co2_emissions_have_now_been",
+  "title": "China's CO2 emissions flat or falling for 21 months",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-039",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "d531ef5e-b456-55a1-8a15-b67c9a0c84d8"
+  },
+  "canonical_url": "https://reddit.com/r/UpliftingNews/comments/1r2ypqw/chinas_carbon_dioxide_co2_emissions_have_now_been/",
+  "source_domain": "reddit.com",
+  "body_text": "Growth in energy storage and clean power output topped increases in peak electricity demand.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

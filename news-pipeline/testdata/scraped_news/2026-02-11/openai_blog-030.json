@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_introducing-openai-frontier",
+  "title": "Introducing OpenAI Frontier",
+  "canonical_url": "https://openai.com/index/introducing-openai-frontier",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-030",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "4044549b-24e4-54d1-bc88-d7592b6d5e81"
+  },
+  "body_text": "OpenAI Frontier is an enterprise platform for building, deploying, and managing AI agents with shared context, onboarding, permissions, and governance. ---"
+}

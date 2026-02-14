@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_7_claude-fast-mode",
+  "title": "Claude: Speed up responses with fast mode",
+  "canonical_url": "https://simonwillison.net/2026/Feb/7/claude-fast-mode/#atom-everything",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_simon_willison-036",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "d03da66f-994e-583f-a765-a56a8f7b0ca5"
+  },
+  "body_text": "Claude: Speed up responses with fast mode New \"research preview\" from Anthropic today: you can now access a faster version of their frontier model Claude Opus 4.6 by typing /fast in Claude Code... but"
+}

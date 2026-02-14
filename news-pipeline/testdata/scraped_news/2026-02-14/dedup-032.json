@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_us_article_3343540_pentagon-adds-chinese-firms-military-list-then-withdraws-filing",
+  "title": "Pentagon adds Alibaba, Baidu, BYD to China military list — then withdraws filing",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-032",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "76a35d6c-18be-5815-98e2-6c1f4de63619"
+  },
+  "canonical_url": "https://www.scmp.com/news/us/article/3343540/pentagon-adds-chinese-firms-military-list-then-withdraws-filing",
+  "source_domain": "www.scmp.com",
+  "body_text": "Pentagon added major Chinese firms to military list then withdrew document, highlighting Trump admin confusion before summit.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

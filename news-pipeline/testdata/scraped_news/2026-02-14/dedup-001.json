@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "openai.com_index_introducing-gpt-5-3-codex",
+  "title": "OpenAI launches GPT-5.3-Codex — most capable agentic coding model yet",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-001",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "98c93421-47b4-5885-af69-5cfc5aeab77a"
+  },
+  "canonical_url": "https://openai.com/index/introducing-gpt-5-3-codex",
+  "source_domain": "openai.com",
+  "body_text": "GPT-5.3-Codex combines frontier coding performance with general reasoning for long-horizon technical work.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

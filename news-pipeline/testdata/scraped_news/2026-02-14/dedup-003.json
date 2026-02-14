@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "openai.com_index_testing-ads-in-chatgpt",
+  "title": "OpenAI begins testing ads in ChatGPT",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-003",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "83a56a19-6a23-5a5f-819a-bd9a1b85710f"
+  },
+  "canonical_url": "https://openai.com/index/testing-ads-in-chatgpt",
+  "source_domain": "openai.com",
+  "body_text": "OpenAI starts ad testing in ChatGPT to support free access.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

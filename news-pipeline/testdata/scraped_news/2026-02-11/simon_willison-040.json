@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_6_tom-dale",
+  "title": "Quoting Tom Dale",
+  "canonical_url": "https://simonwillison.net/2026/Feb/6/tom-dale/#atom-everything",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_simon_willison-040",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "e9b5f443-a1b8-539b-a790-dab1bb107772"
+  },
+  "body_text": "I don't know why this week became the tipping point, but nearly every software engineer I've talked to is experiencing some degree of mental health crisis. [...] Many people assuming I meant job loss"
+}

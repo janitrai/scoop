@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_information-technology_2026_01_ai-agents-now-have-their-own-reddit-style-social-network-and-its-getting-weird-fast",
+  "title": "AI agents now have their own Reddit-style social network, and it's getting weird fast",
+  "canonical_url": "https://arstechnica.com/information-technology/2026/01/ai-agents-now-have-their-own-reddit-style-social-network-and-its-getting-weird-fast/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_ars_technica_ai-054",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "0d65a7a1-28c4-5ce5-929b-1669b91e77f9"
+  },
+  "body_text": "Moltbook lets 32,000 AI bots trade jokes, tips, and complaints about humans."
+}

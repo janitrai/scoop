@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "arstechnica.com_information-technology_2026_02_openai-researcher-quits-over-fears-that-chatgpt-ads-could-manipulate-users",
+  "title": "OpenAI researcher quits over ChatGPT ads",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-007",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "d67e5e78-59d1-5925-afcf-5da1fa102b80"
+  },
+  "canonical_url": "https://arstechnica.com/information-technology/2026/02/openai-researcher-quits-over-fears-that-chatgpt-ads-could-manipulate-users/",
+  "source_domain": "arstechnica.com",
+  "body_text": "Zoë Hitzig resigned the day OpenAI began testing ads in ChatGPT.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

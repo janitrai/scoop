@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "apnews.com_article_semiconductors-tsmc-japan-taiwan-ai-11256f2bfde73ca23d08331ad138d6d5",
+  "title": "TSMC to make advanced AI semiconductors in Japan",
+  "canonical_url": "https://apnews.com/article/semiconductors-tsmc-japan-taiwan-ai-11256f2bfde73ca23d08331ad138d6d5",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "apnews.com",
+  "source_metadata": {
+    "hn_score": 130,
+    "hn_comments": 73,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-008",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "3df6467b-de2e-5155-b693-c9ff844e0349"
+  }
+}

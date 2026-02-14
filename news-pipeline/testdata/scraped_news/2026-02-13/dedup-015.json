@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.ctvnews.ca_world_article_macron-calls-musk-an-oversubsidised-guy-prompting-retort",
+  "title": "Macron calls Musk 'an oversubsidized guy', prompting retort",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-015",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "1cbd9711-8d98-5193-95f5-619343edd027"
+  },
+  "canonical_url": "https://www.ctvnews.ca/world/article/macron-calls-musk-an-oversubsidised-guy-prompting-retort/",
+  "source_domain": "www.ctvnews.ca",
+  "body_text": "French President Macron publicly labeled Elon Musk 'an oversubsidized guy,' drawing a sharp response. Major diplomatic friction between France and the world's richest man.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

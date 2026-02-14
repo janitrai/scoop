@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_gpt-5-lowers-protein-synthesis-cost",
+  "title": "GPT-5 lowers the cost of cell-free protein synthesis",
+  "canonical_url": "https://openai.com/index/gpt-5-lowers-protein-synthesis-cost",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-028",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "9c07a7df-465e-5a71-afa5-00dc13909dcf"
+  },
+  "body_text": "An autonomous lab combining OpenAI’s GPT-5 with Ginkgo Bioworks’ cloud automation cut cell-free protein synthesis costs by 40% through closed-loop experimentation."
+}

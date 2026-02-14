@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+dist/
+
+# Go
+bin/
+
+# Env and local secrets
+.env
+.env.*
+*.env
+*.env.*
+**/.env
+**/.env.*
+**/*.env
+**/*.env.*
+
+# OS
+.DS_Store

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_TrevorS_voxtral-mini-realtime-rs",
+  "title": "Rust implementation of Mistral's Voxtral Mini 4B Realtime runs in your browser",
+  "canonical_url": "https://github.com/TrevorS/voxtral-mini-realtime-rs",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 165,
+    "hn_comments": 18,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-009",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "0d7afc80-cf26-5f69-a9b9-732d4556307e"
+  }
+}

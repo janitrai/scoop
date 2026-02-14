@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_matplotlib_matplotlib_pull_31132",
+  "title": "AI agent opens a PR write a blogpost to shames the maintainer who closes it",
+  "canonical_url": "https://github.com/matplotlib/matplotlib/pull/31132",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 883,
+    "hn_comments": 689,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-002",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "998dd19d-9cf0-564a-8d5e-d0091714dca1"
+  }
+}

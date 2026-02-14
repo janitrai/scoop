@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "reddit.com_r_RealTesla_comments_1r2wn24_tesla_tsla_sales_in_china_crash_45_to_lowest",
+  "title": "Tesla sales in China crash 45% to lowest level in over three years",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-13_dedup-038",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "5a60c2f3-4343-589a-ac4b-90eca6ef2d9a",
+    "item_uuid": "1baa5429-dbd3-56a8-b12a-ccba0fe58961"
+  },
+  "canonical_url": "https://reddit.com/r/RealTesla/comments/1r2wn24/tesla_tsla_sales_in_china_crash_45_to_lowest/",
+  "source_domain": "reddit.com",
+  "body_text": "Tesla China sales plummet 45%, hitting lowest in 3+ years amid rising competition from BYD.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09002v1",
+  "title": "From Obstacles to Etiquette: Robot Social Navigation with VLM-Informed Path Selection",
+  "canonical_url": "http://arxiv.org/abs/2602.09002v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-071",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "e59873da-027c-5815-aa81-1929be8a134d"
+  },
+  "body_text": "[cs.RO, cs.AI] Navigating socially in human environments requires more than satisfying geometric constraints, as collision-free paths may still interfere with ongoing activities or conflict with socia"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "engineering.fb.com_2026_02_11_developer-tools_the-death-of-traditional-testing-agentic-development-jit-testing-revival",
+  "title": "Meta: Death of Traditional Testing - JiT Testing",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_dedup-011",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "57f74428-5a1f-5ea4-bab6-afb5f09ec126"
+  },
+  "canonical_url": "https://engineering.fb.com/2026/02/11/developer-tools/the-death-of-traditional-testing-agentic-development-jit-testing-revival/",
+  "source_domain": "engineering.fb.com",
+  "body_text": "Meta argues agentic development broke 50-year-old testing. Proposes JiT Testing.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

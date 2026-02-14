@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2026_02_11_developer-tools_the-death-of-traditional-testing-agentic-development-jit-testing-revival",
+  "title": "The Death of Traditional Testing: Agentic Development Broke a 50-Year-Old Field, JiTTesting Can Revive It",
+  "canonical_url": "https://engineering.fb.com/2026/02/11/developer-tools/the-death-of-traditional-testing-agentic-development-jit-testing-revival/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_meta_engineering_(ml)-016",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "fb308731-7c7a-5d88-9f12-3e99f73798ee"
+  },
+  "body_text": "WHAT IT IS The rise of agentic software development means code is being written, reviewed, and shipped faster than ever before across the entire industry. It also means that testing frameworks need to"
+}

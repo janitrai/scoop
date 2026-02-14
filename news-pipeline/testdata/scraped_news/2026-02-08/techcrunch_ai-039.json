@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_it-just-got-easier-for-claude-to-check-in-on-your-wordpress-site",
+  "title": "It just got easier for Claude to check in on your WordPress site",
+  "canonical_url": "https://techcrunch.com/2026/02/06/it-just-got-easier-for-claude-to-check-in-on-your-wordpress-site/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-039",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "82c442f9-9e1e-5dda-9a6e-1237d5780f8e"
+  },
+  "body_text": "WordPress users can now leverage Claude to analyze web traffic or find information about other internal site metrics."
+}

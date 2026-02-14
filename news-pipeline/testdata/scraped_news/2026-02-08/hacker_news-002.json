@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_localgpt-app_localgpt",
+  "title": "Show HN: LocalGPT – A local-first AI assistant in Rust with persistent memory",
+  "canonical_url": "https://github.com/localgpt-app/localgpt",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 245,
+    "hn_comments": 119,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-002",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "5aeb6329-1a59-5440-8e66-11cd98bf7d65"
+  }
+}

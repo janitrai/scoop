@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "simonwillison.net_2026_Feb_10_showboat-and-rodney",
+  "title": "Show HN: Showboat and Rodney, so agents can demo what they've built",
+  "canonical_url": "https://simonwillison.net/2026/Feb/10/showboat-and-rodney/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "hn_score": 87,
+    "hn_comments": 54,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-006",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "158a5f6d-1a60-5d25-b890-9cbf792d0a60"
+  }
+}

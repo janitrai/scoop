@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_our-approach-to-localization",
+  "title": "Making AI work for everyone, everywhere: our approach to localization",
+  "canonical_url": "https://openai.com/index/our-approach-to-localization",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-027",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "ee8b2849-727f-5c2c-9017-403a394c135f"
+  },
+  "body_text": "OpenAI shares its approach to AI localization, showing how globally shared frontier models can be adapted to local languages, laws, and cultures without compromising safety."
+}

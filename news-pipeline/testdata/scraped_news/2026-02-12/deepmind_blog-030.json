@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_google-deepmind-supports-us-department-of-energy-on-genesis",
+  "title": "Google DeepMind supports U.S. Department of Energy on Genesis: a national mission to accelerate innovation and scientific discovery",
+  "canonical_url": "https://deepmind.google/blog/google-deepmind-supports-us-department-of-energy-on-genesis/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_deepmind_blog-030",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "92d72ddc-7ae5-57eb-9fa3-f5e1238ee383"
+  },
+  "body_text": "Google DeepMind and the DOE partner on Genesis, a new effort to accelerate science with AI. ---"
+}

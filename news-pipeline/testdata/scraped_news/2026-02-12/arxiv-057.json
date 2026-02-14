@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.11141v1",
+  "title": "LCIP: Loss-Controlled Inverse Projection of High-Dimensional Image Data",
+  "canonical_url": "http://arxiv.org/abs/2602.11141v1",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_arxiv-057",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "0df3570c-a1fe-55e0-84f5-ef416236589f"
+  },
+  "body_text": "[cs.HC, cs.LG] Projections (or dimensionality reduction) methods $P$ aim to map high-dimensional data to typically 2D scatterplots for visual exploration. Inverse projection methods $P^{-1}$ aim to ma"
+}

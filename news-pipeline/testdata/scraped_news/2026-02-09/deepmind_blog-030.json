@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_gemma-scope-2-helping-the-ai-safety-community-deepen-understanding-of-complex-language-model-behavior",
+  "title": "Gemma Scope 2: helping the AI safety community deepen understanding of complex language model behavior",
+  "canonical_url": "https://deepmind.google/blog/gemma-scope-2-helping-the-ai-safety-community-deepen-understanding-of-complex-language-model-behavior/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_deepmind_blog-030",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "f9ab518f-aeca-5c75-a659-d2a7e1e06b88"
+  },
+  "body_text": "Open interpretability tools for language models are now available across the entire Gemma 3 family with the release of Gemma Scope 2. ---"
+}

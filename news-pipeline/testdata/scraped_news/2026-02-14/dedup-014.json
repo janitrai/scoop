@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "cloudrouter.dev",
+  "title": "CloudRouter: Skill that lets Claude Code/Codex spin up VMs and GPUs",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-014",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "fe18efa5-8957-5e4b-a376-6f26a18a8f6c"
+  },
+  "canonical_url": "https://cloudrouter.dev/",
+  "source_domain": "cloudrouter.dev",
+  "body_text": "Coding agents dynamically provision compute resources.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

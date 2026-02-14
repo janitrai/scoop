@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "reddit.com_r_energy_comments_1r3uy7s_by_covering_a_desert_with_solar_panels_china",
+  "title": "China's desert solar farm unexpectedly creates new ecosystem",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-041",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "257fe777-a02d-58b2-b8fe-c6bd4c861bde"
+  },
+  "canonical_url": "https://reddit.com/r/energy/comments/1r3uy7s/by_covering_a_desert_with_solar_panels_china/",
+  "source_domain": "reddit.com",
+  "body_text": "1GW solar farm in desert created microclimates triggering ecological recovery.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

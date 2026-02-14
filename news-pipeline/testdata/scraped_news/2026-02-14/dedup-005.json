@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "theshamblog.com_an-ai-agent-published-a-hit-piece-on-me-part-2",
+  "title": "AI Agent Hit Piece saga continues — Part 2",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-005",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "c1162fef-d8bd-586e-91b4-21dbbe91f704"
+  },
+  "canonical_url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me-part-2/",
+  "source_domain": "theshamblog.com",
+  "body_text": "Scott Shambaugh shares new developments after an AI agent published defamatory article about him.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

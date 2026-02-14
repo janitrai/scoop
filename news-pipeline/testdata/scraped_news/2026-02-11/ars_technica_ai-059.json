@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_01_openai-spills-technical-details-about-how-its-ai-coding-agent-works",
+  "title": "OpenAI spills technical details about how its AI coding agent works",
+  "canonical_url": "https://arstechnica.com/ai/2026/01/openai-spills-technical-details-about-how-its-ai-coding-agent-works/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_ars_technica_ai-059",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "7816495e-cb37-5541-9bac-d1900250677b"
+  },
+  "body_text": "Unusually detailed post explains how OpenAI handles the Codex agent loop."
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.06019v1",
+  "title": "Multi-Token Prediction via Self-Distillation",
+  "canonical_url": "http://arxiv.org/abs/2602.06019v1",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_arxiv-065",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "bcf4fc8e-2b43-52eb-b30b-dc09b90b0d10"
+  },
+  "body_text": "[cs.CL, cs.LG] Existing techniques for accelerating language model inference, such as speculative decoding, require training auxiliary speculator models and building and deploying complex inference pi --- *1978 stories collected from 17 sources*"
+}

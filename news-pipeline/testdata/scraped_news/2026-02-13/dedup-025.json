@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "euromaidanpress.com_2026_02_12_allies-pledge-38bn-in-defense-aid-for-ukraine-at-ramstein-meeting",
+  "title": "$38bn, 35 Patriot missiles, long-range drones: What Ukraine got at Ramstein",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-025",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "7c97af8b-8b86-5a53-983b-a2a69abf8958"
+  },
+  "canonical_url": "https://euromaidanpress.com/2026/02/12/allies-pledge-38bn-in-defense-aid-for-ukraine-at-ramstein-meeting/",
+  "source_domain": "euromaidanpress.com",
+  "body_text": "At the latest Ramstein meeting, allies pledged $38B in defense aid for Ukraine including 35 Patriot missiles and long-range drones.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

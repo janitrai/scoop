@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_6_pydantic-monty",
+  "title": "Running Pydantic's Monty Rust sandboxed Python subset in WebAssembly",
+  "canonical_url": "https://simonwillison.net/2026/Feb/6/pydantic-monty/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-038",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "772048d7-51d2-5ee9-8107-e329f7a8c81e"
+  },
+  "body_text": "There's a jargon-filled headline for you! Everyone's building sandboxes for running untrusted code right now, and Pydantic's latest attempt, Monty, provides a custom Python-like language (a subset of"
+}

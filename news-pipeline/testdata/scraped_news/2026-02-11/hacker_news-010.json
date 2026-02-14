@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_getclawe_clawe",
+  "title": "Show HN: Clawe – open-source Trello for agent teams",
+  "canonical_url": "https://github.com/getclawe/clawe",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 62,
+    "hn_comments": 38,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-010",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "8592da05-5317-570a-b3d7-43e94722c432"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_11_10_ml-applications_metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation",
+  "title": "Meta’s Generative Ads Model (GEM): The Central Brain Accelerating Ads Recommendation AI Innovation",
+  "canonical_url": "https://engineering.fb.com/2025/11/10/ml-applications/metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_meta_engineering_(ml)-021",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "0f7c7b20-a5b3-59c5-87e8-fbb0477f24b4"
+  },
+  "body_text": "We’re sharing details about Meta’s Generative Ads Recommendation Model (GEM), a new foundation model that delivers increased ad performance and advertiser ROI by enhancing other ads recommendation mod"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_strengthening-our-partnership-with-the-uk-government-to-support-prosperity-and-security-in-the-ai-era",
+  "title": "Strengthening our partnership with the UK government to support prosperity and security in the AI era",
+  "canonical_url": "https://deepmind.google/blog/strengthening-our-partnership-with-the-uk-government-to-support-prosperity-and-security-in-the-ai-era/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_deepmind_blog-024",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "fa03761a-52ad-596b-9891-5970497158ae"
+  },
+  "body_text": "Deepening our partnership with the UK government to support prosperity and security in the AI era"
+}

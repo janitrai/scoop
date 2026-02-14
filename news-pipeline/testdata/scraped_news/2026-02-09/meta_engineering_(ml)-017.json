@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "meta_engineering_(ml)",
+  "source_item_id": "engineering.fb.com_2025_12_19_data-infrastructure_drp-metas-root-cause-analysis-platform-at-scale",
+  "title": "DrP: Meta’s Root Cause Analysis Platform at Scale",
+  "canonical_url": "https://engineering.fb.com/2025/12/19/data-infrastructure/drp-metas-root-cause-analysis-platform-at-scale/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "engineering.fb.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_meta_engineering_(ml)-017",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "a24d12ba-815b-5db2-ac23-0f49d54a188c"
+  },
+  "body_text": "Incident investigation can be a daunting task in today’s digital landscape, where large-scale systems comprise numerous interconnected components and dependencies DrP is a root cause analysis (RCA) pl"
+}

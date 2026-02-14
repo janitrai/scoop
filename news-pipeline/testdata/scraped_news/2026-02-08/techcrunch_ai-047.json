@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_05_reddit-looks-to-ai-search-as-its-next-big-opportunity",
+  "title": "Reddit looks to AI search as its next big opportunity",
+  "canonical_url": "https://techcrunch.com/2026/02/05/reddit-looks-to-ai-search-as-its-next-big-opportunity/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-047",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "6a768f31-cc5a-5430-8f0d-9275590b3af2"
+  },
+  "body_text": "During the company's fourth-quarter earnings call on Thursday, it offered an update on its plans to merge traditional and AI search together and hinted that although search is not yet monetized, \"it's"
+}

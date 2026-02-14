@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "papers.ssrn.com_sol3_papers.cfm",
+  "title": "GPT-5 outperforms federal judges in legal reasoning experiment",
+  "canonical_url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6155012",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "papers.ssrn.com",
+  "source_metadata": {
+    "hn_score": 242,
+    "hn_comments": 170,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-005",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "ae2a226b-99c5-5e60-8c6d-f9447caf3ac6"
+  }
+}

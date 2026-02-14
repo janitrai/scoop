@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_benchmark-raises-225m-in-special-funds-to-double-down-on-cerebras",
+  "title": "Benchmark raises $225M in special funds to double down on Cerebras",
+  "canonical_url": "https://techcrunch.com/2026/02/06/benchmark-raises-225m-in-special-funds-to-double-down-on-cerebras/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_techcrunch_ai-037",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "40f3bbd3-51d3-5162-b06d-a4238fdd096b"
+  },
+  "body_text": "Benchmark Capital has been an investor in the Nvidia rival since 2016."
+}

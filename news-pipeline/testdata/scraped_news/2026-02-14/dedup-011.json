@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "www.bbc.com_news_articles_c62dlvdq3e3o",
+  "title": "AI safety leader quits to study poetry, says 'world is in peril'",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-011",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "75b86337-29dc-518c-bab7-68b378aa12f0"
+  },
+  "canonical_url": "https://www.bbc.com/news/articles/c62dlvdq3e3o",
+  "source_domain": "www.bbc.com",
+  "body_text": "Prominent AI safety researcher leaves the field citing burnout.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

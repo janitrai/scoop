@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.rte.ie_news_ireland_2026_0209_1557514-seamus-culleton",
+  "title": "Irish man detained by ICE for 5 months",
+  "canonical_url": "https://www.rte.ie/news/ireland/2026/0209/1557514-seamus-culleton/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.rte.ie",
+  "source_metadata": {
+    "hn_score": 167,
+    "hn_comments": 130,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-008",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "801ecf51-cf44-52a0-8a02-2c9d7d916472"
+  }
+}

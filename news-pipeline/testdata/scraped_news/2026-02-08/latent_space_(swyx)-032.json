@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_goodfire",
+  "title": "The First Mechanistic Interpretability Frontier Lab — Myra Deng & Mark Bissell of Goodfire AI",
+  "canonical_url": "https://www.latent.space/p/goodfire",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_latent_space_(swyx)-032",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "9b83b994-72db-5389-8206-d5f12b95a1df"
+  },
+  "body_text": "From Palantir and Two Sigma to building Goodfire into the poster-child for actionable mechanistic interpretability, Mark Bissell (Member of Technical Staff) and Myra Deng (Head of Product) are trying"
+}

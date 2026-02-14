@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_rowboatlabs_rowboat",
+  "title": "Show HN: Rowboat – AI coworker that turns your work into a knowledge graph (OSS)",
+  "canonical_url": "https://github.com/rowboatlabs/rowboat",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 164,
+    "hn_comments": 39,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-004",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "882a3951-abab-50fb-af88-e8e8e0887698"
+  }
+}

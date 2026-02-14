@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_5_the-world-factbook",
+  "title": "Spotlighting The World Factbook as We Bid a Fond Farewell",
+  "canonical_url": "https://simonwillison.net/2026/Feb/5/the-world-factbook/#atom-everything",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_simon_willison-043",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "c6edf0b5-1624-558a-96a4-25b20df197c5"
+  },
+  "body_text": "Spotlighting The World Factbook as We Bid a Fond Farewell Somewhat devastating news today from CIA: One of CIA’s oldest and most recognizable intelligence publications, The World Factbook, has sunset"
+}

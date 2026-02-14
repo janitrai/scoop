@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_08_crypto-com-places-70m-bet-on-ai-com-domain-ahead-of-super-bowl",
+  "title": "Crypto.com places $70M bet on AI.com domain ahead of Super Bowl",
+  "canonical_url": "https://techcrunch.com/2026/02/08/crypto-com-places-70m-bet-on-ai-com-domain-ahead-of-super-bowl/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_techcrunch_ai-046",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "75c71307-e298-588e-9900-db2f49ad9c57"
+  },
+  "body_text": "The purchase rewrites the domain record books -- not that the crypto industry has ever been accused of restraint when it comes to spending."
+}

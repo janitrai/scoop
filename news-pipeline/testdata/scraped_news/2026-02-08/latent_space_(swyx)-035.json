@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_2026",
+  "title": "Scaling without Slop",
+  "canonical_url": "https://www.latent.space/p/2026",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_latent_space_(swyx)-035",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "5a7a19a0-2926-55a5-b1c6-6822ddcbedfe"
+  },
+  "body_text": "We've been quiet — announcing our 2026 plans! The State of Latent Space is here. ---"
+}

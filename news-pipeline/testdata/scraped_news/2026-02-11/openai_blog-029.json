@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "openai_blog",
+  "source_item_id": "openai.com_index_trusted-access-for-cyber",
+  "title": "Introducing Trusted Access for Cyber",
+  "canonical_url": "https://openai.com/index/trusted-access-for-cyber",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_openai_blog-029",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "c4c1bd2d-c999-5eea-aeb8-a39a74002b8b"
+  },
+  "body_text": "OpenAI introduces Trusted Access for Cyber, a trust-based framework that expands access to frontier cyber capabilities while strengthening safeguards against misuse."
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_ai_2026_01_developers-say-ai-coding-tools-work-and-thats-precisely-what-worries-them",
+  "title": "Developers say AI coding tools work—and that's precisely what worries them",
+  "canonical_url": "https://arstechnica.com/ai/2026/01/developers-say-ai-coding-tools-work-and-thats-precisely-what-worries-them/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_ars_technica_ai-055",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "a1cb2e30-0a1b-5192-81d0-352c3569cc7f"
+  },
+  "body_text": "Ars spoke to several software devs about AI and found enthusiasm tempered by unease."
+}

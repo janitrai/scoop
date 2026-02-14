@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "twitter.com_DrWhax_status_2021608609595945442",
+  "title": "Paragon accidentally uploaded a photo of its spyware control panel",
+  "canonical_url": "https://twitter.com/DrWhax/status/2021608609595945442",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "twitter.com",
+  "source_metadata": {
+    "hn_score": 167,
+    "hn_comments": 43,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-008",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "8fb4c793-9db1-5a51-b198-6707fe0bc537"
+  }
+}

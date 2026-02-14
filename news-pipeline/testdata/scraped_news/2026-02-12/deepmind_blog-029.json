@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_revealing-a-key-protein-behind-heart-disease",
+  "title": "Revealing a key protein behind heart disease",
+  "canonical_url": "https://deepmind.google/blog/revealing-a-key-protein-behind-heart-disease/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_deepmind_blog-029",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "abc02feb-6792-5e1d-b20c-846c3585254f"
+  },
+  "body_text": "AlphaFold has revealed the structure of a key protein behind heart disease"
+}

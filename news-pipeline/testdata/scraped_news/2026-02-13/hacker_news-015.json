@@ -1,0 +1,20 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "forkingmad.blog_insulted-today-ai",
+  "title": "I was insulted today – AI style",
+  "canonical_url": "https://forkingmad.blog/insulted-today-ai/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "forkingmad.blog",
+  "source_metadata": {
+    "hn_score": 46,
+    "hn_comments": 34,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-015",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "0277f364-bb72-5c27-a30e-0db3b7fc26b9"
+  },
+  "body_text": "---"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.itv.com_news_2026-02-13_uk-must-move-away-from-us-and-towards-a-more-european-nato-starmer-to-say",
+  "title": "UK must move away from US and towards a 'more European NATO,' Starmer says",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-14_dedup-027",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "6b2c5aaf-7cb2-5b3f-91c0-02c4e26b163e",
+    "item_uuid": "5a3689f6-6e8d-58f3-a094-6ce9f8516c49"
+  },
+  "canonical_url": "https://www.itv.com/news/2026-02-13/uk-must-move-away-from-us-and-towards-a-more-european-nato-starmer-to-say",
+  "source_domain": "www.itv.com",
+  "body_text": "UK PM Starmer signaled a shift away from US dependence, calling for a 'more European NATO' at a defense summit.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

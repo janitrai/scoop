@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_former-founders-fund-vc-sam-blond-launches-ai-sales-startup-to-upend-salesforce",
+  "title": "Former Founders Fund VC Sam Blond launches AI sales startup to upend Salesforce",
+  "canonical_url": "https://techcrunch.com/2026/02/11/former-founders-fund-vc-sam-blond-launches-ai-sales-startup-to-upend-salesforce/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-045",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "f657025a-ab74-5453-99cb-e43e83c28f90"
+  },
+  "body_text": "The startup, Monaco, has come out of stealth as an AI-native all-in-one CRM plus more system backed by names like the Collison brothers and Garry Tan."
+}

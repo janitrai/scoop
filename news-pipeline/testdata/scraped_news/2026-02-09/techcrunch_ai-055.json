@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_06_kindle-scribe-colorsoft-review-e-ink-color-tablet",
+  "title": "The Kindle Scribe Colorsoft is a pricey but pretty e-ink color tablet with AI features",
+  "canonical_url": "https://techcrunch.com/2026/02/06/kindle-scribe-colorsoft-review-e-ink-color-tablet/",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_techcrunch_ai-055",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "a28bee05-cc05-5b4f-87c9-ee782f7cd15b"
+  },
+  "body_text": "If you primarily want a tablet device to mark up, highlight, and annotate your e-books and documents, and perhaps sometimes scribble some notes, Amazon's new Kindle Scribe Colorsoft could be worth the"
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_military_article_3343509_chinese-fighter-jets-locked-radar-foreign-stealth-plane-800-metres-pla-daily",
+  "title": "Chinese fighter jets locked radar on foreign stealth plane at 800m — PLA Daily",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-036",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "0e6c6697-4cc3-5832-afb9-fc0be7313ff0"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/military/article/3343509/chinese-fighter-jets-locked-radar-foreign-stealth-plane-800-metres-pla-daily",
+  "source_domain": "www.scmp.com",
+  "body_text": "PLA Daily reports J-16 locked radar on foreign stealth aircraft at 800m distance.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

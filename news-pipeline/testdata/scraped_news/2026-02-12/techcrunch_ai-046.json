@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_build-a-pipeline-and-close-deals-with-an-exhibit-table-at-techcrunch-disrupt-2026",
+  "title": "Build a pipeline and close deals with an exhibit table at TechCrunch Disrupt 2026",
+  "canonical_url": "https://techcrunch.com/2026/02/11/build-a-pipeline-and-close-deals-with-an-exhibit-table-at-techcrunch-disrupt-2026/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-046",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "9ee3428e-8bea-56ff-8622-02569f8d230e"
+  },
+  "body_text": "Get an unmatched ROI by exhibiting your startup in front of 10,000 tech leaders and investors at TechCrunch Disrupt 2026, October 13-15 in San Francisco. Book your table now before it's gone."
+}

@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_googles-year-in-review-8-areas-with-research-breakthroughs-in-2025",
+  "title": "Google's year in review: 8 areas with research breakthroughs in 2025",
+  "canonical_url": "https://deepmind.google/blog/googles-year-in-review-8-areas-with-research-breakthroughs-in-2025/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_deepmind_blog-030",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "48b00dea-46c4-5248-ac38-f73f2512fda7"
+  },
+  "body_text": "Google 2025 recap: Research breakthroughs of the year ---"
+}

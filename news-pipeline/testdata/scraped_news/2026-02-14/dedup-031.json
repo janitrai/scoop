@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_china-news",
+  "source_item_id": "www.scmp.com_news_china_diplomacy_article_3343579_chinas-wang-yi-calls-global-governance-reform-amid-global-turbulence",
+  "title": "Wang Yi calls for global governance reform at Munich Security Conference",
+  "source_metadata": {
+    "collection": "china_news",
+    "job_name": "fetch_china_news",
+    "job_run_id": "backfill_2026-02-14_dedup-031",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "16210395-ab9d-5e6c-b132-37b4a9a957c9",
+    "item_uuid": "93f0d8d3-8af4-50ae-9450-c71c245e12d5"
+  },
+  "canonical_url": "https://www.scmp.com/news/china/diplomacy/article/3343579/chinas-wang-yi-calls-global-governance-reform-amid-global-turbulence",
+  "source_domain": "www.scmp.com",
+  "body_text": "Chinese FM calls for UN reform at Munich, warns without UN the world reverts to law of the jungle.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

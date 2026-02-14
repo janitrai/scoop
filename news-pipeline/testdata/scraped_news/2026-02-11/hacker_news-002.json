@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "entire.io_blog_hello-entire-world",
+  "title": "Ex-GitHub CEO launches a new developer platform for AI agents",
+  "canonical_url": "https://entire.io/blog/hello-entire-world/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "entire.io",
+  "source_metadata": {
+    "hn_score": 503,
+    "hn_comments": 466,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-002",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "46293b44-eb3e-5539-a505-e18e46ad2c51"
+  }
+}

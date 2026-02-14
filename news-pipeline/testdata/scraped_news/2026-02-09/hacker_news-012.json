@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.bbc.com_news_articles_cvgn2k285ypo",
+  "title": "In the AI gold rush, tech firms are embracing 72-hour weeks",
+  "canonical_url": "https://www.bbc.com/news/articles/cvgn2k285ypo",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "www.bbc.com",
+  "source_metadata": {
+    "hn_score": 56,
+    "hn_comments": 78,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-012",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "3bdc5ff4-ee65-5385-8080-222dfd018124"
+  }
+}

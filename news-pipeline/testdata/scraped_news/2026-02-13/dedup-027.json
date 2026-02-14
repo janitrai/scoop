@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "www.euronews.com_2026_02_12_switzerland-to-vote-on-proposal-to-cap-population-at-10-million-by-2050",
+  "title": "Switzerland to vote on proposal to cap population at 10 million by 2050",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-027",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "c8048360-ddf6-5970-836a-e6672d9677f9"
+  },
+  "canonical_url": "https://www.euronews.com/2026/02/12/switzerland-to-vote-on-proposal-to-cap-population-at-10-million-by-2050",
+  "source_domain": "www.euronews.com",
+  "body_text": "Switzerland will hold a referendum on capping its population at 10 million by 2050, reflecting growing debate over immigration and density.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.githubstatus.com_incidents_54hndjxft5bx",
+  "title": "GitHub is down again",
+  "canonical_url": "https://www.githubstatus.com/incidents/54hndjxft5bx",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.githubstatus.com",
+  "source_metadata": {
+    "hn_score": 495,
+    "hn_comments": 387,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-001",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "6815e293-0484-5ab4-8454-3e200f1ce8f7"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.bbc.com_news_articles_c8d5pl34vv0o",
+  "title": "Hong Kong pro-democracy tycoon Jimmy Lai gets 20 years' jail",
+  "canonical_url": "https://www.bbc.com/news/articles/c8d5pl34vv0o",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "www.bbc.com",
+  "source_metadata": {
+    "hn_score": 207,
+    "hn_comments": 208,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-004",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "53f8f398-9e36-53ec-8bd7-a954446deba9"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "techcrunch.com_2026_02_08_san-franciscos-pro-billionaire-march-draws-dozens",
+  "title": "San Francisco's pro-billionaire march draws dozens",
+  "canonical_url": "https://techcrunch.com/2026/02/08/san-franciscos-pro-billionaire-march-draws-dozens/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "hn_score": 41,
+    "hn_comments": 13,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-014",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "9ecdcf7a-3e8b-5024-a3b1-e442d84b596a"
+  }
+}

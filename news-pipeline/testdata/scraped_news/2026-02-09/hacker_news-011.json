@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.latent.space_p_adversarial-reasoning",
+  "title": "Experts Have World Models. LLMs Have Word Models",
+  "canonical_url": "https://www.latent.space/p/adversarial-reasoning",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "hn_score": 82,
+    "hn_comments": 102,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-011",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "3793c96f-60c8-5828-a490-32689de24774"
+  }
+}

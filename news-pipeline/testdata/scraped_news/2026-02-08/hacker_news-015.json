@@ -1,0 +1,20 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.cbsnews.com_news_pentagon-says-its-cutting-ties-with-woke-harvard-discontinuing-military-training-fellowships",
+  "title": "Pentagon cutting ties w/ \"woke\" Harvard, ending military training & fellowships",
+  "canonical_url": "https://www.cbsnews.com/news/pentagon-says-its-cutting-ties-with-woke-harvard-discontinuing-military-training-fellowships/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "www.cbsnews.com",
+  "source_metadata": {
+    "hn_score": 16,
+    "hn_comments": 7,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-015",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "961685da-47e3-51e9-b621-8463afce4957"
+  },
+  "body_text": "---"
+}

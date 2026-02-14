@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_features_2026_02_so-yeah-i-vibe-coded-a-log-colorizer-and-i-feel-good-about-it",
+  "title": "So yeah, I vibe-coded a log colorizer—and I feel good about it",
+  "canonical_url": "https://arstechnica.com/features/2026/02/so-yeah-i-vibe-coded-a-log-colorizer-and-i-feel-good-about-it/",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_ars_technica_ai-051",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "d0513cf1-77c8-53e6-9c2d-c27a0732c0e5"
+  },
+  "body_text": "Some semi-unhinged musings on where LLMs fit into my life—and how I'll keep using them."
+}

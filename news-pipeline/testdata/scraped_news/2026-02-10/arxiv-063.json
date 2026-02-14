@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "arxiv",
+  "source_item_id": "arxiv.org_abs_2602.09015v1",
+  "title": "CIC-Trap4Phish: A Unified Multi-Format Dataset for Phishing and Quishing Attachment Detection",
+  "canonical_url": "http://arxiv.org/abs/2602.09015v1",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "arxiv.org",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_arxiv-063",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "9f37de64-1b6f-5bc1-b56e-b2643f9ec63f"
+  },
+  "body_text": "[cs.CR, cs.AI] Phishing attacks represents one of the primary attack methods which is used by cyber attackers. In many cases, attackers use deceptive emails along with malicious attachments to trick u"
+}

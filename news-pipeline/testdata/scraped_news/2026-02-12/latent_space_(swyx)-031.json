@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "latent_space_(swyx)",
+  "source_item_id": "www.latent.space_p_boltz",
+  "title": "🔬Beyond AlphaFold: How Boltz is Open-Sourcing the Future of Drug Discovery",
+  "canonical_url": "https://www.latent.space/p/boltz",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "www.latent.space",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_latent_space_(swyx)-031",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "be3e95ec-b60b-51b6-a826-a9b9e25e1cc8"
+  },
+  "body_text": "Inside Boltz, AlphaFold’s Legacy, and the Tools Powering Next-Gen Molecular Discovery"
+}

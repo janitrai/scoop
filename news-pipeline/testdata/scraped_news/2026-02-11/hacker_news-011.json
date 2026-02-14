@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.apricitas.io_p_americas-1t-ai-gamble",
+  "title": "America's $1T AI Gamble",
+  "canonical_url": "https://www.apricitas.io/p/americas-1t-ai-gamble",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "www.apricitas.io",
+  "source_metadata": {
+    "hn_score": 56,
+    "hn_comments": 78,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-011",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "fe671b5b-66a2-5d54-939d-a75064c054e5"
+  }
+}

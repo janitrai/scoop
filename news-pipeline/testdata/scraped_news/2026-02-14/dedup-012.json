@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_ai-news",
+  "source_item_id": "arstechnica.com_ai_2026_02_the-rise-of-moltbook-suggests-viral-ai-prompts-may-be-the-next-big-security-threat",
+  "title": "Self-replicating AI prompts emerge as new security threat via Moltbook",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-14_dedup-012",
+    "scraped_at": "2026-02-14T08:00:00Z",
+    "scrape_run_uuid": "ed115544-2839-56f8-a01c-093a1799f612",
+    "item_uuid": "7ce7f372-200e-500c-a76d-dca2f7ed4ffc"
+  },
+  "canonical_url": "https://arstechnica.com/ai/2026/02/the-rise-of-moltbook-suggests-viral-ai-prompts-may-be-the-next-big-security-threat/",
+  "source_domain": "arstechnica.com",
+  "body_text": "Viral self-replicating prompts identified as the next major AI security concern.",
+  "published_at": "2026-02-14T08:00:00Z"
+}

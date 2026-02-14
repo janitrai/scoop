@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "techcrunch.com_2026_02_05_substack-confirms-data-breach-affecting-email-addresses-and-phone-numbers",
+  "title": "Substack confirms data breach affects users’ email addresses and phone numbers",
+  "canonical_url": "https://techcrunch.com/2026/02/05/substack-confirms-data-breach-affecting-email-addresses-and-phone-numbers/",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "hn_score": 77,
+    "hn_comments": 35,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-008",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "6ff46da3-4e0c-5d73-a2ff-58b92a11607b"
+  }
+}

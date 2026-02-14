@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "haskellforall.com_2026_02_beyond-agentic-coding",
+  "title": "Haskell for all: Beyond agentic coding",
+  "canonical_url": "https://haskellforall.com/2026/02/beyond-agentic-coding",
+  "published_at": "2026-02-08T08:00:00Z",
+  "source_domain": "haskellforall.com",
+  "source_metadata": {
+    "hn_score": 144,
+    "hn_comments": 43,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-08_hacker_news-004",
+    "scraped_at": "2026-02-08T08:00:00Z",
+    "scrape_run_uuid": "5c0af97f-5c44-5684-88a2-c23f8e2bfc86",
+    "item_uuid": "baf3bb5d-49cd-5b8b-978f-198b7cff20d6"
+  }
+}

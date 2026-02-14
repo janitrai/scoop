@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_engineering-more-resilient-crops-for-a-warming-climate",
+  "title": "Engineering more resilient crops for a warming climate",
+  "canonical_url": "https://deepmind.google/blog/engineering-more-resilient-crops-for-a-warming-climate/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_deepmind_blog-027",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "a88ac261-fd07-5dfd-809a-0312aa35593d"
+  },
+  "body_text": "Scientists are using AlphaFold to strengthen a photosynthesis enzyme for resilient, heat-tolerant crops."
+}

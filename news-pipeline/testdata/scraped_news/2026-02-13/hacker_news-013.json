@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.economist.com_interactive_international_2026_02_12_inside-epsteins-network",
+  "title": "Inside Epstein’s network: what 1.4M emails reveal",
+  "canonical_url": "https://www.economist.com/interactive/international/2026/02/12/inside-epsteins-network",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "www.economist.com",
+  "source_metadata": {
+    "hn_score": 93,
+    "hn_comments": 88,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-013",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "5c863a7b-60cf-5014-90c2-52b8424dc044"
+  }
+}

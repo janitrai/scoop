@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "apnews.com_article_faa-el-paso-texas-air-space-closed-1f774bdfd46f5986ff0e7003df709caa",
+  "title": "FAA closes airspace around El Paso, Texas, for 10 days, grounding all flights",
+  "canonical_url": "https://apnews.com/article/faa-el-paso-texas-air-space-closed-1f774bdfd46f5986ff0e7003df709caa",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "apnews.com",
+  "source_metadata": {
+    "hn_score": 332,
+    "hn_comments": 6,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_hacker_news-004",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "179ec570-0d95-5f4a-80dd-5c6f58b8e0a7"
+  }
+}

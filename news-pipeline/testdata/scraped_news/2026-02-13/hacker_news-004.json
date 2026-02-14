@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "openai.com_index_introducing-gpt-5-3-codex-spark",
+  "title": "GPT‑5.3‑Codex‑Spark",
+  "canonical_url": "https://openai.com/index/introducing-gpt-5-3-codex-spark/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "hn_score": 693,
+    "hn_comments": 287,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-004",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "825607c0-0df4-57db-ac21-e631dc4a9ba2"
+  }
+}

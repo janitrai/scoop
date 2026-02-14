@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "openai.com_index_testing-ads-in-chatgpt",
+  "title": "Testing Ads in ChatGPT",
+  "canonical_url": "https://openai.com/index/testing-ads-in-chatgpt/",
+  "published_at": "2026-02-10T08:00:00Z",
+  "source_domain": "openai.com",
+  "source_metadata": {
+    "hn_score": 232,
+    "hn_comments": 312,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-10_hacker_news-002",
+    "scraped_at": "2026-02-10T08:00:00Z",
+    "scrape_run_uuid": "25eef9bb-0c19-5f71-9749-5d716a3c1538",
+    "item_uuid": "97907010-84f8-5590-9e26-e56995aee3cc"
+  }
+}

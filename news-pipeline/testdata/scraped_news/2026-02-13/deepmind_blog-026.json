@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "deepmind_blog",
+  "source_item_id": "deepmind.google_blog_accelerating-mathematical-and-scientific-discovery-with-gemini-deep-think",
+  "title": "Accelerating Mathematical and Scientific Discovery with Gemini Deep Think",
+  "canonical_url": "https://deepmind.google/blog/accelerating-mathematical-and-scientific-discovery-with-gemini-deep-think/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "deepmind.google",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_deepmind_blog-026",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "d56d6fc4-ee37-58fc-81f5-a321e97ddca3"
+  },
+  "body_text": "Research papers point to the growing impact of Deep Think across fields"
+}

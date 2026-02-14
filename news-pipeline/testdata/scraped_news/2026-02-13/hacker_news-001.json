@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "theshamblog.com_an-ai-agent-published-a-hit-piece-on-me",
+  "title": "An AI agent published a hit piece on me",
+  "canonical_url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "theshamblog.com",
+  "source_metadata": {
+    "hn_score": 1717,
+    "hn_comments": 706,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-001",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "ea8f602e-058c-5c5e-b3d9-fc3d227cd5f4"
+  }
+}

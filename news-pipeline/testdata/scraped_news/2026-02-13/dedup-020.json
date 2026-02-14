@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "dedup_world-news",
+  "source_item_id": "notesfrompoland.com_2026_02_12_poland-will-not-be-a-us-vassal-says-pm-tusk",
+  "title": "'Poland will not be a vassal' of America, says PM Tusk",
+  "source_metadata": {
+    "collection": "world_news",
+    "job_name": "fetch_world_news",
+    "job_run_id": "backfill_2026-02-13_dedup-020",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "f974c0a5-0d58-5241-8921-9b41ad1f3ec9",
+    "item_uuid": "f59805b7-4507-5525-b4ac-efce205a0e39"
+  },
+  "canonical_url": "https://notesfrompoland.com/2026/02/12/poland-will-not-be-a-us-vassal-says-pm-tusk/",
+  "source_domain": "notesfrompoland.com",
+  "body_text": "Polish PM Tusk declared Poland will not be a US vassal, asserting European sovereignty amid shifting transatlantic dynamics.",
+  "published_at": "2026-02-13T08:00:00Z"
+}

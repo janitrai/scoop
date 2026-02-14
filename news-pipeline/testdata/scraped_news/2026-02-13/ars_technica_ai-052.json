@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "ars_technica_ai",
+  "source_item_id": "arstechnica.com_information-technology_2026_02_openai-is-hoppin-mad-about-anthropics-new-super-bowl-tv-ads",
+  "title": "OpenAI is hoppin' mad about Anthropic's new Super Bowl TV ads",
+  "canonical_url": "https://arstechnica.com/information-technology/2026/02/openai-is-hoppin-mad-about-anthropics-new-super-bowl-tv-ads/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "arstechnica.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_ars_technica_ai-052",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "ca365258-3c46-5473-af80-5047894f4da8"
+  },
+  "body_text": "Sam Altman calls AI competitor \"dishonest\" and \"authoritarian\" in lengthy post on X."
+}

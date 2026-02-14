@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "simon_willison",
+  "source_item_id": "simonwillison.net_2026_Feb_12_covering-electricity-price-increases",
+  "title": "Covering electricity price increases from our data centers",
+  "canonical_url": "https://simonwillison.net/2026/Feb/12/covering-electricity-price-increases/#atom-everything",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "simonwillison.net",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_simon_willison-033",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "286104ab-fe50-5a28-9b4a-1ee6857a9fc8"
+  },
+  "body_text": "Covering electricity price increases from our data centers One of the sub-threads of the AI energy usage discourse has been the impact new data centers have on the cost of electricity to nearby reside"
+}

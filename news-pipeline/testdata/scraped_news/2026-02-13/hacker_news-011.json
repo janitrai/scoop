@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "lwn.net_Articles_1055590",
+  "title": "The Future for Tyr, a Rust GPU Driver for Arm Mali Hardware",
+  "canonical_url": "https://lwn.net/Articles/1055590/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "lwn.net",
+  "source_metadata": {
+    "hn_score": 125,
+    "hn_comments": 41,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-011",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "e7530ebc-261f-5dc4-9d69-046b82f107bf"
+  }
+}

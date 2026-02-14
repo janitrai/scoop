@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "www.blundergoat.com_articles_ai-makes-the-easy-part-easier-and-the-hard-part-harder",
+  "title": "AI makes the easy part easier and the hard part harder",
+  "canonical_url": "https://www.blundergoat.com/articles/ai-makes-the-easy-part-easier-and-the-hard-part-harder",
+  "published_at": "2026-02-09T08:00:00Z",
+  "source_domain": "www.blundergoat.com",
+  "source_metadata": {
+    "hn_score": 300,
+    "hn_comments": 228,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-09_hacker_news-002",
+    "scraped_at": "2026-02-09T08:00:00Z",
+    "scrape_run_uuid": "a5f6ae28-f92f-5794-8e2e-f47f38d07530",
+    "item_uuid": "00c70e6f-82d6-593b-ae5d-d81f11714804"
+  }
+}

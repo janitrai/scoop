@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "worksinprogress.co_issue_fixing-retail-with-land-value-capture",
+  "title": "Fixing retail with land value capture",
+  "canonical_url": "https://worksinprogress.co/issue/fixing-retail-with-land-value-capture/",
+  "published_at": "2026-02-13T08:00:00Z",
+  "source_domain": "worksinprogress.co",
+  "source_metadata": {
+    "hn_score": 81,
+    "hn_comments": 122,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-13_hacker_news-014",
+    "scraped_at": "2026-02-13T08:00:00Z",
+    "scrape_run_uuid": "34a74daf-03ac-56c4-b9ad-2fdcf6010f30",
+    "item_uuid": "b1cfcfde-57f5-57c1-9522-65588df0e6aa"
+  }
+}

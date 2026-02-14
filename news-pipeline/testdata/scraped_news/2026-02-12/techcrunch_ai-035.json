@@ -1,0 +1,18 @@
+{
+  "payload_version": "v1",
+  "source": "techcrunch_ai",
+  "source_item_id": "techcrunch.com_2026_02_11_xai-lays-out-interplanetary-ambitions-in-public-all-hands",
+  "title": "xAI lays out interplanetary ambitions in public all-hands",
+  "canonical_url": "https://techcrunch.com/2026/02/11/xai-lays-out-interplanetary-ambitions-in-public-all-hands/",
+  "published_at": "2026-02-12T08:00:00Z",
+  "source_domain": "techcrunch.com",
+  "source_metadata": {
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-12_techcrunch_ai-035",
+    "scraped_at": "2026-02-12T08:00:00Z",
+    "scrape_run_uuid": "2ef688ef-8547-5a9b-a018-9a615119d729",
+    "item_uuid": "f3df6e7e-41a5-558c-b1d5-bde58619820f"
+  },
+  "body_text": "On Wednesday, xAI took the rare step of publishing its full 45-minute all-hands presentation to the X platform, making it widely available."
+}

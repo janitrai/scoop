@@ -1,0 +1,19 @@
+{
+  "payload_version": "v1",
+  "source": "hacker_news",
+  "source_item_id": "github.com_openai_codex_issues_11189",
+  "title": "GPT-5.3-Codex being routed to GPT-5.2",
+  "canonical_url": "https://github.com/openai/codex/issues/11189",
+  "published_at": "2026-02-11T08:00:00Z",
+  "source_domain": "github.com",
+  "source_metadata": {
+    "hn_score": 52,
+    "hn_comments": 20,
+    "collection": "ai_news",
+    "job_name": "fetch_ai_news",
+    "job_run_id": "backfill_2026-02-11_hacker_news-013",
+    "scraped_at": "2026-02-11T08:00:00Z",
+    "scrape_run_uuid": "f9b8f6c2-84b0-52f8-b350-bca500039052",
+    "item_uuid": "afab926a-1eb6-536c-a93a-5fca91a09015"
+  }
+}
