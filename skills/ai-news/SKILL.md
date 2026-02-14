@@ -73,11 +73,11 @@ The script fetches concurrently from all sources, filters for AI relevance, dedu
 
 ## Raw News Archive
 
-Every fetch saves raw JSON to `~/clawd/ai-news-raw/YYYY-MM-DD.json`. This is the unprocessed data — all stories from all sources, dated.
+Every fetch saves raw JSON to `~/playground/ai-news-raw/YYYY-MM-DD.json`. This is the unprocessed data — all stories from all sources, dated.
 
 ```bash
 # Save raw fetch to archive
-python3 scripts/fetch_news.py --hours 24 --max 20 --format markdown > ~/clawd/ai-news-raw/$(date +%Y-%m-%d).md
+python3 scripts/fetch_news.py --hours 24 --max 20 --format markdown > ~/playground/ai-news-raw/$(date +%Y-%m-%d).md
 ```
 
 This archive feeds into `STATE_OF_AI.md` — but **only the Chairman edits that document**. Never autonomously add to STATE_OF_AI.md.

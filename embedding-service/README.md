@@ -1,18 +1,18 @@
 # embedding-service
 
-Production embedding HTTP service for `news-pipeline`.
+Production embedding HTTP service for `scoop`.
 
 Contract:
 - `POST /embed` with `{"texts":[...],"max_length":512}`
 - `POST /v1/embeddings` with `{"input":[...]}` (OpenAI-compatible)
 - `GET /health`
 
-The service enforces 4096-dimensional vectors so it matches the current `news-pipeline` pgvector schema.
+The service enforces 4096-dimensional vectors so it matches the current `scoop` pgvector schema.
 
 ## Setup
 
 ```bash
-cd ~/clawd/ml/embedding-service
+cd ~/scoop/embedding-service
 uv sync
 ```
 
@@ -32,7 +32,7 @@ uv sync
 ## Quick Checks
 
 ```bash
-cd ~/clawd/ml/embedding-service
+cd ~/scoop/embedding-service
 ./.venv/bin/python main.py --check
 ```
 
@@ -41,14 +41,14 @@ cd ~/clawd/ml/embedding-service
 Deterministic mode (fast local smoke):
 
 ```bash
-cd ~/clawd/ml/embedding-service
+cd ~/scoop/embedding-service
 ./.venv/bin/python main.py --server --backend deterministic --host 0.0.0.0 --port 8844
 ```
 
 Real transformers mode:
 
 ```bash
-cd ~/clawd/ml/embedding-service
+cd ~/scoop/embedding-service
 ./.venv/bin/python main.py --server --backend transformers --host 0.0.0.0 --port 8844
 ```
 
@@ -68,16 +68,16 @@ curl -s http://127.0.0.1:8844/v1/embeddings \
 
 ## Pipeline Integration
 
-Use the embedding service endpoint from `news-pipeline`:
+Use the embedding service endpoint from `scoop`:
 
 ```bash
-cd ~/clawd/news-pipeline
-go run ./cmd/news-pipeline embed --env .env --endpoint http://127.0.0.1:8844/embed
+cd ~/scoop/scoop
+go run ./cmd/scoop embed --env .env --endpoint http://127.0.0.1:8844/embed
 ```
 
 Or for full cycle:
 
 ```bash
-cd ~/clawd/news-pipeline
-go run ./cmd/news-pipeline process --env .env --embed-endpoint http://127.0.0.1:8844/embed
+cd ~/scoop/scoop
+go run ./cmd/scoop process --env .env --embed-endpoint http://127.0.0.1:8844/embed
 ```

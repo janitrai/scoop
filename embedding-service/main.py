@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Embedding service for news-pipeline.
+Embedding service for scoop.
 
 Supports two request formats:
 - POST /embed with {"texts": ["..."], "max_length": 512}
@@ -381,7 +381,7 @@ def create_backend(settings: Settings) -> EmbeddingBackend:
     if backend.dimensions != PIPELINE_VECTOR_DIMENSIONS:
         raise RuntimeError(
             f"backend dimension mismatch: got {backend.dimensions}, expected {PIPELINE_VECTOR_DIMENSIONS} "
-            "for news-pipeline pgvector schema"
+            "for scoop pgvector schema"
         )
     return backend
 
@@ -464,7 +464,7 @@ def run_cli(settings: Settings) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Embedding service for news-pipeline")
+    parser = argparse.ArgumentParser(description="Embedding service for scoop")
     parser.add_argument("--server", action="store_true", help="Run HTTP embedding service")
     parser.add_argument("--check", action="store_true", help="Print runtime check info and exit")
     parser.add_argument("--host", default=_env("EMBED_HOST", DEFAULT_HOST))
