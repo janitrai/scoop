@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings2 } from "lucide-react";
 
-import { buildStoryMetaText, formatCount } from "../lib/viewerFormat";
+import { formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
 
 interface StoriesListPanelProps {
@@ -134,9 +134,9 @@ export function StoriesListPanel({
 
           {!isLoading && !error
             ? stories.map((story) => (
-                <article
-                  key={story.story_uuid}
-                  className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
+              <article
+                key={story.story_uuid}
+                className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
                   onClick={() => onSelectStory(story.story_uuid)}
                   role="button"
                   tabIndex={0}
@@ -146,18 +146,16 @@ export function StoriesListPanel({
                       onSelectStory(story.story_uuid);
                     }
                   }}
-                >
-                  <header>
-                    <div className="story-topline">
-                      <span className="badge collection">{story.collection}</span>
-                      <span className="badge count">{story.item_count} docs</span>
-                    </div>
-                    <h3 className="story-title">{story.title || "(untitled)"}</h3>
-                  </header>
-                  <p className="story-meta">{buildStoryMetaText(story.last_seen_at, story.source_count)}</p>
-                </article>
-              ))
-            : null}
+              >
+                <header>
+                  <h3 className="story-title">{story.title || "(untitled)"}</h3>
+                </header>
+                <p className="story-meta">
+                  {formatCount(story.source_count)} source{story.source_count === 1 ? "" : "s"}
+                </p>
+              </article>
+            ))
+          : null}
 
           {!isLoading && !error ? <div ref={loadTriggerRef} className="stories-load-sentinel" aria-hidden="true" /> : null}
           {isFetchingNextPage ? <p className="muted stories-status">Loading more stories...</p> : null}

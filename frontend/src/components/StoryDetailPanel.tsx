@@ -26,8 +26,9 @@ export function StoryDetailPanel({
 
         {selectedStoryUUID && !isLoading && !error && detail ? (
           <>
+            <h2 className="detail-title">{detail.story.title || "(untitled)"}</h2>
             <p className="detail-meta">
-              {detail.story.collection} • {detail.story.item_count} docs • {detail.story.source_count} sources
+              Collection: {detail.story.collection} • {detail.story.item_count} items • {detail.story.source_count} sources
             </p>
             {detail.story.canonical_url ? (
               <a className="detail-url" href={detail.story.canonical_url} target="_blank" rel="noreferrer">

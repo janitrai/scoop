@@ -1,4 +1,5 @@
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
@@ -301,7 +302,7 @@ export function StoryViewerPage(): JSX.Element {
             onClick={() => moveDay(1)}
             disabled={!dayNav.canGoOlder}
           >
-            &larr;
+            <ChevronLeft className="day-nav-icon" aria-hidden="true" />
           </button>
 
           <button type="button" className="day-current-btn" onClick={openDayPicker}>
@@ -317,7 +318,7 @@ export function StoryViewerPage(): JSX.Element {
             onClick={() => moveDay(-1)}
             disabled={!dayNav.canGoNewer}
           >
-            &rarr;
+            <ChevronRight className="day-nav-icon" aria-hidden="true" />
           </button>
 
           <input
