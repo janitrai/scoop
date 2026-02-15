@@ -189,7 +189,7 @@
   }
 
   .stories-list {
-    @apply gap-2.5 pr-1 pb-10;
+    @apply gap-2.5 pr-1 pb-16;
   }
 
   .detail-content {
@@ -205,7 +205,7 @@
   }
 
   .feed-count-overlay {
-    @apply pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-panel-500 bg-panel-900/90 px-2 py-0.5 font-mono text-[0.68rem] font-bold text-panel-400;
+    @apply pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border border-panel-500 bg-panel-900/90 px-2.5 py-1 font-mono text-[0.68rem] font-bold text-panel-400;
   }
 
   .story-card {
@@ -336,7 +336,7 @@
   }
 
   .app-root-viewer .stories-list {
-    @apply gap-0 pb-10 pr-0;
+    @apply gap-0 pb-16 pr-0;
   }
 
   .app-root-viewer .detail-content {

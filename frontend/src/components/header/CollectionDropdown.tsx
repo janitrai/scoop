@@ -26,7 +26,11 @@ export function CollectionDropdown({
         value={selectedCollection || allCollectionsValue}
         onValueChange={(value) => onCollectionChange(value === allCollectionsValue ? "" : value)}
       >
-        <SelectTrigger className="brand-select-trigger" aria-label={`Collection filter: ${currentCollectionLabel}`}>
+        <SelectTrigger
+          variant="ghost"
+          className="brand-select-trigger"
+          aria-label={`Collection filter: ${currentCollectionLabel}`}
+        >
           <div className="brand-select-label">
             <span className="brand-select-prefix">SCOOP</span>
             <span className="brand-select-separator-dot" aria-hidden="true" />
@@ -45,4 +49,3 @@ export function CollectionDropdown({
     </div>
   );
 }
-
