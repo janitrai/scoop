@@ -342,9 +342,6 @@ export function StoryViewerPage(): JSX.Element {
     }
   }
 
-  const selectedStoryVisible = selectedStoryUUID
-    ? stories.some((story) => story.story_uuid === selectedStoryUUID)
-    : true;
   const currentCollectionLabel = useCurrentCollectionLabel(collections, filters.collection);
 
   useEffect(() => {
@@ -424,7 +421,6 @@ export function StoryViewerPage(): JSX.Element {
             <StoryDetailPanel
               selectedStoryUUID={selectedStoryUUID}
               selectedItemUUID={selectedItemUUID}
-              selectedStoryVisible={selectedStoryVisible}
               detail={detail}
               isLoading={isDetailPending}
               error={detailError}

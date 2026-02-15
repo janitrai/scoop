@@ -8,7 +8,6 @@ import { Button } from "./ui/button";
 interface StoryDetailPanelProps {
   selectedStoryUUID: string;
   selectedItemUUID: string;
-  selectedStoryVisible: boolean;
   detail: StoryDetailResponse | null;
   isLoading: boolean;
   error: string;
@@ -19,7 +18,6 @@ interface StoryDetailPanelProps {
 export function StoryDetailPanel({
   selectedStoryUUID,
   selectedItemUUID,
-  selectedStoryVisible,
   detail,
   isLoading,
   error,
@@ -177,7 +175,6 @@ export function StoryDetailPanel({
     <aside className="panel card detail-panel">
       <div className="detail-content">
         {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged documents.</p> : null}
-        {selectedStoryUUID && !selectedStoryVisible ? <p className="muted">Selected story is not on the current page.</p> : null}
         {selectedStoryUUID && isLoading ? <p className="muted">Fetching story detail...</p> : null}
         {selectedStoryUUID && !isLoading && error ? <p className="muted">{error}</p> : null}
 
