@@ -339,7 +339,8 @@
   }
 
   .app-root-viewer .stories-list {
-    @apply gap-0 pb-16 pr-0;
+    @apply gap-1 pb-16 pl-0 pr-3;
+    scrollbar-gutter: stable;
   }
 
   .app-root-viewer .detail-content {
@@ -362,15 +363,15 @@
   }
 
   .app-root-viewer .story-card {
-    @apply rounded-none border-0 bg-transparent px-3 py-2;
+    @apply mx-0 rounded-[10px] border border-transparent bg-transparent px-3 py-2;
   }
 
   .app-root-viewer .story-card:hover {
-    @apply translate-y-0 bg-brand-500/15;
+    @apply translate-y-0 border-panel-500/70 bg-brand-500/15;
   }
 
   .app-root-viewer .story-card.active {
-    @apply bg-brand-500/20 shadow-none;
+    @apply border-transparent bg-brand-500/20 shadow-none ring-0;
   }
 
   .app-root-viewer .story-meta,
