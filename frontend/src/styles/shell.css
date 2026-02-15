@@ -28,19 +28,71 @@
   }
 
   .topbar-right {
-    @apply flex w-full max-w-[920px] items-center justify-end;
+    @apply flex w-auto max-w-full items-center justify-end;
   }
 
   .topbar-controls {
     @apply flex w-full items-center justify-end gap-2;
   }
 
-  .collection-select {
-    @apply min-w-[220px] max-w-[320px] flex-1;
+  .brand-select {
+    @apply min-w-0 max-w-full;
   }
 
-  .collection-select-trigger {
-    @apply font-mono text-[0.8rem];
+  .brand-select-trigger {
+    @apply h-auto w-auto gap-1.5 rounded-[10px] border border-transparent bg-transparent px-1.5 py-1 text-left shadow-none transition-colors duration-150;
+    border-color: transparent !important;
+    background-color: transparent !important;
+    white-space: nowrap;
+  }
+
+  .brand-select-trigger:hover,
+  .brand-select-trigger[data-state="open"] {
+    @apply border-panel-500 bg-panel-700/70;
+    border-color: #2a3443 !important;
+    background-color: rgba(43, 55, 72, 0.7) !important;
+  }
+
+  .brand-select-trigger:focus-visible {
+    @apply border-brand-500/60 ring-2 ring-brand-500/35;
+  }
+
+  .brand-select-trigger > svg {
+    @apply ml-1 h-4 w-4 shrink-0 text-panel-400 opacity-85 transition duration-150;
+  }
+
+  .brand-select-trigger:hover > svg,
+  .brand-select-trigger[data-state="open"] > svg {
+    @apply text-panel-100 opacity-100;
+  }
+
+  .brand-select-label {
+    @apply inline-flex min-w-0 items-center whitespace-nowrap;
+    line-height: 1;
+  }
+
+  .brand-select-prefix {
+    @apply mr-2 shrink-0 whitespace-nowrap font-display text-[clamp(1rem,2vw,1.35rem)] font-bold tracking-[0.08em] text-panel-100;
+  }
+
+  .brand-select-separator-dot {
+    @apply block h-1.5 w-1.5 shrink-0 self-center rounded-full transition-colors duration-150;
+    margin-inline: 0.6rem;
+    background-color: #637081;
+  }
+
+  .brand-select-current {
+    @apply whitespace-nowrap font-display text-[clamp(1rem,2vw,1.35rem)] font-normal tracking-[0.08em] text-panel-400 transition-colors duration-150;
+  }
+
+  .brand-select-trigger:hover .brand-select-separator-dot,
+  .brand-select-trigger[data-state="open"] .brand-select-separator-dot {
+    background-color: #8f9db0;
+  }
+
+  .brand-select-trigger:hover .brand-select-current,
+  .brand-select-trigger[data-state="open"] .brand-select-current {
+    @apply text-panel-100;
   }
 
   .collection-select-content {
@@ -48,6 +100,6 @@
   }
 
   .app-root-viewer .topbar {
-    @apply mb-0 rounded-none border-x-0 border-t-0 px-3 py-2 shadow-none;
+    @apply mb-0 flex-nowrap rounded-none border-x-0 border-t-0 px-3 py-2 shadow-none;
   }
 }

@@ -9,7 +9,7 @@ import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { Button } from "./components/ui/button";
 import { Calendar } from "./components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "./components/ui/select";
 import { useViewerQueries } from "./hooks/useViewerQueries";
 import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
 import { formatCalendarDay, formatCount, formatRelativeDay } from "./lib/viewerFormat";
@@ -279,89 +279,99 @@ export function StoryViewerPage(): JSX.Element {
   const selectedStoryVisible = selectedStoryUUID
     ? stories.some((story) => story.story_uuid === selectedStoryUUID)
     : true;
+  const currentCollectionLabel = useMemo(() => {
+    if (!filters.collection) {
+      return "All collections";
+    }
+    const current = collections.find((row) => row.collection === filters.collection);
+    return current?.collection || filters.collection;
+  }, [collections, filters.collection]);
   const pickerDay = selectedDay || dayNav.navigatorDay;
   const pickerDate = useMemo(() => parseDayString(pickerDay), [pickerDay]);
 
+  const headerLeft = (
+    <div className="brand-select">
+      <Select
+        value={filters.collection || allCollectionsValue}
+        onValueChange={(value) => onCollectionChange(value === allCollectionsValue ? "" : value)}
+      >
+        <SelectTrigger className="brand-select-trigger" aria-label={`Collection filter: ${currentCollectionLabel}`}>
+          <div className="brand-select-label">
+            <span className="brand-select-prefix">SCOOP</span>
+            <span className="brand-select-separator-dot" aria-hidden="true" />
+            <span className="brand-select-current">{currentCollectionLabel}</span>
+          </div>
+        </SelectTrigger>
+        <SelectContent className="collection-select-content">
+          <SelectItem value={allCollectionsValue}>{allCollectionsLabel}</SelectItem>
+          {collections.map((row) => (
+            <SelectItem key={row.collection} value={row.collection}>
+              {row.collection} ({formatCount(row.stories)})
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+
   const headerRight = (
-    <div className="topbar-controls">
-      <div className="collection-select">
-        <Select
-          value={filters.collection || allCollectionsValue}
-          onValueChange={(value) => onCollectionChange(value === allCollectionsValue ? "" : value)}
+    <div className="topbar-day">
+      <div className="day-nav">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="day-nav-btn"
+          aria-label="Older day"
+          onClick={() => moveDay(1)}
+          disabled={!dayNav.canGoOlder}
         >
-          <SelectTrigger className="collection-select-trigger" aria-label="Collection filter">
-            <SelectValue placeholder={allCollectionsLabel} />
-          </SelectTrigger>
-          <SelectContent className="collection-select-content">
-            <SelectItem value={allCollectionsValue}>{allCollectionsLabel}</SelectItem>
-            {collections.map((row) => (
-              <SelectItem key={row.collection} value={row.collection}>
-                {row.collection} ({formatCount(row.stories)})
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+          <ChevronLeft className="day-nav-icon" aria-hidden="true" />
+        </Button>
 
-      <div className="topbar-day">
-        <div className="day-nav">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="day-nav-btn"
-            aria-label="Older day"
-            onClick={() => moveDay(1)}
-            disabled={!dayNav.canGoOlder}
-          >
-            <ChevronLeft className="day-nav-icon" aria-hidden="true" />
-          </Button>
+        <Popover open={isDayPickerOpen} onOpenChange={setIsDayPickerOpen}>
+          <PopoverTrigger asChild>
+            <Button type="button" variant="outline" className="day-current-btn">
+              <span className="day-current-line">
+                {dayNav.currentLabel} • {dayNav.relativeLabel}
+              </span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="day-popover" align="end" sideOffset={8}>
+            <Calendar
+              key={pickerDay || "no-day"}
+              mode="single"
+              selected={pickerDate}
+              defaultMonth={pickerDate}
+              onSelect={(value) => {
+                if (!value) {
+                  return;
+                }
+                setSingleDayFilter(toDayString(value));
+                setIsDayPickerOpen(false);
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
 
-          <Popover open={isDayPickerOpen} onOpenChange={setIsDayPickerOpen}>
-            <PopoverTrigger asChild>
-              <Button type="button" variant="outline" className="day-current-btn">
-                <span className="day-current-line">
-                  {dayNav.currentLabel} • {dayNav.relativeLabel}
-                </span>
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="day-popover" align="end" sideOffset={8}>
-              <Calendar
-                key={pickerDay || "no-day"}
-                mode="single"
-                selected={pickerDate}
-                defaultMonth={pickerDate}
-                onSelect={(value) => {
-                  if (!value) {
-                    return;
-                  }
-                  setSingleDayFilter(toDayString(value));
-                  setIsDayPickerOpen(false);
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="day-nav-btn"
-            aria-label="Newer day"
-            onClick={() => moveDay(-1)}
-            disabled={!dayNav.canGoNewer}
-          >
-            <ChevronRight className="day-nav-icon" aria-hidden="true" />
-          </Button>
-
-        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="day-nav-btn"
+          aria-label="Newer day"
+          onClick={() => moveDay(-1)}
+          disabled={!dayNav.canGoNewer}
+        >
+          <ChevronRight className="day-nav-icon" aria-hidden="true" />
+        </Button>
       </div>
     </div>
   );
 
   return (
-    <PageShell variant="viewer" headerRight={headerRight}>
+    <PageShell variant="viewer" headerLeft={headerLeft} headerRight={headerRight}>
       {globalError ? <p className="banner-error">{globalError}</p> : null}
 
       <main className="layout">

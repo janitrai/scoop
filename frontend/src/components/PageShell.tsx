@@ -4,11 +4,12 @@ import { AppHeader } from "./AppHeader";
 
 interface PageShellProps {
   variant?: "viewer" | "stats";
+  headerLeft?: ReactNode;
   headerRight?: ReactNode;
   children: ReactNode;
 }
 
-export function PageShell({ variant = "viewer", headerRight, children }: PageShellProps): JSX.Element {
+export function PageShell({ variant = "viewer", headerLeft, headerRight, children }: PageShellProps): JSX.Element {
   const classNames = ["app-root"];
   if (variant === "viewer") {
     classNames.push("app-root-viewer");
@@ -19,7 +20,7 @@ export function PageShell({ variant = "viewer", headerRight, children }: PageShe
 
   return (
     <div className={classNames.join(" ")}>
-      <AppHeader rightSlot={headerRight} />
+      <AppHeader leftSlot={headerLeft} rightSlot={headerRight} />
       {children}
     </div>
   );
