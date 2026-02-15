@@ -38,8 +38,22 @@
   }
 
   .brand-select-trigger {
-    @apply h-auto w-auto gap-1.5 whitespace-nowrap rounded-[10px] border border-transparent bg-transparent px-3 py-2 text-left shadow-none transition-colors duration-150;
-    @apply hover:border-panel-500 hover:bg-panel-700/70 data-[state=open]:border-panel-500 data-[state=open]:bg-panel-700/70;
+    @apply relative h-auto w-auto gap-1.5 whitespace-nowrap border-0 bg-transparent px-0 py-0 text-left shadow-none transition-colors duration-150;
+  }
+
+  .brand-select-trigger::before {
+    content: "";
+    @apply pointer-events-none absolute inset-y-[-0.5rem] inset-x-[-0.75rem] rounded-[10px] border border-transparent bg-transparent transition-colors duration-150;
+  }
+
+  .brand-select-trigger:hover::before,
+  .brand-select-trigger[data-state="open"]::before {
+    @apply border-panel-500 bg-panel-700/70;
+  }
+
+  .brand-select-trigger > svg,
+  .brand-select-label {
+    @apply relative z-[1];
   }
 
   .brand-select-trigger:focus-visible {
@@ -56,16 +70,20 @@
   }
 
   .brand-select-label {
-    @apply inline-flex min-w-0 items-center whitespace-nowrap;
+    @apply inline-flex min-w-0 items-center gap-2.5 whitespace-nowrap;
     line-height: 1;
   }
 
   .brand-select-prefix {
-    @apply mr-2 shrink-0 whitespace-nowrap font-display text-[clamp(1rem,2vw,1.35rem)] font-bold tracking-[0.08em] text-panel-100;
+    @apply shrink-0 whitespace-nowrap font-display text-[clamp(1rem,2vw,1.35rem)] font-bold tracking-[0.08em] text-panel-100;
+  }
+
+  .brand-select-separator-wrap {
+    @apply inline-flex h-[1em] w-[1em] shrink-0 items-center justify-center;
   }
 
   .brand-select-separator-dot {
-    @apply mx-2.5 block h-1.5 w-1.5 shrink-0 self-center rounded-full bg-panel-400 transition-colors duration-150;
+    @apply block h-1.5 w-1.5 rounded-full bg-panel-400 transition-colors duration-150;
   }
 
   .brand-select-current {

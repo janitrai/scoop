@@ -33,7 +33,9 @@ export function CollectionDropdown({
         >
           <div className="brand-select-label">
             <span className="brand-select-prefix">SCOOP</span>
-            <span className="brand-select-separator-dot" aria-hidden="true" />
+            <span className="brand-select-separator-wrap" aria-hidden="true">
+              <span className="brand-select-separator-dot" />
+            </span>
             <span className="brand-select-current">{currentCollectionLabel}</span>
           </div>
         </SelectTrigger>
