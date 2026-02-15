@@ -230,6 +230,14 @@ export function StoryViewerPage(): JSX.Element {
     ? stories.some((story) => story.story_uuid === selectedStoryUUID)
     : true;
   const currentCollectionLabel = useCurrentCollectionLabel(collections, filters.collection);
+
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+    document.title = `Scoop • ${currentCollectionLabel}`;
+  }, [currentCollectionLabel]);
+
   const pickerDay = selectedDay || dayNav.navigatorDay;
   const headerLeft = (
     <CollectionDropdown

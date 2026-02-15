@@ -213,7 +213,6 @@
   }
 
   .story-card:hover {
-    @apply -translate-y-px border-brand-500/60;
   }
 
   .story-card.active {
@@ -252,12 +251,54 @@
     @apply rounded-[10px] border border-panel-500 bg-panel-650 p-2.5;
   }
 
+  .member-card-clickable {
+    @apply cursor-pointer transition-colors duration-150;
+  }
+
+  .member-card-clickable:hover {
+    @apply border-brand-500/60 bg-brand-500/10;
+  }
+
+  .member-card-clickable:focus-visible {
+    @apply border-brand-500/70 outline-none ring-2 ring-brand-500/35;
+  }
+
   .member-head {
     @apply m-0 font-news text-[0.86rem] font-semibold;
   }
 
+  .member-preview {
+    @apply mb-0 mt-1.5 text-[0.84rem] leading-[1.45] text-panel-100/85;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .member-sub {
     @apply mb-0 mt-1.5 font-mono text-[0.74rem] text-panel-400;
+  }
+
+  .detail-item-nav {
+    @apply mb-0 mt-0;
+  }
+
+  .detail-back-btn {
+    @apply inline-flex h-8 items-center gap-2 rounded-[10px] border border-panel-500 bg-panel-700 px-2.5 text-panel-100;
+  }
+
+  .detail-back-btn:hover {
+    @apply border-brand-500/60 bg-brand-500/15;
+  }
+
+  .detail-item-content {
+    @apply mt-2 rounded-[10px] border border-panel-500 bg-panel-700/50 p-3;
+  }
+
+  .detail-item-content-text {
+    @apply m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.55] text-panel-100;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .decision-pill {
@@ -367,7 +408,7 @@
   }
 
   .app-root-viewer .story-card:hover {
-    @apply translate-y-0 border-panel-500/70 bg-brand-500/15;
+    @apply bg-brand-500/15;
   }
 
   .app-root-viewer .story-card.active {
@@ -388,12 +429,45 @@
     @apply rounded-none border-0 bg-transparent px-5 py-4;
   }
 
+  .app-root-viewer .member-card-clickable:hover {
+    @apply bg-brand-500/10;
+  }
+
+  .app-root-viewer .member-card-clickable:focus-visible {
+    @apply ring-0;
+  }
+
   .app-root-viewer .member-card > * {
     @apply px-0;
   }
 
+  .app-root-viewer .member-preview {
+    @apply mt-1.5;
+  }
+
+  .app-root-viewer .detail-item-nav {
+    @apply px-5 pt-3 pb-2;
+  }
+
+  .app-root-viewer .detail-back-btn {
+    @apply h-8 rounded-full border-panel-500 bg-panel-800 px-3 text-[0.78rem];
+  }
+
+  .app-root-viewer .detail-item-content {
+    @apply mx-5 mb-4 mt-2 rounded-[12px] border border-panel-500 bg-panel-800/80 p-4;
+  }
+
+  .app-root-viewer .detail-item-content-text {
+    @apply text-[0.94rem] leading-[1.6];
+  }
+
   .app-root-viewer .detail-content > * {
     @apply px-5;
+  }
+
+  .app-root-viewer .detail-content > .detail-item-nav,
+  .app-root-viewer .detail-content > .detail-item-content {
+    @apply px-0;
   }
 
   .app-root-viewer .detail-content > .member-grid {

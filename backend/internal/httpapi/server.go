@@ -80,6 +80,7 @@ type storyMemberItem struct {
 	CanonicalURL         *string        `json:"canonical_url,omitempty"`
 	PublishedAt          *time.Time     `json:"published_at,omitempty"`
 	NormalizedTitle      string         `json:"normalized_title"`
+	NormalizedText       string         `json:"normalized_text,omitempty"`
 	SourceDomain         *string        `json:"source_domain,omitempty"`
 	MatchedAt            time.Time      `json:"matched_at"`
 	MatchType            string         `json:"match_type"`
@@ -602,6 +603,7 @@ SELECT
 	d.canonical_url,
 	d.published_at,
 	d.normalized_title,
+	d.normalized_text,
 	d.source_domain,
 	sm.matched_at,
 	sm.match_type::text,
@@ -643,6 +645,7 @@ ORDER BY sm.matched_at DESC
 			&member.CanonicalURL,
 			&member.PublishedAt,
 			&member.NormalizedTitle,
+			&member.NormalizedText,
 			&member.SourceDomain,
 			&member.MatchedAt,
 			&member.MatchType,

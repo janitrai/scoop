@@ -44,6 +44,7 @@ export interface StoryMemberItem {
   canonical_url?: string;
   published_at?: string;
   normalized_title: string;
+  normalized_text?: string;
   source_domain?: string;
   matched_at: string;
   match_type: string;
