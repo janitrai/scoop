@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Settings2 } from "lucide-react";
+import { Settings2, X } from "lucide-react";
 
 import { formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 interface StoriesListPanelProps {
   searchInput: string;
@@ -81,46 +83,51 @@ export function StoriesListPanel({
             <span className="finder-icon" aria-hidden="true">
               /
             </span>
-            <input
+            <Input
               value={searchInput}
               onChange={(event) => onSearchInputChange(event.target.value)}
               type="text"
               placeholder="Search stories (title or URL)"
               aria-label="Search stories"
+              className="finder-input !h-auto !border-0 !bg-transparent !p-0 focus-visible:!ring-0"
             />
             {searchInput ? (
-              <button
+              <Button
                 type="button"
-                className="finder-clear"
+                variant="ghost"
+                size="icon"
+                className="finder-clear-btn !h-6 !w-6"
                 onClick={() => onSearchInputChange("")}
                 aria-label="Clear search"
               >
-                x
-              </button>
+                <X className="h-4 w-4" aria-hidden="true" />
+              </Button>
             ) : null}
           </div>
 
-          <button
+          <Button
             className={`finder-advanced-icon ${showAdvancedSearch ? "active" : ""}`.trim()}
             type="button"
+            variant="ghost"
+            size="icon"
             aria-label="Toggle advanced search"
             aria-pressed={showAdvancedSearch}
             onClick={() => setShowAdvancedSearch((value) => !value)}
           >
-            <Settings2 size={18} strokeWidth={1.9} aria-hidden="true" />
-          </button>
+            <Settings2 className="h-5 w-5" strokeWidth={1.9} aria-hidden="true" />
+          </Button>
         </div>
 
         {showAdvancedSearch ? (
           <div className="advanced-row">
             <label className="field field-small">
               <span>From</span>
-              <input value={from} onChange={(event) => onFromChange(event.target.value)} type="date" />
+              <Input value={from} onChange={(event) => onFromChange(event.target.value)} type="date" />
             </label>
 
             <label className="field field-small">
               <span>To</span>
-              <input value={to} onChange={(event) => onToChange(event.target.value)} type="date" />
+              <Input value={to} onChange={(event) => onToChange(event.target.value)} type="date" />
             </label>
           </div>
         ) : null}
@@ -134,9 +141,9 @@ export function StoriesListPanel({
 
           {!isLoading && !error
             ? stories.map((story) => (
-              <article
-                key={story.story_uuid}
-                className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
+                <article
+                  key={story.story_uuid}
+                  className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
                   onClick={() => onSelectStory(story.story_uuid)}
                   role="button"
                   tabIndex={0}
@@ -146,16 +153,16 @@ export function StoriesListPanel({
                       onSelectStory(story.story_uuid);
                     }
                   }}
-              >
-                <header>
-                  <h3 className="story-title">{story.title || "(untitled)"}</h3>
-                </header>
-                <p className="story-meta">
-                  {formatCount(story.source_count)} source{story.source_count === 1 ? "" : "s"}
-                </p>
-              </article>
-            ))
-          : null}
+                >
+                  <header>
+                    <h3 className="story-title">{story.title || "(untitled)"}</h3>
+                  </header>
+                  <p className="story-meta">
+                    {formatCount(story.source_count)} source{story.source_count === 1 ? "" : "s"}
+                  </p>
+                </article>
+              ))
+            : null}
 
           {!isLoading && !error ? <div ref={loadTriggerRef} className="stories-load-sentinel" aria-hidden="true" /> : null}
           {isFetchingNextPage ? <p className="muted stories-status">Loading more stories...</p> : null}

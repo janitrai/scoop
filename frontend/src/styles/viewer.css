@@ -23,15 +23,15 @@
     @apply font-mono text-[0.82rem] font-bold text-panel-400;
   }
 
-  .finder-input-wrap input {
-    @apply w-full border-0 bg-transparent px-0 py-0 text-[0.9rem] text-panel-100 outline-none;
+  .finder-input {
+    @apply w-full text-[0.9rem] text-panel-100;
   }
 
-  .finder-clear {
-    @apply cursor-pointer border-0 bg-transparent px-1 font-mono text-[0.8rem] font-bold uppercase text-panel-400;
+  .finder-clear-btn {
+    @apply text-panel-400;
   }
 
-  .finder-clear:hover {
+  .finder-clear-btn:hover {
     @apply text-panel-100;
   }
 
@@ -116,8 +116,8 @@
     @apply border-brand-500/60 ring-2 ring-brand-500/35;
   }
 
-  .day-picker-input {
-    @apply pointer-events-none absolute h-px w-px opacity-0;
+  .day-popover {
+    @apply w-auto border-panel-500 bg-panel-800 p-1.5;
   }
 
   .topbar-day {

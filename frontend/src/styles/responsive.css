@@ -23,7 +23,7 @@
     @apply w-full flex-wrap justify-stretch;
   }
 
-  .collection-picker {
+  .collection-select {
     @apply min-w-0 max-w-none flex-none basis-full;
   }
 

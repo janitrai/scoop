@@ -1,18 +1,46 @@
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
 import { PageShell } from "./components/PageShell";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
+import { Button } from "./components/ui/button";
+import { Calendar } from "./components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
 import { useViewerQueries } from "./hooks/useViewerQueries";
 import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
 import { formatCalendarDay, formatCount, formatRelativeDay } from "./lib/viewerFormat";
 import type { DayNavigationState, ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
 
+function parseDayString(value: string): Date | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const [yearText, monthText, dayText] = value.split("-");
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const day = Number(dayText);
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return undefined;
+  }
+
+  return new Date(year, month - 1, day);
+}
+
+function toDayString(value: Date): string {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, "0");
+  const day = String(value.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function StoryViewerPage(): JSX.Element {
+  const allCollectionsValue = "__all_collections__";
   const navigate = useNavigate();
   const rawSearch = useSearch({ strict: false });
   const rawParams = useParams({ strict: false }) as { storyUUID?: string };
@@ -26,6 +54,7 @@ export function StoryViewerPage(): JSX.Element {
   const selectedStoryUUID = typeof rawParams.storyUUID === "string" ? rawParams.storyUUID : "";
 
   const [searchInput, setSearchInput] = useState(filters.query);
+  const [isDayPickerOpen, setIsDayPickerOpen] = useState(false);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
@@ -33,8 +62,6 @@ export function StoryViewerPage(): JSX.Element {
     }
     return window.matchMedia("(min-width: 1021px)").matches;
   });
-  const dayPickerRef = useRef<HTMLInputElement | null>(null);
-
   useEffect(() => {
     setSearchInput(filters.query);
   }, [filters.query]);
@@ -225,25 +252,6 @@ export function StoryViewerPage(): JSX.Element {
     setSingleDayFilter(nextDay);
   }
 
-  function openDayPicker(): void {
-    const picker = dayPickerRef.current;
-    if (!picker) {
-      return;
-    }
-
-    const anchorDay = selectedDay || dayNav.navigatorDay || new Date().toISOString().slice(0, 10);
-    picker.value = anchorDay;
-
-    const pickerWithShow = picker as HTMLInputElement & { showPicker?: () => void };
-    if (typeof pickerWithShow.showPicker === "function") {
-      pickerWithShow.showPicker();
-      return;
-    }
-
-    picker.focus();
-    picker.click();
-  }
-
   function onCollectionChange(collection: string): void {
     applySearch({
       ...viewerSearch,
@@ -271,71 +279,82 @@ export function StoryViewerPage(): JSX.Element {
   const selectedStoryVisible = selectedStoryUUID
     ? stories.some((story) => story.story_uuid === selectedStoryUUID)
     : true;
+  const pickerDay = selectedDay || dayNav.navigatorDay;
+  const pickerDate = useMemo(() => parseDayString(pickerDay), [pickerDay]);
 
   const headerRight = (
     <div className="topbar-controls">
-      <label className="collection-picker" aria-label="Collection filter">
-        <span className="sr-only">Collection</span>
-        <select
-          className="collection-picker-select"
-          value={filters.collection}
-          onChange={(event) => onCollectionChange(event.target.value)}
+      <div className="collection-select">
+        <Select
+          value={filters.collection || allCollectionsValue}
+          onValueChange={(value) => onCollectionChange(value === allCollectionsValue ? "" : value)}
         >
-          <option value="">{allCollectionsLabel}</option>
-          {collections.map((row) => (
-            <option key={row.collection} value={row.collection}>
-              {row.collection} ({formatCount(row.stories)})
-            </option>
-          ))}
-        </select>
-        <span className="collection-picker-caret" aria-hidden="true">
-          ▾
-        </span>
-      </label>
+          <SelectTrigger className="collection-select-trigger" aria-label="Collection filter">
+            <SelectValue placeholder={allCollectionsLabel} />
+          </SelectTrigger>
+          <SelectContent className="collection-select-content">
+            <SelectItem value={allCollectionsValue}>{allCollectionsLabel}</SelectItem>
+            {collections.map((row) => (
+              <SelectItem key={row.collection} value={row.collection}>
+                {row.collection} ({formatCount(row.stories)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="topbar-day">
         <div className="day-nav">
-          <button
+          <Button
             type="button"
-            className="btn btn-subtle day-nav-btn"
+            variant="outline"
+            size="icon"
+            className="day-nav-btn"
             aria-label="Older day"
             onClick={() => moveDay(1)}
             disabled={!dayNav.canGoOlder}
           >
             <ChevronLeft className="day-nav-icon" aria-hidden="true" />
-          </button>
+          </Button>
 
-          <button type="button" className="day-current-btn" onClick={openDayPicker}>
-            <span className="day-current-line">
-              {dayNav.currentLabel} • {dayNav.relativeLabel}
-            </span>
-          </button>
+          <Popover open={isDayPickerOpen} onOpenChange={setIsDayPickerOpen}>
+            <PopoverTrigger asChild>
+              <Button type="button" variant="outline" className="day-current-btn">
+                <span className="day-current-line">
+                  {dayNav.currentLabel} • {dayNav.relativeLabel}
+                </span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="day-popover" align="end" sideOffset={8}>
+              <Calendar
+                key={pickerDay || "no-day"}
+                mode="single"
+                selected={pickerDate}
+                defaultMonth={pickerDate}
+                onSelect={(value) => {
+                  if (!value) {
+                    return;
+                  }
+                  setSingleDayFilter(toDayString(value));
+                  setIsDayPickerOpen(false);
+                }}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
 
-          <button
+          <Button
             type="button"
-            className="btn btn-subtle day-nav-btn"
+            variant="outline"
+            size="icon"
+            className="day-nav-btn"
             aria-label="Newer day"
             onClick={() => moveDay(-1)}
             disabled={!dayNav.canGoNewer}
           >
             <ChevronRight className="day-nav-icon" aria-hidden="true" />
-          </button>
+          </Button>
 
-          <input
-            ref={(node) => {
-              dayPickerRef.current = node;
-            }}
-            className="day-picker-input"
-            type="date"
-            aria-hidden="true"
-            tabIndex={-1}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return;
-              }
-              setSingleDayFilter(event.target.value);
-            }}
-          />
         </div>
       </div>
     </div>

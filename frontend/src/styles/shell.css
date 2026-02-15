@@ -35,20 +35,16 @@
     @apply flex w-full items-center justify-end gap-2;
   }
 
-  .collection-picker {
-    @apply relative min-w-[220px] max-w-[320px] flex-1;
+  .collection-select {
+    @apply min-w-[220px] max-w-[320px] flex-1;
   }
 
-  .collection-picker-select {
-    @apply h-10 w-full appearance-none rounded-[10px] border border-panel-500 bg-panel-600 pl-3 pr-8 font-mono text-[0.8rem] text-panel-100 outline-none;
+  .collection-select-trigger {
+    @apply font-mono text-[0.8rem];
   }
 
-  .collection-picker-select:focus {
-    @apply border-brand-500 ring-2 ring-brand-500/35;
-  }
-
-  .collection-picker-caret {
-    @apply pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-panel-400;
+  .collection-select-content {
+    @apply font-mono text-[0.8rem];
   }
 
   .app-root-viewer .topbar {
