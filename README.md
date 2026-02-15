@@ -40,6 +40,9 @@ In plain terms: many items can collapse into one story, while still keeping ever
 
 ```bash
 cd backend
+```
+
+```bash
 go run ./cmd/scoop serve --env .env --host 0.0.0.0 --port 8090
 ```
 
@@ -47,7 +50,13 @@ go run ./cmd/scoop serve --env .env --host 0.0.0.0 --port 8090
 
 ```bash
 cd frontend
+```
+
+```bash
 pnpm install
+```
+
+```bash
 pnpm dev
 ```
 
@@ -64,6 +73,9 @@ Vite proxies `/api/*` to `http://127.0.0.1:8090` by default.
 
 ```bash
 cd backend
+```
+
+```bash
 go run ./cmd/scoop ingest --env .env --payload-file /path/to/item.json --triggered-by-topic ai_news
 ```
 
@@ -71,6 +83,9 @@ go run ./cmd/scoop ingest --env .env --payload-file /path/to/item.json --trigger
 
 ```bash
 cd backend
+```
+
+```bash
 go run ./cmd/scoop process --env .env
 ```
 

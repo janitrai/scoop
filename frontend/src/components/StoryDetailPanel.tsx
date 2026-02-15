@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
+import { getStoryItemPreview } from "../api";
 import { buildMemberSubtitle, formatDateTime } from "../lib/viewerFormat";
-import type { StoryDetailResponse } from "../types";
+import type { StoryDetailResponse, StoryItemPreview, StoryMemberItem } from "../types";
 
 interface StoryDetailPanelProps {
   selectedStoryUUID: string;
@@ -14,6 +15,40 @@ interface StoryDetailPanelProps {
   onClearSelectedItem: () => void;
 }
 
+function pruneRecord<T>(record: Record<string, T>, validIDs: Set<string>): Record<string, T> {
+  const next: Record<string, T> = {};
+  let changed = false;
+
+  for (const [key, value] of Object.entries(record)) {
+    if (validIDs.has(key)) {
+      next[key] = value;
+      continue;
+    }
+    changed = true;
+  }
+
+  if (!changed && Object.keys(next).length === Object.keys(record).length) {
+    return record;
+  }
+  return next;
+}
+
+interface MemberURLGroup {
+  key: string;
+  canonicalURL: string;
+  members: StoryMemberItem[];
+  representative: StoryMemberItem;
+  sourceCount: number;
+}
+
+function memberGroupKey(member: StoryMemberItem): string {
+  const canonicalURL = member.canonical_url?.trim().toLowerCase() ?? "";
+  if (canonicalURL) {
+    return `url:${canonicalURL}`;
+  }
+  return `member:${member.story_member_uuid}`;
+}
+
 export function StoryDetailPanel({
   selectedStoryUUID,
   selectedItemUUID,
@@ -23,28 +58,158 @@ export function StoryDetailPanel({
   onSelectItem,
   onClearSelectedItem,
 }: StoryDetailPanelProps): JSX.Element {
-  const mergedLinks = useMemo(() => {
+  const [expandedGroupKeys, setExpandedGroupKeys] = useState<string[]>([]);
+  const [itemPreviewByUUID, setItemPreviewByUUID] = useState<Record<string, StoryItemPreview>>({});
+  const [itemPreviewLoadingByUUID, setItemPreviewLoadingByUUID] = useState<Record<string, boolean>>({});
+  const [itemPreviewRequestedByUUID, setItemPreviewRequestedByUUID] = useState<Record<string, boolean>>({});
+  const [itemPreviewErrorByUUID, setItemPreviewErrorByUUID] = useState<Record<string, string>>({});
+  const previousStoryUUIDRef = useRef<string>("");
+
+  const memberGroups = useMemo<MemberURLGroup[]>(() => {
     if (!detail) {
       return [];
     }
 
-    const byURL = new Map<string, string>();
+    const grouped = new Map<string, StoryMemberItem[]>();
+    for (const member of detail.members) {
+      const key = memberGroupKey(member);
+      const members = grouped.get(key);
+      if (members) {
+        members.push(member);
+        continue;
+      }
+      grouped.set(key, [member]);
+    }
 
-    const storyURL = detail.story.canonical_url?.trim();
-    if (storyURL) {
-      byURL.set(storyURL, storyURL);
+    return Array.from(grouped.entries()).map(([key, members]) => {
+      const sourceCount = new Set(members.map((member) => member.source)).size;
+      const representative = members[0];
+
+      return {
+        key,
+        canonicalURL: representative.canonical_url?.trim() ?? "",
+        members,
+        representative,
+        sourceCount,
+      };
+    });
+  }, [detail]);
+
+  const groupKeyByItemUUID = useMemo<Record<string, string>>(() => {
+    const mapping: Record<string, string> = {};
+    for (const group of memberGroups) {
+      for (const member of group.members) {
+        mapping[member.story_member_uuid] = group.key;
+      }
+    }
+    return mapping;
+  }, [memberGroups]);
+
+  const selectedGroupKey = selectedItemUUID ? (groupKeyByItemUUID[selectedItemUUID] ?? "") : "";
+
+  useEffect(() => {
+    if (!detail) {
+      setExpandedGroupKeys([]);
+      setItemPreviewByUUID({});
+      setItemPreviewLoadingByUUID({});
+      setItemPreviewRequestedByUUID({});
+      setItemPreviewErrorByUUID({});
+      previousStoryUUIDRef.current = "";
+      return;
+    }
+
+    const validItemIDs = new Set(detail.members.map((member) => member.story_member_uuid));
+    const validGroupKeys = new Set(memberGroups.map((group) => group.key));
+    const isNewStorySelection = previousStoryUUIDRef.current !== detail.story.story_uuid;
+    previousStoryUUIDRef.current = detail.story.story_uuid;
+
+    setExpandedGroupKeys((previous) => {
+      if (isNewStorySelection) {
+        const next = memberGroups.map((group) => group.key);
+
+        if (selectedGroupKey && validGroupKeys.has(selectedGroupKey) && !next.includes(selectedGroupKey)) {
+          next.push(selectedGroupKey);
+        }
+
+        return next;
+      }
+
+      const next = previous.filter((groupKey) => validGroupKeys.has(groupKey));
+
+      if (selectedGroupKey && validGroupKeys.has(selectedGroupKey) && !next.includes(selectedGroupKey)) {
+        next.push(selectedGroupKey);
+      }
+
+      if (
+        next.length === previous.length &&
+        next.every((groupKey, index) => groupKey === previous[index])
+      ) {
+        return previous;
+      }
+
+      return next;
+    });
+
+    setItemPreviewByUUID((previous) => pruneRecord(previous, validItemIDs));
+    setItemPreviewLoadingByUUID((previous) => pruneRecord(previous, validItemIDs));
+    setItemPreviewRequestedByUUID((previous) => pruneRecord(previous, validItemIDs));
+    setItemPreviewErrorByUUID((previous) => pruneRecord(previous, validItemIDs));
+  }, [detail, memberGroups, selectedGroupKey]);
+
+  useEffect(() => {
+    if (!detail) {
+      return;
     }
 
     for (const member of detail.members) {
-      const itemURL = member.canonical_url?.trim();
-      if (!itemURL || byURL.has(itemURL)) {
+      const itemUUID = member.story_member_uuid;
+      if (itemPreviewRequestedByUUID[itemUUID]) {
         continue;
       }
-      byURL.set(itemURL, itemURL);
-    }
 
-    return Array.from(byURL.values());
-  }, [detail]);
+      setItemPreviewRequestedByUUID((previous) => ({
+        ...previous,
+        [itemUUID]: true,
+      }));
+      setItemPreviewLoadingByUUID((previous) => ({
+        ...previous,
+        [itemUUID]: true,
+      }));
+      setItemPreviewErrorByUUID((previous) => {
+        if (!previous[itemUUID]) {
+          return previous;
+        }
+        const next = { ...previous };
+        delete next[itemUUID];
+        return next;
+      });
+
+      void getStoryItemPreview(itemUUID, 1000)
+        .then((preview) => {
+          setItemPreviewByUUID((previous) => ({
+            ...previous,
+            [itemUUID]: preview,
+          }));
+        })
+        .catch((fetchErr) => {
+          const message = fetchErr instanceof Error ? fetchErr.message : "Failed to fetch reader preview.";
+          setItemPreviewErrorByUUID((previous) => ({
+            ...previous,
+            [itemUUID]: message,
+          }));
+        })
+        .finally(() => {
+          setItemPreviewLoadingByUUID((previous) => {
+            if (!previous[itemUUID]) {
+              return previous;
+            }
+            const next = { ...previous };
+            delete next[itemUUID];
+            return next;
+          });
+        });
+    }
+  }, [detail, itemPreviewRequestedByUUID]);
 
   function buildMemberPreview(text?: string): string {
     const collapsed = (text ?? "").replace(/\s+/g, " ").trim();
@@ -59,6 +224,13 @@ export function StoryDetailPanel({
     return `${collapsed.slice(0, maxChars).trimEnd()}...`;
   }
 
+  function toParagraphs(text: string): string[] {
+    return text
+      .split(/\n{2,}/)
+      .map((paragraph) => paragraph.trim())
+      .filter((paragraph) => paragraph.length > 0);
+  }
+
   function renderStoryHeader(): JSX.Element {
     if (!detail) {
       return <></>;
@@ -69,24 +241,6 @@ export function StoryDetailPanel({
         <h2 className="detail-title">{detail.story.title || "(untitled)"}</h2>
         <p className="detail-meta">
           Collection: {detail.story.collection} • {detail.story.item_count} items • {detail.story.source_count} sources
-        </p>
-
-        {mergedLinks.length > 0 ? (
-          <section className="story-links-block">
-            <ul className="story-links-list">
-              {mergedLinks.map((url) => (
-                <li key={url}>
-                  <a className="detail-url" href={url} target="_blank" rel="noreferrer">
-                    {url}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-
-        <p className="detail-meta">
-          first seen {formatDateTime(detail.story.first_seen_at)} • last seen {formatDateTime(detail.story.last_seen_at)}
         </p>
       </>
     );
@@ -101,66 +255,153 @@ export function StoryDetailPanel({
       <>
         {renderStoryHeader()}
         <section className="member-grid">
-          {detail.members.length === 0 ? <p className="muted">No items found for this story.</p> : null}
-          {detail.members.map((member) => {
-            const isExpanded = member.story_member_uuid === selectedItemUUID;
-            const content = member.normalized_text ?? "";
-            const hasContent = content.trim() !== "";
-            const decisionText = member.dedup_decision ? member.dedup_decision.toLowerCase() : "";
+          {memberGroups.length === 0 ? <p className="muted">No items found for this story.</p> : null}
+          {memberGroups.map((group) => {
+            const representative = group.representative;
+            const isExpanded = expandedGroupKeys.includes(group.key);
+            const hasSelectedMember = selectedGroupKey === group.key;
+            const decisionText = representative.dedup_decision ? representative.dedup_decision.toLowerCase() : "";
+
+            const previewTexts = group.members
+              .map((member) => itemPreviewByUUID[member.story_member_uuid]?.preview_text?.trim() ?? "")
+              .filter((text) => text.length > 0);
+            const normalizedTexts = group.members
+              .map((member) => member.normalized_text?.trim() ?? "")
+              .filter((text) => text.length > 0);
+
+            const resolvedExpandedText = previewTexts[0] || normalizedTexts[0] || "";
+            const resolvedParagraphs = toParagraphs(resolvedExpandedText);
+            const hasResolvedContent = resolvedParagraphs.length > 0;
+            const isPreviewLoading = group.members.some(
+              (member) => Boolean(itemPreviewLoadingByUUID[member.story_member_uuid]),
+            );
+            const previewError = group.members.some(
+              (member) => Boolean(itemPreviewErrorByUUID[member.story_member_uuid]),
+            );
+            const routeItemUUID = hasSelectedMember ? selectedItemUUID : representative.story_member_uuid;
 
             return (
               <article
-                key={member.story_member_uuid}
+                key={group.key}
                 className={`member-card ${isExpanded ? "member-card-expanded" : ""}`.trim()}
               >
-              <button
-                type="button"
-                className={`member-toggle ${isExpanded ? "expanded" : ""}`.trim()}
-                onClick={() => {
-                  if (isExpanded) {
-                    onClearSelectedItem();
-                    return;
-                  }
-                  onSelectItem(member.story_member_uuid);
-                }}
-                aria-expanded={isExpanded}
-                aria-label={`${isExpanded ? "Collapse" : "Expand"} item ${member.normalized_title || "(no title)"}`}
-              >
-                <p className="member-head">{member.normalized_title || "(no title)"}</p>
+                <button
+                  type="button"
+                  className={`member-toggle ${isExpanded ? "expanded" : ""}`.trim()}
+                  onClick={() => {
+                    if (isExpanded) {
+                      setExpandedGroupKeys((previous) =>
+                        previous.filter((existingGroupKey) => existingGroupKey !== group.key),
+                      );
+                      if (hasSelectedMember) {
+                        onClearSelectedItem();
+                      }
+                      return;
+                    }
+
+                    setExpandedGroupKeys((previous) => {
+                      if (previous.includes(group.key)) {
+                        return previous;
+                      }
+                      return [...previous, group.key];
+                    });
+                    onSelectItem(routeItemUUID);
+                  }}
+                  aria-expanded={isExpanded}
+                  aria-label={`${isExpanded ? "Collapse" : "Expand"} item ${representative.normalized_title || "(no title)"}`}
+                >
+                  <p className="member-head">{representative.normalized_title || "(no title)"}</p>
+                  {isExpanded ? (
+                    <ChevronDown className="member-toggle-icon" aria-hidden="true" />
+                  ) : (
+                    <ChevronRight className="member-toggle-icon" aria-hidden="true" />
+                  )}
+                </button>
+                <p className="member-sub">
+                  matched {formatDateTime(representative.matched_at)} • published {formatDateTime(representative.published_at)}
+                  {decisionText ? (
+                    <>
+                      {" "}
+                      • <span className="member-decision-inline">{decisionText}</span>
+                    </>
+                  ) : null}
+                  {group.members.length > 1 ? (
+                    <>
+                      {" "}
+                      • merged {group.members.length} items from {group.sourceCount} sources
+                    </>
+                  ) : null}
+                </p>
                 {isExpanded ? (
-                  <ChevronDown className="member-toggle-icon" aria-hidden="true" />
-                ) : (
-                  <ChevronRight className="member-toggle-icon" aria-hidden="true" />
-                )}
-              </button>
-              {isExpanded ? <p className="member-sub">{buildMemberSubtitle(member)}</p> : null}
-              <p className="member-sub">
-                matched {formatDateTime(member.matched_at)} • published {formatDateTime(member.published_at)}
-                {decisionText ? (
                   <>
-                    {" "}
-                    • <span className="member-decision-inline">{decisionText}</span>
+                    {group.canonicalURL ? (
+                      <a className="member-expanded-url" href={group.canonicalURL} target="_blank" rel="noreferrer">
+                        {group.canonicalURL}
+                      </a>
+                    ) : null}
+                    <article className="detail-item-content member-expanded-content">
+                      {isPreviewLoading ? <p className="muted">Fetching reader preview...</p> : null}
+                      {!isPreviewLoading && hasResolvedContent ? (
+                        <div className="detail-item-content-body">
+                          {resolvedParagraphs.map((paragraph, index) => (
+                            <p
+                              key={`${group.key}-paragraph-${index}`}
+                              className="detail-item-content-text"
+                            >
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      ) : null}
+                      {!isPreviewLoading && !hasResolvedContent ? <p className="muted">No content captured for this item.</p> : null}
+                      {!isPreviewLoading && previewError && previewTexts.length === 0 ? (
+                        <p className="muted">Reader preview unavailable. Showing captured content when available.</p>
+                      ) : null}
+                    </article>
+                    {group.members.length > 1 ? (
+                      <section className="member-merge-provenance">
+                        <p className="member-merge-provenance-title">Deduped items</p>
+                        <ul className="member-merge-provenance-list">
+                          {group.members.map((groupMember) => {
+                            const memberDecision = groupMember.dedup_decision
+                              ? groupMember.dedup_decision.toLowerCase()
+                              : "";
+                            const isSelected = selectedItemUUID === groupMember.story_member_uuid;
+
+                            return (
+                              <li
+                                key={groupMember.story_member_uuid}
+                                className={`member-merge-provenance-row ${isSelected ? "is-selected" : ""}`.trim()}
+                              >
+                                <button
+                                  type="button"
+                                  className="member-merge-provenance-link"
+                                  onClick={() => onSelectItem(groupMember.story_member_uuid)}
+                                >
+                                  {buildMemberSubtitle(groupMember)}
+                                </button>
+                                <p className="member-sub">
+                                  matched {formatDateTime(groupMember.matched_at)} • published{" "}
+                                  {formatDateTime(groupMember.published_at)}
+                                  {memberDecision ? (
+                                    <>
+                                      {" "}
+                                      • <span className="member-decision-inline">{memberDecision}</span>
+                                    </>
+                                  ) : null}
+                                </p>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </section>
+                    ) : null}
                   </>
                 ) : null}
-              </p>
-              {isExpanded ? (
-                <>
-                  {member.canonical_url ? (
-                    <a className="member-expanded-url" href={member.canonical_url} target="_blank" rel="noreferrer">
-                      {member.canonical_url}
-                    </a>
-                  ) : null}
-                  <article className="detail-item-content member-expanded-content">
-                    {hasContent ? (
-                      <p className="detail-item-content-text">{content}</p>
-                    ) : (
-                      <p className="muted">No content captured for this item.</p>
-                    )}
-                  </article>
-                </>
-              ) : null}
-              {!isExpanded ? <p className="member-preview member-preview-collapsed">{buildMemberPreview(member.normalized_text)}</p> : null}
-            </article>
+                {!isExpanded ? (
+                  <p className="member-preview member-preview-collapsed">{buildMemberPreview(resolvedExpandedText)}</p>
+                ) : null}
+              </article>
             );
           })}
         </section>

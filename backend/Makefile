@@ -45,6 +45,14 @@ run-serve:
 	@echo "$(CYAN)Starting web server on 0.0.0.0:8090...$(RESET)"
 	go run $(MAIN_PATH) serve --host 0.0.0.0 --port 8090
 
+## dev: Run backend with hot reload (requires air)
+.PHONY: dev
+dev:
+	@echo "$(CYAN)Starting backend with hot reload (air)...$(RESET)"
+	@which air > /dev/null || (echo "$(YELLOW)Installing air...$(RESET)" && go install github.com/air-verse/air@latest)
+	@rm -rf tmp/
+	@export PATH="$$(go env GOPATH)/bin:$$PATH" && air -c .air.toml
+
 ## web-build: Build React (Vite + TypeScript) frontend static bundle into ../frontend/dist
 .PHONY: web-build
 web-build:

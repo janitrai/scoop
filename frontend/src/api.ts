@@ -5,6 +5,7 @@ import type {
   StoryDayBucket,
   StoryDetailResponse,
   StoryFilters,
+  StoryItemPreview,
   StoriesResponse,
 } from "./types";
 
@@ -65,4 +66,13 @@ export async function getStories(filters: StoryFilters): Promise<StoriesResponse
 
 export async function getStoryDetail(storyUUID: string): Promise<StoryDetailResponse> {
   return fetchJSend<StoryDetailResponse>(`/api/v1/stories/${storyUUID}`);
+}
+
+export async function getStoryItemPreview(
+  storyMemberUUID: string,
+  maxChars = 1000,
+): Promise<StoryItemPreview> {
+  const params = new URLSearchParams();
+  params.set("max_chars", String(maxChars));
+  return fetchJSend<StoryItemPreview>(`/api/v1/items/${storyMemberUUID}/preview?${params.toString()}`);
 }

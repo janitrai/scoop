@@ -63,6 +63,15 @@ export interface StoryDetailResponse {
   members: StoryMemberItem[];
 }
 
+export interface StoryItemPreview {
+  story_member_uuid: string;
+  preview_text: string;
+  source: string;
+  char_count: number;
+  truncated: boolean;
+  preview_error?: string;
+}
+
 export interface CollectionSummary {
   collection: string;
   documents: number;

@@ -12,6 +12,7 @@ Sources:
 """
 
 import argparse
+import email.utils
 import json
 import re
 import sys
@@ -91,6 +92,50 @@ def is_ai_related(title, summary=""):
     return any(kw in text for kw in AI_KEYWORDS)
 
 
+def parse_date(date_str):
+    """Parse a date string in various formats. Returns datetime (UTC) or None."""
+    if not date_str or not date_str.strip():
+        return None
+    date_str = date_str.strip()
+
+    # Try RFC 2822 (RSS pubDate format: "Sat, 04 Oct 2025 17:45:00 GMT")
+    try:
+        parsed = email.utils.parsedate_to_datetime(date_str)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    except (ValueError, TypeError):
+        pass
+
+    # Try ISO 8601 variants
+    for fmt in [
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%Y-%m-%dT%H:%M:%SZ",
+        "%Y-%m-%dT%H:%M:%S.%f%z",
+        "%Y-%m-%dT%H:%M:%S.%fZ",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d",
+    ]:
+        try:
+            parsed = datetime.strptime(date_str, fmt)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed.astimezone(timezone.utc)
+        except ValueError:
+            continue
+
+    # Try ISO format with fromisoformat (handles +00:00 etc.)
+    try:
+        parsed = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    except (ValueError, TypeError):
+        pass
+
+    return None
+
+
 def parse_rss(xml_bytes, source_name, cutoff):
     """Parse RSS/Atom feed XML and return list of story dicts."""
     stories = []
@@ -112,10 +157,15 @@ def parse_rss(xml_bytes, source_name, cutoff):
             title = item.findtext("title", "").strip()
             link = item.findtext("link", "").strip()
             desc = unescape(item.findtext("description", "").strip())
-            pub_date = item.findtext("pubDate", "")
+            pub_date_str = item.findtext("pubDate", "")
 
             # Clean HTML from description
             desc = re.sub(r"<[^>]+>", "", desc)[:300]
+
+            # Parse and filter by cutoff
+            pub_date = parse_date(pub_date_str)
+            if pub_date and pub_date < cutoff:
+                continue  # Skip items older than cutoff
 
             if title and link:
                 stories.append({
@@ -123,7 +173,7 @@ def parse_rss(xml_bytes, source_name, cutoff):
                     "url": link,
                     "summary": desc,
                     "source": source_name,
-                    "date": pub_date,
+                    "date": pub_date.isoformat() if pub_date else "",
                 })
     else:
         # Try Atom format
@@ -139,10 +189,25 @@ def parse_rss(xml_bytes, source_name, cutoff):
             if summary_el is None:
                 summary_el = entry.find("{http://www.w3.org/2005/Atom}summary")
 
+            # Try multiple date fields for Atom
+            date_str = ""
+            for date_tag in ["atom:published", "atom:updated"]:
+                date_el = entry.find(date_tag, ns)
+                if date_el is None:
+                    date_el = entry.find(date_tag.replace("atom:", "{http://www.w3.org/2005/Atom}"))
+                if date_el is not None and date_el.text:
+                    date_str = date_el.text.strip()
+                    break
+
             title = title_el.text.strip() if title_el is not None and title_el.text else ""
             link = link_el.get("href", "") if link_el is not None else ""
             summary = summary_el.text.strip() if summary_el is not None and summary_el.text else ""
             summary = re.sub(r"<[^>]+>", "", unescape(summary))[:300]
+
+            # Parse and filter by cutoff
+            pub_date = parse_date(date_str)
+            if pub_date and pub_date < cutoff:
+                continue  # Skip items older than cutoff
 
             if title and link:
                 stories.append({
@@ -150,7 +215,7 @@ def parse_rss(xml_bytes, source_name, cutoff):
                     "url": link,
                     "summary": summary,
                     "source": source_name,
-                    "date": "",
+                    "date": pub_date.isoformat() if pub_date else "",
                 })
 
     return stories

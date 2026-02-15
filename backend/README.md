@@ -18,7 +18,7 @@ Local dev runs as two processes:
 1. Backend API (Echo + PostgreSQL):
 
 ```bash
-go run ./cmd/scoop serve --env .env --host 0.0.0.0 --port 8090
+make dev
 ```
 
 2. Frontend dev server (Vite):
@@ -34,6 +34,12 @@ Notes:
 - Backend serves API only (`/api/v1/...`).
 - Vite proxies `/api/*` to `http://127.0.0.1:8090`.
 - Frontend production build outputs to `../frontend/dist` (not into backend code).
+- `make dev` uses `air` hot reload with config in `.air.toml`.
+- One-time fallback if you prefer no watcher:
+
+```bash
+go run ./cmd/scoop serve --env .env --host 0.0.0.0 --port 8090
+```
 
 Frontend stack:
 - React + Vite + strict TypeScript (source in `../frontend/`)

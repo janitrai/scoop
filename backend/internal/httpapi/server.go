@@ -224,6 +224,7 @@ func (s *Server) Start(ctx context.Context) error {
 	api.GET("/story-days", s.handleStoryDays)
 	api.GET("/stories", s.handleStories)
 	api.GET("/stories/:story_uuid", s.handleStoryDetail)
+	api.GET("/items/:story_member_uuid/preview", s.handleStoryItemPreview)
 
 	addr := fmt.Sprintf("%s:%d", s.opts.Host, s.opts.Port)
 	httpServer := &http.Server{
