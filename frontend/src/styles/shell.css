@@ -5,21 +5,17 @@
   }
 
   .app-root-viewer {
-    @apply h-[100dvh] min-h-0 overflow-hidden p-0;
+    @apply h-[100dvh] min-h-0 overflow-hidden px-2 pt-2 pb-0;
   }
 
   .topbar {
-    @apply mb-4 flex flex-wrap items-center gap-2.5 rounded-[14px] border border-panel-500 px-3 py-2.5 shadow-panel;
+    @apply mb-4 flex flex-wrap items-center justify-between gap-2.5 rounded-[14px] border border-panel-500 px-3 py-2.5 shadow-panel;
     background-color: rgba(21, 27, 36, 0.9);
     backdrop-filter: blur(12px);
   }
 
   .topbar-left {
-    @apply flex min-w-0 flex-1 items-center gap-2.5;
-  }
-
-  .topbar-mark {
-    @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-500 bg-[#13233f] font-display text-[0.9rem] font-bold text-[#dce8ff];
+    @apply flex min-w-0 flex-1 items-center;
   }
 
   .topbar-copy {
@@ -31,29 +27,31 @@
     font-size: clamp(1rem, 2vw, 1.35rem);
   }
 
-  .top-tabs {
-    @apply flex items-center gap-1 rounded-full border border-panel-500 bg-panel-700 p-1;
+  .topbar-right {
+    @apply flex w-full max-w-[920px] items-center justify-end;
   }
 
-  .top-tab {
-    @apply rounded-full border border-transparent px-3 py-1.5 text-[0.72rem] font-extrabold uppercase tracking-[0.08em] text-panel-400 no-underline transition-colors duration-150;
+  .topbar-controls {
+    @apply flex w-full items-center justify-end gap-2;
   }
 
-  .top-tab:hover {
-    @apply text-panel-100;
+  .collection-picker {
+    @apply relative min-w-[220px] max-w-[320px] flex-1;
   }
 
-  .top-tab.active {
-    @apply border-brand-500 bg-brand-500 text-white;
+  .collection-picker-select {
+    @apply h-10 w-full appearance-none rounded-[10px] border border-panel-500 bg-panel-600 pl-3 pr-8 font-mono text-[0.8rem] text-panel-100 outline-none;
+  }
+
+  .collection-picker-select:focus {
+    @apply border-brand-500 ring-2 ring-brand-500/35;
+  }
+
+  .collection-picker-caret {
+    @apply pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-panel-400;
   }
 
   .app-root-viewer .topbar {
     @apply mb-0 rounded-none border-x-0 border-t-0 px-3 py-2 shadow-none;
-  }
-
-  .app-root-viewer .topbar-mark,
-  .app-root-viewer .top-tabs,
-  .app-root-viewer .top-tab {
-    @apply rounded-none;
   }
 }

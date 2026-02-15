@@ -7,12 +7,8 @@
     @apply grid grid-cols-[minmax(300px,380px)_minmax(0,1fr)] items-start gap-2.5;
   }
 
-  .search-strip {
-    @apply min-w-0;
-  }
-
   .finder-row {
-    @apply grid grid-cols-[1fr_auto_auto] items-center gap-2;
+    @apply grid grid-cols-[1fr_auto] items-center gap-2;
   }
 
   .finder-input-wrap {
@@ -39,12 +35,28 @@
     @apply text-panel-100;
   }
 
-  .finder-advanced-btn {
-    @apply px-[11px] text-[0.78rem] uppercase tracking-[0.08em];
+  .finder-advanced-icon {
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-panel-400 outline-none transition-colors duration-150;
+    line-height: 1;
+    overflow: visible;
   }
 
-  .finder-advanced-btn.active {
-    @apply border-brand-500 bg-[#13233f] text-[#dce8ff];
+  .finder-advanced-icon svg {
+    @apply h-[18px] w-[18px] stroke-current;
+    display: block;
+    overflow: visible;
+  }
+
+  .finder-advanced-icon:hover {
+    @apply text-panel-100;
+  }
+
+  .finder-advanced-icon:focus-visible {
+    @apply text-brand-400 ring-2 ring-brand-500/35;
+  }
+
+  .finder-advanced-icon.active {
+    @apply text-brand-400;
   }
 
   .advanced-row {
@@ -76,7 +88,11 @@
   }
 
   .day-nav-btn {
-    @apply w-[42px] min-w-[42px] p-0 text-base;
+    @apply h-10 w-10 min-w-[40px] rounded-full border border-panel-500 bg-panel-700 p-0 text-base text-panel-100;
+  }
+
+  .day-nav-btn:hover {
+    @apply border-brand-500/60;
   }
 
   .day-current-btn {
@@ -98,6 +114,10 @@
 
   .day-picker-input {
     @apply pointer-events-none absolute h-px w-px opacity-0;
+  }
+
+  .topbar-day {
+    @apply w-[clamp(260px,30vw,420px)] max-w-full flex-none;
   }
 
   .layout {
@@ -145,6 +165,18 @@
     @apply m-0 font-display text-[1.2rem];
   }
 
+  .feed-search {
+    @apply px-3 py-2;
+  }
+
+  .story-feed-panel {
+    @apply relative;
+  }
+
+  .stories-list-wrap {
+    @apply relative flex min-h-0 flex-1 flex-col;
+  }
+
   .stories-list,
   .detail-content {
     @apply min-h-0 flex-1 overflow-y-auto;
@@ -153,7 +185,7 @@
   }
 
   .stories-list {
-    @apply gap-2.5 pr-1;
+    @apply gap-2.5 pr-1 pb-10;
   }
 
   .detail-content {
@@ -166,6 +198,10 @@
 
   .stories-status {
     @apply mb-0 mt-1;
+  }
+
+  .feed-count-overlay {
+    @apply pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-panel-500 bg-panel-900/90 px-2 py-0.5 font-mono text-[0.68rem] font-bold text-panel-400;
   }
 
   .story-card {
@@ -272,27 +308,28 @@
   }
 
   .app-root-viewer .controls-top-row {
-    @apply gap-0;
-    grid-template-columns: minmax(280px, 35vw) minmax(0, 1fr);
+    @apply grid-cols-1 gap-0;
   }
 
   .app-root-viewer .controls-top-row > * + *,
-  .app-root-viewer .day-nav > * + *,
   .app-root-viewer .finder-row > * + * {
     border-left: 1px solid #2a3443;
   }
 
-  .app-root-viewer .finder-row,
-  .app-root-viewer .day-nav {
+  .app-root-viewer .finder-row {
     @apply gap-0;
+  }
+
+  .app-root-viewer .day-nav-btn {
+    @apply rounded-full;
   }
 
   .app-root-viewer .advanced-row {
     @apply mt-0 gap-0;
   }
 
-  .app-root-viewer .search-strip {
-    @apply pl-0;
+  .app-root-viewer .feed-search {
+    @apply sticky top-0 z-10 border-b border-panel-500 bg-panel-900 px-3 py-2;
   }
 
   .app-root-viewer .chips-row {
@@ -309,7 +346,7 @@
   }
 
   .app-root-viewer .stories-list {
-    @apply gap-0 pb-2 pr-0;
+    @apply gap-0 pb-10 pr-0;
     border-right: 1px solid #2a3443;
   }
 

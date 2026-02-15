@@ -18,13 +18,6 @@ export function StoryDetailPanel({
 }: StoryDetailPanelProps): JSX.Element {
   return (
     <aside className="panel card detail-panel">
-      <div className="panel-header">
-        <div>
-          <p className="eyebrow">Story Breakdown</p>
-          <h2>{detail?.story.title || (selectedStoryUUID ? "Loading..." : "Select a story")}</h2>
-        </div>
-      </div>
-
       <div className="detail-content">
         {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged documents.</p> : null}
         {selectedStoryUUID && !selectedStoryVisible ? <p className="muted">Selected story is not on the current page.</p> : null}

@@ -3,12 +3,12 @@ import type { ReactNode } from "react";
 import { AppHeader } from "./AppHeader";
 
 interface PageShellProps {
-  activeTab: "stories" | "stats";
   variant?: "viewer" | "stats";
+  headerRight?: ReactNode;
   children: ReactNode;
 }
 
-export function PageShell({ activeTab, variant = "viewer", children }: PageShellProps): JSX.Element {
+export function PageShell({ variant = "viewer", headerRight, children }: PageShellProps): JSX.Element {
   const classNames = ["app-root"];
   if (variant === "viewer") {
     classNames.push("app-root-viewer");
@@ -19,7 +19,7 @@ export function PageShell({ activeTab, variant = "viewer", children }: PageShell
 
   return (
     <div className={classNames.join(" ")}>
-      <AppHeader activeTab={activeTab} />
+      <AppHeader rightSlot={headerRight} />
       {children}
     </div>
   );

@@ -2,13 +2,12 @@ import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
-import { FiltersPanel } from "./components/FiltersPanel";
 import { PageShell } from "./components/PageShell";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { useViewerQueries } from "./hooks/useViewerQueries";
 import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
-import { formatCalendarDay, formatRelativeDay } from "./lib/viewerFormat";
+import { formatCalendarDay, formatCount, formatRelativeDay } from "./lib/viewerFormat";
 import type { DayNavigationState, ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
 
@@ -26,7 +25,6 @@ export function StoryViewerPage(): JSX.Element {
   const selectedStoryUUID = typeof rawParams.storyUUID === "string" ? rawParams.storyUUID : "";
 
   const [searchInput, setSearchInput] = useState(filters.query);
-  const [refreshTick, setRefreshTick] = useState(0);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
@@ -98,7 +96,6 @@ export function StoryViewerPage(): JSX.Element {
   } = useViewerQueries({
     filters,
     selectedStoryUUID,
-    refreshTick,
   });
 
   const selectedDay = filters.from && filters.to && filters.from === filters.to ? filters.from : "";
@@ -153,6 +150,10 @@ export function StoryViewerPage(): JSX.Element {
   const allStoriesCount = useMemo(
     () => collections.reduce((acc, row) => acc + Number(row.stories || 0), 0),
     [collections],
+  );
+  const allCollectionsLabel = useMemo(
+    () => `All collections (${formatCount(allStoriesCount || pagination.total_items)})`,
+    [allStoriesCount, pagination.total_items],
   );
 
   function applySearch(nextSearch: ViewerSearch): void {
@@ -242,10 +243,6 @@ export function StoryViewerPage(): JSX.Element {
     picker.click();
   }
 
-  function onRefresh(): void {
-    setRefreshTick((tick) => tick + 1);
-  }
-
   function onCollectionChange(collection: string): void {
     applySearch({
       ...viewerSearch,
@@ -274,29 +271,77 @@ export function StoryViewerPage(): JSX.Element {
     ? stories.some((story) => story.story_uuid === selectedStoryUUID)
     : true;
 
-  return (
-    <PageShell activeTab="stories" variant="viewer">
-      <FiltersPanel
-        searchInput={searchInput}
-        from={filters.from}
-        to={filters.to}
-        activeCollection={filters.collection}
-        allStoriesCount={allStoriesCount}
-        totalItems={pagination.total_items}
-        collections={collections}
-        dayNav={dayNav}
-        dayPickerRef={dayPickerRef}
-        onSearchInputChange={setSearchInput}
-        onFromChange={onFromChange}
-        onToChange={onToChange}
-        onRefresh={onRefresh}
-        onCollectionChange={onCollectionChange}
-        onMoveOlderDay={() => moveDay(1)}
-        onMoveNewerDay={() => moveDay(-1)}
-        onOpenDayPicker={openDayPicker}
-        onDayPick={setSingleDayFilter}
-      />
+  const headerRight = (
+    <div className="topbar-controls">
+      <label className="collection-picker" aria-label="Collection filter">
+        <span className="sr-only">Collection</span>
+        <select
+          className="collection-picker-select"
+          value={filters.collection}
+          onChange={(event) => onCollectionChange(event.target.value)}
+        >
+          <option value="">{allCollectionsLabel}</option>
+          {collections.map((row) => (
+            <option key={row.collection} value={row.collection}>
+              {row.collection} ({formatCount(row.stories)})
+            </option>
+          ))}
+        </select>
+        <span className="collection-picker-caret" aria-hidden="true">
+          ▾
+        </span>
+      </label>
 
+      <div className="topbar-day">
+        <div className="day-nav">
+          <button
+            type="button"
+            className="btn btn-subtle day-nav-btn"
+            aria-label="Older day"
+            onClick={() => moveDay(1)}
+            disabled={!dayNav.canGoOlder}
+          >
+            &larr;
+          </button>
+
+          <button type="button" className="day-current-btn" onClick={openDayPicker}>
+            <span className="day-current-line">
+              {dayNav.currentLabel} • {dayNav.relativeLabel}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-subtle day-nav-btn"
+            aria-label="Newer day"
+            onClick={() => moveDay(-1)}
+            disabled={!dayNav.canGoNewer}
+          >
+            &rarr;
+          </button>
+
+          <input
+            ref={(node) => {
+              dayPickerRef.current = node;
+            }}
+            className="day-picker-input"
+            type="date"
+            aria-hidden="true"
+            tabIndex={-1}
+            onChange={(event) => {
+              if (!event.target.value) {
+                return;
+              }
+              setSingleDayFilter(event.target.value);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <PageShell variant="viewer" headerRight={headerRight}>
       {globalError ? <p className="banner-error">{globalError}</p> : null}
 
       <main className="layout">
@@ -314,6 +359,9 @@ export function StoryViewerPage(): JSX.Element {
             maxSize={isDesktopLayout ? feedPanelMax : "70%"}
           >
             <StoriesListPanel
+              searchInput={searchInput}
+              from={filters.from}
+              to={filters.to}
               totalItems={pagination.total_items}
               loadedItems={stories.length}
               selectedStoryUUID={selectedStoryUUID}
@@ -322,6 +370,9 @@ export function StoryViewerPage(): JSX.Element {
               isFetchingNextPage={isFetchingNextStoriesPage}
               hasNextPage={hasNextStoriesPage}
               error={storiesError}
+              onSearchInputChange={setSearchInput}
+              onFromChange={onFromChange}
+              onToChange={onToChange}
               onLoadNextPage={fetchNextStoriesPage}
               onSelectStory={goToStory}
             />

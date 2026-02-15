@@ -15,7 +15,6 @@ import type {
 interface UseViewerQueriesArgs {
   filters: StoryFilters;
   selectedStoryUUID: string;
-  refreshTick: number;
 }
 
 interface UseViewerQueriesResult {
@@ -37,15 +36,14 @@ interface UseViewerQueriesResult {
 export function useViewerQueries({
   filters,
   selectedStoryUUID,
-  refreshTick,
 }: UseViewerQueriesArgs): UseViewerQueriesResult {
   const collectionsQuery = useQuery<{ items: CollectionSummary[] }>({
-    queryKey: ["collections", refreshTick],
+    queryKey: ["collections"],
     queryFn: getCollections,
   });
 
   const dayBucketsQuery = useQuery<{ items: StoryDayBucket[] }>({
-    queryKey: ["story-days", filters.collection, refreshTick],
+    queryKey: ["story-days", filters.collection],
     queryFn: () => getStoryDays(filters.collection, 45),
   });
 
@@ -57,7 +55,6 @@ export function useViewerQueries({
       filters.from,
       filters.to,
       filters.pageSize,
-      refreshTick,
     ],
     initialPageParam: 1,
     queryFn: ({ pageParam }) =>
@@ -72,7 +69,7 @@ export function useViewerQueries({
   });
 
   const detailQuery = useQuery<StoryDetailResponse>({
-    queryKey: ["story-detail", selectedStoryUUID, refreshTick],
+    queryKey: ["story-detail", selectedStoryUUID],
     queryFn: () => getStoryDetail(selectedStoryUUID),
     enabled: selectedStoryUUID !== "",
   });

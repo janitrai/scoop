@@ -21,7 +21,7 @@ export function StatsPage(): JSX.Element {
     : "No story updates yet";
 
   return (
-    <PageShell activeTab="stats" variant="stats">
+    <PageShell variant="stats">
       <section className="card stats-toolbar">
         <div className="stats-toolbar-copy">
           <p className="muted">System-wide ingestion and deduplication metrics.</p>
