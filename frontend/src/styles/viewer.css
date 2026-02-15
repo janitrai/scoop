@@ -24,7 +24,7 @@
   }
 
   .finder-input {
-    @apply w-full text-[0.9rem] text-panel-100;
+    @apply w-full text-[0.84rem] text-panel-100;
   }
 
   .finder-clear-btn {
@@ -205,7 +205,7 @@
   }
 
   .feed-count-overlay {
-    @apply pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border border-panel-500 bg-panel-900/90 px-2.5 py-1 font-mono text-[0.68rem] font-bold text-panel-400;
+    @apply pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border border-panel-500 bg-panel-900/90 px-2.5 py-1 font-mono text-[0.62rem] font-bold text-panel-400;
   }
 
   .story-card {
@@ -221,11 +221,11 @@
   }
 
   .story-title {
-    @apply m-0 text-base leading-[1.35];
+    @apply m-0 text-[0.93rem] leading-[1.3];
   }
 
   .story-meta {
-    @apply mb-0 mt-2 font-mono text-[0.8rem] text-panel-400;
+    @apply mb-0 mt-1.5 font-mono text-[0.72rem] text-panel-400;
   }
 
   .detail-meta {

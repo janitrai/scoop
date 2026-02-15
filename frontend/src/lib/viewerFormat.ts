@@ -1,4 +1,4 @@
-import type { StoryMemberItem, StoryPagination } from "../types";
+import type { StoryListItem, StoryMemberItem, StoryPagination } from "../types";
 
 function parseCalendarDay(value: string): Date | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
@@ -85,6 +85,54 @@ export function extractErrorMessage(error: unknown): string {
 
 export function buildStoryMetaText(lastSeenAt: string, sourceCount: number): string {
   return `last ${formatDateTime(lastSeenAt)} • ${sourceCount} sources`;
+}
+
+function domainFromURL(value?: string): string {
+  if (!value) {
+    return "";
+  }
+
+  const input = value.trim();
+  if (!input) {
+    return "";
+  }
+
+  const normalizeHost = (hostname: string): string => {
+    const host = hostname.toLowerCase().trim();
+    if (!host) {
+      return "";
+    }
+    return host.startsWith("www.") ? host.slice(4) : host;
+  };
+
+  try {
+    return normalizeHost(new URL(input).hostname);
+  } catch {
+    // Allow URLs that arrive without an explicit scheme.
+    try {
+      return normalizeHost(new URL(`https://${input}`).hostname);
+    } catch {
+      return "";
+    }
+  }
+}
+
+export function buildFeedSourceText(story: StoryListItem): string {
+  const count = Math.max(0, Number(story.source_count || 0));
+  const domain = domainFromURL(story.canonical_url);
+  const sourceFallback = story.representative?.source?.trim() || "";
+  const primary = domain || sourceFallback;
+
+  if (!primary) {
+    return `${formatCount(count)} source${count === 1 ? "" : "s"}`;
+  }
+
+  if (count <= 1) {
+    return primary;
+  }
+
+  const others = count - 1;
+  return `${primary} and ${formatCount(others)} other${others === 1 ? "" : "s"}`;
 }
 
 export function buildMemberSubtitle(member: StoryMemberItem): string {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings2, X } from "lucide-react";
 
-import { formatCount } from "../lib/viewerFormat";
+import { buildFeedSourceText, formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -158,7 +158,7 @@ export function StoriesListPanel({
                     <h3 className="story-title">{story.title || "(untitled)"}</h3>
                   </header>
                   <p className="story-meta">
-                    {formatCount(story.source_count)} source{story.source_count === 1 ? "" : "s"}
+                    {buildFeedSourceText(story)}
                   </p>
                 </article>
               ))
