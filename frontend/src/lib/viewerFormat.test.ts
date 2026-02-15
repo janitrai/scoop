@@ -68,7 +68,17 @@ describe("buildFeedMetaText", () => {
     vi.useRealTimers();
   });
 
-  it("includes date and source text for feed rows", () => {
+  it("returns source text by default (non-search mode)", () => {
+    const story = makeStory({
+      canonical_url: "https://news.ycombinator.com/item?id=123",
+      last_seen_at: "2026-02-14T15:13:19Z",
+      source_count: 1,
+    });
+
+    expect(buildFeedMetaText(story)).toBe("news.ycombinator.com");
+  });
+
+  it("includes date and source text when timestamp mode is enabled", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-02-15T12:00:00Z"));
 
@@ -78,7 +88,7 @@ describe("buildFeedMetaText", () => {
       source_count: 1,
     });
 
-    expect(buildFeedMetaText(story)).toMatch(/^Feb 14, \d{2}:\d{2} • news\.ycombinator\.com$/);
+    expect(buildFeedMetaText(story, true)).toMatch(/^Feb 14, \d{2}:\d{2} • news\.ycombinator\.com$/);
   });
 });
 

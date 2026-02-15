@@ -113,6 +113,7 @@ export interface ViewerSearch {
   collection?: string;
   q?: string;
   page?: number;
+  day?: string;
   from?: string;
   to?: string;
 }

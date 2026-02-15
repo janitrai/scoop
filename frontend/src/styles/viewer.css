@@ -63,6 +63,34 @@
     @apply mt-2.5 grid grid-cols-[minmax(120px,180px)_minmax(120px,180px)] gap-2.5;
   }
 
+  .advanced-field-control {
+    @apply flex items-center gap-1.5;
+  }
+
+  .advanced-day-trigger {
+    @apply h-10 w-full justify-start rounded-[10px] border border-panel-500 bg-panel-600 px-2.5 text-left text-[0.82rem] font-normal text-panel-100 shadow-none;
+  }
+
+  .advanced-day-trigger:hover {
+    @apply border-brand-500/60;
+  }
+
+  .advanced-day-trigger:focus-visible {
+    @apply border-brand-500/60 ring-2 ring-brand-500/35;
+  }
+
+  .advanced-day-trigger-label {
+    @apply block max-w-full truncate;
+  }
+
+  .advanced-day-clear {
+    @apply h-10 w-10 shrink-0 rounded-[10px] border border-panel-500 bg-panel-600 p-0 text-panel-400;
+  }
+
+  .advanced-day-clear:hover {
+    @apply border-brand-500/60 text-panel-100;
+  }
+
   .chips-row {
     @apply mt-3 flex flex-wrap gap-2;
   }
@@ -372,7 +400,12 @@
   }
 
   .app-root-viewer .advanced-row {
-    @apply mt-2 gap-0;
+    @apply mt-2 gap-2;
+  }
+
+  .app-root-viewer .advanced-day-trigger,
+  .app-root-viewer .advanced-day-clear {
+    @apply rounded-none;
   }
 
   .app-root-viewer .feed-search {

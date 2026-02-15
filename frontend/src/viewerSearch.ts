@@ -46,6 +46,7 @@ function normalizePage(value: unknown): number | undefined {
 export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSearch {
   const collection = normalizeString(input.collection);
   const q = normalizeString(input.q);
+  const day = normalizeDay(input.day);
   const from = normalizeDay(input.from);
   const to = normalizeDay(input.to);
   const page = normalizePage(input.page);
@@ -56,6 +57,9 @@ export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSea
   }
   if (q) {
     search.q = q;
+  }
+  if (day) {
+    search.day = day;
   }
   if (from) {
     search.from = from;

@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Settings2, X } from "lucide-react";
 
-import { buildFeedMetaText, formatCount } from "../lib/viewerFormat";
+import { buildFeedMetaText, formatCalendarDay, formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
 import { Button } from "./ui/button";
+import { DayPickerPopover } from "./ui/day-picker-popover";
 import { Input } from "./ui/input";
 
 interface StoriesListPanelProps {
@@ -18,7 +19,9 @@ interface StoriesListPanelProps {
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
   error: string;
+  showAdvancedSearch: boolean;
   onSearchInputChange: (value: string) => void;
+  onShowAdvancedSearchChange: (value: boolean) => void;
   onFromChange: (value: string) => void;
   onToChange: (value: string) => void;
   onLoadNextPage: () => void;
@@ -37,7 +40,9 @@ export function StoriesListPanel({
   isFetchingNextPage,
   hasNextPage,
   error,
+  showAdvancedSearch,
   onSearchInputChange,
+  onShowAdvancedSearchChange,
   onFromChange,
   onToChange,
   onLoadNextPage,
@@ -45,7 +50,7 @@ export function StoriesListPanel({
 }: StoriesListPanelProps): JSX.Element {
   const listRef = useRef<HTMLDivElement | null>(null);
   const loadTriggerRef = useRef<HTMLDivElement | null>(null);
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const showTimestampInFeed = searchInput.trim() !== "";
 
   useEffect(() => {
     if (!hasNextPage || isLoading || isFetchingNextPage || Boolean(error)) {
@@ -112,7 +117,7 @@ export function StoriesListPanel({
             size="icon"
             aria-label="Toggle advanced search"
             aria-pressed={showAdvancedSearch}
-            onClick={() => setShowAdvancedSearch((value) => !value)}
+            onClick={() => onShowAdvancedSearchChange(!showAdvancedSearch)}
           >
             <Settings2 className="h-5 w-5" strokeWidth={1.9} aria-hidden="true" />
           </Button>
@@ -122,12 +127,62 @@ export function StoriesListPanel({
           <div className="advanced-row">
             <label className="field field-small">
               <span>From</span>
-              <Input value={from} onChange={(event) => onFromChange(event.target.value)} type="date" />
+              <div className="advanced-field-control">
+                <DayPickerPopover
+                  value={from}
+                  onChange={onFromChange}
+                  align="start"
+                  trigger={
+                    <Button type="button" variant="outline" className="advanced-day-trigger">
+                      <span className="advanced-day-trigger-label">
+                        {from ? formatCalendarDay(from) : "Pick start day"}
+                      </span>
+                    </Button>
+                  }
+                />
+                {from ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="advanced-day-clear"
+                    onClick={() => onFromChange("")}
+                    aria-label="Clear From date"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </Button>
+                ) : null}
+              </div>
             </label>
 
             <label className="field field-small">
               <span>To</span>
-              <Input value={to} onChange={(event) => onToChange(event.target.value)} type="date" />
+              <div className="advanced-field-control">
+                <DayPickerPopover
+                  value={to}
+                  onChange={onToChange}
+                  align="start"
+                  trigger={
+                    <Button type="button" variant="outline" className="advanced-day-trigger">
+                      <span className="advanced-day-trigger-label">
+                        {to ? formatCalendarDay(to) : "Pick end day"}
+                      </span>
+                    </Button>
+                  }
+                />
+                {to ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="advanced-day-clear"
+                    onClick={() => onToChange("")}
+                    aria-label="Clear To date"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </Button>
+                ) : null}
+              </div>
             </label>
           </div>
         ) : null}
@@ -158,7 +213,7 @@ export function StoriesListPanel({
                     <h3 className="story-title">{story.title || "(untitled)"}</h3>
                   </header>
                   <p className="story-meta">
-                    {buildFeedMetaText(story)}
+                    {buildFeedMetaText(story, showTimestampInFeed)}
                   </p>
                 </article>
               ))

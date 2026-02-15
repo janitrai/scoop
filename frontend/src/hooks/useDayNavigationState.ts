@@ -5,6 +5,7 @@ import type { DayNavigationState, StoryDayBucket } from "../types";
 
 interface UseDayNavigationStateArgs {
   dayBuckets: StoryDayBucket[];
+  day: string;
   from: string;
   to: string;
 }
@@ -16,13 +17,15 @@ interface UseDayNavigationStateResult {
 
 export function useDayNavigationState({
   dayBuckets,
+  day,
   from,
   to,
 }: UseDayNavigationStateArgs): UseDayNavigationStateResult {
-  const selectedDay = from && to && from === to ? from : "";
+  const rangeDay = from && to && from === to ? from : "";
+  const selectedDay = day || rangeDay;
 
   const dayNav = useMemo<DayNavigationState>(() => {
-    const customRangeActive = Boolean((from || to) && !selectedDay);
+    const customRangeActive = Boolean((from || to) && !rangeDay);
     const navigatorDay = selectedDay || dayBuckets[0]?.day || "";
     const currentIndex = navigatorDay ? dayBuckets.findIndex((bucket) => bucket.day === navigatorDay) : -1;
 
@@ -48,8 +51,7 @@ export function useDayNavigationState({
       navigatorDay,
       relativeLabel,
     };
-  }, [dayBuckets, from, to, selectedDay]);
+  }, [dayBuckets, from, rangeDay, selectedDay, to]);
 
   return { dayNav, selectedDay };
 }
-

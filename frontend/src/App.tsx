@@ -11,6 +11,7 @@ import { useCurrentCollectionLabel } from "./hooks/useCurrentCollectionLabel";
 import { useDayNavigationState } from "./hooks/useDayNavigationState";
 import { useViewerQueries } from "./hooks/useViewerQueries";
 import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
+import { buildStoryFilters } from "./lib/viewerFilters";
 import { formatCount } from "./lib/viewerFormat";
 import type { ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
@@ -30,14 +31,18 @@ export function StoryViewerPage(): JSX.Element {
     [rawSearch],
   );
 
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(() => Boolean(viewerSearch.from || viewerSearch.to));
   const routeCollection = typeof rawParams.collection === "string" ? rawParams.collection.trim() : "";
   const baseFilters = useMemo(() => toStoryFilters(viewerSearch), [viewerSearch]);
   const filters = useMemo(
-    () => ({
-      ...baseFilters,
-      collection: routeCollection || baseFilters.collection,
-    }),
-    [baseFilters, routeCollection],
+    () =>
+      buildStoryFilters({
+        baseFilters,
+        routeCollection,
+        showAdvancedSearch,
+        day: viewerSearch.day || "",
+      }),
+    [baseFilters, routeCollection, showAdvancedSearch, viewerSearch.day],
   );
   const selectedStoryUUID = typeof rawParams.storyUUID === "string" ? rawParams.storyUUID : "";
   const selectedItemUUID = typeof rawParams.itemUUID === "string" ? rawParams.itemUUID : "";
@@ -53,6 +58,19 @@ export function StoryViewerPage(): JSX.Element {
   useEffect(() => {
     setSearchInput(filters.query);
   }, [filters.query]);
+
+  useEffect(() => {
+    if (!showAdvancedSearch && (viewerSearch.from || viewerSearch.to)) {
+      const fallbackDay = viewerSearch.day || viewerSearch.from || viewerSearch.to;
+      applySearch({
+        ...viewerSearch,
+        day: fallbackDay || undefined,
+        from: undefined,
+        to: undefined,
+        page: undefined,
+      });
+    }
+  }, [showAdvancedSearch, viewerSearch]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -116,6 +134,7 @@ export function StoryViewerPage(): JSX.Element {
 
   const { dayNav, selectedDay } = useDayNavigationState({
     dayBuckets,
+    day: viewerSearch.day || "",
     from: filters.from,
     to: filters.to,
   });
@@ -130,9 +149,14 @@ export function StoryViewerPage(): JSX.Element {
   );
 
   function compactSearchForCurrentPath(nextSearch: ViewerSearch): ViewerSearch {
+    const keepDateFilters = showAdvancedSearch;
+
     return compactViewerSearch({
       ...nextSearch,
       collection: routeCollection ? undefined : nextSearch.collection,
+      day: keepDateFilters ? undefined : nextSearch.day,
+      from: keepDateFilters ? nextSearch.from : undefined,
+      to: keepDateFilters ? nextSearch.to : undefined,
     });
   }
 
@@ -226,8 +250,9 @@ export function StoryViewerPage(): JSX.Element {
 
     applySearch({
       ...viewerSearch,
-      from: day,
-      to: day,
+      day,
+      from: undefined,
+      to: undefined,
       page: undefined,
     });
   }
@@ -251,7 +276,7 @@ export function StoryViewerPage(): JSX.Element {
   }
 
   function onCollectionChange(collection: string): void {
-    const nextSearch = compactViewerSearch({
+    const nextSearch = compactSearchForCurrentPath({
       ...viewerSearch,
       collection: undefined,
       page: undefined,
@@ -277,6 +302,7 @@ export function StoryViewerPage(): JSX.Element {
   function onFromChange(value: string): void {
     applySearch({
       ...viewerSearch,
+      day: undefined,
       from: value || undefined,
       page: undefined,
     });
@@ -285,9 +311,35 @@ export function StoryViewerPage(): JSX.Element {
   function onToChange(value: string): void {
     applySearch({
       ...viewerSearch,
+      day: undefined,
       to: value || undefined,
       page: undefined,
     });
+  }
+
+  function onShowAdvancedSearchChange(value: boolean): void {
+    setShowAdvancedSearch(value);
+    if (!value && (viewerSearch.from || viewerSearch.to)) {
+      const fallbackDay = viewerSearch.day || viewerSearch.from || viewerSearch.to;
+      applySearch({
+        ...viewerSearch,
+        day: fallbackDay || undefined,
+        from: undefined,
+        to: undefined,
+        page: undefined,
+      });
+      return;
+    }
+
+    if (value && !viewerSearch.from && !viewerSearch.to && viewerSearch.day) {
+      applySearch({
+        ...viewerSearch,
+        day: undefined,
+        from: viewerSearch.day,
+        to: viewerSearch.day,
+        page: undefined,
+      });
+    }
   }
 
   const selectedStoryVisible = selectedStoryUUID
@@ -354,7 +406,9 @@ export function StoryViewerPage(): JSX.Element {
               isFetchingNextPage={isFetchingNextStoriesPage}
               hasNextPage={hasNextStoriesPage}
               error={storiesError}
+              showAdvancedSearch={showAdvancedSearch}
               onSearchInputChange={setSearchInput}
+              onShowAdvancedSearchChange={onShowAdvancedSearchChange}
               onFromChange={onFromChange}
               onToChange={onToChange}
               onLoadNextPage={fetchNextStoriesPage}

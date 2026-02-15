@@ -135,7 +135,8 @@ export function StoryDetailPanel({
       return <></>;
     }
 
-    const content = focusedMember.normalized_text?.trim() ?? "";
+    const content = focusedMember.normalized_text ?? "";
+    const hasContent = content.trim() !== "";
 
     return (
       <>
@@ -162,7 +163,11 @@ export function StoryDetailPanel({
           </a>
         ) : null}
         <article className="detail-item-content">
-          {content ? <p className="detail-item-content-text">{content}</p> : <p className="muted">No content captured for this item.</p>}
+          {hasContent ? (
+            <p className="detail-item-content-text">{content}</p>
+          ) : (
+            <p className="muted">No content captured for this item.</p>
+          )}
         </article>
       </>
     );

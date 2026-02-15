@@ -1,18 +1,8 @@
 import type { StoryListItem, StoryMemberItem, StoryPagination } from "../types";
+import { parseDayString } from "./day";
 
 function parseCalendarDay(value: string): Date | null {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return null;
-  }
-  const [year, month, day] = value.split("-").map((part) => Number(part));
-  const date = new Date(year, month - 1, day);
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
-    return null;
-  }
-  return date;
+  return parseDayString(value) ?? null;
 }
 
 function pluralize(value: number, unit: string): string {
@@ -156,8 +146,12 @@ export function buildFeedSourceText(story: StoryListItem): string {
   return `${primary} and ${formatCount(others)} other${others === 1 ? "" : "s"}`;
 }
 
-export function buildFeedMetaText(story: StoryListItem): string {
+export function buildFeedMetaText(story: StoryListItem, includeTimestamp = false): string {
   const sourceText = buildFeedSourceText(story);
+  if (!includeTimestamp) {
+    return sourceText;
+  }
+
   const timestamp = story.representative?.published_at || story.last_seen_at || story.first_seen_at;
   const timeText = formatDateTime(timestamp);
 
