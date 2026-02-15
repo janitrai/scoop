@@ -8,7 +8,7 @@
   }
 
   .finder-row {
-    @apply grid grid-cols-[1fr_auto] items-center gap-1.5;
+    @apply grid grid-cols-[minmax(0,1fr)_2.5rem] items-stretch gap-0;
   }
 
   .finder-input-wrap {
@@ -36,7 +36,7 @@
   }
 
   .finder-advanced-icon {
-    @apply inline-flex h-6 w-6 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-panel-400 outline-none transition-colors duration-150;
+    @apply inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] border border-panel-500 bg-panel-600 p-0 text-panel-400 outline-none transition-colors duration-150;
     line-height: 1;
     overflow: visible;
   }
@@ -48,7 +48,7 @@
   }
 
   .finder-advanced-icon:hover {
-    @apply text-panel-100;
+    @apply border-brand-500/60 text-panel-100;
   }
 
   .finder-advanced-icon:focus-visible {
@@ -308,7 +308,7 @@
   }
 
   .app-root-viewer .finder-row {
-    @apply gap-1.5;
+    @apply gap-2;
   }
 
   .app-root-viewer .day-nav-btn {
@@ -316,11 +316,11 @@
   }
 
   .app-root-viewer .advanced-row {
-    @apply mt-0 gap-0;
+    @apply mt-2 gap-0;
   }
 
   .app-root-viewer .feed-search {
-    @apply sticky top-0 z-10 border-b border-panel-500 bg-panel-900 px-3 py-2;
+    @apply sticky top-0 z-10 bg-panel-900 pl-3 pr-2 py-2;
   }
 
   .app-root-viewer .chips-row {
