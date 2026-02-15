@@ -1,5 +1,6 @@
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Group, Panel, Separator } from "react-resizable-panels";
 
 import { AppHeader } from "./components/AppHeader";
 import { FiltersPanel } from "./components/FiltersPanel";
@@ -25,11 +26,32 @@ export function StoryViewerPage(): JSX.Element {
 
   const [searchInput, setSearchInput] = useState(filters.query);
   const [refreshTick, setRefreshTick] = useState(0);
+  const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
+    return window.matchMedia("(min-width: 1021px)").matches;
+  });
   const dayPickerRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setSearchInput(filters.query);
   }, [filters.query]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(min-width: 1021px)");
+    const updateLayout = (): void => {
+      setIsDesktopLayout(mediaQuery.matches);
+    };
+
+    updateLayout();
+    mediaQuery.addEventListener("change", updateLayout);
+    return () => mediaQuery.removeEventListener("change", updateLayout);
+  }, []);
 
   const {
     collections,
@@ -252,26 +274,36 @@ export function StoryViewerPage(): JSX.Element {
       {globalError ? <p className="banner-error">{globalError}</p> : null}
 
       <main className="layout">
-        <StoriesListPanel
-          totalItems={pagination.total_items}
-          loadedItems={stories.length}
-          selectedStoryUUID={selectedStoryUUID}
-          stories={stories}
-          isLoading={isStoriesPending}
-          isFetchingNextPage={isFetchingNextStoriesPage}
-          hasNextPage={hasNextStoriesPage}
-          error={storiesError}
-          onLoadNextPage={fetchNextStoriesPage}
-          onSelectStory={goToStory}
-        />
+        <Group orientation={isDesktopLayout ? "horizontal" : "vertical"} className="layout-panels">
+          <Panel defaultSize={isDesktopLayout ? 35 : 45} minSize={isDesktopLayout ? 22 : 30}>
+            <StoriesListPanel
+              totalItems={pagination.total_items}
+              loadedItems={stories.length}
+              selectedStoryUUID={selectedStoryUUID}
+              stories={stories}
+              isLoading={isStoriesPending}
+              isFetchingNextPage={isFetchingNextStoriesPage}
+              hasNextPage={hasNextStoriesPage}
+              error={storiesError}
+              onLoadNextPage={fetchNextStoriesPage}
+              onSelectStory={goToStory}
+            />
+          </Panel>
 
-        <StoryDetailPanel
-          selectedStoryUUID={selectedStoryUUID}
-          selectedStoryVisible={selectedStoryVisible}
-          detail={detail}
-          isLoading={isDetailPending}
-          error={detailError}
-        />
+          <Separator
+            className={`layout-resize-handle ${isDesktopLayout ? "horizontal" : "vertical"}`.trim()}
+          />
+
+          <Panel minSize={isDesktopLayout ? 35 : 30}>
+            <StoryDetailPanel
+              selectedStoryUUID={selectedStoryUUID}
+              selectedStoryVisible={selectedStoryVisible}
+              detail={detail}
+              isLoading={isDetailPending}
+              error={detailError}
+            />
+          </Panel>
+        </Group>
       </main>
     </div>
   );

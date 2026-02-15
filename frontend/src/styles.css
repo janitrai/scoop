@@ -27,7 +27,7 @@
   }
 
   .app-root-viewer {
-    @apply h-[100dvh] min-h-0 overflow-hidden pb-4;
+    @apply h-[100dvh] min-h-0 overflow-hidden p-0;
   }
 
   .topbar {
@@ -247,8 +247,331 @@
   }
 
   .layout {
-    @apply grid min-h-0 flex-1 gap-3;
-    grid-template-columns: minmax(300px, 35vw) minmax(0, 1fr);
+    @apply min-h-0 flex-1 overflow-hidden;
+  }
+
+  .layout-panels {
+    @apply h-full min-h-0 w-full;
+  }
+
+  .layout-panels > [data-panel] {
+    @apply min-h-0 min-w-0;
+    display: flex;
+  }
+
+  .layout-resize-handle {
+    @apply bg-panel-500 transition-colors duration-150;
+  }
+
+  .layout-resize-handle.horizontal {
+    width: 1px;
+    cursor: col-resize;
+  }
+
+  .layout-resize-handle.vertical {
+    height: 1px;
+    cursor: row-resize;
+  }
+
+  .layout-resize-handle:hover {
+    @apply bg-brand-500;
+  }
+
+  .layout-resize-handle:focus {
+    @apply bg-brand-500 outline-none;
+  }
+
+  .layout-resize-handle[data-resize-handle-active] {
+    @apply bg-brand-500;
+  }
+
+  .app-root-viewer .topbar {
+    @apply mb-0 rounded-none border-x-0 px-3 py-2 shadow-none;
+  }
+
+  .app-root-viewer .controls {
+    @apply mb-0 rounded-none border-x-0 px-3 py-2 shadow-none;
+  }
+
+  .app-root-viewer .banner-error {
+    @apply mb-0 rounded-none border-x-0;
+  }
+
+  .app-root-viewer .controls-top-row {
+    @apply gap-0;
+  }
+
+  .app-root-viewer .layout-panels {
+    border-top: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .panel.card {
+    @apply rounded-none border-0 bg-transparent shadow-none;
+  }
+
+  .app-root-viewer .panel-header {
+    @apply mb-0 border-b border-panel-500 px-3 py-2;
+  }
+
+  .app-root-viewer .stories-list,
+  .app-root-viewer .detail-content {
+    @apply gap-0 pr-0;
+  }
+
+  .app-root-viewer .story-card {
+    @apply rounded-none border-0 border-b border-panel-500 bg-transparent px-3 py-2;
+  }
+
+  .app-root-viewer .story-card:hover {
+    @apply translate-y-0 border-brand-500/45 bg-[#16223566];
+  }
+
+  .app-root-viewer .story-card.active {
+    @apply border-brand-500 bg-[#1622357a] shadow-none;
+  }
+
+  .app-root-viewer .member-grid {
+    @apply gap-0;
+  }
+
+  .app-root-viewer .member-card {
+    @apply rounded-none border-0 border-b border-panel-500 bg-transparent px-3 py-2;
+  }
+
+  .app-root-viewer .stories-status,
+  .app-root-viewer .detail-content > .muted {
+    @apply px-3 py-2;
+  }
+
+  .app-root-viewer .stories-load-sentinel {
+    @apply h-px;
+  }
+
+  .app-root-viewer .detail-meta,
+  .app-root-viewer .detail-url {
+    @apply px-3;
+  }
+
+  .app-root-viewer .member-grid .muted {
+    @apply px-3 py-2;
+  }
+
+  .app-root-viewer .day-current-btn,
+  .app-root-viewer .finder-input-wrap,
+  .app-root-viewer .btn,
+  .app-root-viewer .btn.btn-subtle,
+  .app-root-viewer .chip {
+    @apply rounded-none;
+  }
+
+  .app-root-viewer .chips-row {
+    @apply mt-2;
+  }
+
+  .app-root-viewer .top-tabs,
+  .app-root-viewer .top-tab {
+    @apply rounded-none;
+  }
+
+  .app-root-viewer .topbar-mark {
+    @apply rounded-none;
+  }
+
+  .app-root-viewer .layout-resize-handle.horizontal {
+    width: 2px;
+  }
+
+  .app-root-viewer .layout-resize-handle.vertical {
+    height: 2px;
+  }
+
+  .app-root-viewer .stories-list > .muted,
+  .app-root-viewer .detail-content > .muted {
+    @apply px-3 py-2;
+  }
+
+  .app-root-viewer .detail-content > .member-grid {
+    @apply mt-1;
+  }
+
+  .app-root-viewer .stories-list::-webkit-scrollbar,
+  .app-root-viewer .detail-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .app-root-viewer .stories-list::-webkit-scrollbar-thumb,
+  .app-root-viewer .detail-content::-webkit-scrollbar-thumb {
+    background: #2a3443;
+  }
+
+  .app-root-viewer .stories-list::-webkit-scrollbar-track,
+  .app-root-viewer .detail-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .app-root-viewer .topbar-left {
+    @apply min-w-0;
+  }
+
+  .app-root-viewer .topbar-title {
+    @apply truncate;
+  }
+
+  .app-root-viewer .layout {
+    @apply gap-0;
+  }
+
+  .app-root-viewer .controls-top-row {
+    grid-template-columns: minmax(280px, 35vw) minmax(0, 1fr);
+  }
+
+  .app-root-viewer .day-nav {
+    @apply gap-0;
+  }
+
+  .app-root-viewer .finder-row {
+    @apply gap-0;
+  }
+
+  .app-root-viewer .advanced-row {
+    @apply mt-0 gap-0;
+  }
+
+  .app-root-viewer .field input {
+    @apply rounded-none;
+  }
+
+  .app-root-viewer .search-strip {
+    @apply pl-0;
+  }
+
+  .app-root-viewer .controls-top-row > * + * {
+    border-left: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .day-nav > * + * {
+    border-left: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .finder-row > * + * {
+    border-left: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .chip {
+    @apply border-x-0 border-t-0 border-b border-panel-500 px-3;
+  }
+
+  .app-root-viewer .chip.active {
+    @apply border-brand-500 bg-[#13233f4d] text-[#dce8ff];
+  }
+
+  .app-root-viewer .story-topline {
+    @apply mb-1;
+  }
+
+  .app-root-viewer .story-meta {
+    @apply mt-1;
+  }
+
+  .app-root-viewer .stories-list {
+    @apply pb-2;
+  }
+
+  .app-root-viewer .detail-content {
+    @apply pb-2;
+  }
+
+  .app-root-viewer .member-sub {
+    @apply mt-1;
+  }
+
+  .app-root-viewer .decision-pill {
+    @apply mt-1;
+  }
+
+  .app-root-viewer .day-current-line {
+    @apply px-2;
+  }
+
+  .app-root-viewer .topbar-copy {
+    @apply min-w-0;
+  }
+
+  .app-root-viewer .topbar-kicker {
+    @apply mb-0;
+  }
+
+  .app-root-viewer .topbar-meta {
+    @apply max-w-none;
+  }
+
+  .app-root-viewer .panel {
+    @apply p-0;
+  }
+
+  .app-root-viewer .stories-list,
+  .app-root-viewer .detail-content {
+    scrollbar-gutter: stable both-edges;
+  }
+
+  .app-root-viewer .controls,
+  .app-root-viewer .topbar,
+  .app-root-viewer .banner-error {
+    @apply border-b border-panel-500;
+  }
+
+  .app-root-viewer .controls,
+  .app-root-viewer .topbar {
+    border-top: 0;
+  }
+
+  .app-root-viewer .stories-list {
+    border-right: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .layout-resize-handle.horizontal {
+    background: #2a3443;
+  }
+
+  .app-root-viewer .layout-resize-handle.horizontal:hover,
+  .app-root-viewer .layout-resize-handle.horizontal[data-resize-handle-active] {
+    background: #4f8cff;
+  }
+
+  .app-root-viewer .detail-content {
+    @apply pl-0;
+  }
+
+  .app-root-viewer .detail-content > * {
+    @apply px-3;
+  }
+
+  .app-root-viewer .detail-content > .member-grid {
+    @apply px-0;
+  }
+
+  .app-root-viewer .member-card > * {
+    @apply px-0;
+  }
+
+  .app-root-viewer .stories-list > * {
+    @apply mx-0;
+  }
+
+  .app-root-viewer .controls .chips-row {
+    @apply mt-0;
+  }
+
+  .app-root-viewer .chips-row {
+    border-top: 1px solid #2a3443;
+  }
+
+  .app-root-viewer .stories-load-sentinel,
+  .app-root-viewer .stories-status {
+    @apply border-b border-panel-500;
+  }
+
+  .app-root-viewer .layout {
     @apply overflow-hidden;
   }
 
