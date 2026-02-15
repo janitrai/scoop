@@ -1,12 +1,10 @@
 import { Link } from "@tanstack/react-router";
 
 interface AppHeaderProps {
-  title: string;
   activeTab: "stories" | "stats";
-  rightText?: string;
 }
 
-export function AppHeader({ title, activeTab, rightText }: AppHeaderProps): JSX.Element {
+export function AppHeader({ activeTab }: AppHeaderProps): JSX.Element {
   return (
     <header className="topbar">
       <div className="topbar-left">
@@ -14,8 +12,7 @@ export function AppHeader({ title, activeTab, rightText }: AppHeaderProps): JSX.
           S
         </span>
         <div className="topbar-copy">
-          <p className="topbar-kicker">Scoop</p>
-          <h1 className="topbar-title">{title}</h1>
+          <h1 className="topbar-title">SCOOP</h1>
         </div>
       </div>
 
@@ -27,8 +24,6 @@ export function AppHeader({ title, activeTab, rightText }: AppHeaderProps): JSX.
           Stats
         </Link>
       </nav>
-
-      {rightText ? <p className="topbar-meta">{rightText}</p> : null}
     </header>
   );
 }

@@ -1,0 +1,59 @@
+@layer components {
+  .app-root {
+    @apply flex min-h-screen flex-col pb-8 pt-6;
+    padding-inline: clamp(14px, 3vw, 32px);
+  }
+
+  .app-root-viewer {
+    @apply h-[100dvh] min-h-0 overflow-hidden p-0;
+  }
+
+  .topbar {
+    @apply mb-4 flex flex-wrap items-center gap-2.5 rounded-[14px] border border-panel-500 px-3 py-2.5 shadow-panel;
+    background-color: rgba(21, 27, 36, 0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .topbar-left {
+    @apply flex min-w-0 flex-1 items-center gap-2.5;
+  }
+
+  .topbar-mark {
+    @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-500 bg-[#13233f] font-display text-[0.9rem] font-bold text-[#dce8ff];
+  }
+
+  .topbar-copy {
+    @apply min-w-0;
+  }
+
+  .topbar-title {
+    @apply m-0 truncate font-display tracking-[0.08em] text-panel-100;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+  }
+
+  .top-tabs {
+    @apply flex items-center gap-1 rounded-full border border-panel-500 bg-panel-700 p-1;
+  }
+
+  .top-tab {
+    @apply rounded-full border border-transparent px-3 py-1.5 text-[0.72rem] font-extrabold uppercase tracking-[0.08em] text-panel-400 no-underline transition-colors duration-150;
+  }
+
+  .top-tab:hover {
+    @apply text-panel-100;
+  }
+
+  .top-tab.active {
+    @apply border-brand-500 bg-brand-500 text-white;
+  }
+
+  .app-root-viewer .topbar {
+    @apply mb-0 rounded-none border-x-0 border-t-0 px-3 py-2 shadow-none;
+  }
+
+  .app-root-viewer .topbar-mark,
+  .app-root-viewer .top-tabs,
+  .app-root-viewer .top-tab {
+    @apply rounded-none;
+  }
+}

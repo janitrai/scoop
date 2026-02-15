@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { getStats } from "../api";
-import { AppHeader } from "../components/AppHeader";
+import { PageShell } from "../components/PageShell";
 import { StatsGrid } from "../components/StatsGrid";
 import { extractErrorMessage, formatDateTime, formatCount } from "../lib/viewerFormat";
 
@@ -21,9 +21,7 @@ export function StatsPage(): JSX.Element {
     : "No story updates yet";
 
   return (
-    <div className="app-root">
-      <AppHeader title="Pipeline Metrics" activeTab="stats" />
-
+    <PageShell activeTab="stats" variant="stats">
       <section className="card stats-toolbar">
         <div className="stats-toolbar-copy">
           <p className="muted">System-wide ingestion and deduplication metrics.</p>
@@ -48,6 +46,6 @@ export function StatsPage(): JSX.Element {
           <p className="stat-value">{formatCount(stats?.running_ingest_runs)}</p>
         </article>
       </section>
-    </div>
+    </PageShell>
   );
 }

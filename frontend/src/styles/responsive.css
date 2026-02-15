@@ -1,0 +1,69 @@
+@media (max-width: 760px) {
+  .app-root {
+    @apply p-[14px];
+  }
+
+  .app-root-viewer {
+    @apply h-[100dvh] pb-3;
+  }
+
+  .topbar {
+    @apply gap-2;
+  }
+
+  .topbar-left {
+    @apply w-full;
+  }
+
+  .top-tabs {
+    @apply w-full justify-start;
+  }
+
+  .top-tab {
+    @apply flex-1 text-center;
+  }
+
+  .topbar-title {
+    font-size: 1.08rem;
+  }
+
+  .topbar-mark {
+    @apply h-7 w-7 text-[0.82rem];
+  }
+
+  .controls-top-row {
+    @apply grid-cols-1;
+  }
+
+  .finder-row {
+    @apply grid-cols-[1fr_auto];
+  }
+
+  .finder-row .finder-input-wrap {
+    grid-column: span 2;
+  }
+
+  .advanced-row {
+    @apply grid-cols-1;
+  }
+
+  .day-nav {
+    @apply grid grid-cols-[auto_1fr_auto] gap-2;
+  }
+
+  .day-current-btn {
+    min-width: 0;
+  }
+
+  .stats-grid {
+    @apply grid-cols-2;
+  }
+
+  .stats-secondary-grid {
+    @apply grid-cols-1;
+  }
+
+  .stats-toolbar {
+    @apply items-start;
+  }
+}

@@ -2,11 +2,12 @@ import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
-import { AppHeader } from "./components/AppHeader";
 import { FiltersPanel } from "./components/FiltersPanel";
+import { PageShell } from "./components/PageShell";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { useViewerQueries } from "./hooks/useViewerQueries";
+import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
 import { formatCalendarDay, formatRelativeDay } from "./lib/viewerFormat";
 import type { DayNavigationState, ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
@@ -26,6 +27,7 @@ export function StoryViewerPage(): JSX.Element {
 
   const [searchInput, setSearchInput] = useState(filters.query);
   const [refreshTick, setRefreshTick] = useState(0);
+  const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -52,6 +54,32 @@ export function StoryViewerPage(): JSX.Element {
     mediaQuery.addEventListener("change", updateLayout);
     return () => mediaQuery.removeEventListener("change", updateLayout);
   }, []);
+
+  const feedWidthBounds = useMemo(() => getDesktopFeedWidthBounds(), []);
+  const feedPanelSize = useMemo(() => `${feedWidthBounds.defaultValue}%`, [feedWidthBounds.defaultValue]);
+  const feedPanelMin = useMemo(() => `${feedWidthBounds.min}%`, [feedWidthBounds.min]);
+  const feedPanelMax = useMemo(() => `${feedWidthBounds.max}%`, [feedWidthBounds.max]);
+  const desktopLayout = useMemo(
+    () => ({
+      storyFeed: desktopFeedWidthPct,
+      storyDetail: 100 - desktopFeedWidthPct,
+    }),
+    [desktopFeedWidthPct],
+  );
+
+  function onLayoutChanged(layout: Record<string, number>): void {
+    if (!isDesktopLayout) {
+      return;
+    }
+
+    const nextWidth = layout.storyFeed;
+    if (typeof nextWidth !== "number" || !Number.isFinite(nextWidth)) {
+      return;
+    }
+
+    setDesktopFeedWidthPct(nextWidth);
+    setDesktopFeedWidthPctState(getDesktopFeedWidthPct());
+  }
 
   const {
     collections,
@@ -247,9 +275,7 @@ export function StoryViewerPage(): JSX.Element {
     : true;
 
   return (
-    <div className="app-root app-root-viewer">
-      <AppHeader title="News Desk" activeTab="stories" />
-
+    <PageShell activeTab="stories" variant="viewer">
       <FiltersPanel
         searchInput={searchInput}
         from={filters.from}
@@ -274,8 +300,19 @@ export function StoryViewerPage(): JSX.Element {
       {globalError ? <p className="banner-error">{globalError}</p> : null}
 
       <main className="layout">
-        <Group orientation={isDesktopLayout ? "horizontal" : "vertical"} className="layout-panels">
-          <Panel defaultSize={isDesktopLayout ? 35 : 45} minSize={isDesktopLayout ? 22 : 30}>
+        <Group
+          key={isDesktopLayout ? "desktop-layout" : "mobile-layout"}
+          orientation={isDesktopLayout ? "horizontal" : "vertical"}
+          className="layout-panels"
+          defaultLayout={isDesktopLayout ? desktopLayout : undefined}
+          onLayoutChanged={onLayoutChanged}
+        >
+          <Panel
+            id="storyFeed"
+            defaultSize={isDesktopLayout ? feedPanelSize : "45%"}
+            minSize={isDesktopLayout ? feedPanelMin : "30%"}
+            maxSize={isDesktopLayout ? feedPanelMax : "70%"}
+          >
             <StoriesListPanel
               totalItems={pagination.total_items}
               loadedItems={stories.length}
@@ -294,7 +331,7 @@ export function StoryViewerPage(): JSX.Element {
             className={`layout-resize-handle ${isDesktopLayout ? "horizontal" : "vertical"}`.trim()}
           />
 
-          <Panel minSize={isDesktopLayout ? 35 : 30}>
+          <Panel id="storyDetail" minSize={isDesktopLayout ? "20%" : "30%"}>
             <StoryDetailPanel
               selectedStoryUUID={selectedStoryUUID}
               selectedStoryVisible={selectedStoryVisible}
@@ -305,6 +342,6 @@ export function StoryViewerPage(): JSX.Element {
           </Panel>
         </Group>
       </main>
-    </div>
+    </PageShell>
   );
 }

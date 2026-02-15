@@ -1,0 +1,51 @@
+@layer components {
+  .stats-grid {
+    @apply mb-4 grid grid-cols-4 gap-2.5;
+  }
+
+  .stats-toolbar {
+    @apply mb-4 flex items-center justify-between gap-3 p-[14px];
+  }
+
+  .stats-toolbar-copy {
+    @apply min-w-0;
+  }
+
+  .stats-updated {
+    @apply m-0 truncate font-mono text-[0.76rem] text-panel-400;
+  }
+
+  .stats-secondary-grid {
+    @apply grid grid-cols-2 gap-2.5 border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .stat {
+    @apply p-3;
+  }
+
+  .stat-label {
+    @apply mb-2 mt-0 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-panel-400;
+  }
+
+  .stat-value {
+    @apply m-0 font-display text-[clamp(1.2rem,2vw,1.7rem)] font-bold;
+  }
+
+  .app-root-stats {
+    @apply overflow-y-auto pb-0;
+  }
+
+  .app-root-stats .stats-toolbar,
+  .app-root-stats .stats-grid,
+  .app-root-stats .stats-secondary-grid {
+    @apply mb-0 gap-0;
+  }
+
+  .app-root-stats .stats-toolbar {
+    @apply rounded-none border-x-0 border-t-0 px-3 py-2;
+  }
+
+  .app-root-stats .stat.card {
+    @apply rounded-none border-x-0 border-t-0 bg-transparent px-3 py-2 shadow-none;
+  }
+}

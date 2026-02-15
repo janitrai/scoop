@@ -1,0 +1,60 @@
+@layer components {
+  .eyebrow {
+    @apply mb-1.5 mt-0 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-panel-400;
+  }
+
+  .card {
+    @apply rounded-[14px] border border-panel-500 bg-panel-800 shadow-panel;
+  }
+
+  .btn {
+    @apply min-h-10 cursor-pointer rounded-[10px] border border-transparent bg-brand-500 px-[14px] py-[10px] text-[0.9rem] font-extrabold tracking-[0.01em] text-white;
+  }
+
+  .btn:hover {
+    @apply bg-brand-400;
+  }
+
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-45;
+  }
+
+  .btn.btn-subtle {
+    @apply border-panel-500 bg-panel-600 text-panel-100;
+  }
+
+  .field {
+    @apply flex flex-col gap-1.5 text-[0.82rem] font-bold text-panel-400;
+  }
+
+  .field input {
+    @apply w-full rounded-[10px] border border-panel-500 bg-panel-600 px-[11px] py-[10px] text-[0.92rem] text-panel-100 outline-none;
+  }
+
+  .field input:focus {
+    @apply border-brand-500 ring-2 ring-brand-500/35;
+  }
+
+  .page-label {
+    @apply font-mono text-[0.82rem] text-panel-400;
+  }
+
+  .muted {
+    @apply text-panel-400;
+  }
+
+  .banner-error {
+    @apply mb-3 mt-0 rounded-[10px] border border-[#ff7b7273] bg-[#7a1c1859] px-3 py-2.5 text-[0.86rem] text-[#ffb6b0];
+  }
+
+  .app-root-viewer .btn,
+  .app-root-viewer .btn.btn-subtle,
+  .app-root-viewer .field input,
+  .app-root-viewer .banner-error {
+    @apply rounded-none;
+  }
+
+  .app-root-viewer .banner-error {
+    @apply mb-0 border-x-0;
+  }
+}
