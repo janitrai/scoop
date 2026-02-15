@@ -44,7 +44,7 @@
   }
 
   .banner-error {
-    @apply mb-3 mt-0 rounded-[10px] border border-[#ff7b7273] bg-[#7a1c1859] px-3 py-2.5 text-[0.86rem] text-[#ffb6b0];
+    @apply mb-3 mt-0 rounded-[10px] border border-red-400/45 bg-red-900/35 px-3 py-2.5 text-[0.86rem] text-red-200;
   }
 
   .app-root-viewer .btn,

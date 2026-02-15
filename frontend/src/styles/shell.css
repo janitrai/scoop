@@ -9,9 +9,7 @@
   }
 
   .topbar {
-    @apply mb-4 flex flex-wrap items-center justify-between gap-2.5 rounded-[14px] border border-panel-500 px-3 py-2.5 shadow-panel;
-    background-color: rgba(21, 27, 36, 0.9);
-    backdrop-filter: blur(12px);
+    @apply mb-4 flex flex-wrap items-center justify-between gap-2.5 rounded-[14px] border border-panel-500 bg-panel-800/90 px-3 py-2.5 shadow-panel backdrop-blur-md;
   }
 
   .topbar-left {
@@ -40,17 +38,8 @@
   }
 
   .brand-select-trigger {
-    @apply h-auto w-auto gap-1.5 rounded-[10px] border border-transparent bg-transparent px-1.5 py-1 text-left shadow-none transition-colors duration-150;
-    border-color: transparent !important;
-    background-color: transparent !important;
-    white-space: nowrap;
-  }
-
-  .brand-select-trigger:hover,
-  .brand-select-trigger[data-state="open"] {
-    @apply border-panel-500 bg-panel-700/70;
-    border-color: #2a3443 !important;
-    background-color: rgba(43, 55, 72, 0.7) !important;
+    @apply h-auto w-auto gap-1.5 whitespace-nowrap rounded-[10px] border border-transparent bg-transparent px-1.5 py-1 text-left shadow-none transition-colors duration-150;
+    @apply hover:border-panel-500 hover:bg-panel-700/70 data-[state=open]:border-panel-500 data-[state=open]:bg-panel-700/70;
   }
 
   .brand-select-trigger:focus-visible {
@@ -76,9 +65,7 @@
   }
 
   .brand-select-separator-dot {
-    @apply block h-1.5 w-1.5 shrink-0 self-center rounded-full transition-colors duration-150;
-    margin-inline: 0.6rem;
-    background-color: #637081;
+    @apply mx-2.5 block h-1.5 w-1.5 shrink-0 self-center rounded-full bg-panel-400 transition-colors duration-150;
   }
 
   .brand-select-current {
@@ -87,7 +74,7 @@
 
   .brand-select-trigger:hover .brand-select-separator-dot,
   .brand-select-trigger[data-state="open"] .brand-select-separator-dot {
-    background-color: #8f9db0;
+    @apply bg-panel-100/70;
   }
 
   .brand-select-trigger:hover .brand-select-current,
