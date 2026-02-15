@@ -20,7 +20,7 @@ export function StoryDetailPanel({
     <aside className="panel card detail-panel">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Story Detail</p>
+          <p className="eyebrow">Story Breakdown</p>
           <h2>{detail?.story.title || (selectedStoryUUID ? "Loading..." : "Select a story")}</h2>
         </div>
       </div>

@@ -22,10 +22,13 @@ export function StatsPage(): JSX.Element {
 
   return (
     <div className="app-root">
-      <AppHeader title="Pipeline Stats" activeTab="stats" rightText={updatedText} />
+      <AppHeader title="Pipeline Metrics" activeTab="stats" />
 
       <section className="card stats-toolbar">
-        <p className="muted">System-wide ingestion and deduplication counters.</p>
+        <div className="stats-toolbar-copy">
+          <p className="muted">System-wide ingestion and deduplication metrics.</p>
+          <p className="stats-updated">{updatedText}</p>
+        </div>
         <button type="button" className="btn" onClick={() => setRefreshTick((tick) => tick + 1)}>
           Refresh
         </button>

@@ -1,52 +1,75 @@
+import { useEffect, useRef } from "react";
+
 import { buildStoryMetaText, formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
 
 interface StoriesListPanelProps {
-  page: number;
-  totalPages: number;
   totalItems: number;
+  loadedItems: number;
   selectedStoryUUID: string;
   stories: StoryListItem[];
   isLoading: boolean;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean;
   error: string;
-  onPrevPage: () => void;
-  onNextPage: () => void;
+  onLoadNextPage: () => void;
   onSelectStory: (storyUUID: string) => void;
 }
 
 export function StoriesListPanel({
-  page,
-  totalPages,
   totalItems,
+  loadedItems,
   selectedStoryUUID,
   stories,
   isLoading,
+  isFetchingNextPage,
+  hasNextPage,
   error,
-  onPrevPage,
-  onNextPage,
+  onLoadNextPage,
   onSelectStory,
 }: StoriesListPanelProps): JSX.Element {
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const loadTriggerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!hasNextPage || isLoading || isFetchingNextPage || Boolean(error)) {
+      return;
+    }
+
+    const root = listRef.current;
+    const target = loadTriggerRef.current;
+    if (!root || !target) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          onLoadNextPage();
+        }
+      },
+      {
+        root,
+        rootMargin: "220px 0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [error, hasNextPage, isFetchingNextPage, isLoading, onLoadNextPage, stories.length]);
+
   return (
     <section className="panel card">
       <div className="panel-header">
         <div>
-          <p className="eyebrow">Canonical Stories</p>
+          <p className="eyebrow">Story Feed</p>
           <h2>{formatCount(totalItems)} Stories</h2>
         </div>
-        <div className="pager">
-          <button className="btn btn-subtle" type="button" onClick={onPrevPage} disabled={page <= 1}>
-            Prev
-          </button>
-          <span className="page-label">
-            Page {page} / {totalPages}
-          </span>
-          <button className="btn btn-subtle" type="button" onClick={onNextPage} disabled={page >= totalPages}>
-            Next
-          </button>
-        </div>
+        <span className="page-label">{formatCount(Math.min(loadedItems, totalItems))} loaded</span>
       </div>
 
-      <div className="stories-list">
+      <div ref={listRef} className="stories-list">
         {isLoading ? <p className="muted">Loading stories...</p> : null}
         {!isLoading && error ? <p className="muted">{error}</p> : null}
         {!isLoading && !error && stories.length === 0 ? <p className="muted">No stories match this filter.</p> : null}
@@ -77,6 +100,12 @@ export function StoriesListPanel({
               </article>
             ))
           : null}
+
+        {!isLoading && !error ? <div ref={loadTriggerRef} className="stories-load-sentinel" aria-hidden="true" /> : null}
+        {isFetchingNextPage ? <p className="muted stories-status">Loading more stories...</p> : null}
+        {!isFetchingNextPage && !hasNextPage && stories.length > 0 ? (
+          <p className="muted stories-status">Reached the end of this story feed.</p>
+        ) : null}
       </div>
     </section>
   );

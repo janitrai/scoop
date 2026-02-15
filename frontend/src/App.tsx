@@ -6,7 +6,7 @@ import { FiltersPanel } from "./components/FiltersPanel";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { useViewerQueries } from "./hooks/useViewerQueries";
-import { formatCalendarDay, formatCount, formatRelativeDay } from "./lib/viewerFormat";
+import { formatCalendarDay, formatRelativeDay } from "./lib/viewerFormat";
 import type { DayNavigationState, ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
 
@@ -41,6 +41,9 @@ export function StoryViewerPage(): JSX.Element {
     storiesError,
     detailError,
     isStoriesPending,
+    isFetchingNextStoriesPage,
+    hasNextStoriesPage,
+    fetchNextStoriesPage,
     isDetailPending,
   } = useViewerQueries({
     filters,
@@ -54,11 +57,9 @@ export function StoryViewerPage(): JSX.Element {
     const customRangeActive = Boolean((filters.from || filters.to) && !selectedDay);
     const navigatorDay = selectedDay || dayBuckets[0]?.day || "";
     const currentIndex = navigatorDay ? dayBuckets.findIndex((bucket) => bucket.day === navigatorDay) : -1;
-    const bucket = navigatorDay ? dayBuckets.find((row) => row.day === navigatorDay) : undefined;
 
     const canGoOlder = !customRangeActive && currentIndex >= 0 && currentIndex < dayBuckets.length - 1;
     const canGoNewer = !customRangeActive && currentIndex > 0;
-    const storyCount = Number(bucket?.story_count ?? 0);
 
     let currentLabel = "Pick a day";
     let relativeLabel = "No story days yet. Pick a date from the calendar.";
@@ -68,11 +69,7 @@ export function StoryViewerPage(): JSX.Element {
       relativeLabel = `From ${filters.from || "start"} to ${filters.to || "now"}`;
     } else if (navigatorDay) {
       currentLabel = formatCalendarDay(navigatorDay);
-      if (selectedDay) {
-        relativeLabel = `${formatRelativeDay(selectedDay)} • ${formatCount(storyCount)} stories`;
-      } else {
-        relativeLabel = `Showing all days • latest is ${formatRelativeDay(navigatorDay)} • ${formatCount(storyCount)} stories`;
-      }
+      relativeLabel = formatRelativeDay(navigatorDay);
     }
 
     return {
@@ -85,7 +82,24 @@ export function StoryViewerPage(): JSX.Element {
     };
   }, [dayBuckets, filters.from, filters.to, selectedDay]);
 
-  const totalPages = Math.max(1, pagination.total_pages);
+  useEffect(() => {
+    if (filters.from || filters.to) {
+      return;
+    }
+
+    const latestDay = dayBuckets[0]?.day;
+    if (!latestDay) {
+      return;
+    }
+
+    applySearch({
+      ...viewerSearch,
+      from: latestDay,
+      to: latestDay,
+      page: undefined,
+    });
+  }, [dayBuckets, filters.from, filters.to, viewerSearch]);
+
   const allStoriesCount = useMemo(
     () => collections.reduce((acc, row) => acc + Number(row.stories || 0), 0),
     [collections],
@@ -119,7 +133,7 @@ export function StoryViewerPage(): JSX.Element {
       applySearch({
         ...viewerSearch,
         q: trimmed || undefined,
-        page: 1,
+        page: undefined,
       });
     }, 220);
 
@@ -130,12 +144,6 @@ export function StoryViewerPage(): JSX.Element {
 
   function setSingleDayFilter(day: string): void {
     if (!day) {
-      applySearch({
-        ...viewerSearch,
-        from: undefined,
-        to: undefined,
-        page: 1,
-      });
       return;
     }
 
@@ -143,7 +151,7 @@ export function StoryViewerPage(): JSX.Element {
       ...viewerSearch,
       from: day,
       to: day,
-      page: 1,
+      page: undefined,
     });
   }
 
@@ -192,7 +200,7 @@ export function StoryViewerPage(): JSX.Element {
     applySearch({
       ...viewerSearch,
       collection: collection || undefined,
-      page: 1,
+      page: undefined,
     });
   }
 
@@ -200,7 +208,7 @@ export function StoryViewerPage(): JSX.Element {
     applySearch({
       ...viewerSearch,
       from: value || undefined,
-      page: 1,
+      page: undefined,
     });
   }
 
@@ -208,29 +216,7 @@ export function StoryViewerPage(): JSX.Element {
     applySearch({
       ...viewerSearch,
       to: value || undefined,
-      page: 1,
-    });
-  }
-
-  function onPrevPage(): void {
-    if (filters.page <= 1) {
-      return;
-    }
-
-    applySearch({
-      ...viewerSearch,
-      page: filters.page - 1,
-    });
-  }
-
-  function onNextPage(): void {
-    if (filters.page >= totalPages) {
-      return;
-    }
-
-    applySearch({
-      ...viewerSearch,
-      page: filters.page + 1,
+      page: undefined,
     });
   }
 
@@ -239,8 +225,8 @@ export function StoryViewerPage(): JSX.Element {
     : true;
 
   return (
-    <div className="app-root">
-      <AppHeader title="Story Viewer" activeTab="stories" />
+    <div className="app-root app-root-viewer">
+      <AppHeader title="News Desk" activeTab="stories" />
 
       <FiltersPanel
         searchInput={searchInput}
@@ -249,7 +235,6 @@ export function StoryViewerPage(): JSX.Element {
         activeCollection={filters.collection}
         allStoriesCount={allStoriesCount}
         totalItems={pagination.total_items}
-        hasDateFilter={Boolean(filters.from || filters.to)}
         collections={collections}
         dayNav={dayNav}
         dayPickerRef={dayPickerRef}
@@ -261,7 +246,6 @@ export function StoryViewerPage(): JSX.Element {
         onMoveOlderDay={() => moveDay(1)}
         onMoveNewerDay={() => moveDay(-1)}
         onOpenDayPicker={openDayPicker}
-        onClearDays={() => setSingleDayFilter("")}
         onDayPick={setSingleDayFilter}
       />
 
@@ -269,15 +253,15 @@ export function StoryViewerPage(): JSX.Element {
 
       <main className="layout">
         <StoriesListPanel
-          page={filters.page}
-          totalPages={totalPages}
           totalItems={pagination.total_items}
+          loadedItems={stories.length}
           selectedStoryUUID={selectedStoryUUID}
           stories={stories}
           isLoading={isStoriesPending}
+          isFetchingNextPage={isFetchingNextStoriesPage}
+          hasNextPage={hasNextStoriesPage}
           error={storiesError}
-          onPrevPage={onPrevPage}
-          onNextPage={onNextPage}
+          onLoadNextPage={fetchNextStoriesPage}
           onSelectStory={goToStory}
         />
 

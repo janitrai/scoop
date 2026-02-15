@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { MutableRefObject } from "react";
 
 import { formatCount } from "../lib/viewerFormat";
@@ -10,7 +11,6 @@ interface FiltersPanelProps {
   activeCollection: string;
   allStoriesCount: number;
   totalItems: number;
-  hasDateFilter: boolean;
   collections: CollectionSummary[];
   dayNav: DayNavigationState;
   dayPickerRef: MutableRefObject<HTMLInputElement | null>;
@@ -22,7 +22,6 @@ interface FiltersPanelProps {
   onMoveOlderDay: () => void;
   onMoveNewerDay: () => void;
   onOpenDayPicker: () => void;
-  onClearDays: () => void;
   onDayPick: (day: string) => void;
 }
 
@@ -33,7 +32,6 @@ export function FiltersPanel({
   activeCollection,
   allStoriesCount,
   totalItems,
-  hasDateFilter,
   collections,
   dayNav,
   dayPickerRef,
@@ -45,35 +43,111 @@ export function FiltersPanel({
   onMoveOlderDay,
   onMoveNewerDay,
   onOpenDayPicker,
-  onClearDays,
   onDayPick,
 }: FiltersPanelProps): JSX.Element {
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+
   return (
     <section className="controls card">
-      <div className="control-row">
-        <label className="field">
-          <span>Search</span>
-          <input
-            value={searchInput}
-            onChange={(event) => onSearchInputChange(event.target.value)}
-            type="text"
-            placeholder="Title or canonical URL"
-          />
-        </label>
+      <div className="controls-top-row">
+        <div className="day-strip">
+          <div className="day-nav">
+            <button
+              type="button"
+              className="btn btn-subtle day-nav-btn"
+              aria-label="Older day"
+              onClick={onMoveOlderDay}
+              disabled={!dayNav.canGoOlder}
+            >
+              &larr;
+            </button>
 
-        <label className="field field-small">
-          <span>From</span>
-          <input value={from} onChange={(event) => onFromChange(event.target.value)} type="date" />
-        </label>
+            <button type="button" className="day-current-btn" onClick={onOpenDayPicker}>
+              <span className="day-current-line">
+                {dayNav.currentLabel} • {dayNav.relativeLabel}
+              </span>
+            </button>
 
-        <label className="field field-small">
-          <span>To</span>
-          <input value={to} onChange={(event) => onToChange(event.target.value)} type="date" />
-        </label>
+            <button
+              type="button"
+              className="btn btn-subtle day-nav-btn"
+              aria-label="Newer day"
+              onClick={onMoveNewerDay}
+              disabled={!dayNav.canGoNewer}
+            >
+              &rarr;
+            </button>
 
-        <button className="btn" type="button" onClick={onRefresh}>
-          Refresh
-        </button>
+            <input
+              ref={(node) => {
+                dayPickerRef.current = node;
+              }}
+              className="day-picker-input"
+              type="date"
+              aria-hidden="true"
+              tabIndex={-1}
+              onChange={(event) => {
+                if (!event.target.value) {
+                  return;
+                }
+                onDayPick(event.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="search-strip">
+          <div className="finder-row">
+            <div className="finder-input-wrap">
+              <span className="finder-icon" aria-hidden="true">
+                /
+              </span>
+              <input
+                value={searchInput}
+                onChange={(event) => onSearchInputChange(event.target.value)}
+                type="text"
+                placeholder="Search stories (title or URL)"
+                aria-label="Search stories"
+              />
+              {searchInput ? (
+                <button
+                  type="button"
+                  className="finder-clear"
+                  onClick={() => onSearchInputChange("")}
+                  aria-label="Clear search"
+                >
+                  x
+                </button>
+              ) : null}
+            </div>
+
+            <button
+              className={`btn btn-subtle finder-advanced-btn ${showAdvancedSearch ? "active" : ""}`.trim()}
+              type="button"
+              onClick={() => setShowAdvancedSearch((value) => !value)}
+            >
+              Advanced
+            </button>
+
+            <button className="btn" type="button" onClick={onRefresh}>
+              Refresh
+            </button>
+          </div>
+
+          {showAdvancedSearch ? (
+            <div className="advanced-row">
+              <label className="field field-small">
+                <span>From</span>
+                <input value={from} onChange={(event) => onFromChange(event.target.value)} type="date" />
+              </label>
+
+              <label className="field field-small">
+                <span>To</span>
+                <input value={to} onChange={(event) => onToChange(event.target.value)} type="date" />
+              </label>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       <div className="chips-row">
@@ -95,61 +169,6 @@ export function FiltersPanel({
             {row.collection} ({formatCount(row.stories)} stories)
           </button>
         ))}
-      </div>
-
-      <div className="day-strip">
-        <p className="eyebrow day-eyebrow">Browse By Day</p>
-        <div className="day-nav">
-          <button
-            type="button"
-            className="btn btn-subtle day-nav-btn"
-            aria-label="Older day"
-            onClick={onMoveOlderDay}
-            disabled={!dayNav.canGoOlder}
-          >
-            &larr;
-          </button>
-
-          <button type="button" className="day-current-btn" onClick={onOpenDayPicker}>
-            {dayNav.currentLabel}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-subtle day-nav-btn"
-            aria-label="Newer day"
-            onClick={onMoveNewerDay}
-            disabled={!dayNav.canGoNewer}
-          >
-            &rarr;
-          </button>
-
-          <button
-            type="button"
-            className={`chip day-clear-btn ${!hasDateFilter ? "active" : ""}`.trim()}
-            onClick={onClearDays}
-            disabled={!hasDateFilter}
-          >
-            All days
-          </button>
-
-          <input
-            ref={(node) => {
-              dayPickerRef.current = node;
-            }}
-            className="day-picker-input"
-            type="date"
-            aria-hidden="true"
-            tabIndex={-1}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return;
-              }
-              onDayPick(event.target.value);
-            }}
-          />
-        </div>
-        <p className="day-relative">{dayNav.relativeLabel}</p>
       </div>
     </section>
   );
