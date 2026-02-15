@@ -39,23 +39,23 @@ run-health:
 	@echo "$(CYAN)Running health check...$(RESET)"
 	go run $(MAIN_PATH) health
 
-## run-serve: Start Echo API + web app for story browsing
+## run-serve: Start Echo API server on 0.0.0.0:8090
 .PHONY: run-serve
 run-serve:
 	@echo "$(CYAN)Starting web server on 0.0.0.0:8090...$(RESET)"
 	go run $(MAIN_PATH) serve --host 0.0.0.0 --port 8090
 
-## web-build: Build React (Vite + TypeScript) frontend into internal/httpapi/assets
+## web-build: Build React (Vite + TypeScript) frontend static bundle into ../frontend/dist
 .PHONY: web-build
 web-build:
 	@echo "$(CYAN)Building frontend assets...$(RESET)"
-	npm --prefix ../frontend run build
+	pnpm --dir ../frontend run build
 
 ## web-dev: Run Vite frontend dev server
 .PHONY: web-dev
 web-dev:
 	@echo "$(CYAN)Starting frontend dev server...$(RESET)"
-	npm --prefix ../frontend run dev
+	pnpm --dir ../frontend run dev
 
 ## run-ingest-smoke: Run one manual ingest event
 .PHONY: run-ingest-smoke

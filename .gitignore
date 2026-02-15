@@ -9,6 +9,7 @@ dist/
 
 # Go
 bin/
+backend/internal/httpapi/assets/
 
 # Env and local secrets
 .env

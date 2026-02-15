@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/fs"
 	"net/http"
 	"strconv"
 	"strings"
@@ -210,25 +209,13 @@ func (s *Server) Start(ctx context.Context) error {
 			return nil
 		},
 	}))
-
-	assetsSub, err := fs.Sub(embeddedAssets, "assets")
-	if err != nil {
-		return fmt.Errorf("load embedded assets: %w", err)
-	}
-	indexHTML, err := fs.ReadFile(assetsSub, "index.html")
-	if err != nil {
-		return fmt.Errorf("load index.html: %w", err)
-	}
-
-	indexHandler := func(c echo.Context) error {
-		return c.Blob(http.StatusOK, "text/html; charset=utf-8", indexHTML)
-	}
-
-	e.GET("/", indexHandler)
-	e.GET("/stories", indexHandler)
-	e.GET("/stories/:story_uuid", indexHandler)
-	e.GET("/stats", indexHandler)
-	e.GET("/assets/*", echo.WrapHandler(http.StripPrefix("/assets/", http.FileServer(http.FS(assetsSub)))))
+	e.GET("/", func(c echo.Context) error {
+		return success(c, map[string]any{
+			"service": "scoop-api",
+			"status":  "ok",
+			"time":    globaltime.UTC(),
+		})
+	})
 
 	api := e.Group("/api/v1")
 	api.GET("/health", s.handleHealth)

@@ -55,7 +55,7 @@ func printUsage() {
 	fmt.Fprintln(os.Stderr, "  dedup      Assign pending documents into canonical stories")
 	fmt.Fprintln(os.Stderr, "  process    Run normalize + embed + dedup in sequence")
 	fmt.Fprintln(os.Stderr, "  run-once   Alias for process")
-	fmt.Fprintln(os.Stderr, "  serve      Start Echo API + web app for browsing stories")
+	fmt.Fprintln(os.Stderr, "  serve      Start Echo API server")
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "Use \"scoop <command> -h\" for command-specific flags.")
 }

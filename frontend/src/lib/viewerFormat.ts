@@ -156,6 +156,20 @@ export function buildFeedSourceText(story: StoryListItem): string {
   return `${primary} and ${formatCount(others)} other${others === 1 ? "" : "s"}`;
 }
 
+export function buildFeedMetaText(story: StoryListItem): string {
+  const sourceText = buildFeedSourceText(story);
+  const timestamp = story.representative?.published_at || story.last_seen_at || story.first_seen_at;
+  const timeText = formatDateTime(timestamp);
+
+  if (timeText === "n/a") {
+    return sourceText;
+  }
+  if (!sourceText) {
+    return timeText;
+  }
+  return `${timeText} • ${sourceText}`;
+}
+
 export function buildMemberSubtitle(member: StoryMemberItem): string {
   const scoreSuffix = member.match_score == null ? "" : ` • score ${Number(member.match_score).toFixed(3)}`;
   return `${member.source}:${member.source_item_id} • ${member.match_type}${scoreSuffix}`;

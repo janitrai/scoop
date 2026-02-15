@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings2, X } from "lucide-react";
 
-import { buildFeedSourceText, formatCount } from "../lib/viewerFormat";
+import { buildFeedMetaText, formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -158,7 +158,7 @@ export function StoriesListPanel({
                     <h3 className="story-title">{story.title || "(untitled)"}</h3>
                   </header>
                   <p className="story-meta">
-                    {buildFeedSourceText(story)}
+                    {buildFeedMetaText(story)}
                   </p>
                 </article>
               ))

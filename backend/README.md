@@ -13,27 +13,39 @@ API responses use JSend envelopes.
 
 ## Story Viewer API + Web App
 
-Start server:
+Local dev runs as two processes:
+
+1. Backend API (Echo + PostgreSQL):
 
 ```bash
 go run ./cmd/scoop serve --env .env --host 0.0.0.0 --port 8090
 ```
 
+2. Frontend dev server (Vite):
+
+```bash
+pnpm --dir ../frontend dev
+```
+
 Open in browser:
-- `http://<host>:8090/` (story viewer web app)
+- `http://127.0.0.1:5173/`
+
+Notes:
+- Backend serves API only (`/api/v1/...`).
+- Vite proxies `/api/*` to `http://127.0.0.1:8090`.
+- Frontend production build outputs to `../frontend/dist` (not into backend code).
 
 Frontend stack:
 - React + Vite + strict TypeScript (source in `../frontend/`)
 - Tailwind CSS (component layer via `@apply` in `../frontend/src/styles.css`)
 - TanStack Router (typed route/search state)
 - TanStack Query (typed API caching/fetching)
-- built output is written to `internal/httpapi/assets` and served by Echo
 
 Build frontend assets:
 
 ```bash
-npm --prefix ../frontend install
-npm --prefix ../frontend run build
+pnpm --dir ../frontend install
+pnpm --dir ../frontend build
 ```
 
 Web app day browsing:

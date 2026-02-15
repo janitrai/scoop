@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { StoryListItem } from "../types";
 
-import { buildFeedSourceText, formatDateTime } from "./viewerFormat";
+import { buildFeedMetaText, buildFeedSourceText, formatDateTime } from "./viewerFormat";
 
 function makeStory(overrides: Partial<StoryListItem>): StoryListItem {
   return {
@@ -60,6 +60,25 @@ describe("buildFeedSourceText", () => {
     });
 
     expect(buildFeedSourceText(story)).toBe("2 sources");
+  });
+});
+
+describe("buildFeedMetaText", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("includes date and source text for feed rows", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-02-15T12:00:00Z"));
+
+    const story = makeStory({
+      canonical_url: "https://news.ycombinator.com/item?id=123",
+      last_seen_at: "2026-02-14T15:13:19Z",
+      source_count: 1,
+    });
+
+    expect(buildFeedMetaText(story)).toMatch(/^Feb 14, \d{2}:\d{2} • news\.ycombinator\.com$/);
   });
 });
 
