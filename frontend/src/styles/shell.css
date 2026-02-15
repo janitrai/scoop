@@ -107,7 +107,7 @@
   }
 
   .app-root-viewer .topbar {
-    @apply mb-0 flex-nowrap rounded-none border-x-0 border-t-0 bg-panel-800 pt-1.5 pb-2 shadow-none backdrop-blur-none;
+    @apply mb-0 flex-nowrap rounded-none border-x-0 border-t-0 bg-panel-800 pt-2 pb-2 shadow-none backdrop-blur-none;
     margin-inline: calc(var(--viewer-shell-gutter) * -1);
     padding-inline: calc(0.75rem + var(--viewer-shell-gutter));
   }

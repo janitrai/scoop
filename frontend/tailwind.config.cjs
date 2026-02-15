@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         sans: ["Manrope", "Segoe UI", "sans-serif"],
         display: ["Space Grotesk", "Manrope", "sans-serif"],
+        news: ["Inter", "Manrope", "Segoe UI", "sans-serif"],
         mono: ["IBM Plex Mono", "monospace"],
       },
       colors: {

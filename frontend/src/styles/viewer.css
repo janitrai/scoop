@@ -221,7 +221,7 @@
   }
 
   .story-title {
-    @apply m-0 text-[0.93rem] leading-[1.3];
+    @apply m-0 font-news text-[0.93rem] leading-[1.3];
   }
 
   .story-meta {
@@ -233,7 +233,7 @@
   }
 
   .detail-title {
-    @apply m-0 font-display text-[1.08rem] leading-[1.3] text-panel-100;
+    @apply m-0 font-news text-[1.08rem] leading-[1.3] text-panel-100;
   }
 
   .detail-url {
@@ -253,7 +253,7 @@
   }
 
   .member-head {
-    @apply m-0 text-[0.86rem] font-extrabold;
+    @apply m-0 font-news text-[0.86rem] font-semibold;
   }
 
   .member-sub {
