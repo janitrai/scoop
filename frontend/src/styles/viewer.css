@@ -274,9 +274,12 @@
   }
 
   .app-root-viewer .controls,
-  .app-root-viewer .topbar,
   .app-root-viewer .banner-error {
     @apply mb-0 border-x-0 border-t-0 border-b border-panel-500 px-3 py-2 shadow-none;
+  }
+
+  .app-root-viewer .topbar {
+    @apply mb-0 border-x-0 border-t-0 border-b border-panel-500 shadow-none;
   }
 
   .app-root-viewer .layout {
@@ -284,7 +287,7 @@
   }
 
   .app-root-viewer .layout-panels {
-    @apply border-t border-panel-500;
+    @apply border-t-0;
   }
 
   .app-root-viewer .panel.card {
@@ -320,7 +323,7 @@
   }
 
   .app-root-viewer .feed-search {
-    @apply sticky top-0 z-10 bg-panel-900 pl-3 pr-2 py-2;
+    @apply sticky top-0 z-10 bg-panel-900 pl-3 pr-2 pt-2.5 pb-2;
   }
 
   .app-root-viewer .chips-row {
