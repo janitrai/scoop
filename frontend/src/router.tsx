@@ -38,13 +38,42 @@ const storyDetailRoute = createRoute({
   component: StoryViewerPage,
 });
 
+const collectionRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/c/$collection",
+  validateSearch: validateViewerSearch,
+  component: StoryViewerPage,
+});
+
+const collectionStoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/c/$collection/s/$storyUUID",
+  validateSearch: validateViewerSearch,
+  component: StoryViewerPage,
+});
+
+const collectionStoryItemRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/c/$collection/s/$storyUUID/i/$itemUUID",
+  validateSearch: validateViewerSearch,
+  component: StoryViewerPage,
+});
+
 const statsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/stats",
   component: StatsPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, storiesRoute, storyDetailRoute, statsRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  storiesRoute,
+  storyDetailRoute,
+  collectionRoute,
+  collectionStoryRoute,
+  collectionStoryItemRoute,
+  statsRoute,
+]);
 
 export const router = createRouter({
   routeTree,

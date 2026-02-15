@@ -1,8 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { StoryListItem } from "../types";
 
-import { buildFeedSourceText } from "./viewerFormat";
+import { buildFeedSourceText, formatDateTime } from "./viewerFormat";
 
 function makeStory(overrides: Partial<StoryListItem>): StoryListItem {
   return {
@@ -63,3 +63,30 @@ describe("buildFeedSourceText", () => {
   });
 });
 
+describe("formatDateTime", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("omits year for dates in the current year and uses 24-hour time without seconds", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-02-15T12:00:00Z"));
+
+    const text = formatDateTime("2026-01-13T15:04:59Z");
+    expect(text).toMatch(/^[A-Z][a-z]{2} \d{1,2}, \d{2}:\d{2}$/);
+    expect(text).not.toMatch(/\bAM\b|\bPM\b/);
+    expect(text).not.toMatch(/:\d{2}:\d{2}$/);
+    expect(text).not.toContain("2026");
+  });
+
+  it("includes year for dates outside the current year", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-02-15T12:00:00Z"));
+
+    const text = formatDateTime("2025-01-13T15:04:59Z");
+    expect(text).toMatch(/^[A-Z][a-z]{2} \d{1,2}, \d{4}, \d{2}:\d{2}$/);
+    expect(text).toContain("2025");
+    expect(text).not.toMatch(/\bAM\b|\bPM\b/);
+    expect(text).not.toMatch(/:\d{2}:\d{2}$/);
+  });
+});

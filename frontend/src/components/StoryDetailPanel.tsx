@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import { buildMemberSubtitle, formatDateTime } from "../lib/viewerFormat";
@@ -7,42 +7,54 @@ import { Button } from "./ui/button";
 
 interface StoryDetailPanelProps {
   selectedStoryUUID: string;
+  selectedItemUUID: string;
   selectedStoryVisible: boolean;
   detail: StoryDetailResponse | null;
   isLoading: boolean;
   error: string;
+  onSelectItem: (itemUUID: string) => void;
+  onClearSelectedItem: () => void;
 }
 
 export function StoryDetailPanel({
   selectedStoryUUID,
+  selectedItemUUID,
   selectedStoryVisible,
   detail,
   isLoading,
   error,
+  onSelectItem,
+  onClearSelectedItem,
 }: StoryDetailPanelProps): JSX.Element {
-  const [focusedMemberUUID, setFocusedMemberUUID] = useState("");
-
-  useEffect(() => {
-    setFocusedMemberUUID("");
-  }, [selectedStoryUUID]);
-
-  useEffect(() => {
-    if (!focusedMemberUUID || !detail) {
-      return;
-    }
-
-    const stillExists = detail.members.some((member) => member.story_member_uuid === focusedMemberUUID);
-    if (!stillExists) {
-      setFocusedMemberUUID("");
-    }
-  }, [detail, focusedMemberUUID]);
-
   const focusedMember = useMemo(() => {
-    if (!detail || !focusedMemberUUID) {
+    if (!detail || !selectedItemUUID) {
       return null;
     }
-    return detail.members.find((member) => member.story_member_uuid === focusedMemberUUID) ?? null;
-  }, [detail, focusedMemberUUID]);
+    return detail.members.find((member) => member.story_member_uuid === selectedItemUUID) ?? null;
+  }, [detail, selectedItemUUID]);
+
+  const mergedLinks = useMemo(() => {
+    if (!detail) {
+      return [];
+    }
+
+    const byURL = new Map<string, string>();
+
+    const storyURL = detail.story.canonical_url?.trim();
+    if (storyURL) {
+      byURL.set(storyURL, storyURL);
+    }
+
+    for (const member of detail.members) {
+      const itemURL = member.canonical_url?.trim();
+      if (!itemURL || byURL.has(itemURL)) {
+        continue;
+      }
+      byURL.set(itemURL, itemURL);
+    }
+
+    return Array.from(byURL.values());
+  }, [detail]);
 
   function buildMemberPreview(text?: string): string {
     const collapsed = (text ?? "").replace(/\s+/g, " ").trim();
@@ -68,11 +80,21 @@ export function StoryDetailPanel({
         <p className="detail-meta">
           Collection: {detail.story.collection} • {detail.story.item_count} items • {detail.story.source_count} sources
         </p>
-        {detail.story.canonical_url ? (
-          <a className="detail-url" href={detail.story.canonical_url} target="_blank" rel="noreferrer">
-            {detail.story.canonical_url}
-          </a>
+
+        {mergedLinks.length > 0 ? (
+          <section className="story-links-block">
+            <ul className="story-links-list">
+              {mergedLinks.map((url) => (
+                <li key={url}>
+                  <a className="detail-url" href={url} target="_blank" rel="noreferrer">
+                    {url}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
         ) : null}
+
         <p className="detail-meta">
           first seen {formatDateTime(detail.story.first_seen_at)} • last seen {formatDateTime(detail.story.last_seen_at)}
         </p>
@@ -84,11 +106,11 @@ export function StoryDetailPanel({
               className="member-card member-card-clickable"
               role="button"
               tabIndex={0}
-              onClick={() => setFocusedMemberUUID(member.story_member_uuid)}
+              onClick={() => onSelectItem(member.story_member_uuid)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
-                  setFocusedMemberUUID(member.story_member_uuid);
+                  onSelectItem(member.story_member_uuid);
                 }
               }}
             >
@@ -122,7 +144,7 @@ export function StoryDetailPanel({
             type="button"
             variant="ghost"
             className="detail-back-btn"
-            onClick={() => setFocusedMemberUUID("")}
+            onClick={onClearSelectedItem}
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to story

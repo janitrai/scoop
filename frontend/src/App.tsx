@@ -19,15 +19,28 @@ export function StoryViewerPage(): JSX.Element {
   const allCollectionsValue = "__all_collections__";
   const navigate = useNavigate();
   const rawSearch = useSearch({ strict: false });
-  const rawParams = useParams({ strict: false }) as { storyUUID?: string };
+  const rawParams = useParams({ strict: false }) as {
+    collection?: string;
+    storyUUID?: string;
+    itemUUID?: string;
+  };
 
   const viewerSearch = useMemo(
     () => normalizeViewerSearch(rawSearch as unknown as Record<string, unknown>),
     [rawSearch],
   );
 
-  const filters = useMemo(() => toStoryFilters(viewerSearch), [viewerSearch]);
+  const routeCollection = typeof rawParams.collection === "string" ? rawParams.collection.trim() : "";
+  const baseFilters = useMemo(() => toStoryFilters(viewerSearch), [viewerSearch]);
+  const filters = useMemo(
+    () => ({
+      ...baseFilters,
+      collection: routeCollection || baseFilters.collection,
+    }),
+    [baseFilters, routeCollection],
+  );
   const selectedStoryUUID = typeof rawParams.storyUUID === "string" ? rawParams.storyUUID : "";
+  const selectedItemUUID = typeof rawParams.itemUUID === "string" ? rawParams.itemUUID : "";
 
   const [searchInput, setSearchInput] = useState(filters.query);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
@@ -107,24 +120,6 @@ export function StoryViewerPage(): JSX.Element {
     to: filters.to,
   });
 
-  useEffect(() => {
-    if (filters.from || filters.to) {
-      return;
-    }
-
-    const latestDay = dayBuckets[0]?.day;
-    if (!latestDay) {
-      return;
-    }
-
-    applySearch({
-      ...viewerSearch,
-      from: latestDay,
-      to: latestDay,
-      page: undefined,
-    });
-  }, [dayBuckets, filters.from, filters.to, viewerSearch]);
-
   const allStoriesCount = useMemo(
     () => collections.reduce((acc, row) => acc + Number(row.stories || 0), 0),
     [collections],
@@ -134,21 +129,74 @@ export function StoryViewerPage(): JSX.Element {
     [allStoriesCount, pagination.total_items],
   );
 
+  function compactSearchForCurrentPath(nextSearch: ViewerSearch): ViewerSearch {
+    return compactViewerSearch({
+      ...nextSearch,
+      collection: routeCollection ? undefined : nextSearch.collection,
+    });
+  }
+
   function applySearch(nextSearch: ViewerSearch): void {
     void navigate({
       to: ".",
-      search: compactViewerSearch(nextSearch),
+      search: compactSearchForCurrentPath(nextSearch),
       replace: true,
     });
   }
 
-  function goToStory(storyUUID: string): void {
+  function navigateToStoryPath(collection: string, storyUUID: string, itemUUID?: string): void {
+    const currentSearch = compactSearchForCurrentPath(viewerSearch);
+
+    if (collection) {
+      if (itemUUID) {
+        void navigate({
+          to: "/c/$collection/s/$storyUUID/i/$itemUUID",
+          params: { collection, storyUUID, itemUUID },
+          search: currentSearch,
+          replace: false,
+        });
+        return;
+      }
+
+      void navigate({
+        to: "/c/$collection/s/$storyUUID",
+        params: { collection, storyUUID },
+        search: currentSearch,
+        replace: false,
+      });
+      return;
+    }
+
     void navigate({
       to: "/stories/$storyUUID",
       params: { storyUUID },
-      search: compactViewerSearch(viewerSearch),
+      search: currentSearch,
       replace: false,
     });
+  }
+
+  function goToStory(storyUUID: string): void {
+    const story = stories.find((row) => row.story_uuid === storyUUID);
+    const collection = (story?.collection || routeCollection || filters.collection || "").trim();
+    navigateToStoryPath(collection, storyUUID);
+  }
+
+  function goToItem(itemUUID: string): void {
+    if (!selectedStoryUUID) {
+      return;
+    }
+
+    const collection = (detail?.story.collection || routeCollection || filters.collection || "").trim();
+    navigateToStoryPath(collection, selectedStoryUUID, itemUUID);
+  }
+
+  function clearSelectedItem(): void {
+    if (!selectedStoryUUID) {
+      return;
+    }
+
+    const collection = (detail?.story.collection || routeCollection || filters.collection || "").trim();
+    navigateToStoryPath(collection, selectedStoryUUID);
   }
 
   useEffect(() => {
@@ -203,10 +251,26 @@ export function StoryViewerPage(): JSX.Element {
   }
 
   function onCollectionChange(collection: string): void {
-    applySearch({
+    const nextSearch = compactViewerSearch({
       ...viewerSearch,
-      collection: collection || undefined,
+      collection: undefined,
       page: undefined,
+    });
+
+    if (collection) {
+      void navigate({
+        to: "/c/$collection",
+        params: { collection },
+        search: nextSearch,
+        replace: false,
+      });
+      return;
+    }
+
+    void navigate({
+      to: "/",
+      search: nextSearch,
+      replace: false,
     });
   }
 
@@ -305,10 +369,13 @@ export function StoryViewerPage(): JSX.Element {
           <Panel id="storyDetail" minSize={isDesktopLayout ? "20%" : "30%"}>
             <StoryDetailPanel
               selectedStoryUUID={selectedStoryUUID}
+              selectedItemUUID={selectedItemUUID}
               selectedStoryVisible={selectedStoryVisible}
               detail={detail}
               isLoading={isDetailPending}
               error={detailError}
+              onSelectItem={goToItem}
+              onClearSelectedItem={clearSelectedItem}
             />
           </Panel>
         </Group>

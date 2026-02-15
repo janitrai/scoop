@@ -31,7 +31,28 @@ export function formatDateTime(value?: string): string {
   if (Number.isNaN(date.getTime())) {
     return "n/a";
   }
-  return date.toLocaleString();
+
+  const now = new Date();
+  const sameYear = date.getFullYear() === now.getFullYear();
+
+  const options: Intl.DateTimeFormatOptions = sameYear
+    ? {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }
+    : {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+
+  return date.toLocaleString("en-US", options);
 }
 
 export function formatCalendarDay(value: string): string {

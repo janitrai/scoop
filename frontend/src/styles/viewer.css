@@ -243,6 +243,18 @@
     @apply text-panel-100;
   }
 
+  .story-links-block {
+    @apply mt-1;
+  }
+
+  .story-links-list {
+    @apply m-0 mt-0.5 grid list-none gap-0.5 p-0;
+  }
+
+  .story-links-list .detail-url {
+    @apply block max-w-full truncate whitespace-nowrap break-normal text-[0.95rem] leading-tight;
+  }
+
   .member-grid {
     @apply grid gap-2;
   }
@@ -459,6 +471,10 @@
 
   .app-root-viewer .detail-item-content-text {
     @apply text-[0.94rem] leading-[1.6];
+  }
+
+  .app-root-viewer .story-links-list .detail-url {
+    @apply px-0 py-0;
   }
 
   .app-root-viewer .detail-content > * {
