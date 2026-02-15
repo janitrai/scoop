@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { buildMemberSubtitle, formatDateTime } from "../lib/viewerFormat";
 import type { StoryDetailResponse } from "../types";
-import { Button } from "./ui/button";
 
 interface StoryDetailPanelProps {
   selectedStoryUUID: string;
@@ -24,13 +23,6 @@ export function StoryDetailPanel({
   onSelectItem,
   onClearSelectedItem,
 }: StoryDetailPanelProps): JSX.Element {
-  const focusedMember = useMemo(() => {
-    if (!detail || !selectedItemUUID) {
-      return null;
-    }
-    return detail.members.find((member) => member.story_member_uuid === selectedItemUUID) ?? null;
-  }, [detail, selectedItemUUID]);
-
   const mergedLinks = useMemo(() => {
     if (!detail) {
       return [];
@@ -67,7 +59,7 @@ export function StoryDetailPanel({
     return `${collapsed.slice(0, maxChars).trimEnd()}...`;
   }
 
-  function renderStoryView(): JSX.Element {
+  function renderStoryHeader(): JSX.Element {
     if (!detail) {
       return <></>;
     }
@@ -96,77 +88,82 @@ export function StoryDetailPanel({
         <p className="detail-meta">
           first seen {formatDateTime(detail.story.first_seen_at)} • last seen {formatDateTime(detail.story.last_seen_at)}
         </p>
-        <section className="member-grid">
-          {detail.members.length === 0 ? <p className="muted">No items found for this story.</p> : null}
-          {detail.members.map((member) => (
-            <article
-              key={member.story_member_uuid}
-              className="member-card member-card-clickable"
-              role="button"
-              tabIndex={0}
-              onClick={() => onSelectItem(member.story_member_uuid)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  onSelectItem(member.story_member_uuid);
-                }
-              }}
-            >
-              <p className="member-head">{member.normalized_title || "(no title)"}</p>
-              <p className="member-preview">{buildMemberPreview(member.normalized_text)}</p>
-              <p className="member-sub">{buildMemberSubtitle(member)}</p>
-              <p className="member-sub">
-                matched {formatDateTime(member.matched_at)} • published {formatDateTime(member.published_at)}
-              </p>
-              {member.dedup_decision ? (
-                <span className={`decision-pill decision-${member.dedup_decision}`}>{member.dedup_decision}</span>
-              ) : null}
-            </article>
-          ))}
-        </section>
       </>
     );
   }
 
-  function renderFocusedItemView(): JSX.Element {
-    if (!focusedMember) {
+  function renderStoryView(): JSX.Element {
+    if (!detail) {
       return <></>;
     }
 
-    const content = focusedMember.normalized_text ?? "";
-    const hasContent = content.trim() !== "";
-
     return (
       <>
-        <div className="detail-item-nav">
-          <Button
-            type="button"
-            variant="ghost"
-            className="detail-back-btn"
-            onClick={onClearSelectedItem}
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Back to story
-          </Button>
-        </div>
-        <h2 className="detail-title">{focusedMember.normalized_title || "(no title)"}</h2>
-        <p className="detail-meta">Collection: {focusedMember.collection}</p>
-        <p className="detail-meta">{buildMemberSubtitle(focusedMember)}</p>
-        <p className="detail-meta">
-          matched {formatDateTime(focusedMember.matched_at)} • published {formatDateTime(focusedMember.published_at)}
-        </p>
-        {focusedMember.canonical_url ? (
-          <a className="detail-url" href={focusedMember.canonical_url} target="_blank" rel="noreferrer">
-            {focusedMember.canonical_url}
-          </a>
-        ) : null}
-        <article className="detail-item-content">
-          {hasContent ? (
-            <p className="detail-item-content-text">{content}</p>
-          ) : (
-            <p className="muted">No content captured for this item.</p>
-          )}
-        </article>
+        {renderStoryHeader()}
+        <section className="member-grid">
+          {detail.members.length === 0 ? <p className="muted">No items found for this story.</p> : null}
+          {detail.members.map((member) => {
+            const isExpanded = member.story_member_uuid === selectedItemUUID;
+            const content = member.normalized_text ?? "";
+            const hasContent = content.trim() !== "";
+            const decisionText = member.dedup_decision ? member.dedup_decision.toLowerCase() : "";
+
+            return (
+              <article
+                key={member.story_member_uuid}
+                className={`member-card ${isExpanded ? "member-card-expanded" : ""}`.trim()}
+              >
+              <button
+                type="button"
+                className={`member-toggle ${isExpanded ? "expanded" : ""}`.trim()}
+                onClick={() => {
+                  if (isExpanded) {
+                    onClearSelectedItem();
+                    return;
+                  }
+                  onSelectItem(member.story_member_uuid);
+                }}
+                aria-expanded={isExpanded}
+                aria-label={`${isExpanded ? "Collapse" : "Expand"} item ${member.normalized_title || "(no title)"}`}
+              >
+                <p className="member-head">{member.normalized_title || "(no title)"}</p>
+                {isExpanded ? (
+                  <ChevronDown className="member-toggle-icon" aria-hidden="true" />
+                ) : (
+                  <ChevronRight className="member-toggle-icon" aria-hidden="true" />
+                )}
+              </button>
+              {isExpanded ? <p className="member-sub">{buildMemberSubtitle(member)}</p> : null}
+              <p className="member-sub">
+                matched {formatDateTime(member.matched_at)} • published {formatDateTime(member.published_at)}
+                {decisionText ? (
+                  <>
+                    {" "}
+                    • <span className="member-decision-inline">{decisionText}</span>
+                  </>
+                ) : null}
+              </p>
+              {isExpanded ? (
+                <>
+                  {member.canonical_url ? (
+                    <a className="member-expanded-url" href={member.canonical_url} target="_blank" rel="noreferrer">
+                      {member.canonical_url}
+                    </a>
+                  ) : null}
+                  <article className="detail-item-content member-expanded-content">
+                    {hasContent ? (
+                      <p className="detail-item-content-text">{content}</p>
+                    ) : (
+                      <p className="muted">No content captured for this item.</p>
+                    )}
+                  </article>
+                </>
+              ) : null}
+              {!isExpanded ? <p className="member-preview member-preview-collapsed">{buildMemberPreview(member.normalized_text)}</p> : null}
+            </article>
+            );
+          })}
+        </section>
       </>
     );
   }
@@ -178,9 +175,7 @@ export function StoryDetailPanel({
         {selectedStoryUUID && isLoading ? <p className="muted">Fetching story detail...</p> : null}
         {selectedStoryUUID && !isLoading && error ? <p className="muted">{error}</p> : null}
 
-        {selectedStoryUUID && !isLoading && !error && detail ? (
-          focusedMember ? renderFocusedItemView() : renderStoryView()
-        ) : null}
+        {selectedStoryUUID && !isLoading && !error && detail ? renderStoryView() : null}
       </div>
     </aside>
   );

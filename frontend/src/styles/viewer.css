@@ -264,7 +264,7 @@
   }
 
   .detail-url {
-    @apply inline-block break-words text-brand-400 no-underline;
+    @apply block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap break-normal text-brand-400 no-underline;
   }
 
   .detail-url:hover {
@@ -277,10 +277,15 @@
 
   .story-links-list {
     @apply m-0 mt-0.5 grid list-none gap-0.5 p-0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .story-links-list li {
+    min-width: 0;
   }
 
   .story-links-list .detail-url {
-    @apply block max-w-full truncate whitespace-nowrap break-normal text-[0.95rem] leading-tight;
+    @apply text-[0.95rem] leading-tight;
   }
 
   .member-grid {
@@ -291,16 +296,30 @@
     @apply rounded-[10px] border border-panel-500 bg-panel-650 p-2.5;
   }
 
-  .member-card-clickable {
-    @apply cursor-pointer transition-colors duration-150;
+  .member-card-expanded {
+    @apply bg-brand-500/5;
   }
 
-  .member-card-clickable:hover {
-    @apply border-brand-500/60 bg-brand-500/10;
+  .member-toggle {
+    @apply inline-flex max-w-full items-start gap-1.5 border-0 bg-transparent p-0 text-left;
   }
 
-  .member-card-clickable:focus-visible {
-    @apply border-brand-500/70 outline-none ring-2 ring-brand-500/35;
+  .member-toggle-icon {
+    @apply mt-0.5 h-4 w-4 shrink-0 text-panel-400 transition-colors duration-150;
+  }
+
+  .member-toggle:hover .member-head,
+  .member-toggle:hover .member-toggle-icon {
+    @apply text-brand-400;
+  }
+
+  .member-toggle:focus-visible {
+    @apply outline-none;
+  }
+
+  .member-toggle:focus-visible .member-head,
+  .member-toggle:focus-visible .member-toggle-icon {
+    @apply text-brand-400;
   }
 
   .member-head {
@@ -319,16 +338,8 @@
     @apply mb-0 mt-1.5 font-mono text-[0.74rem] text-panel-400;
   }
 
-  .detail-item-nav {
-    @apply mb-0 mt-0;
-  }
-
-  .detail-back-btn {
-    @apply inline-flex h-8 items-center gap-2 rounded-[10px] border border-panel-500 bg-panel-700 px-2.5 text-panel-100;
-  }
-
-  .detail-back-btn:hover {
-    @apply border-brand-500/60 bg-brand-500/15;
+  .member-decision-inline {
+    @apply lowercase;
   }
 
   .detail-item-content {
@@ -339,6 +350,18 @@
     @apply m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.55] text-panel-100;
     word-break: break-word;
     overflow-wrap: anywhere;
+  }
+
+  .member-expanded-url {
+    @apply mt-2 block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap break-normal text-[0.92rem] leading-tight text-brand-400 no-underline;
+  }
+
+  .member-expanded-url:hover {
+    @apply text-panel-100;
+  }
+
+  .member-expanded-content {
+    @apply mt-2 rounded-none border-0 bg-transparent p-0;
   }
 
   .decision-pill {
@@ -474,28 +497,27 @@
     @apply rounded-none border-0 bg-transparent px-5 py-4;
   }
 
-  .app-root-viewer .member-card-clickable:hover {
-    @apply bg-brand-500/10;
-  }
-
-  .app-root-viewer .member-card-clickable:focus-visible {
-    @apply ring-0;
+  .app-root-viewer .member-card.member-card-expanded {
+    @apply bg-brand-500/5;
   }
 
   .app-root-viewer .member-card > * {
     @apply px-0;
   }
 
+  .app-root-viewer .member-toggle:hover .member-head,
+  .app-root-viewer .member-toggle:hover .member-toggle-icon,
+  .app-root-viewer .member-toggle:focus-visible .member-head,
+  .app-root-viewer .member-toggle:focus-visible .member-toggle-icon {
+    @apply text-brand-400;
+  }
+
   .app-root-viewer .member-preview {
     @apply mt-1.5;
   }
 
-  .app-root-viewer .detail-item-nav {
-    @apply px-5 pt-3 pb-2;
-  }
-
-  .app-root-viewer .detail-back-btn {
-    @apply h-8 rounded-full border-panel-500 bg-panel-800 px-3 text-[0.78rem];
+  .app-root-viewer .member-preview-collapsed {
+    @apply mb-0;
   }
 
   .app-root-viewer .detail-item-content {
@@ -506,6 +528,14 @@
     @apply text-[0.94rem] leading-[1.6];
   }
 
+  .app-root-viewer .member-expanded-url {
+    @apply px-0 py-1;
+  }
+
+  .app-root-viewer .member-expanded-content {
+    @apply mx-0 mb-0 mt-2 rounded-none border-0 bg-transparent p-0;
+  }
+
   .app-root-viewer .story-links-list .detail-url {
     @apply px-0 py-0;
   }
@@ -514,7 +544,6 @@
     @apply px-5;
   }
 
-  .app-root-viewer .detail-content > .detail-item-nav,
   .app-root-viewer .detail-content > .detail-item-content {
     @apply px-0;
   }
