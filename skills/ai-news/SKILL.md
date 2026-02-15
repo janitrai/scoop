@@ -71,17 +71,62 @@ python3 scripts/fetch_news.py [--hours N] [--max N] [--format markdown|json]
 
 The script fetches concurrently from all sources, filters for AI relevance, deduplicates, and outputs a structured digest.
 
-## Raw News Archive
+## Scoop Pipeline Integration
 
-Every fetch saves raw JSON to `~/playground/ai-news-raw/YYYY-MM-DD.json`. This is the unprocessed data — all stories from all sources, dated.
+This skill integrates with the **Scoop** NEWSINT pipeline for ingestion, embedding, and semantic dedup.
+
+### Prerequisites
+- PostgreSQL with `news` schema running (DB creds in `~/scoop/backend/.env`)
+- Embedding service running on port 8844 (Qwen3-Embedding-8B):
+  ```bash
+  cd ~/scoop/embedding-service && /home/bob/janitr/scripts/.venv/bin/python3 main.py --backend transformers --port 8844 --server
+  ```
+- Scoop binary built: `cd ~/scoop/backend && go build -o /tmp/scoop ./cmd/scoop/`
+
+### Ingest + Dedup Pipeline
+
+After fetching raw stories, ingest them into scoop for semantic dedup:
 
 ```bash
-# Save raw fetch to archive
-python3 scripts/fetch_news.py --hours 24 --max 20 --format markdown > ~/playground/ai-news-raw/$(date +%Y-%m-%d).md
+# 1. Fetch raw stories as JSON
+cd ~/scoop/skills/ai-news
+python3 scripts/fetch_news.py --hours 24 --max 50 --format json > /tmp/ai-news-raw.json
+
+# 2. Convert to canonical schema and ingest each item
+#    Each item needs: payload_version, source, source_item_id, title, canonical_url,
+#    published_at (RFC3339), source_domain, source_metadata.collection = "ai_news",
+#    source_metadata.job_name, source_metadata.job_run_id, source_metadata.scraped_at
+#    Items without a parseable date MUST be skipped (never default to today)
+
+# 3. Run the full pipeline (normalize → embed → dedup)
+cd ~/scoop/backend && source .env
+/tmp/scoop run-once
+
+# 4. Query stories for the digest — only non-duplicate stories for today
+#    Stories with decision='auto_merge' were merged into existing stories
+#    Stories with decision='new_story' are unique — use these for the digest
 ```
 
-This archive feeds into `STATE_OF_AI.md` — but **only the Chairman edits that document**. Never autonomously add to STATE_OF_AI.md.
+### Scoop CLI Reference
+```
+/tmp/scoop ingest --payload-file <path.json>    # Ingest one item
+/tmp/scoop normalize                             # Raw arrivals → documents
+/tmp/scoop embed                                 # Generate embeddings (requires embedding service)
+/tmp/scoop dedup                                 # Semantic dedup → stories
+/tmp/scoop run-once                              # Full pipeline cycle (normalize+embed+dedup)
+/tmp/scoop serve                                 # HTTP API on port 8090
+```
+
+### Important
+- **Never fake dates**: if a story has no parseable publication date, skip it
+- **Embedding service must be running**: embed step will fail without it
+- The scoop dedup uses cosine similarity ≥0.935 for auto-merge, 0.89-0.935 for gray zone
+- Collection for AI news is `ai_news`
 
 ## Scheduled Daily Digest
 
-This skill is designed to be triggered by a daily cron job. The cron job runs the fetch, saves raw JSON to the archive, curates a digest, and posts it to the configured Discord channel.
+This skill is triggered by a daily cron job. The workflow:
+1. Fetch from all sources via `fetch_news.py`
+2. Ingest into scoop pipeline for semantic dedup
+3. Curate top 10-15 unique stories from pipeline output
+4. Post digest to Discord #ai-news channel
