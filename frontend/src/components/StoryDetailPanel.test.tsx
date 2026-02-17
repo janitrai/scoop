@@ -1,13 +1,13 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { getStoryItemPreview } from "../api";
+import { getStoryArticlePreview } from "../api";
 import { StoryDetailPanel } from "./StoryDetailPanel";
 import type { StoryDetailResponse } from "../types";
 
 vi.mock("../api", () => ({
-  getStoryItemPreview: vi.fn(async (storyMemberUUID: string) => ({
-    story_member_uuid: storyMemberUUID,
+  getStoryArticlePreview: vi.fn(async (storyMemberUUID: string) => ({
+    story_article_uuid: storyMemberUUID,
     preview_text: `Fetched preview for ${storyMemberUUID}.\n\nSecond paragraph for ${storyMemberUUID}.`,
     source: "normalized_text",
     char_count: 64,
@@ -27,12 +27,12 @@ function makeDetail(): StoryDetailResponse {
       first_seen_at: "2026-02-14T09:00:00Z",
       last_seen_at: "2026-02-14T15:13:00Z",
       source_count: 2,
-      item_count: 2,
+      article_count: 2,
     },
     members: [
       {
-        story_member_uuid: "member-1",
-        document_uuid: "doc-1",
+        story_article_uuid: "member-1",
+        article_uuid: "doc-1",
         source: "source-a",
         source_item_id: "a-1",
         collection: "ai_news",
@@ -45,8 +45,8 @@ function makeDetail(): StoryDetailResponse {
         dedup_decision: "AUTO_MERGE",
       },
       {
-        story_member_uuid: "member-2",
-        document_uuid: "doc-2",
+        story_article_uuid: "member-2",
+        article_uuid: "doc-2",
         source: "source-b",
         source_item_id: "b-1",
         collection: "ai_news",
@@ -74,12 +74,12 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
       first_seen_at: "2026-02-14T09:00:00Z",
       last_seen_at: "2026-02-15T10:00:00Z",
       source_count: 2,
-      item_count: 2,
+      article_count: 2,
     },
     members: [
       {
-        story_member_uuid: "shared-member-1",
-        document_uuid: "shared-doc-1",
+        story_article_uuid: "shared-member-1",
+        article_uuid: "shared-doc-1",
         source: "dedup_ai-news",
         source_item_id: "simonwillison.net_2026_Feb_11_glm-5",
         collection: "ai_news",
@@ -93,8 +93,8 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
         dedup_decision: "NEW_STORY",
       },
       {
-        story_member_uuid: "shared-member-2",
-        document_uuid: "shared-doc-2",
+        story_article_uuid: "shared-member-2",
+        article_uuid: "shared-doc-2",
         source: "simon_willison",
         source_item_id: "simonwillison.net_2026_Feb_11_glm-5",
         collection: "ai_news",
@@ -129,8 +129,8 @@ describe("StoryDetailPanel", () => {
       expect(screen.getByText("Fetched preview for member-1.")).toBeInTheDocument();
       expect(screen.getByText("Fetched preview for member-2.")).toBeInTheDocument();
       expect(screen.queryByText("Fetched content by URL")).not.toBeInTheDocument();
-      expect(vi.mocked(getStoryItemPreview)).toHaveBeenCalledWith("member-1", 1000);
-      expect(vi.mocked(getStoryItemPreview)).toHaveBeenCalledWith("member-2", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-1", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-2", 1000);
     });
   });
 
@@ -157,8 +157,8 @@ describe("StoryDetailPanel", () => {
       expect(
         screen.getByText("simon_willison:simonwillison.net_2026_Feb_11_glm-5 • exact_url • score 1.000"),
       ).toBeInTheDocument();
-      expect(vi.mocked(getStoryItemPreview)).toHaveBeenCalledWith("shared-member-1", 1000);
-      expect(vi.mocked(getStoryItemPreview)).toHaveBeenCalledWith("shared-member-2", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-1", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-2", 1000);
     });
   });
 });

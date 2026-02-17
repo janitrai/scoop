@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://horse.fit/scoop/schema/news_item.schema.json",
-  "title": "Scoop Canonical News Item v1",
+  "title": "Scoop Canonical News Article v1",
   "type": "object",
   "additionalProperties": false,
   "required": [

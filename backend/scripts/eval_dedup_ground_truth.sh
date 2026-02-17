@@ -50,10 +50,10 @@ TRUNCATE TABLE
   news.digest_runs,
   news.story_topic_state,
   news.dedup_events,
-  news.story_members,
+  news.story_articles,
   news.stories,
-  news.document_embeddings,
-  news.documents,
+  news.article_embeddings,
+  news.articles,
   news.raw_arrivals,
   news.source_checkpoints,
   news.ingest_runs
@@ -301,8 +301,8 @@ dedup_ms=$((dedup_end_ms - dedup_start_ms))
 PRED_TSV="$(mktemp /tmp/scoop-gt-pred-XXXX.tsv)"
 PGPASSWORD="$PGPASSWORD" psql -X -h localhost -U news -d "$DB_NAME" -At -F $'\t' <<'SQL' > "$PRED_TSV"
 SELECT d.raw_arrival_id, sm.story_id
-FROM news.documents d
-JOIN news.story_members sm ON sm.document_id = d.document_id
+FROM news.articles d
+JOIN news.story_articles sm ON sm.article_id = d.article_id
 ORDER BY d.raw_arrival_id;
 SQL
 pred_lines=$(wc -l < "$PRED_TSV" | tr -d ' ')

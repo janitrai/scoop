@@ -24,7 +24,7 @@ func runIngest(args []string) int {
 
 	envLoader := cli.AddEnvFlag(fs, ".env", "Path to the .env file")
 	timeout := fs.Duration("timeout", 20*time.Second, "Command timeout")
-	payload := fs.String("payload", `{"payload_version":"v1","source":"manual_cli","source_item_id":"manual-1","title":"manual ingest event","source_metadata":{"collection":"manual_cli","job_name":"manual_cli","job_run_id":"manual-1","scraped_at":"2026-02-14T00:00:00Z","kind":"manual"}}`, "Canonical news-item payload JSON")
+	payload := fs.String("payload", `{"payload_version":"v1","source":"manual_cli","source_item_id":"manual-1","title":"manual ingest event","source_metadata":{"collection":"manual_cli","job_name":"manual_cli","job_run_id":"manual-1","scraped_at":"2026-02-14T00:00:00Z","kind":"manual"}}`, "Canonical news-article payload JSON")
 	payloadFile := fs.String("payload-file", "", "Path to payload JSON file (overrides --payload)")
 	checkpoint := fs.String("checkpoint", `{"cursor":"manual"}`, "Checkpoint JSON")
 	checkpointFile := fs.String("checkpoint-file", "", "Path to checkpoint JSON file (overrides --checkpoint)")
@@ -61,18 +61,18 @@ func runIngest(args []string) int {
 		return 2
 	}
 
-	item, err := payloadschema.ValidateNewsItemPayload(payloadJSON)
+	article, err := payloadschema.ValidateNewsItemPayload(payloadJSON)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid payload: %v\n", err)
 		return 2
 	}
 
-	payloadPublishedAt, err := parseOptionalRFC3339("payload.published_at", optionalString(item.PublishedAt))
+	payloadPublishedAt, err := parseOptionalRFC3339("payload.published_at", optionalString(article.PublishedAt))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid payload: %v\n", err)
 		return 2
 	}
-	collection, err := requiredMetadataString(item.SourceMetadata, "collection")
+	collection, err := requiredMetadataString(article.SourceMetadata, "collection")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid payload: %v\n", err)
 		return 2
@@ -97,10 +97,10 @@ func runIngest(args []string) int {
 
 	svc := ingest.NewService(pool, logger)
 	result, err := svc.IngestOne(ctx, ingest.Request{
-		Source:            strings.TrimSpace(item.Source),
-		SourceItemID:      strings.TrimSpace(item.SourceItemID),
+		Source:            strings.TrimSpace(article.Source),
+		SourceItemID:      strings.TrimSpace(article.SourceItemID),
 		Collection:        collection,
-		SourceItemURL:     optionalString(item.CanonicalURL),
+		SourceItemURL:     optionalString(article.CanonicalURL),
 		SourcePublishedAt: payloadPublishedAt,
 		RawPayload:        payloadJSON,
 		CursorCheckpoint:  checkpointJSON,

@@ -114,7 +114,7 @@ func TestShouldMarkSemanticGrayZone(t *testing.T) {
 	}
 }
 
-func TestBuildNormalizedDocument_UsesMetadataCollection(t *testing.T) {
+func TestBuildNormalizedArticle_UsesMetadataCollection(t *testing.T) {
 	t.Parallel()
 
 	row := rawArrivalRow{
@@ -136,13 +136,13 @@ func TestBuildNormalizedDocument_UsesMetadataCollection(t *testing.T) {
 		FetchedAt: time.Date(2026, 2, 14, 0, 0, 0, 0, time.UTC),
 	}
 
-	doc := buildNormalizedDocument(row, zerolog.Nop())
-	if doc.Collection != "ai_news" {
-		t.Fatalf("unexpected collection: got %q want %q", doc.Collection, "ai_news")
+	article := buildNormalizedArticle(row, zerolog.Nop())
+	if article.Collection != "ai_news" {
+		t.Fatalf("unexpected collection: got %q want %q", article.Collection, "ai_news")
 	}
 }
 
-func TestBuildNormalizedDocument_FallsBackToRowCollection(t *testing.T) {
+func TestBuildNormalizedArticle_FallsBackToRowCollection(t *testing.T) {
 	t.Parallel()
 
 	row := rawArrivalRow{
@@ -154,8 +154,8 @@ func TestBuildNormalizedDocument_FallsBackToRowCollection(t *testing.T) {
 		FetchedAt:    time.Date(2026, 2, 14, 0, 0, 0, 0, time.UTC),
 	}
 
-	doc := buildNormalizedDocument(row, zerolog.Nop())
-	if doc.Collection != "world_news" {
-		t.Fatalf("unexpected collection fallback: got %q want %q", doc.Collection, "world_news")
+	article := buildNormalizedArticle(row, zerolog.Nop())
+	if article.Collection != "world_news" {
+		t.Fatalf("unexpected collection fallback: got %q want %q", article.Collection, "world_news")
 	}
 }

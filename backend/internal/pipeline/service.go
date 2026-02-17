@@ -82,41 +82,41 @@ type rawArrivalRow struct {
 	FetchedAt         time.Time
 }
 
-type normalizedDocument struct {
-	RawArrivalID      int64
-	Source            string
-	SourceItemID      string
-	Collection        string
-	CanonicalURL      *string
-	CanonicalURLHash  []byte
-	NormalizedTitle   string
-	NormalizedText    string
-	NormalizedLang    string
-	PublishedAt       *time.Time
-	SourceDomain      *string
-	TitleSimhash      *int64
-	TextSimhash       *int64
-	TitleHash         []byte
-	ContentHash       []byte
-	TokenCount        int
-	DocumentCreatedAt time.Time
+type normalizedArticle struct {
+	RawArrivalID     int64
+	Source           string
+	SourceItemID     string
+	Collection       string
+	CanonicalURL     *string
+	CanonicalURLHash []byte
+	NormalizedTitle  string
+	NormalizedText   string
+	NormalizedLang   string
+	PublishedAt      *time.Time
+	SourceDomain     *string
+	TitleSimhash     *int64
+	TextSimhash      *int64
+	TitleHash        []byte
+	ContentHash      []byte
+	TokenCount       int
+	ArticleCreatedAt time.Time
 }
 
-type pendingDocument struct {
-	DocumentID        int64
-	Source            string
-	SourceItemID      string
-	Collection        string
-	CanonicalURL      *string
-	CanonicalURLHash  []byte
-	NormalizedTitle   string
-	NormalizedText    string
-	PublishedAt       *time.Time
-	SourceDomain      *string
-	TitleSimhash      *int64
-	ContentHash       []byte
-	EmbeddingVector   *string
-	DocumentCreatedAt time.Time
+type pendingArticle struct {
+	ArticleID        int64
+	Source           string
+	SourceItemID     string
+	Collection       string
+	CanonicalURL     *string
+	CanonicalURLHash []byte
+	NormalizedTitle  string
+	NormalizedText   string
+	PublishedAt      *time.Time
+	SourceDomain     *string
+	TitleSimhash     *int64
+	ContentHash      []byte
+	EmbeddingVector  *string
+	ArticleCreatedAt time.Time
 }
 
 type storyCandidate struct {
@@ -124,7 +124,7 @@ type storyCandidate struct {
 	Title        string
 	LastSeenAt   time.Time
 	SourceCount  int
-	ItemCount    int
+	ArticleCount int
 	CanonicalURL *string
 	TitleSimhash *int64
 }
@@ -197,8 +197,8 @@ func (s *Service) NormalizePending(ctx context.Context, limit int) (NormalizeRes
 			break
 		}
 
-		doc := buildNormalizedDocument(row, s.logger)
-		inserted, err := insertDocumentTx(ctx, tx, doc)
+		article := buildNormalizedArticle(row, s.logger)
+		inserted, err := insertArticleTx(ctx, tx, article)
 		if err != nil {
 			_ = tx.Rollback(ctx)
 			return result, err
@@ -247,7 +247,7 @@ func (s *Service) DedupPending(ctx context.Context, opts DedupOptions) (DedupRes
 			return result, fmt.Errorf("begin dedup tx: %w", err)
 		}
 
-		doc, found, err := claimOnePendingDocumentTx(ctx, tx, modelName, modelVersion)
+		article, found, err := claimOnePendingArticleTx(ctx, tx, modelName, modelVersion)
 		if err != nil {
 			_ = tx.Rollback(ctx)
 			return result, err
@@ -260,7 +260,7 @@ func (s *Service) DedupPending(ctx context.Context, opts DedupOptions) (DedupRes
 			break
 		}
 
-		decision, err := dedupDocumentTx(ctx, tx, doc, modelName, modelVersion, lookbackCutoff)
+		decision, err := dedupArticleTx(ctx, tx, article, modelName, modelVersion, lookbackCutoff)
 		if err != nil {
 			_ = tx.Rollback(ctx)
 			return result, err
@@ -303,7 +303,7 @@ SELECT
 FROM news.raw_arrivals ra
 WHERE NOT EXISTS (
 	SELECT 1
-	FROM news.documents d
+	FROM news.articles d
 	WHERE d.raw_arrival_id = ra.raw_arrival_id
 )
 ORDER BY ra.raw_arrival_id
@@ -336,9 +336,9 @@ FOR UPDATE SKIP LOCKED
 	return row, true, nil
 }
 
-func insertDocumentTx(ctx context.Context, tx db.Tx, doc normalizedDocument) (bool, error) {
+func insertArticleTx(ctx context.Context, tx db.Tx, article normalizedArticle) (bool, error) {
 	const q = `
-INSERT INTO news.documents (
+INSERT INTO news.articles (
 	raw_arrival_id,
 	source,
 	source_item_id,
@@ -384,31 +384,31 @@ ON CONFLICT (raw_arrival_id) DO NOTHING
 	commandTag, err := tx.Exec(
 		ctx,
 		q,
-		doc.RawArrivalID,
-		doc.Source,
-		doc.SourceItemID,
-		doc.Collection,
-		doc.CanonicalURL,
-		nullableBytes(doc.CanonicalURLHash),
-		doc.NormalizedTitle,
-		doc.NormalizedText,
-		doc.NormalizedLang,
-		doc.PublishedAt,
-		doc.SourceDomain,
-		doc.TitleSimhash,
-		doc.TextSimhash,
-		doc.TitleHash,
-		doc.ContentHash,
-		doc.TokenCount,
-		doc.DocumentCreatedAt,
+		article.RawArrivalID,
+		article.Source,
+		article.SourceItemID,
+		article.Collection,
+		article.CanonicalURL,
+		nullableBytes(article.CanonicalURLHash),
+		article.NormalizedTitle,
+		article.NormalizedText,
+		article.NormalizedLang,
+		article.PublishedAt,
+		article.SourceDomain,
+		article.TitleSimhash,
+		article.TextSimhash,
+		article.TitleHash,
+		article.ContentHash,
+		article.TokenCount,
+		article.ArticleCreatedAt,
 	)
 	if err != nil {
-		return false, fmt.Errorf("insert document raw_arrival_id=%d: %w", doc.RawArrivalID, err)
+		return false, fmt.Errorf("insert article raw_arrival_id=%d: %w", article.RawArrivalID, err)
 	}
 	return commandTag.RowsAffected() == 1, nil
 }
 
-func buildNormalizedDocument(row rawArrivalRow, logger zerolog.Logger) normalizedDocument {
+func buildNormalizedArticle(row rawArrivalRow, logger zerolog.Logger) normalizedArticle {
 	now := globaltime.UTC()
 	if row.FetchedAt.IsZero() {
 		row.FetchedAt = now
@@ -427,29 +427,29 @@ func buildNormalizedDocument(row rawArrivalRow, logger zerolog.Logger) normalize
 		publishedAt  *time.Time
 	)
 
-	item, err := payloadschema.ValidateNewsItemPayload(row.RawPayload)
+	articlePayload, err := payloadschema.ValidateNewsItemPayload(row.RawPayload)
 	if err != nil {
 		logger.Warn().
 			Err(err).
 			Int64("raw_arrival_id", row.RawArrivalID).
 			Msg("payload schema validation failed during normalize; falling back to lenient extraction")
 	} else {
-		title = strings.TrimSpace(item.Title)
-		if item.BodyText != nil {
-			bodyText = strings.TrimSpace(*item.BodyText)
+		title = strings.TrimSpace(articlePayload.Title)
+		if articlePayload.BodyText != nil {
+			bodyText = strings.TrimSpace(*articlePayload.BodyText)
 		}
-		if item.Language != nil {
-			language = strings.TrimSpace(strings.ToLower(*item.Language))
+		if articlePayload.Language != nil {
+			language = strings.TrimSpace(strings.ToLower(*articlePayload.Language))
 		}
-		if item.CanonicalURL != nil {
-			canonicalURL = strings.TrimSpace(*item.CanonicalURL)
+		if articlePayload.CanonicalURL != nil {
+			canonicalURL = strings.TrimSpace(*articlePayload.CanonicalURL)
 		}
-		if item.SourceDomain != nil {
-			sourceDomain = strings.TrimSpace(strings.ToLower(*item.SourceDomain))
+		if articlePayload.SourceDomain != nil {
+			sourceDomain = strings.TrimSpace(strings.ToLower(*articlePayload.SourceDomain))
 		}
-		collection = extractCollectionFromMetadata(item.SourceMetadata)
-		if item.PublishedAt != nil {
-			if ts, parseErr := time.Parse(time.RFC3339, strings.TrimSpace(*item.PublishedAt)); parseErr == nil {
+		collection = extractCollectionFromMetadata(articlePayload.SourceMetadata)
+		if articlePayload.PublishedAt != nil {
+			if ts, parseErr := time.Parse(time.RFC3339, strings.TrimSpace(*articlePayload.PublishedAt)); parseErr == nil {
 				utc := ts.UTC()
 				publishedAt = &utc
 			}
@@ -517,31 +517,31 @@ func buildNormalizedDocument(row rawArrivalRow, logger zerolog.Logger) normalize
 		textSimhashPtr = &value
 	}
 
-	return normalizedDocument{
-		RawArrivalID:      row.RawArrivalID,
-		Source:            source,
-		SourceItemID:      sourceItemID,
-		Collection:        collection,
-		CanonicalURL:      canonicalURLPtr,
-		CanonicalURLHash:  canonicalURLHash,
-		NormalizedTitle:   normalizedTitle,
-		NormalizedText:    normalizedBody,
-		NormalizedLang:    language,
-		PublishedAt:       publishedAt,
-		SourceDomain:      sourceDomainPtr,
-		TitleSimhash:      titleSimhashPtr,
-		TextSimhash:       textSimhashPtr,
-		TitleHash:         append([]byte(nil), titleHash[:]...),
-		ContentHash:       append([]byte(nil), contentHash[:]...),
-		TokenCount:        countTokens(normalizedTitle + " " + normalizedBody),
-		DocumentCreatedAt: row.FetchedAt.UTC(),
+	return normalizedArticle{
+		RawArrivalID:     row.RawArrivalID,
+		Source:           source,
+		SourceItemID:     sourceItemID,
+		Collection:       collection,
+		CanonicalURL:     canonicalURLPtr,
+		CanonicalURLHash: canonicalURLHash,
+		NormalizedTitle:  normalizedTitle,
+		NormalizedText:   normalizedBody,
+		NormalizedLang:   language,
+		PublishedAt:      publishedAt,
+		SourceDomain:     sourceDomainPtr,
+		TitleSimhash:     titleSimhashPtr,
+		TextSimhash:      textSimhashPtr,
+		TitleHash:        append([]byte(nil), titleHash[:]...),
+		ContentHash:      append([]byte(nil), contentHash[:]...),
+		TokenCount:       countTokens(normalizedTitle + " " + normalizedBody),
+		ArticleCreatedAt: row.FetchedAt.UTC(),
 	}
 }
 
-func claimOnePendingDocumentTx(ctx context.Context, tx db.Tx, modelName, modelVersion string) (pendingDocument, bool, error) {
+func claimOnePendingArticleTx(ctx context.Context, tx db.Tx, modelName, modelVersion string) (pendingArticle, bool, error) {
 	const q = `
 SELECT
-	d.document_id,
+	d.article_id,
 	d.source,
 	d.source_item_id,
 	d.collection,
@@ -555,29 +555,29 @@ SELECT
 	d.content_hash,
 	de.embedding::text,
 	d.created_at
-FROM news.documents d
-JOIN news.document_embeddings de
-	ON de.document_id = d.document_id
+FROM news.articles d
+JOIN news.article_embeddings de
+	ON de.article_id = d.article_id
 	AND de.model_name = $1
 	AND de.model_version = $2
 WHERE NOT EXISTS (
 	SELECT 1
-	FROM news.story_members sm
-	WHERE sm.document_id = d.document_id
+	FROM news.story_articles sm
+	WHERE sm.article_id = d.article_id
 )
-ORDER BY d.document_id
+ORDER BY d.article_id
 LIMIT 1
 FOR UPDATE OF d SKIP LOCKED
 `
 
-	var row pendingDocument
+	var row pendingArticle
 	var canonicalURL *string
 	var publishedAt *time.Time
 	var sourceDomain *string
 	var titleSimhash *int64
 	var embeddingVector string
 	err := tx.QueryRow(ctx, q, modelName, modelVersion).Scan(
-		&row.DocumentID,
+		&row.ArticleID,
 		&row.Source,
 		&row.SourceItemID,
 		&row.Collection,
@@ -590,13 +590,13 @@ FOR UPDATE OF d SKIP LOCKED
 		&titleSimhash,
 		&row.ContentHash,
 		&embeddingVector,
-		&row.DocumentCreatedAt,
+		&row.ArticleCreatedAt,
 	)
 	if err != nil {
 		if err == db.ErrNoRows {
-			return pendingDocument{}, false, nil
+			return pendingArticle{}, false, nil
 		}
-		return pendingDocument{}, false, fmt.Errorf("claim pending document: %w", err)
+		return pendingArticle{}, false, fmt.Errorf("claim pending article: %w", err)
 	}
 
 	row.CanonicalURL = canonicalURL
@@ -610,45 +610,45 @@ FOR UPDATE OF d SKIP LOCKED
 	return row, true, nil
 }
 
-func dedupDocumentTx(
+func dedupArticleTx(
 	ctx context.Context,
 	tx db.Tx,
-	doc pendingDocument,
+	article pendingArticle,
 	modelName string,
 	modelVersion string,
 	lookbackCutoff time.Time,
 ) (dedupDecisionKind, error) {
 	now := globaltime.UTC()
-	documentSeenAt := doc.DocumentCreatedAt
-	if doc.PublishedAt != nil && !doc.PublishedAt.IsZero() {
-		documentSeenAt = doc.PublishedAt.UTC()
+	articleSeenAt := article.ArticleCreatedAt
+	if article.PublishedAt != nil && !article.PublishedAt.IsZero() {
+		articleSeenAt = article.PublishedAt.UTC()
 	}
 
-	if storyID, found, err := findExactURLStoryTx(ctx, tx, doc.Collection, doc.CanonicalURLHash); err != nil {
+	if storyID, found, err := findExactURLStoryTx(ctx, tx, article.Collection, article.CanonicalURLHash); err != nil {
 		return decisionNone, err
 	} else if found {
-		return applyAutoMergeTx(ctx, tx, doc, storyID, "exact_url", 1, map[string]any{
+		return applyAutoMergeTx(ctx, tx, article, storyID, "exact_url", 1, map[string]any{
 			"signal": "exact_url",
-		}, now, documentSeenAt)
+		}, now, articleSeenAt)
 	}
 
-	if storyID, found, err := findExactSourceIDStoryTx(ctx, tx, doc.Collection, doc.Source, doc.SourceItemID); err != nil {
+	if storyID, found, err := findExactSourceIDStoryTx(ctx, tx, article.Collection, article.Source, article.SourceItemID); err != nil {
 		return decisionNone, err
 	} else if found {
-		return applyAutoMergeTx(ctx, tx, doc, storyID, "exact_source_id", 1, map[string]any{
+		return applyAutoMergeTx(ctx, tx, article, storyID, "exact_source_id", 1, map[string]any{
 			"signal": "exact_source_id",
-		}, now, documentSeenAt)
+		}, now, articleSeenAt)
 	}
 
-	if storyID, found, err := findExactContentHashStoryTx(ctx, tx, doc.Collection, doc.ContentHash); err != nil {
+	if storyID, found, err := findExactContentHashStoryTx(ctx, tx, article.Collection, article.ContentHash); err != nil {
 		return decisionNone, err
 	} else if found {
-		return applyAutoMergeTx(ctx, tx, doc, storyID, "exact_content_hash", 1, map[string]any{
+		return applyAutoMergeTx(ctx, tx, article, storyID, "exact_content_hash", 1, map[string]any{
 			"signal": "exact_content_hash",
-		}, now, documentSeenAt)
+		}, now, articleSeenAt)
 	}
 
-	lexicalMatch, hasLexicalAutoMerge, err := findLexicalAutoMergeTx(ctx, tx, doc, lookbackCutoff)
+	lexicalMatch, hasLexicalAutoMerge, err := findLexicalAutoMergeTx(ctx, tx, article, lookbackCutoff)
 	if err != nil {
 		return decisionNone, err
 	}
@@ -666,23 +666,23 @@ func dedupDocumentTx(
 		return applyAutoMergeTx(
 			ctx,
 			tx,
-			doc,
+			article,
 			lexicalMatch.Candidate.StoryID,
 			lexicalMatch.Signal,
 			lexicalMatch.MatchScore,
 			matchDetails,
 			now,
-			documentSeenAt,
+			articleSeenAt,
 		)
 	}
 
 	var bestSemantic *semanticMatch
-	if doc.EmbeddingVector != nil && strings.TrimSpace(*doc.EmbeddingVector) != "" {
+	if article.EmbeddingVector != nil && strings.TrimSpace(*article.EmbeddingVector) != "" {
 		candidates, err := findSemanticCandidatesTx(
 			ctx,
 			tx,
-			strings.TrimSpace(*doc.EmbeddingVector),
-			doc.Collection,
+			strings.TrimSpace(*article.EmbeddingVector),
+			article.Collection,
 			modelName,
 			modelVersion,
 			lookbackCutoff,
@@ -693,8 +693,8 @@ func dedupDocumentTx(
 		}
 
 		for _, candidate := range candidates {
-			titleOverlap := titleTokenJaccard(doc.NormalizedTitle, candidate.Title)
-			dateConsistency := computeDateConsistency(doc.PublishedAt, candidate.LastSeenAt)
+			titleOverlap := titleTokenJaccard(article.NormalizedTitle, candidate.Title)
+			dateConsistency := computeDateConsistency(article.PublishedAt, candidate.LastSeenAt)
 			composite := semanticCompositeScore(candidate.Cosine, titleOverlap, dateConsistency)
 			current := semanticMatch{
 				Candidate:       candidate,
@@ -711,25 +711,25 @@ func dedupDocumentTx(
 				return applySemanticAutoMergeTx(
 					ctx,
 					tx,
-					doc,
+					article,
 					candidate.StoryID,
 					candidate.Cosine,
 					titleOverlap,
 					dateConsistency,
 					composite,
 					now,
-					documentSeenAt,
+					articleSeenAt,
 				)
 			}
 		}
 	}
 
-	newStoryID, err := createStoryTx(ctx, tx, doc, documentSeenAt, now)
+	newStoryID, err := createStoryTx(ctx, tx, article, articleSeenAt, now)
 	if err != nil {
 		return decisionNone, err
 	}
 
-	if inserted, err := upsertStoryMemberTx(ctx, tx, newStoryID, doc.DocumentID, "seed", nil, map[string]any{
+	if inserted, err := upsertStoryArticleTx(ctx, tx, newStoryID, article.ArticleID, "seed", nil, map[string]any{
 		"signal": "seed",
 	}, now); err != nil {
 		return decisionNone, err
@@ -755,7 +755,7 @@ func dedupDocumentTx(
 	}
 
 	if err := insertDedupEventTx(ctx, tx, dedupEventRecord{
-		DocumentID:            doc.DocumentID,
+		ArticleID:             article.ArticleID,
 		Decision:              string(decision),
 		ChosenStoryID:         &newStoryID,
 		BestCandidateStoryID:  bestCandidateStoryID,
@@ -775,27 +775,27 @@ func dedupDocumentTx(
 func applyAutoMergeTx(
 	ctx context.Context,
 	tx db.Tx,
-	doc pendingDocument,
+	article pendingArticle,
 	storyID int64,
 	exactSignal string,
 	matchScore float64,
 	matchDetails map[string]any,
 	now time.Time,
-	documentSeenAt time.Time,
+	articleSeenAt time.Time,
 ) (dedupDecisionKind, error) {
-	if inserted, err := upsertStoryMemberTx(ctx, tx, storyID, doc.DocumentID, matchTypeForSignal(exactSignal), floatPtr(matchScore), matchDetails, now); err != nil {
+	if inserted, err := upsertStoryArticleTx(ctx, tx, storyID, article.ArticleID, matchTypeForSignal(exactSignal), floatPtr(matchScore), matchDetails, now); err != nil {
 		return decisionNone, err
 	} else if !inserted {
 		return decisionNone, nil
 	}
 
-	if err := refreshStoryAggregateTx(ctx, tx, storyID, doc.DocumentID, doc.NormalizedTitle, doc.CanonicalURL, doc.CanonicalURLHash, documentSeenAt, now); err != nil {
+	if err := refreshStoryAggregateTx(ctx, tx, storyID, article.ArticleID, article.NormalizedTitle, article.CanonicalURL, article.CanonicalURLHash, articleSeenAt, now); err != nil {
 		return decisionNone, err
 	}
 
 	exactSignalCopy := exactSignal
 	if err := insertDedupEventTx(ctx, tx, dedupEventRecord{
-		DocumentID:            doc.DocumentID,
+		ArticleID:             article.ArticleID,
 		Decision:              string(decisionAutoMerge),
 		ChosenStoryID:         &storyID,
 		BestCandidateStoryID:  &storyID,
@@ -815,14 +815,14 @@ func applyAutoMergeTx(
 func applySemanticAutoMergeTx(
 	ctx context.Context,
 	tx db.Tx,
-	doc pendingDocument,
+	article pendingArticle,
 	storyID int64,
 	cosine float64,
 	titleOverlap float64,
 	dateConsistency float64,
 	composite float64,
 	now time.Time,
-	documentSeenAt time.Time,
+	articleSeenAt time.Time,
 ) (dedupDecisionKind, error) {
 	matchDetails := map[string]any{
 		"signal":           "semantic",
@@ -832,11 +832,11 @@ func applySemanticAutoMergeTx(
 		"composite_score":  composite,
 	}
 
-	if inserted, err := upsertStoryMemberTx(
+	if inserted, err := upsertStoryArticleTx(
 		ctx,
 		tx,
 		storyID,
-		doc.DocumentID,
+		article.ArticleID,
 		"semantic",
 		floatPtr(composite),
 		matchDetails,
@@ -851,11 +851,11 @@ func applySemanticAutoMergeTx(
 		ctx,
 		tx,
 		storyID,
-		doc.DocumentID,
-		doc.NormalizedTitle,
-		doc.CanonicalURL,
-		doc.CanonicalURLHash,
-		documentSeenAt,
+		article.ArticleID,
+		article.NormalizedTitle,
+		article.CanonicalURL,
+		article.CanonicalURLHash,
+		articleSeenAt,
 		now,
 	); err != nil {
 		return decisionNone, err
@@ -863,7 +863,7 @@ func applySemanticAutoMergeTx(
 
 	signal := "semantic"
 	if err := insertDedupEventTx(ctx, tx, dedupEventRecord{
-		DocumentID:            doc.DocumentID,
+		ArticleID:             article.ArticleID,
 		Decision:              string(decisionAutoMerge),
 		ChosenStoryID:         &storyID,
 		BestCandidateStoryID:  &storyID,
@@ -926,8 +926,8 @@ LIMIT 1
 func findExactSourceIDStoryTx(ctx context.Context, tx db.Tx, collection, source, sourceItemID string) (int64, bool, error) {
 	const q = `
 SELECT sm.story_id
-FROM news.story_members sm
-JOIN news.documents d ON d.document_id = sm.document_id
+FROM news.story_articles sm
+JOIN news.articles d ON d.article_id = sm.article_id
 JOIN news.stories s ON s.story_id = sm.story_id
 WHERE s.status = 'active'
   AND s.collection = $1
@@ -954,8 +954,8 @@ func findExactContentHashStoryTx(ctx context.Context, tx db.Tx, collection strin
 	}
 	const q = `
 SELECT sm.story_id
-FROM news.story_members sm
-JOIN news.documents d ON d.document_id = sm.document_id
+FROM news.story_articles sm
+JOIN news.articles d ON d.article_id = sm.article_id
 JOIN news.stories s ON s.story_id = sm.story_id
 WHERE s.status = 'active'
   AND s.collection = $1
@@ -999,8 +999,8 @@ SELECT
 	s.last_seen_at,
 	(1 - (de.embedding <=> $1::vector))::DOUBLE PRECISION AS cosine
 FROM news.stories s
-LEFT JOIN news.documents rd ON rd.document_id = s.representative_document_id
-JOIN news.document_embeddings de ON de.document_id = s.representative_document_id
+LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id
+JOIN news.article_embeddings de ON de.article_id = s.representative_article_id
 WHERE s.status = 'active'
   AND s.collection = $2
   AND de.model_name = $3
@@ -1037,7 +1037,7 @@ LIMIT $6
 func findLexicalAutoMergeTx(
 	ctx context.Context,
 	tx db.Tx,
-	doc pendingDocument,
+	article pendingArticle,
 	lookbackCutoff time.Time,
 ) (lexicalAutoMergeMatch, bool, error) {
 	const q = `
@@ -1046,11 +1046,11 @@ SELECT
 	COALESCE(rd.normalized_title, s.canonical_title) AS candidate_title,
 	s.last_seen_at,
 	s.source_count,
-	s.item_count,
+	s.article_count,
 	s.canonical_url,
 	rd.title_simhash
 FROM news.stories s
-LEFT JOIN news.documents rd ON rd.document_id = s.representative_document_id
+LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id
 WHERE s.status = 'active'
   AND s.collection = $3
   AND s.last_seen_at >= $2
@@ -1058,7 +1058,7 @@ ORDER BY s.last_seen_at DESC
 LIMIT $1
 `
 
-	rows, err := tx.Query(ctx, q, storyCandidateLimit, lookbackCutoff, doc.Collection)
+	rows, err := tx.Query(ctx, q, storyCandidateLimit, lookbackCutoff, article.Collection)
 	if err != nil {
 		return lexicalAutoMergeMatch{}, false, fmt.Errorf("query lexical candidates: %w", err)
 	}
@@ -1080,7 +1080,7 @@ LIMIT $1
 			&c.Title,
 			&c.LastSeenAt,
 			&c.SourceCount,
-			&c.ItemCount,
+			&c.ArticleCount,
 			&canonicalURL,
 			&titleSimhash,
 		); err != nil {
@@ -1089,9 +1089,9 @@ LIMIT $1
 		c.CanonicalURL = canonicalURL
 		c.TitleSimhash = titleSimhash
 
-		dateConsistency := computeDateConsistency(doc.PublishedAt, c.LastSeenAt)
+		dateConsistency := computeDateConsistency(article.PublishedAt, c.LastSeenAt)
 
-		if distance, ok := titleSimhashDistance(doc.TitleSimhash, c.TitleSimhash); ok && distance <= defaultLexicalSimhashMaxDistance {
+		if distance, ok := titleSimhashDistance(article.TitleSimhash, c.TitleSimhash); ok && distance <= defaultLexicalSimhashMaxDistance {
 			score := 1 - (float64(distance) / 64.0)
 			if !hasSimhash || distance < bestSimhashDistance || (distance == bestSimhashDistance && c.LastSeenAt.After(bestSimhash.Candidate.LastSeenAt)) {
 				distanceCopy := distance
@@ -1099,7 +1099,7 @@ LIMIT $1
 					Candidate:       c,
 					Signal:          "lexical_simhash",
 					MatchScore:      score,
-					TitleOverlap:    titleTokenJaccard(doc.NormalizedTitle, c.Title),
+					TitleOverlap:    titleTokenJaccard(article.NormalizedTitle, c.Title),
 					DateConsistency: dateConsistency,
 					CompositeScore:  score,
 					SimhashDistance: &distanceCopy,
@@ -1109,11 +1109,11 @@ LIMIT $1
 			}
 		}
 
-		overlap := titleTrigramJaccard(doc.NormalizedTitle, c.Title)
+		overlap := titleTrigramJaccard(article.NormalizedTitle, c.Title)
 		if overlap < defaultLexicalTrigramThreshold {
 			continue
 		}
-		if !isWithinDateWindow(doc.PublishedAt, c.LastSeenAt, defaultLexicalTrigramDateWindow) {
+		if !isWithinDateWindow(article.PublishedAt, c.LastSeenAt, defaultLexicalTrigramDateWindow) {
 			continue
 		}
 
@@ -1147,8 +1147,8 @@ LIMIT $1
 func createStoryTx(
 	ctx context.Context,
 	tx db.Tx,
-	doc pendingDocument,
-	documentSeenAt time.Time,
+	article pendingArticle,
+	articleSeenAt time.Time,
 	now time.Time,
 ) (int64, error) {
 	const q = `
@@ -1157,11 +1157,11 @@ INSERT INTO news.stories (
 	canonical_url,
 	canonical_url_hash,
 	collection,
-	representative_document_id,
+	representative_article_id,
 	first_seen_at,
 	last_seen_at,
 	source_count,
-	item_count,
+	article_count,
 	status,
 	created_at,
 	updated_at
@@ -1186,51 +1186,51 @@ RETURNING story_id
 	err := tx.QueryRow(
 		ctx,
 		q,
-		doc.NormalizedTitle,
-		doc.CanonicalURL,
-		nullableBytes(doc.CanonicalURLHash),
-		doc.Collection,
-		doc.DocumentID,
-		documentSeenAt,
+		article.NormalizedTitle,
+		article.CanonicalURL,
+		nullableBytes(article.CanonicalURLHash),
+		article.Collection,
+		article.ArticleID,
+		articleSeenAt,
 		now,
 	).Scan(&storyID)
 	if err != nil {
-		return 0, fmt.Errorf("insert story for document_id=%d: %w", doc.DocumentID, err)
+		return 0, fmt.Errorf("insert story for article_id=%d: %w", article.ArticleID, err)
 	}
 	return storyID, nil
 }
 
-func upsertStoryMemberTx(
+func upsertStoryArticleTx(
 	ctx context.Context,
 	tx db.Tx,
 	storyID int64,
-	documentID int64,
+	articleID int64,
 	matchType string,
 	matchScore *float64,
 	matchDetails map[string]any,
 	now time.Time,
 ) (bool, error) {
 	const q = `
-INSERT INTO news.story_members (
+INSERT INTO news.story_articles (
 	story_id,
-	document_id,
+	article_id,
 	match_type,
 	match_score,
 	match_details,
 	matched_at
 )
 VALUES ($1, $2, $3, $4, $5::jsonb, $6)
-ON CONFLICT (document_id) DO NOTHING
+ON CONFLICT (article_id) DO NOTHING
 `
 
 	detailsJSON, err := json.Marshal(matchDetails)
 	if err != nil {
-		return false, fmt.Errorf("marshal story member details: %w", err)
+		return false, fmt.Errorf("marshal story article details: %w", err)
 	}
 
-	commandTag, err := tx.Exec(ctx, q, storyID, documentID, matchType, matchScore, string(detailsJSON), now)
+	commandTag, err := tx.Exec(ctx, q, storyID, articleID, matchType, matchScore, string(detailsJSON), now)
 	if err != nil {
-		return false, fmt.Errorf("insert story_member story_id=%d document_id=%d: %w", storyID, documentID, err)
+		return false, fmt.Errorf("insert story_article story_id=%d article_id=%d: %w", storyID, articleID, err)
 	}
 	return commandTag.RowsAffected() == 1, nil
 }
@@ -1239,11 +1239,11 @@ func refreshStoryAggregateTx(
 	ctx context.Context,
 	tx db.Tx,
 	storyID int64,
-	documentID int64,
-	documentTitle string,
-	documentCanonicalURL *string,
-	documentCanonicalURLHash []byte,
-	documentSeenAt time.Time,
+	articleID int64,
+	articleTitle string,
+	articleCanonicalURL *string,
+	articleCanonicalURLHash []byte,
+	articleSeenAt time.Time,
 	now time.Time,
 ) error {
 	const q = `
@@ -1252,19 +1252,19 @@ SET
 	first_seen_at = LEAST(s.first_seen_at, $2),
 	last_seen_at = GREATEST(s.last_seen_at, $3),
 	source_count = agg.source_count,
-	item_count = agg.item_count,
-	representative_document_id = COALESCE(s.representative_document_id, $4),
-	canonical_title = CASE WHEN s.representative_document_id IS NULL THEN $5 ELSE s.canonical_title END,
-	canonical_url = CASE WHEN s.representative_document_id IS NULL THEN $6 ELSE s.canonical_url END,
-	canonical_url_hash = CASE WHEN s.representative_document_id IS NULL THEN $7 ELSE s.canonical_url_hash END,
+	article_count = agg.article_count,
+	representative_article_id = COALESCE(s.representative_article_id, $4),
+	canonical_title = CASE WHEN s.representative_article_id IS NULL THEN $5 ELSE s.canonical_title END,
+	canonical_url = CASE WHEN s.representative_article_id IS NULL THEN $6 ELSE s.canonical_url END,
+	canonical_url_hash = CASE WHEN s.representative_article_id IS NULL THEN $7 ELSE s.canonical_url_hash END,
 	updated_at = $1
 FROM (
 	SELECT
 		sm.story_id,
-		COUNT(*)::INT AS item_count,
+		COUNT(*)::INT AS article_count,
 		COUNT(DISTINCT d.source)::INT AS source_count
-	FROM news.story_members sm
-	JOIN news.documents d ON d.document_id = sm.document_id
+	FROM news.story_articles sm
+	JOIN news.articles d ON d.article_id = sm.article_id
 	WHERE sm.story_id = $8
 	GROUP BY sm.story_id
 ) agg
@@ -1274,12 +1274,12 @@ WHERE s.story_id = agg.story_id
 		ctx,
 		q,
 		now,
-		documentSeenAt,
-		documentSeenAt,
-		documentID,
-		documentTitle,
-		documentCanonicalURL,
-		nullableBytes(documentCanonicalURLHash),
+		articleSeenAt,
+		articleSeenAt,
+		articleID,
+		articleTitle,
+		articleCanonicalURL,
+		nullableBytes(articleCanonicalURLHash),
 		storyID,
 	)
 	if err != nil {
@@ -1289,7 +1289,7 @@ WHERE s.story_id = agg.story_id
 }
 
 type dedupEventRecord struct {
-	DocumentID            int64
+	ArticleID             int64
 	Decision              string
 	ChosenStoryID         *int64
 	BestCandidateStoryID  *int64
@@ -1304,7 +1304,7 @@ type dedupEventRecord struct {
 func insertDedupEventTx(ctx context.Context, tx db.Tx, record dedupEventRecord) error {
 	const q = `
 INSERT INTO news.dedup_events (
-	document_id,
+	article_id,
 	decision,
 	chosen_story_id,
 	best_candidate_story_id,
@@ -1316,12 +1316,12 @@ INSERT INTO news.dedup_events (
 	created_at
 )
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-ON CONFLICT (document_id) DO NOTHING
+ON CONFLICT (article_id) DO NOTHING
 `
 	_, err := tx.Exec(
 		ctx,
 		q,
-		record.DocumentID,
+		record.ArticleID,
 		record.Decision,
 		record.ChosenStoryID,
 		record.BestCandidateStoryID,
@@ -1333,7 +1333,7 @@ ON CONFLICT (document_id) DO NOTHING
 		record.CreatedAt,
 	)
 	if err != nil {
-		return fmt.Errorf("insert dedup_event document_id=%d: %w", record.DocumentID, err)
+		return fmt.Errorf("insert dedup_event article_id=%d: %w", record.ArticleID, err)
 	}
 	return nil
 }
@@ -1597,19 +1597,19 @@ func titleSimhashDistance(left, right *int64) (int, bool) {
 	return bits.OnesCount64(uint64(*left) ^ uint64(*right)), true
 }
 
-func isWithinDateWindow(documentPublishedAt *time.Time, storyLastSeen time.Time, window time.Duration) bool {
-	if documentPublishedAt == nil || documentPublishedAt.IsZero() {
+func isWithinDateWindow(articlePublishedAt *time.Time, storyLastSeen time.Time, window time.Duration) bool {
+	if articlePublishedAt == nil || articlePublishedAt.IsZero() {
 		return false
 	}
-	diff := math.Abs(documentPublishedAt.UTC().Sub(storyLastSeen.UTC()).Hours())
+	diff := math.Abs(articlePublishedAt.UTC().Sub(storyLastSeen.UTC()).Hours())
 	return diff <= window.Hours()
 }
 
-func computeDateConsistency(documentPublishedAt *time.Time, storyLastSeen time.Time) float64 {
-	if documentPublishedAt == nil || documentPublishedAt.IsZero() {
+func computeDateConsistency(articlePublishedAt *time.Time, storyLastSeen time.Time) float64 {
+	if articlePublishedAt == nil || articlePublishedAt.IsZero() {
 		return 0.5
 	}
-	diff := math.Abs(documentPublishedAt.UTC().Sub(storyLastSeen.UTC()).Hours())
+	diff := math.Abs(articlePublishedAt.UTC().Sub(storyLastSeen.UTC()).Hours())
 	switch {
 	case diff <= 48:
 		return 1

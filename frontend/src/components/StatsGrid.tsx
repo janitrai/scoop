@@ -13,8 +13,8 @@ export function StatsGrid({ stats }: StatsGridProps): JSX.Element {
         <p className="stat-value">{formatCount(stats?.raw_arrivals)}</p>
       </article>
       <article className="stat card">
-        <p className="stat-label">Documents</p>
-        <p className="stat-value">{formatCount(stats?.documents)}</p>
+        <p className="stat-label">Articles</p>
+        <p className="stat-value">{formatCount(stats?.articles)}</p>
       </article>
       <article className="stat card">
         <p className="stat-label">Stories</p>

@@ -45,8 +45,8 @@ type EmbedResult struct {
 	Failed    int
 }
 
-type embeddingPendingDocument struct {
-	DocumentID      int64
+type embeddingPendingArticle struct {
+	ArticleID       int64
 	NormalizedTitle string
 	NormalizedText  string
 }
@@ -81,40 +81,40 @@ func (s *Service) EmbedPending(ctx context.Context, options EmbedOptions) (Embed
 		remaining := opts.Limit - result.Processed
 		batchSize := min(opts.BatchSize, remaining)
 
-		documents, err := selectPendingEmbeddingDocuments(ctx, s.pool, opts.ModelName, opts.ModelVersion, batchSize)
+		articles, err := selectPendingEmbeddingArticles(ctx, s.pool, opts.ModelName, opts.ModelVersion, batchSize)
 		if err != nil {
 			return result, err
 		}
-		if len(documents) == 0 {
+		if len(articles) == 0 {
 			break
 		}
 
-		texts := make([]string, 0, len(documents))
-		for _, document := range documents {
-			texts = append(texts, embeddingInput(document))
+		texts := make([]string, 0, len(articles))
+		for _, article := range articles {
+			texts = append(texts, embeddingInput(article))
 		}
 
 		vectors, _, err := requestEmbeddings(ctx, opts, texts)
 		if err != nil {
 			return result, err
 		}
-		if len(vectors) != len(documents) {
-			return result, fmt.Errorf("embedding response count mismatch: requested=%d returned=%d", len(documents), len(vectors))
+		if len(vectors) != len(articles) {
+			return result, fmt.Errorf("embedding response count mismatch: requested=%d returned=%d", len(articles), len(vectors))
 		}
 
-		for i, document := range documents {
+		for i, article := range articles {
 			result.Processed++
 
 			vectorLiteral, err := toVectorLiteral(vectors[i])
 			if err != nil {
 				result.Failed++
-				return result, fmt.Errorf("document_id=%d invalid embedding vector: %w", document.DocumentID, err)
+				return result, fmt.Errorf("article_id=%d invalid embedding vector: %w", article.ArticleID, err)
 			}
 
-			inserted, err := insertDocumentEmbedding(
+			inserted, err := insertArticleEmbedding(
 				ctx,
 				s.pool,
-				document.DocumentID,
+				article.ArticleID,
 				opts.ModelName,
 				opts.ModelVersion,
 				vectorLiteral,
@@ -167,54 +167,54 @@ func normalizeEmbedOptions(opts EmbedOptions) EmbedOptions {
 	return normalized
 }
 
-func selectPendingEmbeddingDocuments(
+func selectPendingEmbeddingArticles(
 	ctx context.Context,
 	pool *db.Pool,
 	modelName string,
 	modelVersion string,
 	limit int,
-) ([]embeddingPendingDocument, error) {
+) ([]embeddingPendingArticle, error) {
 	const q = `
 SELECT
-	d.document_id,
+	d.article_id,
 	d.normalized_title,
 	d.normalized_text
-FROM news.documents d
+FROM news.articles d
 WHERE NOT EXISTS (
 	SELECT 1
-	FROM news.document_embeddings de
-	WHERE de.document_id = d.document_id
+	FROM news.article_embeddings de
+	WHERE de.article_id = d.article_id
 	  AND de.model_name = $1
 	  AND de.model_version = $2
 )
-ORDER BY d.document_id
+ORDER BY d.article_id
 LIMIT $3
 `
 
 	rows, err := pool.Query(ctx, q, modelName, modelVersion, limit)
 	if err != nil {
-		return nil, fmt.Errorf("select pending documents for embedding: %w", err)
+		return nil, fmt.Errorf("select pending articles for embedding: %w", err)
 	}
 	defer rows.Close()
 
-	documents := make([]embeddingPendingDocument, 0, limit)
+	articles := make([]embeddingPendingArticle, 0, limit)
 	for rows.Next() {
-		var document embeddingPendingDocument
-		if err := rows.Scan(&document.DocumentID, &document.NormalizedTitle, &document.NormalizedText); err != nil {
-			return nil, fmt.Errorf("scan pending embedding document: %w", err)
+		var article embeddingPendingArticle
+		if err := rows.Scan(&article.ArticleID, &article.NormalizedTitle, &article.NormalizedText); err != nil {
+			return nil, fmt.Errorf("scan pending embedding article: %w", err)
 		}
-		documents = append(documents, document)
+		articles = append(articles, article)
 	}
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate pending embedding documents: %w", err)
+		return nil, fmt.Errorf("iterate pending embedding articles: %w", err)
 	}
-	return documents, nil
+	return articles, nil
 }
 
-func insertDocumentEmbedding(
+func insertArticleEmbedding(
 	ctx context.Context,
 	pool *db.Pool,
-	documentID int64,
+	articleID int64,
 	modelName string,
 	modelVersion string,
 	vectorLiteral string,
@@ -222,8 +222,8 @@ func insertDocumentEmbedding(
 	now time.Time,
 ) (bool, error) {
 	const q = `
-INSERT INTO news.document_embeddings (
-	document_id,
+INSERT INTO news.article_embeddings (
+	article_id,
 	model_name,
 	model_version,
 	embedding,
@@ -231,19 +231,19 @@ INSERT INTO news.document_embeddings (
 	service_endpoint
 )
 VALUES ($1, $2, $3, $4::vector, $5, $6)
-ON CONFLICT (document_id, model_name, model_version) DO NOTHING
+ON CONFLICT (article_id, model_name, model_version) DO NOTHING
 `
 
-	tag, err := pool.Exec(ctx, q, documentID, modelName, modelVersion, vectorLiteral, now, endpoint)
+	tag, err := pool.Exec(ctx, q, articleID, modelName, modelVersion, vectorLiteral, now, endpoint)
 	if err != nil {
-		return false, fmt.Errorf("insert document embedding document_id=%d: %w", documentID, err)
+		return false, fmt.Errorf("insert article embedding article_id=%d: %w", articleID, err)
 	}
 	return tag.RowsAffected() == 1, nil
 }
 
-func embeddingInput(document embeddingPendingDocument) string {
-	title := strings.TrimSpace(document.NormalizedTitle)
-	body := strings.TrimSpace(document.NormalizedText)
+func embeddingInput(article embeddingPendingArticle) string {
+	title := strings.TrimSpace(article.NormalizedTitle)
+	body := strings.TrimSpace(article.NormalizedText)
 	switch {
 	case title == "" && body == "":
 		return ""

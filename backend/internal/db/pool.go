@@ -150,10 +150,16 @@ func NewPool(ctx context.Context, cfg *config.Config) (*Pool, error) {
 		return nil, fmt.Errorf("ping database: %w", err)
 	}
 
-	return &Pool{
+	pool := &Pool{
 		gdb:   gdb,
 		sqlDB: sqlDB,
-	}, nil
+	}
+	if err := pool.autoMigrate(ctx); err != nil {
+		_ = sqlDB.Close()
+		return nil, fmt.Errorf("auto-migrate schema: %w", err)
+	}
+
+	return pool, nil
 }
 
 func (p *Pool) BeginTx(ctx context.Context, _ TxOptions) (Tx, error) {

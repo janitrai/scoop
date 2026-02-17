@@ -50,7 +50,7 @@ type storyListFilter struct {
 }
 
 type storyRepresentative struct {
-	DocumentUUID string     `json:"document_uuid"`
+	ArticleUUID  string     `json:"article_uuid"`
 	Source       string     `json:"source"`
 	SourceItemID string     `json:"source_item_id"`
 	PublishedAt  *time.Time `json:"published_at,omitempty"`
@@ -66,13 +66,13 @@ type storyListItem struct {
 	FirstSeenAt    time.Time            `json:"first_seen_at"`
 	LastSeenAt     time.Time            `json:"last_seen_at"`
 	SourceCount    int                  `json:"source_count"`
-	ItemCount      int                  `json:"item_count"`
+	ArticleCount   int                  `json:"article_count"`
 	Representative *storyRepresentative `json:"representative,omitempty"`
 }
 
-type storyMemberItem struct {
-	StoryMemberUUID      string         `json:"story_member_uuid"`
-	DocumentUUID         string         `json:"document_uuid"`
+type StoryArticle struct {
+	StoryArticleUUID     string         `json:"story_article_uuid"`
+	ArticleUUID          string         `json:"article_uuid"`
 	Source               string         `json:"source"`
 	SourceItemID         string         `json:"source_item_id"`
 	Collection           string         `json:"collection"`
@@ -94,13 +94,13 @@ type storyMemberItem struct {
 }
 
 type storyDetail struct {
-	Story   storyListItem     `json:"story"`
-	Members []storyMemberItem `json:"members"`
+	Story   storyListItem  `json:"story"`
+	Members []StoryArticle `json:"members"`
 }
 
 type collectionSummary struct {
 	Collection      string     `json:"collection"`
-	Documents       int64      `json:"documents"`
+	Articles        int64      `json:"articles"`
 	Stories         int64      `json:"stories"`
 	StoryItems      int64      `json:"story_items"`
 	LastStorySeenAt *time.Time `json:"last_story_seen_at,omitempty"`
@@ -108,9 +108,9 @@ type collectionSummary struct {
 
 type statsResponse struct {
 	RawArrivals       int64            `json:"raw_arrivals"`
-	Documents         int64            `json:"documents"`
+	Articles          int64            `json:"articles"`
 	Stories           int64            `json:"stories"`
-	StoryMembers      int64            `json:"story_members"`
+	StoryArticles     int64            `json:"story_articles"`
 	DedupEvents       int64            `json:"dedup_events"`
 	RunningIngestRuns int64            `json:"running_ingest_runs"`
 	LastFetchedAt     *time.Time       `json:"last_fetched_at,omitempty"`
@@ -224,7 +224,7 @@ func (s *Server) Start(ctx context.Context) error {
 	api.GET("/story-days", s.handleStoryDays)
 	api.GET("/stories", s.handleStories)
 	api.GET("/stories/:story_uuid", s.handleStoryDetail)
-	api.GET("/items/:story_member_uuid/preview", s.handleStoryItemPreview)
+	api.GET("/articles/:story_article_uuid/preview", s.handleStoryArticlePreview)
 
 	addr := fmt.Sprintf("%s:%d", s.opts.Host, s.opts.Port)
 	httpServer := &http.Server{
@@ -450,14 +450,14 @@ SELECT
 	s.first_seen_at,
 	s.last_seen_at,
 	s.source_count,
-	s.item_count,
-	rd.document_uuid::text,
+	s.article_count,
+	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
 	rd.published_at
 FROM news.stories s
-LEFT JOIN news.documents rd
-	ON rd.document_id = s.representative_document_id
+LEFT JOIN news.articles rd
+	ON rd.article_id = s.representative_article_id
 WHERE ($1 = '' OR s.collection = $1)
   AND ($2 = '' OR s.status = $2)
   AND ($3 = '' OR s.canonical_title ILIKE $3 OR COALESCE(s.canonical_url, '') ILIKE $3)
@@ -478,7 +478,7 @@ OFFSET $7
 	for rows.Next() {
 		var (
 			row             storyListItem
-			repDocumentUUID *string
+			repArticleUUID  *string
 			repSource       *string
 			repSourceItemID *string
 			repPublishedAt  *time.Time
@@ -493,8 +493,8 @@ OFFSET $7
 			&row.FirstSeenAt,
 			&row.LastSeenAt,
 			&row.SourceCount,
-			&row.ItemCount,
-			&repDocumentUUID,
+			&row.ArticleCount,
+			&repArticleUUID,
 			&repSource,
 			&repSourceItemID,
 			&repPublishedAt,
@@ -502,9 +502,9 @@ OFFSET $7
 			return 0, nil, fmt.Errorf("scan story row: %w", err)
 		}
 
-		if repDocumentUUID != nil && repSource != nil && repSourceItemID != nil {
+		if repArticleUUID != nil && repSource != nil && repSourceItemID != nil {
 			row.Representative = &storyRepresentative{
-				DocumentUUID: *repDocumentUUID,
+				ArticleUUID:  *repArticleUUID,
 				Source:       *repSource,
 				SourceItemID: *repSourceItemID,
 				PublishedAt:  repPublishedAt,
@@ -532,20 +532,20 @@ SELECT
 	s.first_seen_at,
 	s.last_seen_at,
 	s.source_count,
-	s.item_count,
-	rd.document_uuid::text,
+	s.article_count,
+	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
 	rd.published_at
 FROM news.stories s
-LEFT JOIN news.documents rd
-	ON rd.document_id = s.representative_document_id
+LEFT JOIN news.articles rd
+	ON rd.article_id = s.representative_article_id
 WHERE s.story_uuid = $1::uuid
 `
 
 	var (
 		story           storyListItem
-		repDocumentUUID *string
+		repArticleUUID  *string
 		repSource       *string
 		repSourceItemID *string
 		repPublishedAt  *time.Time
@@ -560,8 +560,8 @@ WHERE s.story_uuid = $1::uuid
 		&story.FirstSeenAt,
 		&story.LastSeenAt,
 		&story.SourceCount,
-		&story.ItemCount,
-		&repDocumentUUID,
+		&story.ArticleCount,
+		&repArticleUUID,
 		&repSource,
 		&repSourceItemID,
 		&repPublishedAt,
@@ -572,9 +572,9 @@ WHERE s.story_uuid = $1::uuid
 		return nil, fmt.Errorf("query story: %w", err)
 	}
 
-	if repDocumentUUID != nil && repSource != nil && repSourceItemID != nil {
+	if repArticleUUID != nil && repSource != nil && repSourceItemID != nil {
 		story.Representative = &storyRepresentative{
-			DocumentUUID: *repDocumentUUID,
+			ArticleUUID:  *repArticleUUID,
 			Source:       *repSource,
 			SourceItemID: *repSourceItemID,
 			PublishedAt:  repPublishedAt,
@@ -583,8 +583,8 @@ WHERE s.story_uuid = $1::uuid
 
 	const membersQuery = `
 SELECT
-	sm.story_member_uuid::text,
-	d.document_uuid::text,
+	sm.story_article_uuid::text,
+	d.article_uuid::text,
 	d.source,
 	d.source_item_id,
 	d.collection,
@@ -603,30 +603,30 @@ SELECT
 	de.title_overlap,
 	de.entity_date_consistency,
 	de.composite_score
-FROM news.story_members sm
-JOIN news.documents d
-	ON d.document_id = sm.document_id
+FROM news.story_articles sm
+JOIN news.articles d
+	ON d.article_id = sm.article_id
 LEFT JOIN news.dedup_events de
-	ON de.document_id = d.document_id
+	ON de.article_id = d.article_id
 WHERE sm.story_id = $1
 ORDER BY sm.matched_at DESC
 `
 
 	rows, err := s.pool.Query(ctx, membersQuery, story.StoryID)
 	if err != nil {
-		return nil, fmt.Errorf("query story members: %w", err)
+		return nil, fmt.Errorf("query story articles: %w", err)
 	}
 	defer rows.Close()
 
-	members := make([]storyMemberItem, 0, story.ItemCount)
+	members := make([]StoryArticle, 0, story.ArticleCount)
 	for rows.Next() {
 		var (
-			member          storyMemberItem
+			member          StoryArticle
 			matchDetailsRaw []byte
 		)
 		if err := rows.Scan(
-			&member.StoryMemberUUID,
-			&member.DocumentUUID,
+			&member.StoryArticleUUID,
+			&member.ArticleUUID,
 			&member.Source,
 			&member.SourceItemID,
 			&member.Collection,
@@ -646,7 +646,7 @@ ORDER BY sm.matched_at DESC
 			&member.DedupDateConsistency,
 			&member.DedupCompositeScore,
 		); err != nil {
-			return nil, fmt.Errorf("scan story member: %w", err)
+			return nil, fmt.Errorf("scan story article: %w", err)
 		}
 
 		if len(matchDetailsRaw) > 0 && string(matchDetailsRaw) != "null" {
@@ -660,7 +660,7 @@ ORDER BY sm.matched_at DESC
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate story members: %w", err)
+		return nil, fmt.Errorf("iterate story articles: %w", err)
 	}
 
 	return &storyDetail{
@@ -671,23 +671,23 @@ ORDER BY sm.matched_at DESC
 
 func (s *Server) queryCollections(ctx context.Context) ([]collectionSummary, error) {
 	const q = `
-WITH doc_counts AS (
-	SELECT collection, COUNT(*)::BIGINT AS documents
-	FROM news.documents
+WITH article_counts AS (
+	SELECT collection, COUNT(*)::BIGINT AS articles
+	FROM news.articles
 	GROUP BY collection
 ),
 story_counts AS (
-	SELECT collection, COUNT(*)::BIGINT AS stories, COALESCE(SUM(item_count), 0)::BIGINT AS story_items, MAX(last_seen_at) AS last_story_seen_at
+	SELECT collection, COUNT(*)::BIGINT AS stories, COALESCE(SUM(article_count), 0)::BIGINT AS story_items, MAX(last_seen_at) AS last_story_seen_at
 	FROM news.stories
 	GROUP BY collection
 )
 SELECT
 	COALESCE(d.collection, s.collection) AS collection,
-	COALESCE(d.documents, 0) AS documents,
+	COALESCE(d.articles, 0) AS articles,
 	COALESCE(s.stories, 0) AS stories,
 	COALESCE(s.story_items, 0) AS story_items,
 	s.last_story_seen_at
-FROM doc_counts d
+FROM article_counts d
 FULL OUTER JOIN story_counts s
 	ON s.collection = d.collection
 ORDER BY 1
@@ -702,7 +702,7 @@ ORDER BY 1
 	items := make([]collectionSummary, 0, 8)
 	for rows.Next() {
 		var row collectionSummary
-		if err := rows.Scan(&row.Collection, &row.Documents, &row.Stories, &row.StoryItems, &row.LastStorySeenAt); err != nil {
+		if err := rows.Scan(&row.Collection, &row.Articles, &row.Stories, &row.StoryItems, &row.LastStorySeenAt); err != nil {
 			return nil, fmt.Errorf("scan collection summary: %w", err)
 		}
 		items = append(items, row)
@@ -748,9 +748,9 @@ func (s *Server) queryStats(ctx context.Context) (*statsResponse, error) {
 	const q = `
 SELECT
 	(SELECT COUNT(*) FROM news.raw_arrivals) AS raw_arrivals,
-	(SELECT COUNT(*) FROM news.documents) AS documents,
+	(SELECT COUNT(*) FROM news.articles) AS articles,
 	(SELECT COUNT(*) FROM news.stories) AS stories,
-	(SELECT COUNT(*) FROM news.story_members) AS story_members,
+	(SELECT COUNT(*) FROM news.story_articles) AS story_articles,
 	(SELECT COUNT(*) FROM news.dedup_events) AS dedup_events,
 	(SELECT COUNT(*) FROM news.ingest_runs WHERE status = 'running') AS running_ingest_runs,
 	(SELECT MAX(fetched_at) FROM news.raw_arrivals) AS last_fetched_at,
@@ -760,9 +760,9 @@ SELECT
 	var stats statsResponse
 	if err := s.pool.QueryRow(ctx, q).Scan(
 		&stats.RawArrivals,
-		&stats.Documents,
+		&stats.Articles,
 		&stats.Stories,
-		&stats.StoryMembers,
+		&stats.StoryArticles,
 		&stats.DedupEvents,
 		&stats.RunningIngestRuns,
 		&stats.LastFetchedAt,
