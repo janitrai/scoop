@@ -60,6 +60,64 @@ python3 scripts/fetch_news.py [--hours N] [--max N] [--format markdown|json]
   --format  Output format: markdown or json
 ```
 
+## Scoop Pipeline Integration
+
+This skill integrates with the **Scoop** NEWSINT pipeline for ingestion, embedding, and semantic dedup.
+
+### Prerequisites
+- PostgreSQL with `news` schema running (DB creds in `~/scoop/backend/.env`)
+- Embedding service running on port 8844 (Qwen3-Embedding-8B):
+  ```bash
+  cd ~/scoop/embedding-service && /home/bob/janitr/scripts/.venv/bin/python3 main.py --backend transformers --port 8844 --server
+  ```
+- Scoop binary built: `cd ~/scoop/backend && go build -o /tmp/scoop ./cmd/scoop/`
+
+### Ingest + Dedup Pipeline
+
+```bash
+# 1. Fetch raw stories as JSON
+cd ~/scoop/skills/world-news
+python3 scripts/fetch_news.py --hours 26 --max 50 --format json > /tmp/world-news-raw.json
+
+# 2. Convert to canonical schema and ingest each item (collection = "world_news")
+#    Items without a parseable date MUST be skipped (never default to today)
+
+# 3. Run the full pipeline (normalize → embed → dedup)
+cd ~/scoop/backend && source .env
+/tmp/scoop run-once
+
+# 4. Get today's digest stories (today + yesterday for cross-day dedup context)
+/tmp/scoop digest --collection world_news --format json
+# Returns: {date, collection, today: [...stories], yesterday: [...stories]}
+```
+
+### Scoop CLI Reference
+```
+# Write-side (pipeline)
+/tmp/scoop ingest --payload-file <path.json>    # Ingest one item
+/tmp/scoop run-once                              # Full pipeline cycle (normalize+embed+dedup)
+
+# Read-side (querying)
+/tmp/scoop digest --collection <name> [--date YYYY-MM-DD] [--format json|table]
+/tmp/scoop stories [--collection <name>] [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit N] [--format json|table]
+/tmp/scoop story <uuid> [--format json|table]    # Detail view with merged articles
+/tmp/scoop stats [--format json|table]           # Per-collection counts + pipeline throughput
+/tmp/scoop collections [--format json|table]     # List collections with counts
+/tmp/scoop search --query <text> [--collection <name>] [--limit N] [--format json|table]
+/tmp/scoop articles [--collection <name>] [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit N] [--format json|table]
+```
+
+### Important
+- **Never fake dates**: if a story has no parseable publication date, skip it
+- **Embedding service must be running**: embed step will fail without it
+- The scoop dedup uses cosine similarity ≥0.935 for auto-merge, 0.89-0.935 for gray zone
+- Collection for world news is `world_news`
+
 ## Scheduled Daily Digest
 
-This skill is designed to be triggered by a daily cron job. The cron job runs the fetch, the agent curates and posts the digest to the configured Discord channel.
+This skill is triggered by a daily cron job. The workflow:
+1. Fetch from all sources via `fetch_news.py`
+2. Ingest into scoop pipeline for semantic dedup
+3. Get digest stories: `/tmp/scoop digest --collection world_news --format json`
+4. Curate top 10-15 unique stories from today, excluding themes from yesterday
+5. Post digest to Discord #world-news channel
