@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import { getStoryItemPreview } from "../api";
+import { getStoryArticlePreview } from "../api";
 import { buildMemberSubtitle, formatDateTime } from "../lib/viewerFormat";
-import type { StoryDetailResponse, StoryItemPreview, StoryMemberItem } from "../types";
+import type { StoryDetailResponse, StoryArticlePreview, StoryArticle } from "../types";
 
 interface StoryDetailPanelProps {
   selectedStoryUUID: string;
@@ -36,17 +36,17 @@ function pruneRecord<T>(record: Record<string, T>, validIDs: Set<string>): Recor
 interface MemberURLGroup {
   key: string;
   canonicalURL: string;
-  members: StoryMemberItem[];
-  representative: StoryMemberItem;
+  members: StoryArticle[];
+  representative: StoryArticle;
   sourceCount: number;
 }
 
-function memberGroupKey(member: StoryMemberItem): string {
+function memberGroupKey(member: StoryArticle): string {
   const canonicalURL = member.canonical_url?.trim().toLowerCase() ?? "";
   if (canonicalURL) {
     return `url:${canonicalURL}`;
   }
-  return `member:${member.story_member_uuid}`;
+  return `member:${member.story_article_uuid}`;
 }
 
 export function StoryDetailPanel({
@@ -59,7 +59,7 @@ export function StoryDetailPanel({
   onClearSelectedItem,
 }: StoryDetailPanelProps): JSX.Element {
   const [expandedGroupKeys, setExpandedGroupKeys] = useState<string[]>([]);
-  const [itemPreviewByUUID, setItemPreviewByUUID] = useState<Record<string, StoryItemPreview>>({});
+  const [itemPreviewByUUID, setItemPreviewByUUID] = useState<Record<string, StoryArticlePreview>>({});
   const [itemPreviewLoadingByUUID, setItemPreviewLoadingByUUID] = useState<Record<string, boolean>>({});
   const [itemPreviewRequestedByUUID, setItemPreviewRequestedByUUID] = useState<Record<string, boolean>>({});
   const [itemPreviewErrorByUUID, setItemPreviewErrorByUUID] = useState<Record<string, string>>({});
@@ -70,7 +70,7 @@ export function StoryDetailPanel({
       return [];
     }
 
-    const grouped = new Map<string, StoryMemberItem[]>();
+    const grouped = new Map<string, StoryArticle[]>();
     for (const member of detail.members) {
       const key = memberGroupKey(member);
       const members = grouped.get(key);
@@ -99,7 +99,7 @@ export function StoryDetailPanel({
     const mapping: Record<string, string> = {};
     for (const group of memberGroups) {
       for (const member of group.members) {
-        mapping[member.story_member_uuid] = group.key;
+        mapping[member.story_article_uuid] = group.key;
       }
     }
     return mapping;
@@ -118,7 +118,7 @@ export function StoryDetailPanel({
       return;
     }
 
-    const validItemIDs = new Set(detail.members.map((member) => member.story_member_uuid));
+    const validItemIDs = new Set(detail.members.map((member) => member.story_article_uuid));
     const validGroupKeys = new Set(memberGroups.map((group) => group.key));
     const isNewStorySelection = previousStoryUUIDRef.current !== detail.story.story_uuid;
     previousStoryUUIDRef.current = detail.story.story_uuid;
@@ -162,7 +162,7 @@ export function StoryDetailPanel({
     }
 
     for (const member of detail.members) {
-      const itemUUID = member.story_member_uuid;
+      const itemUUID = member.story_article_uuid;
       if (itemPreviewRequestedByUUID[itemUUID]) {
         continue;
       }
@@ -184,7 +184,7 @@ export function StoryDetailPanel({
         return next;
       });
 
-      void getStoryItemPreview(itemUUID, 1000)
+      void getStoryArticlePreview(itemUUID, 1000)
         .then((preview) => {
           setItemPreviewByUUID((previous) => ({
             ...previous,
@@ -240,7 +240,7 @@ export function StoryDetailPanel({
       <>
         <h2 className="detail-title">{detail.story.title || "(untitled)"}</h2>
         <p className="detail-meta">
-          Collection: {detail.story.collection} • {detail.story.item_count} items • {detail.story.source_count} sources
+          Collection: {detail.story.collection} • {detail.story.article_count} items • {detail.story.source_count} sources
         </p>
       </>
     );
@@ -263,7 +263,7 @@ export function StoryDetailPanel({
             const decisionText = representative.dedup_decision ? representative.dedup_decision.toLowerCase() : "";
 
             const previewTexts = group.members
-              .map((member) => itemPreviewByUUID[member.story_member_uuid]?.preview_text?.trim() ?? "")
+              .map((member) => itemPreviewByUUID[member.story_article_uuid]?.preview_text?.trim() ?? "")
               .filter((text) => text.length > 0);
             const normalizedTexts = group.members
               .map((member) => member.normalized_text?.trim() ?? "")
@@ -273,12 +273,12 @@ export function StoryDetailPanel({
             const resolvedParagraphs = toParagraphs(resolvedExpandedText);
             const hasResolvedContent = resolvedParagraphs.length > 0;
             const isPreviewLoading = group.members.some(
-              (member) => Boolean(itemPreviewLoadingByUUID[member.story_member_uuid]),
+              (member) => Boolean(itemPreviewLoadingByUUID[member.story_article_uuid]),
             );
             const previewError = group.members.some(
-              (member) => Boolean(itemPreviewErrorByUUID[member.story_member_uuid]),
+              (member) => Boolean(itemPreviewErrorByUUID[member.story_article_uuid]),
             );
-            const routeItemUUID = hasSelectedMember ? selectedItemUUID : representative.story_member_uuid;
+            const routeItemUUID = hasSelectedMember ? selectedItemUUID : representative.story_article_uuid;
 
             return (
               <article
@@ -366,17 +366,17 @@ export function StoryDetailPanel({
                             const memberDecision = groupMember.dedup_decision
                               ? groupMember.dedup_decision.toLowerCase()
                               : "";
-                            const isSelected = selectedItemUUID === groupMember.story_member_uuid;
+                            const isSelected = selectedItemUUID === groupMember.story_article_uuid;
 
                             return (
                               <li
-                                key={groupMember.story_member_uuid}
+                                key={groupMember.story_article_uuid}
                                 className={`member-merge-provenance-row ${isSelected ? "is-selected" : ""}`.trim()}
                               >
                                 <button
                                   type="button"
                                   className="member-merge-provenance-link"
-                                  onClick={() => onSelectItem(groupMember.story_member_uuid)}
+                                  onClick={() => onSelectItem(groupMember.story_article_uuid)}
                                 >
                                   {buildMemberSubtitle(groupMember)}
                                 </button>
@@ -412,7 +412,7 @@ export function StoryDetailPanel({
   return (
     <aside className="panel card detail-panel">
       <div className="detail-content">
-        {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged documents.</p> : null}
+        {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged articles.</p> : null}
         {selectedStoryUUID && isLoading ? <p className="muted">Fetching story detail...</p> : null}
         {selectedStoryUUID && !isLoading && error ? <p className="muted">{error}</p> : null}
 

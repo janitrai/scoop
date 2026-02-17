@@ -1,4 +1,4 @@
-import type { StoryListItem, StoryMemberItem, StoryPagination } from "../types";
+import type { StoryListItem, StoryArticle, StoryPagination } from "../types";
 import { parseDayString } from "./day";
 
 function parseCalendarDay(value: string): Date | null {
@@ -164,7 +164,7 @@ export function buildFeedMetaText(story: StoryListItem, includeTimestamp = false
   return `${timeText} • ${sourceText}`;
 }
 
-export function buildMemberSubtitle(member: StoryMemberItem): string {
+export function buildMemberSubtitle(member: StoryArticle): string {
   const scoreSuffix = member.match_score == null ? "" : ` • score ${Number(member.match_score).toFixed(3)}`;
   return `${member.source}:${member.source_item_id} • ${member.match_type}${scoreSuffix}`;
 }

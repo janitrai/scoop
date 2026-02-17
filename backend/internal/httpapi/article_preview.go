@@ -19,83 +19,83 @@ import (
 )
 
 const (
-	defaultItemPreviewMaxChars = 1000
-	minItemPreviewMaxChars     = 200
-	maxItemPreviewMaxChars     = 4000
-	readerFetchTimeout         = 12 * time.Second
-	readerBodyByteLimit        = 2 * 1024 * 1024
+	defaultArticlePreviewMaxChars = 1000
+	minArticlePreviewMaxChars     = 200
+	maxArticlePreviewMaxChars     = 4000
+	readerFetchTimeout            = 12 * time.Second
+	readerBodyByteLimit           = 2 * 1024 * 1024
 )
 
-var errStoryMemberNotFound = errors.New("story member not found")
+var errStoryArticleNotFound = errors.New("story article not found")
 
-type storyItemPreview struct {
-	StoryMemberUUID string  `json:"story_member_uuid"`
-	PreviewText     string  `json:"preview_text"`
-	Source          string  `json:"source"`
-	CharCount       int     `json:"char_count"`
-	Truncated       bool    `json:"truncated"`
-	PreviewError    *string `json:"preview_error,omitempty"`
+type storyArticlePreview struct {
+	StoryArticleUUID string  `json:"story_article_uuid"`
+	PreviewText      string  `json:"preview_text"`
+	Source           string  `json:"source"`
+	CharCount        int     `json:"char_count"`
+	Truncated        bool    `json:"truncated"`
+	PreviewError     *string `json:"preview_error,omitempty"`
 }
 
-func (s *Server) handleStoryItemPreview(c echo.Context) error {
-	storyMemberUUID := strings.TrimSpace(c.Param("story_member_uuid"))
-	if storyMemberUUID == "" {
-		return failValidation(c, map[string]string{"story_member_uuid": "is required"})
+func (s *Server) handleStoryArticlePreview(c echo.Context) error {
+	storyArticleUUID := strings.TrimSpace(c.Param("story_article_uuid"))
+	if storyArticleUUID == "" {
+		return failValidation(c, map[string]string{"story_article_uuid": "is required"})
 	}
 
 	maxChars, err := parsePositiveInt(
 		c.QueryParam("max_chars"),
-		defaultItemPreviewMaxChars,
-		minItemPreviewMaxChars,
-		maxItemPreviewMaxChars,
+		defaultArticlePreviewMaxChars,
+		minArticlePreviewMaxChars,
+		maxArticlePreviewMaxChars,
 	)
 	if err != nil {
 		return failValidation(c, map[string]string{"max_chars": err.Error()})
 	}
 
-	preview, err := s.queryStoryItemPreview(c.Request().Context(), storyMemberUUID, maxChars)
+	preview, err := s.queryStoryArticlePreview(c.Request().Context(), storyArticleUUID, maxChars)
 	if err != nil {
-		if errors.Is(err, errStoryMemberNotFound) {
-			return failNotFound(c, "Story item not found")
+		if errors.Is(err, errStoryArticleNotFound) {
+			return failNotFound(c, "Story article not found")
 		}
-		s.logger.Error().Err(err).Str("story_member_uuid", storyMemberUUID).Msg("query story item preview failed")
-		return internalError(c, "Failed to load story item preview")
+		s.logger.Error().Err(err).Str("story_article_uuid", storyArticleUUID).Msg("query story article preview failed")
+		return internalError(c, "Failed to load story article preview")
 	}
 
 	return success(c, preview)
 }
 
-func (s *Server) queryStoryItemPreview(ctx context.Context, storyMemberUUID string, maxChars int) (*storyItemPreview, error) {
+func (s *Server) queryStoryArticlePreview(ctx context.Context, storyArticleUUID string, maxChars int) (*storyArticlePreview, error) {
 	const q = `
 SELECT
-	sm.story_member_uuid::text,
+	sm.story_article_uuid::text,
 	d.normalized_text,
 	d.canonical_url,
 	d.normalized_title
-FROM news.story_members sm
-JOIN news.documents d
-	ON d.document_id = sm.document_id
-WHERE sm.story_member_uuid = $1::uuid
+FROM news.story_articles sm
+JOIN news.articles d
+	ON d.article_id = sm.article_id
+WHERE sm.story_article_uuid = $1::uuid
 LIMIT 1
 `
 
 	var (
-		rowStoryMemberUUID string
-		rowNormalizedText  *string
-		rowCanonicalURL    *string
-		rowTitle           string
+		rowStoryArticleUUID string
+		rowNormalizedText   *string
+		rowCanonicalURL     *string
+		rowTitle            string
 	)
 
-	if err := s.pool.QueryRow(ctx, q, storyMemberUUID).Scan(
-		&rowStoryMemberUUID,
+	if err := s.pool.QueryRow(ctx, q, storyArticleUUID).Scan(
+		&rowStoryArticleUUID,
 		&rowNormalizedText,
 		&rowCanonicalURL,
 		&rowTitle,
 	); err != nil {
 		if errors.Is(err, db.ErrNoRows) {
-			return nil, errStoryMemberNotFound
+			return nil, errStoryArticleNotFound
 		}
-		return nil, fmt.Errorf("query story item preview row: %w", err)
+		return nil, fmt.Errorf("query story article preview row: %w", err)
 	}
 
 	normalizedText := ""
@@ -103,22 +103,22 @@ LIMIT 1
 		normalizedText = strings.TrimSpace(*rowNormalizedText)
 	}
 
-	previewRaw, source, previewErr := buildItemPreviewText(ctx, rowCanonicalURL, rowTitle, normalizedText)
+	previewRaw, source, previewErr := buildArticlePreviewText(ctx, rowCanonicalURL, rowTitle, normalizedText)
 	previewText, truncated := truncatePreviewText(previewRaw, maxChars)
 
-	resp := &storyItemPreview{
-		StoryMemberUUID: rowStoryMemberUUID,
-		PreviewText:     previewText,
-		Source:          source,
-		CharCount:       utf8.RuneCountInString(previewText),
-		Truncated:       truncated,
+	resp := &storyArticlePreview{
+		StoryArticleUUID: rowStoryArticleUUID,
+		PreviewText:      previewText,
+		Source:           source,
+		CharCount:        utf8.RuneCountInString(previewText),
+		Truncated:        truncated,
 	}
 	if previewErr != nil {
 		msg := previewErr.Error()
 		resp.PreviewError = &msg
 		s.logger.Warn().
 			Err(previewErr).
-			Str("story_member_uuid", storyMemberUUID).
+			Str("story_article_uuid", storyArticleUUID).
 			Str("source", source).
 			Msg("reader preview fallback used")
 	}
@@ -126,7 +126,7 @@ LIMIT 1
 	return resp, nil
 }
 
-func buildItemPreviewText(
+func buildArticlePreviewText(
 	ctx context.Context,
 	canonicalURL *string,
 	normalizedTitle string,
@@ -242,7 +242,7 @@ func truncatePreviewText(raw string, maxChars int) (string, bool) {
 
 	limit := maxChars
 	if limit <= 0 {
-		limit = defaultItemPreviewMaxChars
+		limit = defaultArticlePreviewMaxChars
 	}
 
 	runes := []rune(trimmed)

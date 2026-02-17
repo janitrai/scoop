@@ -38,8 +38,8 @@ export function StatsPage(): JSX.Element {
 
       <section className="card stats-secondary-grid">
         <article className="stat card">
-          <p className="stat-label">Story Members</p>
-          <p className="stat-value">{formatCount(stats?.story_members)}</p>
+          <p className="stat-label">Story Articles</p>
+          <p className="stat-value">{formatCount(stats?.story_articles)}</p>
         </article>
         <article className="stat card">
           <p className="stat-label">Ingest Runs (Running)</p>

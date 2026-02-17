@@ -15,7 +15,7 @@ export interface JSendFailure {
 export type JSendResponse<T> = JSendSuccess<T> | JSendFailure;
 
 export interface StoryRepresentative {
-  document_uuid: string;
+  article_uuid: string;
   source: string;
   source_item_id: string;
   published_at?: string;
@@ -31,13 +31,13 @@ export interface StoryListItem {
   first_seen_at: string;
   last_seen_at: string;
   source_count: number;
-  item_count: number;
+  article_count: number;
   representative?: StoryRepresentative;
 }
 
-export interface StoryMemberItem {
-  story_member_uuid: string;
-  document_uuid: string;
+export interface StoryArticle {
+  story_article_uuid: string;
+  article_uuid: string;
   source: string;
   source_item_id: string;
   collection: string;
@@ -60,11 +60,11 @@ export interface StoryMemberItem {
 
 export interface StoryDetailResponse {
   story: StoryListItem;
-  members: StoryMemberItem[];
+  members: StoryArticle[];
 }
 
-export interface StoryItemPreview {
-  story_member_uuid: string;
+export interface StoryArticlePreview {
+  story_article_uuid: string;
   preview_text: string;
   source: string;
   char_count: number;
@@ -74,7 +74,7 @@ export interface StoryItemPreview {
 
 export interface CollectionSummary {
   collection: string;
-  documents: number;
+  articles: number;
   stories: number;
   story_items: number;
   last_story_seen_at?: string;
@@ -99,9 +99,9 @@ export interface StoriesResponse {
 
 export interface StatsResponse {
   raw_arrivals: number;
-  documents: number;
+  articles: number;
   stories: number;
-  story_members: number;
+  story_articles: number;
   dedup_events: number;
   running_ingest_runs: number;
   last_fetched_at?: string;

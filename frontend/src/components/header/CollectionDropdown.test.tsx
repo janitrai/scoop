@@ -13,8 +13,8 @@ function renderCollectionDropdown(): void {
       allCollectionsLabel="All collections (3)"
       currentCollectionLabel="AI News"
       collections={[
-        { collection: "ai-news", documents: 10, stories: 2, story_items: 7 },
-        { collection: "world-news", documents: 20, stories: 1, story_items: 4 },
+        { collection: "ai-news", articles: 10, stories: 2, story_items: 7 },
+        { collection: "world-news", articles: 20, stories: 1, story_items: 4 },
       ]}
       onCollectionChange={vi.fn()}
     />,
@@ -29,7 +29,7 @@ describe("CollectionDropdown", () => {
         allCollectionsValue="__all__"
         allCollectionsLabel="All collections (3)"
         currentCollectionLabel="AI News"
-        collections={[{ collection: "ai-news", documents: 10, stories: 2, story_items: 7 }]}
+        collections={[{ collection: "ai-news", articles: 10, stories: 2, story_items: 7 }]}
         onCollectionChange={vi.fn()}
       />,
     );

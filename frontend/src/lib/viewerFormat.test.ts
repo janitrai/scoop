@@ -14,7 +14,7 @@ function makeStory(overrides: Partial<StoryListItem>): StoryListItem {
     first_seen_at: "2026-02-15T00:00:00Z",
     last_seen_at: "2026-02-15T00:00:00Z",
     source_count: 1,
-    item_count: 1,
+    article_count: 1,
     ...overrides,
   };
 }
@@ -43,7 +43,7 @@ describe("buildFeedSourceText", () => {
       canonical_url: undefined,
       source_count: 2,
       representative: {
-        document_uuid: "00000000-0000-0000-0000-000000000002",
+        article_uuid: "00000000-0000-0000-0000-000000000002",
         source: "reuters",
         source_item_id: "abc",
       },

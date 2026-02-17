@@ -61,10 +61,10 @@ TRUNCATE TABLE
   news.digest_runs,
   news.story_topic_state,
   news.dedup_events,
-  news.story_members,
+  news.story_articles,
   news.stories,
-  news.document_embeddings,
-  news.documents,
+  news.article_embeddings,
+  news.articles,
   news.raw_arrivals,
   news.source_checkpoints,
   news.ingest_runs
@@ -283,10 +283,10 @@ fi
 log "Collecting DB metrics"
 metrics=$(PGPASSWORD="$PGPASSWORD" psql -X -h localhost -U news -d "$DB_NAME" -At -F '|' <<SQL
 SELECT 'raw_arrivals', count(*) FROM news.raw_arrivals
-UNION ALL SELECT 'documents', count(*) FROM news.documents
-UNION ALL SELECT 'document_embeddings', count(*) FROM news.document_embeddings WHERE model_name='${MODEL_NAME}' AND model_version='${MODEL_VERSION}'
+UNION ALL SELECT 'articles', count(*) FROM news.articles
+UNION ALL SELECT 'article_embeddings', count(*) FROM news.article_embeddings WHERE model_name='${MODEL_NAME}' AND model_version='${MODEL_VERSION}'
 UNION ALL SELECT 'stories', count(*) FROM news.stories
-UNION ALL SELECT 'story_members', count(*) FROM news.story_members
+UNION ALL SELECT 'story_articles', count(*) FROM news.story_articles
 UNION ALL SELECT 'dedup_events', count(*) FROM news.dedup_events;
 SQL
 )
