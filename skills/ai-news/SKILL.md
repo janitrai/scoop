@@ -102,19 +102,29 @@ python3 scripts/fetch_news.py --hours 24 --max 50 --format json > /tmp/ai-news-r
 cd ~/scoop/backend && source .env
 /tmp/scoop run-once
 
-# 4. Query stories for the digest — only non-duplicate stories for today
-#    Stories with decision='auto_merge' were merged into existing stories
-#    Stories with decision='new_story' are unique — use these for the digest
+# 4. Get today's digest stories (today + yesterday for cross-day dedup context)
+/tmp/scoop digest --collection ai_news --format json
+# Returns: {date, collection, today: [...stories], yesterday: [...stories]}
 ```
 
 ### Scoop CLI Reference
 ```
+# Write-side (pipeline)
 /tmp/scoop ingest --payload-file <path.json>    # Ingest one item
-/tmp/scoop normalize                             # Raw arrivals → documents
+/tmp/scoop normalize                             # Raw arrivals → articles
 /tmp/scoop embed                                 # Generate embeddings (requires embedding service)
 /tmp/scoop dedup                                 # Semantic dedup → stories
 /tmp/scoop run-once                              # Full pipeline cycle (normalize+embed+dedup)
 /tmp/scoop serve                                 # HTTP API on port 8090
+
+# Read-side (querying)
+/tmp/scoop digest --collection <name> [--date YYYY-MM-DD] [--format json|table]
+/tmp/scoop stories [--collection <name>] [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit N] [--format json|table]
+/tmp/scoop story <uuid> [--format json|table]    # Detail view with merged articles
+/tmp/scoop stats [--format json|table]           # Per-collection counts + pipeline throughput
+/tmp/scoop collections [--format json|table]     # List collections with counts
+/tmp/scoop search --query <text> [--collection <name>] [--limit N] [--format json|table]
+/tmp/scoop articles [--collection <name>] [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit N] [--format json|table]
 ```
 
 ### Important

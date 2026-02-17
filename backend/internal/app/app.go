@@ -17,6 +17,20 @@ func Run(args []string) int {
 	case "help", "--help", "-h":
 		printUsage()
 		return 0
+	case "stories":
+		return runStories(args[1:])
+	case "stats":
+		return runStats(args[1:])
+	case "story":
+		return runStoryDetail(args[1:])
+	case "collections":
+		return runCollections(args[1:])
+	case "search":
+		return runSearch(args[1:])
+	case "articles":
+		return runArticles(args[1:])
+	case "digest":
+		return runDigest(args[1:])
 	case "health":
 		return runHealth(args[1:])
 	case "ingest":
@@ -47,9 +61,16 @@ func printUsage() {
 	fmt.Fprintln(os.Stderr, "  scoop <command> [flags]")
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "Commands:")
-	fmt.Fprintln(os.Stderr, "  health   Verify database connectivity")
-	fmt.Fprintln(os.Stderr, "  ingest   Insert one article into ingest ledger tables")
-	fmt.Fprintln(os.Stderr, "  validate  Validate news article JSON files against v1 schema")
+	fmt.Fprintln(os.Stderr, "  stories    List stories by dedup event date window")
+	fmt.Fprintln(os.Stderr, "  stats      Show per-collection and pipeline throughput counts")
+	fmt.Fprintln(os.Stderr, "  story      Show detail for one story UUID")
+	fmt.Fprintln(os.Stderr, "  collections  List collections with article/story counts and ranges")
+	fmt.Fprintln(os.Stderr, "  search     Search story titles")
+	fmt.Fprintln(os.Stderr, "  articles   List normalized articles")
+	fmt.Fprintln(os.Stderr, "  digest     Build today/yesterday digest story sets")
+	fmt.Fprintln(os.Stderr, "  health     Verify database connectivity")
+	fmt.Fprintln(os.Stderr, "  ingest     Insert one article into ingest ledger tables")
+	fmt.Fprintln(os.Stderr, "  validate   Validate news article JSON files against v1 schema")
 	fmt.Fprintln(os.Stderr, "  normalize  Convert pending raw arrivals into normalized articles")
 	fmt.Fprintln(os.Stderr, "  embed      Generate embeddings for normalized articles")
 	fmt.Fprintln(os.Stderr, "  dedup      Assign pending articles into canonical stories")

@@ -206,6 +206,20 @@ func (p *Pool) Close() error {
 	return p.sqlDB.Close()
 }
 
+func (p *Pool) DB() *sql.DB {
+	if p == nil {
+		return nil
+	}
+	return p.sqlDB
+}
+
+func (p *Pool) GORM() *gorm.DB {
+	if p == nil {
+		return nil
+	}
+	return p.gdb
+}
+
 func min(a, b int) int {
 	if a < b {
 		return a
