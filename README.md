@@ -2,7 +2,7 @@
 
 SCOOP is a news intelligence platform (newsint) built for agent-driven news collection.
 
-It is designed to be used by OpenClaw (`~/offline/openclaw`): OpenClaw browses the web, builds canonical news item JSON, and calls SCOOP CLI commands to ingest items.
+It is designed to be used by AI agents (e.g. OpenClaw): agents browse the web, build canonical news item JSON, and call SCOOP CLI commands to ingest items.
 
 SCOOP then:
 - stores raw arrivals safely

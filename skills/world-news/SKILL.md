@@ -68,7 +68,7 @@ This skill integrates with the **Scoop** NEWSINT pipeline for ingestion, embeddi
 - PostgreSQL with `news` schema running (DB creds in `~/scoop/backend/.env`)
 - Embedding service running on port 8844 (Qwen3-Embedding-8B):
   ```bash
-  cd ~/scoop/embedding-service && /home/bob/janitr/scripts/.venv/bin/python3 main.py --backend transformers --port 8844 --server
+  cd embedding-service && python3 main.py --backend transformers --port 8844 --server
   ```
 - Scoop binary built: `cd ~/scoop/backend && go build -o /tmp/scoop ./cmd/scoop/`
 
