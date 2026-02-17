@@ -10,9 +10,6 @@ import (
 //go:embed sql/pre_automigrate.sql
 var preAutoMigrateSQL string
 
-//go:embed sql/004_article_naming.sql
-var articleNamingSQL string
-
 //go:embed sql/post_automigrate.sql
 var postAutoMigrateSQL string
 
@@ -26,7 +23,6 @@ func (p *Pool) autoMigrate(ctx context.Context) error {
 		sql  string
 	}{
 		{name: "pre-auto-migrate", sql: preAutoMigrateSQL},
-		{name: "article-naming", sql: articleNamingSQL},
 	}
 
 	for _, script := range scripts {
