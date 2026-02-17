@@ -1468,7 +1468,7 @@ func simhash64(text string) (uint64, bool) {
 	var bitWeights [64]int
 	for _, token := range tokens {
 		h := hashToken64(token)
-		for bit := 0; bit < 64; bit++ {
+		for bit := range 64 {
 			mask := uint64(1) << bit
 			if h&mask != 0 {
 				bitWeights[bit]++
@@ -1479,7 +1479,7 @@ func simhash64(text string) (uint64, bool) {
 	}
 
 	var result uint64
-	for bit := 0; bit < 64; bit++ {
+	for bit := range 64 {
 		if bitWeights[bit] > 0 {
 			result |= uint64(1) << bit
 		}

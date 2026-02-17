@@ -220,20 +220,6 @@ func (p *Pool) GORM() *gorm.DB {
 	return p.gdb
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func IsNoRows(err error) bool {
 	return errors.Is(err, ErrNoRows)
 }

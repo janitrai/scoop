@@ -330,7 +330,7 @@ func (s *Service) resolveCheckpoint(checkpoint json.RawMessage, sourceItemID str
 		return canonicalizeJSON(checkpoint)
 	}
 
-	return canonicalizeJSON([]byte(fmt.Sprintf(`{"last_source_item_id":%q}`, sourceItemID)))
+	return canonicalizeJSON(fmt.Appendf(nil, `{"last_source_item_id":%q}`, sourceItemID))
 }
 
 func canonicalizeJSON(raw []byte) ([]byte, error) {
