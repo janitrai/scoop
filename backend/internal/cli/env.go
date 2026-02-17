@@ -42,6 +42,8 @@ func (l *EnvLoader) Load() (string, error) {
 		return "", fmt.Errorf("env loader is nil")
 	}
 
+	log.SetOutput(os.Stderr)
+
 	overrideVars := []string{"NEWS_PIPELINE_ENV_FILE", "HORSE_ENV_FILE"}
 	for _, envVar := range overrideVars {
 		if custom := strings.TrimSpace(os.Getenv(envVar)); custom != "" {
