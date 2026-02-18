@@ -102,9 +102,12 @@ JOIN news.dedup_events de
 	ON de.chosen_story_id = s.story_id
 JOIN news.articles a
 	ON a.article_id = de.article_id
+	AND a.deleted_at IS NULL
 LEFT JOIN news.articles rep
 	ON rep.article_id = s.representative_article_id
-WHERE de.created_at >= $1
+	AND rep.deleted_at IS NULL
+WHERE s.deleted_at IS NULL
+  AND de.created_at >= $1
   AND de.created_at < $2
   AND ($3 = '' OR a.collection = $3)
 GROUP BY
@@ -171,7 +174,9 @@ SELECT
 FROM news.stories s
 LEFT JOIN news.articles rep
 	ON rep.article_id = s.representative_article_id
-WHERE ($1 = '' OR s.collection = $1)
+	AND rep.deleted_at IS NULL
+WHERE s.deleted_at IS NULL
+  AND ($1 = '' OR s.collection = $1)
   AND s.canonical_title ILIKE $2
 ORDER BY s.source_count DESC, s.article_count DESC, s.created_at DESC, s.story_id DESC
 LIMIT $3
@@ -212,6 +217,7 @@ SELECT
 	s.updated_at
 FROM news.stories s
 WHERE s.story_uuid = $1::uuid
+  AND s.deleted_at IS NULL
 `
 
 	var header StoryDetailHeader
@@ -247,6 +253,7 @@ SELECT
 FROM news.story_articles sa
 JOIN news.articles a
 	ON a.article_id = sa.article_id
+	AND a.deleted_at IS NULL
 WHERE sa.story_id = $1
 ORDER BY sa.matched_at DESC, a.article_id DESC
 `
@@ -314,9 +321,12 @@ JOIN news.stories s
 	ON s.story_id = de.chosen_story_id
 JOIN news.articles a
 	ON a.article_id = de.article_id
+	AND a.deleted_at IS NULL
 LEFT JOIN news.articles rep
 	ON rep.article_id = s.representative_article_id
-WHERE de.decision = 'new_story'
+	AND rep.deleted_at IS NULL
+WHERE s.deleted_at IS NULL
+  AND de.decision = 'new_story'
   AND de.created_at >= $1
   AND de.created_at < $2
   AND ($3 = '' OR a.collection = $3)

@@ -49,6 +49,7 @@ type RawArrival struct {
 	RawPayload        json.RawMessage `gorm:"column:raw_payload;type:jsonb;not null"`
 	PayloadHash       []byte          `gorm:"column:payload_hash;type:bytea;not null"`
 	ResponseHeaders   json.RawMessage `gorm:"column:response_headers;type:jsonb"`
+	DeletedAt         *time.Time      `gorm:"column:deleted_at;type:timestamptz"`
 	CreatedAt         time.Time       `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
 }
 
@@ -74,6 +75,7 @@ type Article struct {
 	TitleHash          []byte     `gorm:"column:title_hash;type:bytea"`
 	ContentHash        []byte     `gorm:"column:content_hash;type:bytea;not null"`
 	TokenCount         int        `gorm:"column:token_count;type:integer;not null;default:0"`
+	DeletedAt          *time.Time `gorm:"column:deleted_at;type:timestamptz"`
 	CreatedAt          time.Time  `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
 	UpdatedAt          time.Time  `gorm:"column:updated_at;type:timestamptz;not null;default:now()"`
 }
@@ -109,6 +111,7 @@ type Story struct {
 	SourceCount             int       `gorm:"column:source_count;type:integer;not null;default:1"`
 	ArticleCount            int       `gorm:"column:article_count;type:integer;not null;default:1"`
 	Status                  string    `gorm:"column:status;type:text;not null;default:active"`
+	DeletedAt               *time.Time `gorm:"column:deleted_at;type:timestamptz"`
 	CreatedAt               time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
 	UpdatedAt               time.Time `gorm:"column:updated_at;type:timestamptz;not null;default:now()"`
 }

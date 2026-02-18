@@ -84,6 +84,14 @@ CREATE INDEX IF NOT EXISTS idx_raw_arrivals_payload_gin
 CREATE INDEX IF NOT EXISTS idx_raw_arrivals_collection_fetched
 	ON news.raw_arrivals (collection, fetched_at DESC);
 
+CREATE INDEX IF NOT EXISTS idx_raw_arrivals_fetched_at_not_deleted
+	ON news.raw_arrivals (fetched_at DESC)
+	WHERE deleted_at IS NULL;
+
+CREATE INDEX IF NOT EXISTS idx_raw_arrivals_collection_fetched_not_deleted
+	ON news.raw_arrivals (collection, fetched_at DESC)
+	WHERE deleted_at IS NULL;
+
 CREATE INDEX IF NOT EXISTS idx_articles_source_item
 	ON news.articles (source, source_item_id);
 
@@ -99,6 +107,10 @@ CREATE INDEX IF NOT EXISTS idx_articles_source_domain_published
 
 CREATE INDEX IF NOT EXISTS idx_articles_created_at
 	ON news.articles (created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_articles_created_at_not_deleted
+	ON news.articles (created_at DESC)
+	WHERE deleted_at IS NULL;
 
 CREATE INDEX IF NOT EXISTS idx_articles_title_simhash
 	ON news.articles (title_simhash)
@@ -116,6 +128,10 @@ CREATE INDEX IF NOT EXISTS idx_articles_collection_content_hash
 
 CREATE INDEX IF NOT EXISTS idx_articles_collection_created_at
 	ON news.articles (collection, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_articles_collection_created_at_not_deleted
+	ON news.articles (collection, created_at DESC)
+	WHERE deleted_at IS NULL;
 
 CREATE INDEX IF NOT EXISTS idx_article_embeddings_article
 	ON news.article_embeddings (article_id);
@@ -159,12 +175,20 @@ CREATE INDEX IF NOT EXISTS idx_stories_first_seen_at
 CREATE INDEX IF NOT EXISTS idx_stories_last_seen_at
 	ON news.stories (last_seen_at DESC);
 
+CREATE INDEX IF NOT EXISTS idx_stories_last_seen_at_not_deleted
+	ON news.stories (last_seen_at DESC)
+	WHERE deleted_at IS NULL;
+
 CREATE INDEX IF NOT EXISTS idx_stories_canonical_url_hash
 	ON news.stories (canonical_url_hash)
 	WHERE canonical_url_hash IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_stories_collection_last_seen
 	ON news.stories (collection, last_seen_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_stories_collection_last_seen_not_deleted
+	ON news.stories (collection, last_seen_at DESC)
+	WHERE deleted_at IS NULL;
 
 CREATE INDEX IF NOT EXISTS idx_stories_collection_canonical_url_hash
 	ON news.stories (collection, canonical_url_hash)
