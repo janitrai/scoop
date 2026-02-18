@@ -187,6 +187,7 @@ WHERE NOT EXISTS (
 	  AND de.model_name = $1
 	  AND de.model_version = $2
 )
+  AND d.deleted_at IS NULL
 ORDER BY d.article_id
 LIMIT $3
 `

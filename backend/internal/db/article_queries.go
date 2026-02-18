@@ -63,6 +63,7 @@ FROM news.articles a
 WHERE a.created_at >= $1
   AND a.created_at < $2
   AND ($3 = '' OR a.collection = $3)
+  AND a.deleted_at IS NULL
 ORDER BY a.created_at DESC, a.article_id DESC
 LIMIT $4
 `
@@ -108,6 +109,7 @@ WITH article_stats AS (
 		MIN(COALESCE(a.published_at, a.created_at)) AS earliest_article_at,
 		MAX(COALESCE(a.published_at, a.created_at)) AS latest_article_at
 	FROM news.articles a
+	WHERE a.deleted_at IS NULL
 	GROUP BY a.collection
 ),
 story_counts AS (
@@ -115,6 +117,7 @@ story_counts AS (
 		s.collection,
 		COUNT(*)::BIGINT AS story_count
 	FROM news.stories s
+	WHERE s.deleted_at IS NULL
 	GROUP BY s.collection
 )
 SELECT

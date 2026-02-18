@@ -301,7 +301,8 @@ SELECT
 	ra.raw_payload,
 	ra.fetched_at
 FROM news.raw_arrivals ra
-WHERE NOT EXISTS (
+WHERE ra.deleted_at IS NULL
+  AND NOT EXISTS (
 	SELECT 1
 	FROM news.articles d
 	WHERE d.raw_arrival_id = ra.raw_arrival_id
@@ -560,7 +561,8 @@ JOIN news.article_embeddings de
 	ON de.article_id = d.article_id
 	AND de.model_name = $1
 	AND de.model_version = $2
-WHERE NOT EXISTS (
+WHERE d.deleted_at IS NULL
+  AND NOT EXISTS (
 	SELECT 1
 	FROM news.story_articles sm
 	WHERE sm.article_id = d.article_id
@@ -906,7 +908,8 @@ func findExactURLStoryTx(ctx context.Context, tx db.Tx, collection string, canon
 	const q = `
 SELECT story_id
 FROM news.stories
-WHERE status = 'active'
+WHERE deleted_at IS NULL
+  AND status = 'active'
   AND collection = $1
   AND canonical_url_hash = $2
 ORDER BY last_seen_at DESC
@@ -927,8 +930,8 @@ func findExactSourceIDStoryTx(ctx context.Context, tx db.Tx, collection, source,
 	const q = `
 SELECT sm.story_id
 FROM news.story_articles sm
-JOIN news.articles d ON d.article_id = sm.article_id
-JOIN news.stories s ON s.story_id = sm.story_id
+JOIN news.articles d ON d.article_id = sm.article_id AND d.deleted_at IS NULL
+JOIN news.stories s ON s.story_id = sm.story_id AND s.deleted_at IS NULL
 WHERE s.status = 'active'
   AND s.collection = $1
   AND d.collection = $1
@@ -955,8 +958,8 @@ func findExactContentHashStoryTx(ctx context.Context, tx db.Tx, collection strin
 	const q = `
 SELECT sm.story_id
 FROM news.story_articles sm
-JOIN news.articles d ON d.article_id = sm.article_id
-JOIN news.stories s ON s.story_id = sm.story_id
+JOIN news.articles d ON d.article_id = sm.article_id AND d.deleted_at IS NULL
+JOIN news.stories s ON s.story_id = sm.story_id AND s.deleted_at IS NULL
 WHERE s.status = 'active'
   AND s.collection = $1
   AND d.collection = $1
@@ -999,9 +1002,10 @@ SELECT
 	s.last_seen_at,
 	(1 - (de.embedding <=> $1::vector))::DOUBLE PRECISION AS cosine
 FROM news.stories s
-LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id
+JOIN news.articles rd ON rd.article_id = s.representative_article_id AND rd.deleted_at IS NULL
 JOIN news.article_embeddings de ON de.article_id = s.representative_article_id
-WHERE s.status = 'active'
+WHERE s.deleted_at IS NULL
+  AND s.status = 'active'
   AND s.collection = $2
   AND de.model_name = $3
   AND de.model_version = $4
@@ -1050,8 +1054,9 @@ SELECT
 	s.canonical_url,
 	rd.title_simhash
 FROM news.stories s
-LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id
-WHERE s.status = 'active'
+LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id AND rd.deleted_at IS NULL
+WHERE s.deleted_at IS NULL
+  AND s.status = 'active'
   AND s.collection = $3
   AND s.last_seen_at >= $2
 ORDER BY s.last_seen_at DESC
@@ -1264,7 +1269,7 @@ FROM (
 		COUNT(*)::INT AS article_count,
 		COUNT(DISTINCT d.source)::INT AS source_count
 	FROM news.story_articles sm
-	JOIN news.articles d ON d.article_id = sm.article_id
+	JOIN news.articles d ON d.article_id = sm.article_id AND d.deleted_at IS NULL
 	WHERE sm.story_id = $8
 	GROUP BY sm.story_id
 ) agg

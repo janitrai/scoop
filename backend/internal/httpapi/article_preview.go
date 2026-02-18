@@ -75,6 +75,7 @@ SELECT
 FROM news.story_articles sm
 JOIN news.articles d
 	ON d.article_id = sm.article_id
+	AND d.deleted_at IS NULL
 WHERE sm.story_article_uuid = $1::uuid
 LIMIT 1
 `

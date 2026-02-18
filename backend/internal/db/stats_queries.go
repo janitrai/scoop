@@ -54,11 +54,13 @@ func (p *Pool) QueryPipelineStats(ctx context.Context, dayStart, dayEnd time.Tim
 WITH article_counts AS (
 	SELECT a.collection, COUNT(*)::BIGINT AS articles
 	FROM news.articles a
+	WHERE a.deleted_at IS NULL
 	GROUP BY a.collection
 ),
 story_counts AS (
 	SELECT s.collection, COUNT(*)::BIGINT AS stories
 	FROM news.stories s
+	WHERE s.deleted_at IS NULL
 	GROUP BY s.collection
 ),
 embedding_counts AS (
@@ -66,6 +68,7 @@ embedding_counts AS (
 	FROM news.article_embeddings ae
 	JOIN news.articles a
 		ON a.article_id = ae.article_id
+	WHERE a.deleted_at IS NULL
 	GROUP BY a.collection
 )
 SELECT
@@ -103,10 +106,10 @@ ORDER BY 1
 
 	const throughputQuery = `
 SELECT
-	(SELECT COUNT(*) FROM news.articles a WHERE a.created_at >= $1 AND a.created_at < $2) AS articles_ingested_today,
-	(SELECT COUNT(*) FROM news.stories s WHERE s.created_at >= $1 AND s.created_at < $2) AS stories_created_today,
-	(SELECT COUNT(*) FROM news.articles a WHERE NOT EXISTS (SELECT 1 FROM news.article_embeddings ae WHERE ae.article_id = a.article_id)) AS pending_not_embedded,
-	(SELECT COUNT(*) FROM news.articles a WHERE NOT EXISTS (SELECT 1 FROM news.story_articles sa WHERE sa.article_id = a.article_id)) AS pending_not_deduped
+	(SELECT COUNT(*) FROM news.articles a WHERE a.created_at >= $1 AND a.created_at < $2 AND a.deleted_at IS NULL) AS articles_ingested_today,
+	(SELECT COUNT(*) FROM news.stories s WHERE s.created_at >= $1 AND s.created_at < $2 AND s.deleted_at IS NULL) AS stories_created_today,
+	(SELECT COUNT(*) FROM news.articles a WHERE a.deleted_at IS NULL AND NOT EXISTS (SELECT 1 FROM news.article_embeddings ae WHERE ae.article_id = a.article_id)) AS pending_not_embedded,
+	(SELECT COUNT(*) FROM news.articles a WHERE a.deleted_at IS NULL AND NOT EXISTS (SELECT 1 FROM news.story_articles sa WHERE sa.article_id = a.article_id)) AS pending_not_deduped
 `
 
 	if err := p.QueryRow(ctx, throughputQuery, startUTC, endUTC).Scan(

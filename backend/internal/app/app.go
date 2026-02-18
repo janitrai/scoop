@@ -23,6 +23,12 @@ func Run(args []string) int {
 		return runStats(args[1:])
 	case "story":
 		return runStoryDetail(args[1:])
+	case "delete":
+		return runDelete(args[1:])
+	case "update":
+		return runUpdate(args[1:])
+	case "restore":
+		return runRestore(args[1:])
 	case "collections":
 		return runCollections(args[1:])
 	case "search":
@@ -66,6 +72,9 @@ func printUsage() {
 	fmt.Fprintln(os.Stderr, "  stories    List stories by dedup event date window")
 	fmt.Fprintln(os.Stderr, "  stats      Show per-collection and pipeline throughput counts")
 	fmt.Fprintln(os.Stderr, "  story      Show detail for one story UUID")
+	fmt.Fprintln(os.Stderr, "  delete     Soft delete stories/articles/collections or rows before a date")
+	fmt.Fprintln(os.Stderr, "  update     Update stories/articles by UUID")
+	fmt.Fprintln(os.Stderr, "  restore    Restore soft-deleted stories/articles by UUID")
 	fmt.Fprintln(os.Stderr, "  collections  List collections with article/story counts and ranges")
 	fmt.Fprintln(os.Stderr, "  search     Search story titles")
 	fmt.Fprintln(os.Stderr, "  articles   List normalized articles")
