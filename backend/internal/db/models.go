@@ -99,21 +99,19 @@ func (ArticleEmbedding) TableName() string { return "news.article_embeddings" }
 
 // Story maps news.stories.
 type Story struct {
-	StoryID                 int64     `gorm:"column:story_id;primaryKey;autoIncrement"`
-	StoryUUID               string    `gorm:"column:story_uuid;type:uuid;not null;default:gen_random_uuid();unique"`
-	CanonicalTitle          string    `gorm:"column:canonical_title;type:text;not null"`
-	CanonicalURL            *string   `gorm:"column:canonical_url;type:text"`
-	CanonicalURLHash        []byte    `gorm:"column:canonical_url_hash;type:bytea"`
-	Collection              string    `gorm:"column:collection;type:text;not null"`
-	RepresentativeArticleID *int64    `gorm:"column:representative_article_id;type:bigint"`
-	FirstSeenAt             time.Time `gorm:"column:first_seen_at;type:timestamptz;not null"`
-	LastSeenAt              time.Time `gorm:"column:last_seen_at;type:timestamptz;not null"`
-	SourceCount             int       `gorm:"column:source_count;type:integer;not null;default:1"`
-	ArticleCount            int       `gorm:"column:article_count;type:integer;not null;default:1"`
-	Status                  string    `gorm:"column:status;type:text;not null;default:active"`
+	StoryID                 int64      `gorm:"column:story_id;primaryKey;autoIncrement"`
+	StoryUUID               string     `gorm:"column:story_uuid;type:uuid;not null;default:gen_random_uuid();unique"`
+	CanonicalTitle          string     `gorm:"column:canonical_title;type:text;not null"`
+	CanonicalURL            *string    `gorm:"column:canonical_url;type:text"`
+	CanonicalURLHash        []byte     `gorm:"column:canonical_url_hash;type:bytea"`
+	Collection              string     `gorm:"column:collection;type:text;not null"`
+	RepresentativeArticleID *int64     `gorm:"column:representative_article_id;type:bigint"`
+	FirstSeenAt             time.Time  `gorm:"column:first_seen_at;type:timestamptz;not null"`
+	LastSeenAt              time.Time  `gorm:"column:last_seen_at;type:timestamptz;not null"`
+	Status                  string     `gorm:"column:status;type:text;not null;default:active"`
 	DeletedAt               *time.Time `gorm:"column:deleted_at;type:timestamptz"`
-	CreatedAt               time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
-	UpdatedAt               time.Time `gorm:"column:updated_at;type:timestamptz;not null;default:now()"`
+	CreatedAt               time.Time  `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+	UpdatedAt               time.Time  `gorm:"column:updated_at;type:timestamptz;not null;default:now()"`
 }
 
 func (Story) TableName() string { return "news.stories" }

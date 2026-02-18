@@ -791,7 +791,7 @@ func applyAutoMergeTx(
 		return decisionNone, nil
 	}
 
-	if err := refreshStoryAggregateTx(ctx, tx, storyID, article.ArticleID, article.NormalizedTitle, article.CanonicalURL, article.CanonicalURLHash, articleSeenAt, now); err != nil {
+	if err := updateStoryMetadataTx(ctx, tx, storyID, article.ArticleID, article.NormalizedTitle, article.CanonicalURL, article.CanonicalURLHash, articleSeenAt, now); err != nil {
 		return decisionNone, err
 	}
 
@@ -849,7 +849,7 @@ func applySemanticAutoMergeTx(
 		return decisionNone, nil
 	}
 
-	if err := refreshStoryAggregateTx(
+	if err := updateStoryMetadataTx(
 		ctx,
 		tx,
 		storyID,
@@ -1045,15 +1045,25 @@ func findLexicalAutoMergeTx(
 	lookbackCutoff time.Time,
 ) (lexicalAutoMergeMatch, bool, error) {
 	const q = `
-SELECT
-	s.story_id,
-	COALESCE(rd.normalized_title, s.canonical_title) AS candidate_title,
-	s.last_seen_at,
-	s.source_count,
-	s.article_count,
-	s.canonical_url,
-	rd.title_simhash
-FROM news.stories s
+	SELECT
+		s.story_id,
+		COALESCE(rd.normalized_title, s.canonical_title) AS candidate_title,
+		s.last_seen_at,
+		(SELECT COUNT(DISTINCT a.source)
+		 FROM news.story_articles sa
+		 JOIN news.articles a
+			ON a.article_id = sa.article_id
+			AND a.deleted_at IS NULL
+		 WHERE sa.story_id = s.story_id) AS source_count,
+		(SELECT COUNT(*)
+		 FROM news.story_articles sa
+		 JOIN news.articles a
+			ON a.article_id = sa.article_id
+			AND a.deleted_at IS NULL
+		 WHERE sa.story_id = s.story_id) AS article_count,
+		s.canonical_url,
+		rd.title_simhash
+	FROM news.stories s
 LEFT JOIN news.articles rd ON rd.article_id = s.representative_article_id AND rd.deleted_at IS NULL
 WHERE s.deleted_at IS NULL
   AND s.status = 'active'
@@ -1165,8 +1175,6 @@ INSERT INTO news.stories (
 	representative_article_id,
 	first_seen_at,
 	last_seen_at,
-	source_count,
-	article_count,
 	status,
 	created_at,
 	updated_at
@@ -1179,8 +1187,6 @@ VALUES (
 	$5,
 	$6,
 	$6,
-	1,
-	1,
 	'active',
 	$7,
 	$7
@@ -1240,7 +1246,7 @@ ON CONFLICT (article_id) DO NOTHING
 	return commandTag.RowsAffected() == 1, nil
 }
 
-func refreshStoryAggregateTx(
+func updateStoryMetadataTx(
 	ctx context.Context,
 	tx db.Tx,
 	storyID int64,
@@ -1252,29 +1258,17 @@ func refreshStoryAggregateTx(
 	now time.Time,
 ) error {
 	const q = `
-UPDATE news.stories s
-SET
-	first_seen_at = LEAST(s.first_seen_at, $2),
-	last_seen_at = GREATEST(s.last_seen_at, $3),
-	source_count = agg.source_count,
-	article_count = agg.article_count,
-	representative_article_id = COALESCE(s.representative_article_id, $4),
-	canonical_title = CASE WHEN s.representative_article_id IS NULL THEN $5 ELSE s.canonical_title END,
-	canonical_url = CASE WHEN s.representative_article_id IS NULL THEN $6 ELSE s.canonical_url END,
-	canonical_url_hash = CASE WHEN s.representative_article_id IS NULL THEN $7 ELSE s.canonical_url_hash END,
-	updated_at = $1
-FROM (
-	SELECT
-		sm.story_id,
-		COUNT(*)::INT AS article_count,
-		COUNT(DISTINCT d.source)::INT AS source_count
-	FROM news.story_articles sm
-	JOIN news.articles d ON d.article_id = sm.article_id AND d.deleted_at IS NULL
-	WHERE sm.story_id = $8
-	GROUP BY sm.story_id
-) agg
-WHERE s.story_id = agg.story_id
-`
+	UPDATE news.stories s
+	SET
+		first_seen_at = LEAST(s.first_seen_at, $2),
+		last_seen_at = GREATEST(s.last_seen_at, $3),
+		representative_article_id = COALESCE(s.representative_article_id, $4),
+		canonical_title = CASE WHEN s.representative_article_id IS NULL THEN $5 ELSE s.canonical_title END,
+		canonical_url = CASE WHEN s.representative_article_id IS NULL THEN $6 ELSE s.canonical_url END,
+		canonical_url_hash = CASE WHEN s.representative_article_id IS NULL THEN $7 ELSE s.canonical_url_hash END,
+		updated_at = $1
+	WHERE s.story_id = $8
+	`
 	_, err := tx.Exec(
 		ctx,
 		q,
@@ -1288,7 +1282,7 @@ WHERE s.story_id = agg.story_id
 		storyID,
 	)
 	if err != nil {
-		return fmt.Errorf("refresh story aggregate story_id=%d: %w", storyID, err)
+		return fmt.Errorf("update story metadata story_id=%d: %w", storyID, err)
 	}
 	return nil
 }
