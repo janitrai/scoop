@@ -47,6 +47,8 @@ func Run(args []string) int {
 		return runProcess(args[1:])
 	case "serve":
 		return runServe(args[1:])
+	case "daemon":
+		return runDaemon(args[1:])
 	default:
 		fmt.Fprintf(os.Stderr, "unknown command: %s\n\n", args[0])
 		printUsage()
@@ -77,6 +79,7 @@ func printUsage() {
 	fmt.Fprintln(os.Stderr, "  process    Run normalize + embed + dedup in sequence")
 	fmt.Fprintln(os.Stderr, "  run-once   Alias for process")
 	fmt.Fprintln(os.Stderr, "  serve      Start Echo API server")
+	fmt.Fprintln(os.Stderr, "  daemon     Manage systemd services for backend + frontend")
 	fmt.Fprintln(os.Stderr, "")
 	fmt.Fprintln(os.Stderr, "Use \"scoop <command> -h\" for command-specific flags.")
 }
