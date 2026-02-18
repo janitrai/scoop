@@ -461,26 +461,6 @@ BEGIN
 	IF NOT EXISTS (
 		SELECT 1
 		FROM pg_constraint
-		WHERE conname = 'stories_source_count_check'
-			AND conrelid = 'news.stories'::regclass
-	) THEN
-		ALTER TABLE news.stories
-			ADD CONSTRAINT stories_source_count_check CHECK (source_count >= 1);
-	END IF;
-
-	IF NOT EXISTS (
-		SELECT 1
-		FROM pg_constraint
-		WHERE conname = 'stories_article_count_check'
-			AND conrelid = 'news.stories'::regclass
-	) THEN
-		ALTER TABLE news.stories
-			ADD CONSTRAINT stories_article_count_check CHECK (article_count >= 1);
-	END IF;
-
-	IF NOT EXISTS (
-		SELECT 1
-		FROM pg_constraint
 		WHERE conname = 'stories_status_check'
 			AND conrelid = 'news.stories'::regclass
 	) THEN

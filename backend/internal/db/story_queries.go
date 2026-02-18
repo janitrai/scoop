@@ -90,8 +90,18 @@ SELECT
 	s.representative_article_id,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	s.status,
 	s.created_at,
 	s.updated_at,
@@ -119,13 +129,11 @@ GROUP BY
 	s.representative_article_id,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
 	s.status,
 	s.created_at,
 	s.updated_at,
 	rep.source_domain
-ORDER BY s.source_count DESC, s.article_count DESC, MAX(de.created_at) DESC, s.story_id DESC
+ORDER BY source_count DESC, article_count DESC, MAX(de.created_at) DESC, s.story_id DESC
 LIMIT $4
 `
 
@@ -164,8 +172,18 @@ SELECT
 	s.representative_article_id,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	s.status,
 	s.created_at,
 	s.updated_at,
@@ -178,7 +196,7 @@ LEFT JOIN news.articles rep
 WHERE s.deleted_at IS NULL
   AND ($1 = '' OR s.collection = $1)
   AND s.canonical_title ILIKE $2
-ORDER BY s.source_count DESC, s.article_count DESC, s.created_at DESC, s.story_id DESC
+ORDER BY source_count DESC, article_count DESC, s.created_at DESC, s.story_id DESC
 LIMIT $3
 `
 
@@ -209,8 +227,18 @@ SELECT
 	s.canonical_title,
 	s.canonical_url,
 	s.collection,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	s.created_at,
 	s.first_seen_at,
 	s.last_seen_at,
@@ -309,8 +337,18 @@ SELECT
 	s.representative_article_id,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	s.status,
 	s.created_at,
 	s.updated_at,
@@ -339,13 +377,11 @@ GROUP BY
 	s.representative_article_id,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
 	s.status,
 	s.created_at,
 	s.updated_at,
 	rep.source_domain
-ORDER BY s.source_count DESC, s.article_count DESC, MAX(de.created_at) DESC, s.story_id DESC
+ORDER BY source_count DESC, article_count DESC, MAX(de.created_at) DESC, s.story_id DESC
 `
 
 	rows, err := p.Query(ctx, q, fromUTC, toUTC, normalizeCollection(collection))

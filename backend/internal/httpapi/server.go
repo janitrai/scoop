@@ -674,8 +674,18 @@ SELECT
 	s.status,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
@@ -824,8 +834,18 @@ SELECT
 	s.status,
 	s.first_seen_at,
 	s.last_seen_at,
-	s.source_count,
-	s.article_count,
+	(SELECT COUNT(DISTINCT a.source)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS source_count,
+	(SELECT COUNT(*)
+	 FROM news.story_articles sa
+	 JOIN news.articles a
+		ON a.article_id = sa.article_id
+		AND a.deleted_at IS NULL
+	 WHERE sa.story_id = s.story_id) AS article_count,
 	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
@@ -974,10 +994,21 @@ WITH article_counts AS (
 	GROUP BY collection
 ),
 story_counts AS (
-	SELECT collection, COUNT(*)::BIGINT AS stories, COALESCE(SUM(article_count), 0)::BIGINT AS story_items, MAX(last_seen_at) AS last_story_seen_at
-	FROM news.stories
-	WHERE deleted_at IS NULL
-	GROUP BY collection
+	SELECT
+		s.collection,
+		COUNT(*)::BIGINT AS stories,
+		COALESCE(SUM(
+			(SELECT COUNT(*)
+			 FROM news.story_articles sa
+			 JOIN news.articles a
+				ON a.article_id = sa.article_id
+				AND a.deleted_at IS NULL
+			 WHERE sa.story_id = s.story_id)
+		), 0)::BIGINT AS story_items,
+		MAX(s.last_seen_at) AS last_story_seen_at
+	FROM news.stories s
+	WHERE s.deleted_at IS NULL
+	GROUP BY s.collection
 )
 SELECT
 	COALESCE(d.collection, s.collection) AS collection,
@@ -1118,7 +1149,7 @@ func decodeJSONBody(c echo.Context, dst any) error {
 	}
 
 	var extra any
-	if err := decoder.Decode(&extra); err != nil && !errors.Is(err, io.EOF) {
+	if err := decoder.Decode(&extra); !errors.Is(err, io.EOF) {
 		return fmt.Errorf("must contain only one JSON object")
 	}
 
