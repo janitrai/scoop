@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { getStoryArticlePreview } from "../api";
+import { getStoryArticlePreview, requestTranslation } from "../api";
 import { buildMemberSubtitle, formatDateTime } from "../lib/viewerFormat";
 import type { StoryDetailResponse, StoryArticlePreview, StoryArticle } from "../types";
 
@@ -68,7 +69,34 @@ export function StoryDetailPanel({
   const [detailTextMode, setDetailTextMode] = useState<"translated" | "original">(
     activeLang ? "translated" : "original",
   );
+  const [isTranslating, setIsTranslating] = useState(false);
+  const translationRequestedRef = useRef<string>("");
   const previousStoryUUIDRef = useRef<string>("");
+  const queryClient = useQueryClient();
+
+  // On-demand translation: when a language is selected and no translated_title exists, trigger translation
+  useEffect(() => {
+    if (!activeLang || !detail || !selectedStoryUUID) return;
+    const translatedTitle = (detail.story.translated_title || "").trim();
+    if (translatedTitle) return; // already translated
+    const reqKey = `${selectedStoryUUID}:${activeLang}`;
+    if (translationRequestedRef.current === reqKey) return; // already requested
+    translationRequestedRef.current = reqKey;
+    setIsTranslating(true);
+    requestTranslation(selectedStoryUUID, activeLang)
+      .then(() => {
+        // Invalidate detail query to refetch with translations
+        queryClient.invalidateQueries({ queryKey: ["story-detail", selectedStoryUUID, activeLang] });
+        // Also invalidate stories list so titles update
+        queryClient.invalidateQueries({ queryKey: ["stories"] });
+      })
+      .catch((err) => {
+        console.error("Translation request failed:", err);
+      })
+      .finally(() => {
+        setIsTranslating(false);
+      });
+  }, [activeLang, detail, selectedStoryUUID, queryClient]);
 
   const memberGroups = useMemo<MemberURLGroup[]>(() => {
     if (!detail) {
@@ -500,7 +528,7 @@ export function StoryDetailPanel({
         {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged articles.</p> : null}
         {selectedStoryUUID && isLoading ? <p className="muted">Fetching story detail...</p> : null}
         {selectedStoryUUID && !isLoading && error ? <p className="muted">{error}</p> : null}
-
+        {isTranslating ? <p className="muted">🌐 Translating...</p> : null}
         {selectedStoryUUID && !isLoading && !error && detail ? renderStoryView() : null}
       </div>
     </aside>
