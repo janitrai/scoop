@@ -17,6 +17,7 @@ import (
 
 	"horse.fit/scoop/internal/db"
 	"horse.fit/scoop/internal/globaltime"
+	"horse.fit/scoop/internal/translation"
 )
 
 const (
@@ -35,9 +36,10 @@ type Options struct {
 }
 
 type Server struct {
-	pool   *db.Pool
-	logger zerolog.Logger
-	opts   Options
+	pool               *db.Pool
+	logger             zerolog.Logger
+	opts               Options
+	translationManager *translation.Manager
 }
 
 type storyListFilter struct {
@@ -46,6 +48,7 @@ type storyListFilter struct {
 	Query      string
 	From       *time.Time
 	To         *time.Time
+	Lang       string
 	Page       int
 	PageSize   int
 }
@@ -58,17 +61,19 @@ type storyRepresentative struct {
 }
 
 type storyListItem struct {
-	StoryID        int64                `json:"story_id"`
-	StoryUUID      string               `json:"story_uuid"`
-	Collection     string               `json:"collection"`
-	Title          string               `json:"title"`
-	CanonicalURL   *string              `json:"canonical_url,omitempty"`
-	Status         string               `json:"status"`
-	FirstSeenAt    time.Time            `json:"first_seen_at"`
-	LastSeenAt     time.Time            `json:"last_seen_at"`
-	SourceCount    int                  `json:"source_count"`
-	ArticleCount   int                  `json:"article_count"`
-	Representative *storyRepresentative `json:"representative,omitempty"`
+	StoryID         int64                `json:"story_id"`
+	StoryUUID       string               `json:"story_uuid"`
+	Collection      string               `json:"collection"`
+	Title           string               `json:"title"`
+	OriginalTitle   string               `json:"original_title"`
+	TranslatedTitle *string              `json:"translated_title"`
+	CanonicalURL    *string              `json:"canonical_url,omitempty"`
+	Status          string               `json:"status"`
+	FirstSeenAt     time.Time            `json:"first_seen_at"`
+	LastSeenAt      time.Time            `json:"last_seen_at"`
+	SourceCount     int                  `json:"source_count"`
+	ArticleCount    int                  `json:"article_count"`
+	Representative  *storyRepresentative `json:"representative,omitempty"`
 }
 
 type StoryArticle struct {
@@ -81,6 +86,10 @@ type StoryArticle struct {
 	PublishedAt          *time.Time     `json:"published_at,omitempty"`
 	NormalizedTitle      string         `json:"normalized_title"`
 	NormalizedText       string         `json:"normalized_text,omitempty"`
+	OriginalTitle        string         `json:"original_title"`
+	TranslatedTitle      *string        `json:"translated_title"`
+	OriginalText         string         `json:"original_text"`
+	TranslatedText       *string        `json:"translated_text"`
 	SourceDomain         *string        `json:"source_domain,omitempty"`
 	MatchedAt            time.Time      `json:"matched_at"`
 	MatchType            string         `json:"match_type"`
@@ -138,6 +147,13 @@ type updateArticleRequest struct {
 	URL        *string `json:"url"`
 }
 
+type translateRequest struct {
+	StoryUUID   *string `json:"story_uuid"`
+	ArticleUUID *string `json:"article_uuid"`
+	TargetLang  string  `json:"target_lang"`
+	Provider    string  `json:"provider"`
+}
+
 type updatedStory struct {
 	StoryUUID    string     `json:"story_uuid"`
 	Title        string     `json:"title"`
@@ -181,9 +197,12 @@ func NewServer(pool *db.Pool, logger zerolog.Logger, opts Options) *Server {
 		shutdownTimeout = 10 * time.Second
 	}
 
+	registry := translation.NewRegistryFromEnv()
+
 	return &Server{
-		pool:   pool,
-		logger: logger,
+		pool:               pool,
+		logger:             logger,
+		translationManager: translation.NewManager(pool, registry),
 		opts: Options{
 			Host:            host,
 			Port:            port,
@@ -260,6 +279,8 @@ func (s *Server) Start(ctx context.Context) error {
 	api.GET("/story-days", s.handleStoryDays)
 	api.GET("/stories", s.handleStories)
 	api.GET("/stories/:story_uuid", s.handleStoryDetail)
+	api.POST("/translate", s.handleTranslate)
+	api.GET("/translations/:story_uuid", s.handleStoryTranslations)
 	api.DELETE("/stories/:story_uuid", s.handleDeleteStory)
 	api.PATCH("/stories/:story_uuid", s.handleUpdateStory)
 	api.POST("/stories/:story_uuid/restore", s.handleRestoreStory)
@@ -407,6 +428,7 @@ func (s *Server) handleStories(c echo.Context) error {
 		Query:      strings.TrimSpace(c.QueryParam("q")),
 		From:       from,
 		To:         to,
+		Lang:       normalizeLanguage(c.QueryParam("lang")),
 		Page:       page,
 		PageSize:   pageSize,
 	}
@@ -436,6 +458,7 @@ func (s *Server) handleStories(c echo.Context) error {
 			"q":          filter.Query,
 			"from":       filter.From,
 			"to":         filter.To,
+			"lang":       filter.Lang,
 		},
 	})
 }
@@ -446,7 +469,9 @@ func (s *Server) handleStoryDetail(c echo.Context) error {
 		return failValidation(c, map[string]string{"story_uuid": "is required"})
 	}
 
-	detail, err := s.queryStoryDetail(c.Request().Context(), storyUUID)
+	lang := normalizeLanguage(c.QueryParam("lang"))
+
+	detail, err := s.queryStoryDetail(c.Request().Context(), storyUUID, lang)
 	if err != nil {
 		if errors.Is(err, errStoryNotFound) {
 			return failNotFound(c, "Story not found")
@@ -456,6 +481,99 @@ func (s *Server) handleStoryDetail(c echo.Context) error {
 	}
 
 	return success(c, detail)
+}
+
+func (s *Server) handleTranslate(c echo.Context) error {
+	if s.translationManager == nil {
+		return internalError(c, "Translation service is not initialized")
+	}
+
+	var req translateRequest
+	if err := decodeJSONBody(c, &req); err != nil {
+		return failValidation(c, map[string]string{"body": err.Error()})
+	}
+
+	targetLang := normalizeLanguage(req.TargetLang)
+	if targetLang == "" {
+		return failValidation(c, map[string]string{"target_lang": "is required"})
+	}
+
+	storyUUID := strings.TrimSpace(derefString(req.StoryUUID))
+	articleUUID := strings.TrimSpace(derefString(req.ArticleUUID))
+	if storyUUID == "" && articleUUID == "" {
+		return failValidation(c, map[string]string{"body": "either story_uuid or article_uuid is required"})
+	}
+	if storyUUID != "" && articleUUID != "" {
+		return failValidation(c, map[string]string{"body": "only one of story_uuid or article_uuid is allowed"})
+	}
+
+	provider := strings.TrimSpace(req.Provider)
+	runOpts := translation.RunOptions{
+		TargetLang: targetLang,
+		Provider:   provider,
+	}
+
+	var (
+		stats translation.RunStats
+		err   error
+	)
+	switch {
+	case storyUUID != "":
+		stats, err = s.translationManager.TranslateStoryByUUID(c.Request().Context(), storyUUID, runOpts)
+	case articleUUID != "":
+		stats, err = s.translationManager.TranslateArticleByUUID(c.Request().Context(), articleUUID, runOpts)
+	}
+	if err != nil {
+		switch {
+		case errors.Is(err, translation.ErrStoryNotFound):
+			return failNotFound(c, "Story not found")
+		case errors.Is(err, translation.ErrArticleNotFound):
+			return failNotFound(c, "Article not found")
+		case strings.Contains(strings.ToLower(err.Error()), "provider") && strings.Contains(strings.ToLower(err.Error()), "not registered"):
+			return failValidation(c, map[string]string{"provider": err.Error()})
+		default:
+			s.logger.Error().Err(err).Msg("translate request failed")
+			return internalError(c, "Failed to translate")
+		}
+	}
+
+	resolvedProvider := provider
+	if resolvedProvider == "" {
+		resolvedProvider = s.translationManager.DefaultProvider()
+	}
+
+	return success(c, map[string]any{
+		"story_uuid":   nullableString(storyUUID),
+		"article_uuid": nullableString(articleUUID),
+		"target_lang":  targetLang,
+		"provider":     resolvedProvider,
+		"stats":        stats,
+	})
+}
+
+func (s *Server) handleStoryTranslations(c echo.Context) error {
+	if s.translationManager == nil {
+		return internalError(c, "Translation service is not initialized")
+	}
+
+	storyUUID := strings.TrimSpace(c.Param("story_uuid"))
+	if storyUUID == "" {
+		return failValidation(c, map[string]string{"story_uuid": "is required"})
+	}
+
+	items, err := s.translationManager.ListStoryTranslationsByUUID(c.Request().Context(), storyUUID)
+	if err != nil {
+		if errors.Is(err, translation.ErrStoryNotFound) {
+			return failNotFound(c, "Story not found")
+		}
+		s.logger.Error().Err(err).Str("story_uuid", storyUUID).Msg("query story translations failed")
+		return internalError(c, "Failed to load story translations")
+	}
+
+	return success(c, map[string]any{
+		"story_uuid": storyUUID,
+		"items":      items,
+	})
 }
 
 func (s *Server) handleDeleteStory(c echo.Context) error {
@@ -669,7 +787,8 @@ SELECT
 	s.story_id,
 	s.story_uuid::text,
 	s.collection,
-	s.canonical_title,
+	s.canonical_title AS original_title,
+	st.translated_text,
 	s.canonical_url,
 	s.status,
 	s.first_seen_at,
@@ -694,6 +813,10 @@ FROM news.stories s
 LEFT JOIN news.articles rd
 	ON rd.article_id = s.representative_article_id
 	AND rd.deleted_at IS NULL
+LEFT JOIN news.translations st
+	ON st.source_type = 'story_title'
+	AND st.source_id = s.story_id
+	AND st.target_lang = $6
 WHERE s.deleted_at IS NULL
   AND ($1 = '' OR s.collection = $1)
   AND ($2 = '' OR s.status = $2)
@@ -701,11 +824,22 @@ WHERE s.deleted_at IS NULL
   AND ($4::timestamptz IS NULL OR s.last_seen_at >= $4)
   AND ($5::timestamptz IS NULL OR s.last_seen_at <= $5)
 ORDER BY s.last_seen_at DESC, s.story_id DESC
-LIMIT $6
-OFFSET $7
+LIMIT $7
+OFFSET $8
 `
 
-	rows, err := s.pool.Query(ctx, rowsQuery, filter.Collection, filter.Status, search, filter.From, filter.To, filter.PageSize, offset)
+	rows, err := s.pool.Query(
+		ctx,
+		rowsQuery,
+		filter.Collection,
+		filter.Status,
+		search,
+		filter.From,
+		filter.To,
+		filter.Lang,
+		filter.PageSize,
+		offset,
+	)
 	if err != nil {
 		return 0, nil, fmt.Errorf("query stories: %w", err)
 	}
@@ -724,7 +858,8 @@ OFFSET $7
 			&row.StoryID,
 			&row.StoryUUID,
 			&row.Collection,
-			&row.Title,
+			&row.OriginalTitle,
+			&row.TranslatedTitle,
 			&row.CanonicalURL,
 			&row.Status,
 			&row.FirstSeenAt,
@@ -746,6 +881,11 @@ OFFSET $7
 				SourceItemID: *repSourceItemID,
 				PublishedAt:  repPublishedAt,
 			}
+		}
+
+		row.Title = row.OriginalTitle
+		if filter.Lang != "" && row.TranslatedTitle != nil {
+			row.Title = *row.TranslatedTitle
 		}
 		items = append(items, row)
 	}
@@ -823,13 +963,14 @@ LIMIT 1
 	return &row, nil
 }
 
-func (s *Server) queryStoryDetail(ctx context.Context, storyUUID string) (*storyDetail, error) {
+func (s *Server) queryStoryDetail(ctx context.Context, storyUUID string, lang string) (*storyDetail, error) {
 	const storyQuery = `
 SELECT
 	s.story_id,
 	s.story_uuid::text,
 	s.collection,
-	s.canonical_title,
+	s.canonical_title AS original_title,
+	st.translated_text,
 	s.canonical_url,
 	s.status,
 	s.first_seen_at,
@@ -854,6 +995,10 @@ FROM news.stories s
 LEFT JOIN news.articles rd
 	ON rd.article_id = s.representative_article_id
 	AND rd.deleted_at IS NULL
+LEFT JOIN news.translations st
+	ON st.source_type = 'story_title'
+	AND st.source_id = s.story_id
+	AND st.target_lang = $2
 WHERE s.story_uuid = $1::uuid
   AND s.deleted_at IS NULL
 `
@@ -865,11 +1010,12 @@ WHERE s.story_uuid = $1::uuid
 		repSourceItemID *string
 		repPublishedAt  *time.Time
 	)
-	if err := s.pool.QueryRow(ctx, storyQuery, storyUUID).Scan(
+	if err := s.pool.QueryRow(ctx, storyQuery, storyUUID, lang).Scan(
 		&story.StoryID,
 		&story.StoryUUID,
 		&story.Collection,
-		&story.Title,
+		&story.OriginalTitle,
+		&story.TranslatedTitle,
 		&story.CanonicalURL,
 		&story.Status,
 		&story.FirstSeenAt,
@@ -885,6 +1031,10 @@ WHERE s.story_uuid = $1::uuid
 			return nil, errStoryNotFound
 		}
 		return nil, fmt.Errorf("query story: %w", err)
+	}
+	story.Title = story.OriginalTitle
+	if lang != "" && story.TranslatedTitle != nil {
+		story.Title = *story.TranslatedTitle
 	}
 
 	if repArticleUUID != nil && repSource != nil && repSourceItemID != nil {
@@ -906,7 +1056,9 @@ SELECT
 	d.canonical_url,
 	d.published_at,
 	d.normalized_title,
+	at.translated_text,
 	d.normalized_text,
+	ax.translated_text,
 	d.source_domain,
 	sm.matched_at,
 	sm.match_type::text,
@@ -922,13 +1074,21 @@ FROM news.story_articles sm
 JOIN news.articles d
 	ON d.article_id = sm.article_id
 	AND d.deleted_at IS NULL
+LEFT JOIN news.translations at
+	ON at.source_type = 'article_title'
+	AND at.source_id = d.article_id
+	AND at.target_lang = $2
+LEFT JOIN news.translations ax
+	ON ax.source_type = 'article_text'
+	AND ax.source_id = d.article_id
+	AND ax.target_lang = $2
 LEFT JOIN news.dedup_events de
 	ON de.article_id = d.article_id
 WHERE sm.story_id = $1
 ORDER BY sm.matched_at DESC
 `
 
-	rows, err := s.pool.Query(ctx, membersQuery, story.StoryID)
+	rows, err := s.pool.Query(ctx, membersQuery, story.StoryID, lang)
 	if err != nil {
 		return nil, fmt.Errorf("query story articles: %w", err)
 	}
@@ -949,7 +1109,9 @@ ORDER BY sm.matched_at DESC
 			&member.CanonicalURL,
 			&member.PublishedAt,
 			&member.NormalizedTitle,
+			&member.TranslatedTitle,
 			&member.NormalizedText,
+			&member.TranslatedText,
 			&member.SourceDomain,
 			&member.MatchedAt,
 			&member.MatchType,
@@ -963,6 +1125,16 @@ ORDER BY sm.matched_at DESC
 			&member.DedupCompositeScore,
 		); err != nil {
 			return nil, fmt.Errorf("scan story article: %w", err)
+		}
+		member.OriginalTitle = member.NormalizedTitle
+		member.OriginalText = member.NormalizedText
+		if lang != "" {
+			if member.TranslatedTitle != nil {
+				member.NormalizedTitle = *member.TranslatedTitle
+			}
+			if member.TranslatedText != nil {
+				member.NormalizedText = *member.TranslatedText
+			}
 		}
 
 		if len(matchDetailsRaw) > 0 && string(matchDetailsRaw) != "null" {
@@ -1131,6 +1303,29 @@ ORDER BY decision
 
 func normalizeCollection(raw string) string {
 	return strings.TrimSpace(strings.ToLower(raw))
+}
+
+func normalizeLanguage(raw string) string {
+	lang := strings.ToLower(strings.TrimSpace(raw))
+	if lang == "" {
+		return ""
+	}
+	lang = strings.ReplaceAll(lang, "_", "-")
+	for _, r := range lang {
+		if (r >= 'a' && r <= 'z') || r == '-' {
+			continue
+		}
+		return ""
+	}
+	return lang
+}
+
+func nullableString(value string) *string {
+	trimmed := strings.TrimSpace(value)
+	if trimmed == "" {
+		return nil
+	}
+	return &trimmed
 }
 
 func decodeJSONBody(c echo.Context, dst any) error {

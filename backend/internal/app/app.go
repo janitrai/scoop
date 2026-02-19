@@ -47,6 +47,8 @@ func Run(args []string) int {
 		return runNormalize(args[1:])
 	case "embed":
 		return runEmbed(args[1:])
+	case "translate":
+		return runTranslate(args[1:])
 	case "dedup":
 		return runDedup(args[1:])
 	case "process", "run-once":
@@ -84,6 +86,7 @@ func printUsage() {
 	fmt.Fprintln(os.Stderr, "  validate   Validate news article JSON files against v1 schema")
 	fmt.Fprintln(os.Stderr, "  normalize  Convert pending raw arrivals into normalized articles")
 	fmt.Fprintln(os.Stderr, "  embed      Generate embeddings for normalized articles")
+	fmt.Fprintln(os.Stderr, "  translate  Translate stories/articles/collections with cached outputs")
 	fmt.Fprintln(os.Stderr, "  dedup      Assign pending articles into canonical stories")
 	fmt.Fprintln(os.Stderr, "  process    Run normalize + embed + dedup in sequence")
 	fmt.Fprintln(os.Stderr, "  run-once   Alias for process")

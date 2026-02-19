@@ -45,6 +45,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_runs_uuid
 CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_entries_uuid
 	ON news.digest_entries (digest_entry_uuid);
 
+CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_uuid
+	ON news.translations (translation_uuid);
+
 CREATE UNIQUE INDEX IF NOT EXISTS uq_raw_arrivals_source_item_payload
 	ON news.raw_arrivals (source, source_item_id, payload_hash);
 
@@ -68,6 +71,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_runs_topic_date
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_entries_run_story
 	ON news.digest_entries (digest_run_id, story_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_source_target
+	ON news.translations (source_type, source_id, target_lang);
 
 CREATE INDEX IF NOT EXISTS idx_raw_arrivals_source_item_fetched
 	ON news.raw_arrivals (source, source_item_id, fetched_at DESC);
@@ -235,6 +241,12 @@ CREATE INDEX IF NOT EXISTS idx_digest_entries_run_status_rank
 
 CREATE INDEX IF NOT EXISTS idx_digest_entries_story
 	ON news.digest_entries (story_id);
+
+CREATE INDEX IF NOT EXISTS idx_translations_source_lookup
+	ON news.translations (source_type, source_id);
+
+CREATE INDEX IF NOT EXISTS idx_translations_target_lang
+	ON news.translations (target_lang);
 
 DO $$
 BEGIN

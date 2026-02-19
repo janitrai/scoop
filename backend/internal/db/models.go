@@ -240,6 +240,24 @@ type DigestEntry struct {
 
 func (DigestEntry) TableName() string { return "news.digest_entries" }
 
+// Translation maps news.translations.
+type Translation struct {
+	TranslationID   int64     `gorm:"column:translation_id;primaryKey;autoIncrement"`
+	TranslationUUID string    `gorm:"column:translation_uuid;type:uuid;not null;default:gen_random_uuid();unique"`
+	SourceType      string    `gorm:"column:source_type;type:text;not null;uniqueIndex:uq_translations_source_target,priority:1"`
+	SourceID        int64     `gorm:"column:source_id;type:bigint;not null;uniqueIndex:uq_translations_source_target,priority:2"`
+	SourceLang      string    `gorm:"column:source_lang;type:text;not null"`
+	TargetLang      string    `gorm:"column:target_lang;type:text;not null;uniqueIndex:uq_translations_source_target,priority:3"`
+	OriginalText    string    `gorm:"column:original_text;type:text;not null"`
+	TranslatedText  string    `gorm:"column:translated_text;type:text;not null"`
+	ProviderName    string    `gorm:"column:provider_name;type:text;not null"`
+	ModelName       *string   `gorm:"column:model_name;type:text"`
+	LatencyMS       *int      `gorm:"column:latency_ms;type:integer"`
+	CreatedAt       time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+}
+
+func (Translation) TableName() string { return "news.translations" }
+
 func autoMigrateModels() []any {
 	return []any{
 		&IngestRun{},
@@ -256,5 +274,6 @@ func autoMigrateModels() []any {
 		&StoryTopicState{},
 		&DigestRun{},
 		&DigestEntry{},
+		&Translation{},
 	}
 }
