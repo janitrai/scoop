@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"horse.fit/scoop/internal/db"
+	"horse.fit/scoop/internal/reader"
 )
 
 const (
@@ -15,6 +16,9 @@ const (
 	SourceTypeStorySummary = "story_summary"
 	SourceTypeArticleTitle = "article_title"
 	SourceTypeArticleText  = "article_text"
+
+	// Keep reader-fetched body translations bounded by truncating at rune boundaries.
+	articleReaderTranslationMaxChars = 6000
 )
 
 var (
@@ -102,7 +106,13 @@ func (m *Manager) TranslateArticleByUUID(ctx context.Context, articleUUID string
 		return RunStats{}, fmt.Errorf("translation manager is not initialized")
 	}
 
-	article, err := m.fetchArticleByUUID(ctx, articleUUID)
+	targetLang := normalizeLangCode(opts.TargetLang)
+	if targetLang == "" {
+		return RunStats{}, fmt.Errorf("target language is required")
+	}
+	opts.TargetLang = targetLang
+
+	article, err := m.fetchArticleByUUID(ctx, articleUUID, targetLang, opts.Force)
 	if err != nil {
 		return RunStats{}, err
 	}
@@ -245,7 +255,13 @@ ORDER BY t.target_lang, t.source_type, t.source_id, t.created_at DESC
 }
 
 func (m *Manager) translateStory(ctx context.Context, story storyTranslationTarget, opts RunOptions) (RunStats, error) {
-	articles, err := m.fetchStoryArticles(ctx, story.StoryID)
+	targetLang := normalizeLangCode(opts.TargetLang)
+	if targetLang == "" {
+		return RunStats{}, fmt.Errorf("target language is required")
+	}
+	opts.TargetLang = targetLang
+
+	articles, err := m.fetchStoryArticles(ctx, story.StoryID, targetLang, opts.Force)
 	if err != nil {
 		return RunStats{}, err
 	}
@@ -446,14 +462,15 @@ ORDER BY s.last_seen_at DESC, s.story_id DESC
 	return items, nil
 }
 
-func (m *Manager) fetchStoryArticles(ctx context.Context, storyID int64) ([]articleTranslationTarget, error) {
+func (m *Manager) fetchStoryArticles(ctx context.Context, storyID int64, targetLang string, force bool) ([]articleTranslationTarget, error) {
 	const q = `
 SELECT
 	a.article_id,
 	a.article_uuid::text,
 	a.normalized_title,
 	a.normalized_text,
-	a.normalized_language
+	a.normalized_language,
+	a.canonical_url
 FROM news.story_articles sa
 JOIN news.articles a
 	ON a.article_id = sa.article_id
@@ -477,6 +494,7 @@ ORDER BY sa.matched_at DESC, a.article_id DESC
 			&row.Title,
 			&row.Text,
 			&row.SourceLang,
+			&row.CanonicalURL,
 		); err != nil {
 			return nil, fmt.Errorf("scan story article row: %w", err)
 		}
@@ -485,18 +503,26 @@ ORDER BY sa.matched_at DESC, a.article_id DESC
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("iterate story articles: %w", err)
 	}
+	rows.Close()
+
+	for i := range items {
+		if err := m.hydrateArticleTextForTranslation(ctx, &items[i], targetLang, force); err != nil {
+			return nil, err
+		}
+	}
 
 	return items, nil
 }
 
-func (m *Manager) fetchArticleByUUID(ctx context.Context, articleUUID string) (articleTranslationTarget, error) {
+func (m *Manager) fetchArticleByUUID(ctx context.Context, articleUUID string, targetLang string, force bool) (articleTranslationTarget, error) {
 	const q = `
 SELECT
 	a.article_id,
 	a.article_uuid::text,
 	a.normalized_title,
 	a.normalized_text,
-	a.normalized_language
+	a.normalized_language,
+	a.canonical_url
 FROM news.articles a
 WHERE a.article_uuid = $1::uuid
   AND a.deleted_at IS NULL
@@ -510,6 +536,7 @@ LIMIT 1
 		&row.Title,
 		&row.Text,
 		&row.SourceLang,
+		&row.CanonicalURL,
 	)
 	if err != nil {
 		if errors.Is(err, db.ErrNoRows) {
@@ -517,7 +544,59 @@ LIMIT 1
 		}
 		return articleTranslationTarget{}, fmt.Errorf("query article: %w", err)
 	}
+
+	if err := m.hydrateArticleTextForTranslation(ctx, &row, targetLang, force); err != nil {
+		return articleTranslationTarget{}, err
+	}
+
 	return row, nil
+}
+
+func (m *Manager) hydrateArticleTextForTranslation(
+	ctx context.Context,
+	article *articleTranslationTarget,
+	targetLang string,
+	force bool,
+) error {
+	if article == nil {
+		return nil
+	}
+
+	article.Title = strings.TrimSpace(article.Title)
+	article.Text = strings.TrimSpace(article.Text)
+
+	if article.Text != "" {
+		return nil
+	}
+
+	canonicalURL := ""
+	if article.CanonicalURL != nil {
+		canonicalURL = strings.TrimSpace(*article.CanonicalURL)
+	}
+	if canonicalURL == "" {
+		return nil
+	}
+
+	if !force && targetLang != "" {
+		cached, err := m.lookupCachedTranslation(ctx, SourceTypeArticleText, article.ArticleID, targetLang)
+		if err != nil {
+			return err
+		}
+		if cached != nil {
+			article.Text = strings.TrimSpace(cached.OriginalText)
+			return nil
+		}
+	}
+
+	readerText, err := reader.FetchText(ctx, canonicalURL, article.Title)
+	if err != nil {
+		// Reader fetch is best-effort; keep the prior behavior of skipping empty bodies.
+		return nil
+	}
+
+	clipped, _ := reader.TruncateText(readerText, articleReaderTranslationMaxChars)
+	article.Text = strings.TrimSpace(clipped)
+	return nil
 }
 
 func (m *Manager) lookupCachedTranslation(
@@ -639,11 +718,12 @@ type storyTranslationTarget struct {
 }
 
 type articleTranslationTarget struct {
-	ArticleID   int64
-	ArticleUUID string
-	Title       string
-	Text        string
-	SourceLang  string
+	ArticleID    int64
+	ArticleUUID  string
+	Title        string
+	Text         string
+	SourceLang   string
+	CanonicalURL *string
 }
 
 type modelNameProvider interface {
