@@ -43,6 +43,21 @@ function normalizePage(value: unknown): number | undefined {
   return parsed;
 }
 
+function normalizeLanguage(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim().toLowerCase().replaceAll("_", "-");
+  if (trimmed === "") {
+    return undefined;
+  }
+  if (!/^[a-z-]+$/.test(trimmed)) {
+    return undefined;
+  }
+  return trimmed;
+}
+
 export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSearch {
   const collection = normalizeString(input.collection);
   const q = normalizeString(input.q);
@@ -50,6 +65,7 @@ export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSea
   const from = normalizeDay(input.from);
   const to = normalizeDay(input.to);
   const page = normalizePage(input.page);
+  const lang = normalizeLanguage(input.lang);
 
   const search: ViewerSearch = {};
   if (collection) {
@@ -70,6 +86,9 @@ export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSea
   if (page && page > 1) {
     search.page = page;
   }
+  if (lang) {
+    search.lang = lang;
+  }
 
   return search;
 }
@@ -86,5 +105,6 @@ export function toStoryFilters(search: ViewerSearch): StoryFilters {
     query: search.q || "",
     from: search.from || "",
     to: search.to || "",
+    lang: search.lang || "",
   };
 }

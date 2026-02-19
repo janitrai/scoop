@@ -4,13 +4,20 @@ import { Group, Panel, Separator } from "react-resizable-panels";
 
 import { CollectionDropdown } from "./components/header/CollectionDropdown";
 import { DayNavigator } from "./components/header/DayNavigator";
+import { LanguageSwitcher, type ViewerLanguage } from "./components/header/LanguageSwitcher";
 import { PageShell } from "./components/PageShell";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { useCurrentCollectionLabel } from "./hooks/useCurrentCollectionLabel";
 import { useDayNavigationState } from "./hooks/useDayNavigationState";
 import { useViewerQueries } from "./hooks/useViewerQueries";
-import { getDesktopFeedWidthBounds, getDesktopFeedWidthPct, setDesktopFeedWidthPct } from "./lib/userSettings";
+import {
+  getDesktopFeedWidthBounds,
+  getDesktopFeedWidthPct,
+  getViewerLanguage,
+  setDesktopFeedWidthPct,
+  setViewerLanguage,
+} from "./lib/userSettings";
 import { buildStoryFilters } from "./lib/viewerFilters";
 import { formatCount } from "./lib/viewerFormat";
 import type { ViewerSearch } from "./types";
@@ -49,6 +56,7 @@ export function StoryViewerPage(): JSX.Element {
 
   const [searchInput, setSearchInput] = useState(filters.query);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
+  const [language, setLanguage] = useState<ViewerLanguage>(() => getViewerLanguage());
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -88,6 +96,14 @@ export function StoryViewerPage(): JSX.Element {
   }, []);
 
   const feedWidthBounds = useMemo(() => getDesktopFeedWidthBounds(), []);
+  const apiLanguage = useMemo(() => (language === "original" ? "" : language), [language]);
+  const effectiveFilters = useMemo(
+    () => ({
+      ...filters,
+      lang: apiLanguage,
+    }),
+    [filters, apiLanguage],
+  );
   const feedPanelSize = useMemo(() => `${feedWidthBounds.defaultValue}%`, [feedWidthBounds.defaultValue]);
   const feedPanelMin = useMemo(() => `${feedWidthBounds.min}%`, [feedWidthBounds.min]);
   const feedPanelMax = useMemo(() => `${feedWidthBounds.max}%`, [feedWidthBounds.max]);
@@ -128,15 +144,16 @@ export function StoryViewerPage(): JSX.Element {
     fetchNextStoriesPage,
     isDetailPending,
   } = useViewerQueries({
-    filters,
+    filters: effectiveFilters,
     selectedStoryUUID,
+    language: apiLanguage,
   });
 
   const { dayNav, selectedDay } = useDayNavigationState({
     dayBuckets,
     day: viewerSearch.day || "",
-    from: filters.from,
-    to: filters.to,
+    from: effectiveFilters.from,
+    to: effectiveFilters.to,
   });
 
   const allStoriesCount = useMemo(
@@ -364,13 +381,22 @@ export function StoryViewerPage(): JSX.Element {
   );
 
   const headerRight = (
-    <DayNavigator
-      dayNav={dayNav}
-      pickerDay={pickerDay}
-      onMoveOlder={() => moveDay(1)}
-      onMoveNewer={() => moveDay(-1)}
-      onSelectDay={setSingleDayFilter}
-    />
+    <div className="topbar-controls">
+      <DayNavigator
+        dayNav={dayNav}
+        pickerDay={pickerDay}
+        onMoveOlder={() => moveDay(1)}
+        onMoveNewer={() => moveDay(-1)}
+        onSelectDay={setSingleDayFilter}
+      />
+      <LanguageSwitcher
+        value={language}
+        onChange={(nextValue) => {
+          setLanguage(nextValue);
+          setViewerLanguage(nextValue);
+        }}
+      />
+    </div>
   );
 
   return (
@@ -393,8 +419,9 @@ export function StoryViewerPage(): JSX.Element {
           >
             <StoriesListPanel
               searchInput={searchInput}
-              from={filters.from}
-              to={filters.to}
+              from={effectiveFilters.from}
+              to={effectiveFilters.to}
+              activeLang={apiLanguage}
               totalItems={pagination.total_items}
               loadedItems={stories.length}
               selectedStoryUUID={selectedStoryUUID}
@@ -422,6 +449,7 @@ export function StoryViewerPage(): JSX.Element {
               selectedStoryUUID={selectedStoryUUID}
               selectedItemUUID={selectedItemUUID}
               detail={detail}
+              activeLang={apiLanguage}
               isLoading={isDetailPending}
               error={detailError}
               onSelectItem={goToItem}

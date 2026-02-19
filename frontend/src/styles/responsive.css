@@ -31,6 +31,14 @@
     @apply w-full max-w-none;
   }
 
+  .lang-switcher {
+    @apply w-full;
+  }
+
+  .lang-select-trigger {
+    @apply w-full;
+  }
+
   .controls-top-row {
     @apply grid-cols-1;
   }

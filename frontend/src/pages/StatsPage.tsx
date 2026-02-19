@@ -11,7 +11,7 @@ export function StatsPage(): JSX.Element {
 
   const statsQuery = useQuery({
     queryKey: ["stats", refreshTick],
-    queryFn: getStats,
+    queryFn: () => getStats(),
   });
 
   const stats = statsQuery.data ?? null;

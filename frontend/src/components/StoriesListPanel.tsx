@@ -11,6 +11,7 @@ interface StoriesListPanelProps {
   searchInput: string;
   from: string;
   to: string;
+  activeLang: string;
   totalItems: number;
   loadedItems: number;
   selectedStoryUUID: string;
@@ -32,6 +33,7 @@ export function StoriesListPanel({
   searchInput,
   from,
   to,
+  activeLang,
   totalItems,
   loadedItems,
   selectedStoryUUID,
@@ -195,28 +197,40 @@ export function StoriesListPanel({
           {!isLoading && !error && stories.length === 0 ? <p className="muted">No stories match this filter.</p> : null}
 
           {!isLoading && !error
-            ? stories.map((story) => (
-                <article
-                  key={story.story_uuid}
-                  className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
-                  onClick={() => onSelectStory(story.story_uuid)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      onSelectStory(story.story_uuid);
-                    }
-                  }}
-                >
-                  <header>
-                    <h3 className="story-title">{story.title || "(untitled)"}</h3>
-                  </header>
-                  <p className="story-meta">
-                    {buildFeedMetaText(story, showTimestampInFeed)}
-                  </p>
-                </article>
-              ))
+            ? stories.map((story) => {
+                const originalTitle = (story.original_title || story.title || "").trim();
+                const translatedTitle = (story.translated_title || "").trim();
+                const showTranslated = activeLang !== "" && translatedTitle !== "";
+                const displayTitle = showTranslated ? translatedTitle : originalTitle;
+
+                return (
+                  <article
+                    key={story.story_uuid}
+                    className={`story-card ${story.story_uuid === selectedStoryUUID ? "active" : ""}`.trim()}
+                    onClick={() => onSelectStory(story.story_uuid)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        onSelectStory(story.story_uuid);
+                      }
+                    }}
+                  >
+                    <header className="story-title-row">
+                      <h3 className="story-title">{displayTitle || "(untitled)"}</h3>
+                      {showTranslated ? (
+                        <span className="story-translation-badge" aria-label={`Translated to ${activeLang}`}>
+                          [{activeLang.toUpperCase()}]
+                        </span>
+                      ) : null}
+                    </header>
+                    <p className="story-meta">
+                      {buildFeedMetaText(story, showTimestampInFeed)}
+                    </p>
+                  </article>
+                );
+              })
             : null}
 
           {!isLoading && !error ? <div ref={loadTriggerRef} className="stories-load-sentinel" aria-hidden="true" /> : null}

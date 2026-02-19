@@ -26,6 +26,8 @@ export interface StoryListItem {
   story_uuid: string;
   collection: string;
   title: string;
+  original_title: string;
+  translated_title?: string | null;
   canonical_url?: string;
   status: string;
   first_seen_at: string;
@@ -45,6 +47,10 @@ export interface StoryArticle {
   published_at?: string;
   normalized_title: string;
   normalized_text?: string;
+  original_title: string;
+  translated_title?: string | null;
+  original_text: string;
+  translated_text?: string | null;
   source_domain?: string;
   matched_at: string;
   match_type: string;
@@ -116,6 +122,7 @@ export interface StoryFilters {
   query: string;
   from: string;
   to: string;
+  lang: string;
 }
 
 export interface ViewerSearch {
@@ -125,6 +132,7 @@ export interface ViewerSearch {
   day?: string;
   from?: string;
   to?: string;
+  lang?: string;
 }
 
 export interface DayNavigationState {

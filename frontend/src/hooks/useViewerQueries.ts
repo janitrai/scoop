@@ -15,6 +15,7 @@ import type {
 interface UseViewerQueriesArgs {
   filters: StoryFilters;
   selectedStoryUUID: string;
+  language: string;
 }
 
 interface UseViewerQueriesResult {
@@ -36,15 +37,16 @@ interface UseViewerQueriesResult {
 export function useViewerQueries({
   filters,
   selectedStoryUUID,
+  language,
 }: UseViewerQueriesArgs): UseViewerQueriesResult {
   const collectionsQuery = useQuery<{ items: CollectionSummary[] }>({
-    queryKey: ["collections"],
-    queryFn: getCollections,
+    queryKey: ["collections", language],
+    queryFn: () => getCollections(language),
   });
 
   const dayBucketsQuery = useQuery<{ items: StoryDayBucket[] }>({
-    queryKey: ["story-days", filters.collection],
-    queryFn: () => getStoryDays(filters.collection, 45),
+    queryKey: ["story-days", filters.collection, language],
+    queryFn: () => getStoryDays(filters.collection, 45, language),
   });
 
   const storiesQuery = useInfiniteQuery<{ items: StoryListItem[]; pagination: StoryPagination }>({
@@ -55,6 +57,7 @@ export function useViewerQueries({
       filters.from,
       filters.to,
       filters.pageSize,
+      filters.lang,
     ],
     initialPageParam: 1,
     queryFn: ({ pageParam }) =>
@@ -69,8 +72,8 @@ export function useViewerQueries({
   });
 
   const detailQuery = useQuery<StoryDetailResponse>({
-    queryKey: ["story-detail", selectedStoryUUID],
-    queryFn: () => getStoryDetail(selectedStoryUUID),
+    queryKey: ["story-detail", selectedStoryUUID, language],
+    queryFn: () => getStoryDetail(selectedStoryUUID, language),
     enabled: selectedStoryUUID !== "",
   });
 
