@@ -87,6 +87,25 @@ export async function getStoryDetail(storyUUID: string, lang = ""): Promise<Stor
   return fetchJSend<StoryDetailResponse>(withLang(`/api/v1/stories/${storyUUID}`, lang));
 }
 
+export async function requestTranslation(
+  storyUUID: string,
+  targetLang: string,
+  provider?: string,
+): Promise<{ stats: { translated: number; cached: number; failed: number } }> {
+  const body: Record<string, string> = { story_uuid: storyUUID, target_lang: targetLang };
+  if (provider) body.provider = provider;
+  const response = await fetch("/api/v1/translate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
+  const payload = (await response.json().catch(() => ({}))) as Partial<JSendResponse<any>>;
+  if (payload.status !== "success" || !payload.data) {
+    throw new Error(typeof payload.message === "string" ? payload.message : "Translation failed");
+  }
+  return payload.data;
+}
+
 export async function getStoryArticlePreview(
   storyArticleUUID: string,
   maxChars = 1000,
