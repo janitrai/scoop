@@ -240,6 +240,36 @@ type DigestEntry struct {
 
 func (DigestEntry) TableName() string { return "news.digest_entries" }
 
+// TranslationSource maps news.translation_sources.
+type TranslationSource struct {
+	TranslationSourceID int64     `gorm:"column:translation_source_id;primaryKey;autoIncrement"`
+	SourceType          string    `gorm:"column:source_type;type:text;not null;uniqueIndex:uq_translation_sources_identity,priority:1;index:idx_translation_sources_lookup,priority:1"`
+	SourceID            int64     `gorm:"column:source_id;type:bigint;not null;uniqueIndex:uq_translation_sources_identity,priority:2;index:idx_translation_sources_lookup,priority:2"`
+	SourceLang          string    `gorm:"column:source_lang;type:text;not null"`
+	ContentHash         []byte    `gorm:"column:content_hash;type:bytea;not null;uniqueIndex:uq_translation_sources_identity,priority:3"`
+	OriginalText        string    `gorm:"column:original_text;type:text;not null"`
+	ContentOrigin       string    `gorm:"column:content_origin;type:text;not null;default:normalized"`
+	CapturedAt          time.Time `gorm:"column:captured_at;type:timestamptz;not null;default:now();index:idx_translation_sources_lookup,priority:3,sort:desc"`
+	CreatedAt           time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+}
+
+func (TranslationSource) TableName() string { return "news.translation_sources" }
+
+// TranslationResult maps news.translation_results.
+type TranslationResult struct {
+	TranslationResultID   int64     `gorm:"column:translation_result_id;primaryKey;autoIncrement"`
+	TranslationResultUUID string    `gorm:"column:translation_result_uuid;type:uuid;not null;default:gen_random_uuid();unique"`
+	TranslationSourceID   int64     `gorm:"column:translation_source_id;type:bigint;not null;uniqueIndex:uq_translation_results_source_target,priority:1"`
+	TargetLang            string    `gorm:"column:target_lang;type:text;not null;uniqueIndex:uq_translation_results_source_target,priority:2;index:idx_translation_results_target_lang"`
+	TranslatedText        string    `gorm:"column:translated_text;type:text;not null"`
+	ProviderName          string    `gorm:"column:provider_name;type:text;not null"`
+	ModelName             *string   `gorm:"column:model_name;type:text"`
+	LatencyMS             *int      `gorm:"column:latency_ms;type:integer"`
+	CreatedAt             time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+}
+
+func (TranslationResult) TableName() string { return "news.translation_results" }
+
 // Translation maps news.translations.
 type Translation struct {
 	TranslationID   int64     `gorm:"column:translation_id;primaryKey;autoIncrement"`
@@ -274,6 +304,8 @@ func autoMigrateModels() []any {
 		&StoryTopicState{},
 		&DigestRun{},
 		&DigestEntry{},
+		&TranslationSource{},
+		&TranslationResult{},
 		&Translation{},
 	}
 }

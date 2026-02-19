@@ -2,6 +2,7 @@ package translation
 
 import (
 	"context"
+	"crypto/sha256"
 	"errors"
 	"fmt"
 	"strings"
@@ -12,10 +13,12 @@ import (
 )
 
 const (
-	SourceTypeStoryTitle   = "story_title"
-	SourceTypeStorySummary = "story_summary"
-	SourceTypeArticleTitle = "article_title"
-	SourceTypeArticleText  = "article_text"
+	SourceTypeStoryTitle    = "story_title"
+	SourceTypeStorySummary  = "story_summary"
+	SourceTypeArticleTitle  = "article_title"
+	SourceTypeArticleText   = "article_text"
+	ContentOriginNormalized = "normalized"
+	ContentOriginReader     = "reader"
 
 	// Keep reader-fetched body translations bounded by truncating at rune boundaries.
 	articleReaderTranslationMaxChars = 6000
@@ -112,7 +115,7 @@ func (m *Manager) TranslateArticleByUUID(ctx context.Context, articleUUID string
 	}
 	opts.TargetLang = targetLang
 
-	article, err := m.fetchArticleByUUID(ctx, articleUUID, targetLang, opts.Force)
+	article, err := m.fetchArticleByUUID(ctx, articleUUID)
 	if err != nil {
 		return RunStats{}, err
 	}
@@ -120,18 +123,20 @@ func (m *Manager) TranslateArticleByUUID(ctx context.Context, articleUUID string
 	tasks := make([]translationTask, 0, 2)
 	if strings.TrimSpace(article.Title) != "" {
 		tasks = append(tasks, translationTask{
-			SourceType:   SourceTypeArticleTitle,
-			SourceID:     article.ArticleID,
-			SourceLang:   article.SourceLang,
-			OriginalText: article.Title,
+			SourceType:    SourceTypeArticleTitle,
+			SourceID:      article.ArticleID,
+			SourceLang:    article.SourceLang,
+			OriginalText:  article.Title,
+			ContentOrigin: ContentOriginNormalized,
 		})
 	}
 	if strings.TrimSpace(article.Text) != "" {
 		tasks = append(tasks, translationTask{
-			SourceType:   SourceTypeArticleText,
-			SourceID:     article.ArticleID,
-			SourceLang:   article.SourceLang,
-			OriginalText: article.Text,
+			SourceType:    SourceTypeArticleText,
+			SourceID:      article.ArticleID,
+			SourceLang:    article.SourceLang,
+			OriginalText:  article.Text,
+			ContentOrigin: article.TextOrigin,
 		})
 	}
 
@@ -185,40 +190,42 @@ func (m *Manager) ListStoryTranslationsByUUID(ctx context.Context, storyUUID str
 
 	const q = `
 SELECT
-	t.translation_uuid::text,
-	t.source_type,
-	t.source_id,
+	r.translation_result_uuid::text,
+	ts.source_type,
+	ts.source_id,
 	CASE
-		WHEN t.source_type = 'story_title' THEN s.story_uuid::text
-		WHEN t.source_type IN ('article_title', 'article_text') THEN a.article_uuid::text
+		WHEN ts.source_type = 'story_title' THEN s.story_uuid::text
+		WHEN ts.source_type IN ('article_title', 'article_text') THEN a.article_uuid::text
 		ELSE NULL
 	END AS source_uuid,
-	t.source_lang,
-	t.target_lang,
-	t.original_text,
-	t.translated_text,
-	t.provider_name,
-	t.model_name,
-	t.latency_ms,
-	t.created_at
-FROM news.translations t
+	ts.source_lang,
+	r.target_lang,
+	ts.original_text,
+	r.translated_text,
+	r.provider_name,
+	r.model_name,
+	r.latency_ms,
+	r.created_at
+FROM news.translation_sources ts
+JOIN news.translation_results r
+	ON r.translation_source_id = ts.translation_source_id
 LEFT JOIN news.stories s
-	ON t.source_type = 'story_title'
-	AND s.story_id = t.source_id
+	ON ts.source_type = 'story_title'
+	AND s.story_id = ts.source_id
 LEFT JOIN news.articles a
-	ON t.source_type IN ('article_title', 'article_text')
-	AND a.article_id = t.source_id
-WHERE (t.source_type = 'story_title' AND t.source_id = $1)
+	ON ts.source_type IN ('article_title', 'article_text')
+	AND a.article_id = ts.source_id
+WHERE (ts.source_type = 'story_title' AND ts.source_id = $1)
    OR (
-		t.source_type IN ('article_title', 'article_text')
-		AND t.source_id IN (
+		ts.source_type IN ('article_title', 'article_text')
+		AND ts.source_id IN (
 			SELECT sa.article_id
 			FROM news.story_articles sa
 			WHERE sa.story_id = $1
 		)
 	)
-ORDER BY t.target_lang, t.source_type, t.source_id, t.created_at DESC
-`
+ORDER BY r.target_lang, ts.source_type, ts.source_id, ts.captured_at DESC, r.created_at DESC
+	`
 
 	rows, err := m.pool.Query(ctx, q, story.StoryID)
 	if err != nil {
@@ -261,7 +268,7 @@ func (m *Manager) translateStory(ctx context.Context, story storyTranslationTarg
 	}
 	opts.TargetLang = targetLang
 
-	articles, err := m.fetchStoryArticles(ctx, story.StoryID, targetLang, opts.Force)
+	articles, err := m.fetchStoryArticles(ctx, story.StoryID)
 	if err != nil {
 		return RunStats{}, err
 	}
@@ -269,28 +276,31 @@ func (m *Manager) translateStory(ctx context.Context, story storyTranslationTarg
 	tasks := make([]translationTask, 0, 1+(2*len(articles)))
 	if strings.TrimSpace(story.Title) != "" {
 		tasks = append(tasks, translationTask{
-			SourceType:   SourceTypeStoryTitle,
-			SourceID:     story.StoryID,
-			SourceLang:   story.SourceLang,
-			OriginalText: story.Title,
+			SourceType:    SourceTypeStoryTitle,
+			SourceID:      story.StoryID,
+			SourceLang:    story.SourceLang,
+			OriginalText:  story.Title,
+			ContentOrigin: ContentOriginNormalized,
 		})
 	}
 
 	for _, article := range articles {
 		if strings.TrimSpace(article.Title) != "" {
 			tasks = append(tasks, translationTask{
-				SourceType:   SourceTypeArticleTitle,
-				SourceID:     article.ArticleID,
-				SourceLang:   article.SourceLang,
-				OriginalText: article.Title,
+				SourceType:    SourceTypeArticleTitle,
+				SourceID:      article.ArticleID,
+				SourceLang:    article.SourceLang,
+				OriginalText:  article.Title,
+				ContentOrigin: ContentOriginNormalized,
 			})
 		}
 		if strings.TrimSpace(article.Text) != "" {
 			tasks = append(tasks, translationTask{
-				SourceType:   SourceTypeArticleText,
-				SourceID:     article.ArticleID,
-				SourceLang:   article.SourceLang,
-				OriginalText: article.Text,
+				SourceType:    SourceTypeArticleText,
+				SourceID:      article.ArticleID,
+				SourceLang:    article.SourceLang,
+				OriginalText:  article.Text,
+				ContentOrigin: article.TextOrigin,
 			})
 		}
 	}
@@ -315,7 +325,31 @@ func (m *Manager) runTasks(ctx context.Context, tasks []translationTask, opts Ru
 	for _, task := range tasks {
 		stats.Total++
 
-		cached, err := m.lookupCachedTranslation(ctx, task.SourceType, task.SourceID, targetLang)
+		originalText := strings.TrimSpace(task.OriginalText)
+		if originalText == "" {
+			stats.Skipped++
+			continue
+		}
+
+		contentHash := hashTranslationSourceText(originalText)
+		sourceLang := normalizeLangCode(task.SourceLang)
+		if sourceLang == "" {
+			sourceLang = "und"
+		}
+
+		translationSourceID, err := m.upsertTranslationSource(ctx, upsertTranslationSourceInput{
+			SourceType:    task.SourceType,
+			SourceID:      task.SourceID,
+			SourceLang:    sourceLang,
+			ContentHash:   contentHash,
+			OriginalText:  originalText,
+			ContentOrigin: normalizeContentOrigin(task.ContentOrigin),
+		})
+		if err != nil {
+			return stats, err
+		}
+
+		cached, err := m.lookupCachedTranslation(ctx, translationSourceID, targetLang)
 		if err != nil {
 			return stats, err
 		}
@@ -330,8 +364,8 @@ func (m *Manager) runTasks(ctx context.Context, tasks []translationTask, opts Ru
 		}
 
 		resp, err := provider.Translate(ctx, TranslateRequest{
-			Text:       task.OriginalText,
-			SourceLang: task.SourceLang,
+			Text:       originalText,
+			SourceLang: sourceLang,
 			TargetLang: targetLang,
 		})
 		if err != nil {
@@ -356,6 +390,20 @@ func (m *Manager) runTasks(ctx context.Context, tasks []translationTask, opts Ru
 			resolvedTargetLang = targetLang
 		}
 
+		if resolvedSourceLang != sourceLang {
+			translationSourceID, err = m.upsertTranslationSource(ctx, upsertTranslationSourceInput{
+				SourceType:    task.SourceType,
+				SourceID:      task.SourceID,
+				SourceLang:    resolvedSourceLang,
+				ContentHash:   contentHash,
+				OriginalText:  originalText,
+				ContentOrigin: normalizeContentOrigin(task.ContentOrigin),
+			})
+			if err != nil {
+				return stats, err
+			}
+		}
+
 		resolvedProviderName := strings.TrimSpace(resp.ProviderName)
 		if resolvedProviderName == "" {
 			resolvedProviderName = providerName
@@ -366,16 +414,13 @@ func (m *Manager) runTasks(ctx context.Context, tasks []translationTask, opts Ru
 			latencyMS = 0
 		}
 
-		if err := m.upsertTranslation(ctx, upsertTranslationInput{
-			SourceType:     task.SourceType,
-			SourceID:       task.SourceID,
-			SourceLang:     resolvedSourceLang,
-			TargetLang:     resolvedTargetLang,
-			OriginalText:   task.OriginalText,
-			TranslatedText: translatedText,
-			ProviderName:   resolvedProviderName,
-			ModelName:      modelName,
-			LatencyMS:      &latencyMS,
+		if err := m.upsertTranslationResult(ctx, upsertTranslationResultInput{
+			TranslationSourceID: translationSourceID,
+			TargetLang:          resolvedTargetLang,
+			TranslatedText:      translatedText,
+			ProviderName:        resolvedProviderName,
+			ModelName:           modelName,
+			LatencyMS:           &latencyMS,
 		}); err != nil {
 			return stats, err
 		}
@@ -462,7 +507,7 @@ ORDER BY s.last_seen_at DESC, s.story_id DESC
 	return items, nil
 }
 
-func (m *Manager) fetchStoryArticles(ctx context.Context, storyID int64, targetLang string, force bool) ([]articleTranslationTarget, error) {
+func (m *Manager) fetchStoryArticles(ctx context.Context, storyID int64) ([]articleTranslationTarget, error) {
 	const q = `
 SELECT
 	a.article_id,
@@ -506,7 +551,7 @@ ORDER BY sa.matched_at DESC, a.article_id DESC
 	rows.Close()
 
 	for i := range items {
-		if err := m.hydrateArticleTextForTranslation(ctx, &items[i], targetLang, force); err != nil {
+		if err := m.hydrateArticleTextForTranslation(ctx, &items[i]); err != nil {
 			return nil, err
 		}
 	}
@@ -514,7 +559,7 @@ ORDER BY sa.matched_at DESC, a.article_id DESC
 	return items, nil
 }
 
-func (m *Manager) fetchArticleByUUID(ctx context.Context, articleUUID string, targetLang string, force bool) (articleTranslationTarget, error) {
+func (m *Manager) fetchArticleByUUID(ctx context.Context, articleUUID string) (articleTranslationTarget, error) {
 	const q = `
 SELECT
 	a.article_id,
@@ -545,7 +590,7 @@ LIMIT 1
 		return articleTranslationTarget{}, fmt.Errorf("query article: %w", err)
 	}
 
-	if err := m.hydrateArticleTextForTranslation(ctx, &row, targetLang, force); err != nil {
+	if err := m.hydrateArticleTextForTranslation(ctx, &row); err != nil {
 		return articleTranslationTarget{}, err
 	}
 
@@ -555,8 +600,6 @@ LIMIT 1
 func (m *Manager) hydrateArticleTextForTranslation(
 	ctx context.Context,
 	article *articleTranslationTarget,
-	targetLang string,
-	force bool,
 ) error {
 	if article == nil {
 		return nil
@@ -564,6 +607,7 @@ func (m *Manager) hydrateArticleTextForTranslation(
 
 	article.Title = strings.TrimSpace(article.Title)
 	article.Text = strings.TrimSpace(article.Text)
+	article.TextOrigin = ContentOriginNormalized
 
 	if article.Text != "" {
 		return nil
@@ -577,17 +621,6 @@ func (m *Manager) hydrateArticleTextForTranslation(
 		return nil
 	}
 
-	if !force && targetLang != "" {
-		cached, err := m.lookupCachedTranslation(ctx, SourceTypeArticleText, article.ArticleID, targetLang)
-		if err != nil {
-			return err
-		}
-		if cached != nil {
-			article.Text = strings.TrimSpace(cached.OriginalText)
-			return nil
-		}
-	}
-
 	readerText, err := reader.FetchText(ctx, canonicalURL, article.Title)
 	if err != nil {
 		// Reader fetch is best-effort; keep the prior behavior of skipping empty bodies.
@@ -596,37 +629,40 @@ func (m *Manager) hydrateArticleTextForTranslation(
 
 	clipped, _ := reader.TruncateText(readerText, articleReaderTranslationMaxChars)
 	article.Text = strings.TrimSpace(clipped)
+	if article.Text != "" {
+		article.TextOrigin = ContentOriginReader
+	}
 	return nil
 }
 
 func (m *Manager) lookupCachedTranslation(
 	ctx context.Context,
-	sourceType string,
-	sourceID int64,
+	translationSourceID int64,
 	targetLang string,
 ) (*CachedTranslation, error) {
 	const q = `
 SELECT
-	t.translation_uuid::text,
-	t.source_type,
-	t.source_id,
-	t.source_lang,
-	t.target_lang,
-	t.original_text,
-	t.translated_text,
-	t.provider_name,
-	t.model_name,
-	t.latency_ms,
-	t.created_at
-FROM news.translations t
-WHERE t.source_type = $1
-  AND t.source_id = $2
-  AND t.target_lang = $3
+	r.translation_result_uuid::text,
+	ts.source_type,
+	ts.source_id,
+	ts.source_lang,
+	r.target_lang,
+	ts.original_text,
+	r.translated_text,
+	r.provider_name,
+	r.model_name,
+	r.latency_ms,
+	r.created_at
+FROM news.translation_results r
+JOIN news.translation_sources ts
+	ON ts.translation_source_id = r.translation_source_id
+WHERE r.translation_source_id = $1
+	  AND r.target_lang = $2
 LIMIT 1
-`
+	`
 
 	var row CachedTranslation
-	err := m.pool.QueryRow(ctx, q, sourceType, sourceID, targetLang).Scan(
+	err := m.pool.QueryRow(ctx, q, translationSourceID, targetLang).Scan(
 		&row.TranslationUUID,
 		&row.SourceType,
 		&row.SourceID,
@@ -648,66 +684,102 @@ LIMIT 1
 	return &row, nil
 }
 
-type upsertTranslationInput struct {
-	SourceType     string
-	SourceID       int64
-	SourceLang     string
-	TargetLang     string
-	OriginalText   string
-	TranslatedText string
-	ProviderName   string
-	ModelName      *string
-	LatencyMS      *int
+type upsertTranslationSourceInput struct {
+	SourceType    string
+	SourceID      int64
+	SourceLang    string
+	ContentHash   []byte
+	OriginalText  string
+	ContentOrigin string
 }
 
-func (m *Manager) upsertTranslation(ctx context.Context, row upsertTranslationInput) error {
+func (m *Manager) upsertTranslationSource(ctx context.Context, row upsertTranslationSourceInput) (int64, error) {
 	const q = `
-INSERT INTO news.translations (
+INSERT INTO news.translation_sources (
 	source_type,
 	source_id,
 	source_lang,
-	target_lang,
+	content_hash,
 	original_text,
-	translated_text,
-	provider_name,
-	model_name,
-	latency_ms
+	content_origin,
+	captured_at
 )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-ON CONFLICT (source_type, source_id, target_lang)
+VALUES ($1, $2, $3, $4, $5, $6, now())
+ON CONFLICT (source_type, source_id, content_hash)
 DO UPDATE SET
 	source_lang = EXCLUDED.source_lang,
 	original_text = EXCLUDED.original_text,
-	translated_text = EXCLUDED.translated_text,
-	provider_name = EXCLUDED.provider_name,
-	model_name = EXCLUDED.model_name,
-	latency_ms = EXCLUDED.latency_ms,
-	created_at = now()
-`
+	content_origin = EXCLUDED.content_origin,
+	captured_at = now()
+RETURNING translation_source_id
+	`
 
-	if _, err := m.pool.Exec(
+	var translationSourceID int64
+	if err := m.pool.QueryRow(
 		ctx,
 		q,
 		row.SourceType,
 		row.SourceID,
 		row.SourceLang,
-		row.TargetLang,
+		row.ContentHash,
 		row.OriginalText,
+		row.ContentOrigin,
+	).Scan(&translationSourceID); err != nil {
+		return 0, fmt.Errorf("upsert translation source: %w", err)
+	}
+	return translationSourceID, nil
+}
+
+type upsertTranslationResultInput struct {
+	TranslationSourceID int64
+	TargetLang          string
+	TranslatedText      string
+	ProviderName        string
+	ModelName           *string
+	LatencyMS           *int
+}
+
+func (m *Manager) upsertTranslationResult(ctx context.Context, row upsertTranslationResultInput) error {
+	const q = `
+INSERT INTO news.translation_results (
+	translation_source_id,
+	target_lang,
+	translated_text,
+	provider_name,
+	model_name,
+	latency_ms
+)
+VALUES ($1, $2, $3, $4, $5, $6)
+ON CONFLICT (translation_source_id, target_lang)
+DO UPDATE SET
+	translated_text = EXCLUDED.translated_text,
+	provider_name = EXCLUDED.provider_name,
+	model_name = EXCLUDED.model_name,
+	latency_ms = EXCLUDED.latency_ms,
+	created_at = now()
+	`
+
+	if _, err := m.pool.Exec(
+		ctx,
+		q,
+		row.TranslationSourceID,
+		row.TargetLang,
 		row.TranslatedText,
 		row.ProviderName,
 		row.ModelName,
 		row.LatencyMS,
 	); err != nil {
-		return fmt.Errorf("upsert translation cache: %w", err)
+		return fmt.Errorf("upsert translation result: %w", err)
 	}
 	return nil
 }
 
 type translationTask struct {
-	SourceType   string
-	SourceID     int64
-	SourceLang   string
-	OriginalText string
+	SourceType    string
+	SourceID      int64
+	SourceLang    string
+	OriginalText  string
+	ContentOrigin string
 }
 
 type storyTranslationTarget struct {
@@ -722,6 +794,7 @@ type articleTranslationTarget struct {
 	ArticleUUID  string
 	Title        string
 	Text         string
+	TextOrigin   string
 	SourceLang   string
 	CanonicalURL *string
 }
@@ -740,6 +813,20 @@ func modelNameFromProvider(provider Provider) *string {
 		return nil
 	}
 	return &model
+}
+
+func hashTranslationSourceText(text string) []byte {
+	sum := sha256.Sum256([]byte(text))
+	return sum[:]
+}
+
+func normalizeContentOrigin(origin string) string {
+	switch strings.ToLower(strings.TrimSpace(origin)) {
+	case ContentOriginReader:
+		return ContentOriginReader
+	default:
+		return ContentOriginNormalized
+	}
 }
 
 func normalizeCollection(raw string) string {

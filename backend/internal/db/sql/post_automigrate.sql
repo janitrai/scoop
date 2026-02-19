@@ -45,6 +45,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_runs_uuid
 CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_entries_uuid
 	ON news.digest_entries (digest_entry_uuid);
 
+CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_results_uuid
+	ON news.translation_results (translation_result_uuid);
+
 CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_uuid
 	ON news.translations (translation_uuid);
 
@@ -71,6 +74,12 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_runs_topic_date
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_entries_run_story
 	ON news.digest_entries (digest_run_id, story_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_sources_identity
+	ON news.translation_sources (source_type, source_id, content_hash);
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_results_source_target
+	ON news.translation_results (translation_source_id, target_lang);
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_source_target
 	ON news.translations (source_type, source_id, target_lang);
@@ -242,11 +251,84 @@ CREATE INDEX IF NOT EXISTS idx_digest_entries_run_status_rank
 CREATE INDEX IF NOT EXISTS idx_digest_entries_story
 	ON news.digest_entries (story_id);
 
+CREATE INDEX IF NOT EXISTS idx_translation_sources_lookup
+	ON news.translation_sources (source_type, source_id, captured_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_translation_results_target_lang
+	ON news.translation_results (target_lang);
+
 CREATE INDEX IF NOT EXISTS idx_translations_source_lookup
 	ON news.translations (source_type, source_id);
 
 CREATE INDEX IF NOT EXISTS idx_translations_target_lang
 	ON news.translations (target_lang);
+
+INSERT INTO news.translation_sources (
+	source_type,
+	source_id,
+	source_lang,
+	content_hash,
+	original_text,
+	content_origin,
+	captured_at,
+	created_at
+)
+SELECT DISTINCT ON (
+	t.source_type,
+	t.source_id,
+	digest(COALESCE(t.original_text, ''), 'sha256')
+)
+	t.source_type,
+	t.source_id,
+	COALESCE(NULLIF(trim(t.source_lang), ''), 'und') AS source_lang,
+	digest(COALESCE(t.original_text, ''), 'sha256') AS content_hash,
+	COALESCE(t.original_text, '') AS original_text,
+	'normalized' AS content_origin,
+	COALESCE(t.created_at, now()) AS captured_at,
+	COALESCE(t.created_at, now()) AS created_at
+FROM news.translations t
+ORDER BY
+	t.source_type,
+	t.source_id,
+	digest(COALESCE(t.original_text, ''), 'sha256'),
+	t.created_at DESC,
+	t.translation_id DESC
+ON CONFLICT (source_type, source_id, content_hash) DO UPDATE
+SET
+	source_lang = EXCLUDED.source_lang,
+	original_text = EXCLUDED.original_text;
+
+INSERT INTO news.translation_results (
+	translation_result_uuid,
+	translation_source_id,
+	target_lang,
+	translated_text,
+	provider_name,
+	model_name,
+	latency_ms,
+	created_at
+)
+SELECT
+	t.translation_uuid,
+	ts.translation_source_id,
+	t.target_lang,
+	t.translated_text,
+	t.provider_name,
+	t.model_name,
+	t.latency_ms,
+	COALESCE(t.created_at, now())
+FROM news.translations t
+JOIN news.translation_sources ts
+	ON ts.source_type = t.source_type
+	AND ts.source_id = t.source_id
+	AND ts.content_hash = digest(COALESCE(t.original_text, ''), 'sha256')
+ON CONFLICT (translation_source_id, target_lang) DO UPDATE
+SET
+	translated_text = EXCLUDED.translated_text,
+	provider_name = EXCLUDED.provider_name,
+	model_name = EXCLUDED.model_name,
+	latency_ms = EXCLUDED.latency_ms,
+	created_at = EXCLUDED.created_at;
 
 DO $$
 BEGIN
@@ -679,6 +761,76 @@ BEGIN
 		ALTER TABLE news.digest_entries
 			ADD CONSTRAINT digest_entries_score_range CHECK (score IS NULL OR (score >= 0 AND score <= 1));
 	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_sources_source_type_check'
+			AND conrelid = 'news.translation_sources'::regclass
+	) THEN
+		ALTER TABLE news.translation_sources
+			ADD CONSTRAINT translation_sources_source_type_check CHECK (length(trim(source_type)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_sources_source_lang_check'
+			AND conrelid = 'news.translation_sources'::regclass
+	) THEN
+		ALTER TABLE news.translation_sources
+			ADD CONSTRAINT translation_sources_source_lang_check CHECK (length(trim(source_lang)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_sources_content_hash_check'
+			AND conrelid = 'news.translation_sources'::regclass
+	) THEN
+		ALTER TABLE news.translation_sources
+			ADD CONSTRAINT translation_sources_content_hash_check CHECK (octet_length(content_hash) = 32);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_sources_content_origin_check'
+			AND conrelid = 'news.translation_sources'::regclass
+	) THEN
+		ALTER TABLE news.translation_sources
+			ADD CONSTRAINT translation_sources_content_origin_check CHECK (content_origin IN ('normalized', 'reader'));
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_results_target_lang_check'
+			AND conrelid = 'news.translation_results'::regclass
+	) THEN
+		ALTER TABLE news.translation_results
+			ADD CONSTRAINT translation_results_target_lang_check CHECK (length(trim(target_lang)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_results_provider_name_check'
+			AND conrelid = 'news.translation_results'::regclass
+	) THEN
+		ALTER TABLE news.translation_results
+			ADD CONSTRAINT translation_results_provider_name_check CHECK (length(trim(provider_name)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_results_latency_ms_check'
+			AND conrelid = 'news.translation_results'::regclass
+	) THEN
+		ALTER TABLE news.translation_results
+			ADD CONSTRAINT translation_results_latency_ms_check CHECK (latency_ms IS NULL OR latency_ms >= 0);
+	END IF;
 END
 $$;
 
@@ -903,6 +1055,19 @@ BEGIN
 			FOREIGN KEY (story_id)
 			REFERENCES news.stories(story_id)
 			ON DELETE RESTRICT;
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'translation_results_translation_source_id_fkey'
+			AND conrelid = 'news.translation_results'::regclass
+	) THEN
+		ALTER TABLE news.translation_results
+			ADD CONSTRAINT translation_results_translation_source_id_fkey
+			FOREIGN KEY (translation_source_id)
+			REFERENCES news.translation_sources(translation_source_id)
+			ON DELETE CASCADE;
 	END IF;
 END
 $$;
