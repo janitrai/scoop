@@ -10,6 +10,8 @@ function makeStory(overrides: Partial<StoryListItem>): StoryListItem {
     story_uuid: "00000000-0000-0000-0000-000000000001",
     collection: "test",
     title: "Test story",
+    original_title: "Test story",
+    translated_title: null,
     status: "active",
     first_seen_at: "2026-02-15T00:00:00Z",
     last_seen_at: "2026-02-15T00:00:00Z",

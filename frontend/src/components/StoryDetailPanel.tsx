@@ -9,6 +9,7 @@ interface StoryDetailPanelProps {
   selectedStoryUUID: string;
   selectedItemUUID: string;
   detail: StoryDetailResponse | null;
+  activeLang: string;
   isLoading: boolean;
   error: string;
   onSelectItem: (itemUUID: string) => void;
@@ -53,6 +54,7 @@ export function StoryDetailPanel({
   selectedStoryUUID,
   selectedItemUUID,
   detail,
+  activeLang,
   isLoading,
   error,
   onSelectItem,
@@ -63,6 +65,9 @@ export function StoryDetailPanel({
   const [itemPreviewLoadingByUUID, setItemPreviewLoadingByUUID] = useState<Record<string, boolean>>({});
   const [itemPreviewRequestedByUUID, setItemPreviewRequestedByUUID] = useState<Record<string, boolean>>({});
   const [itemPreviewErrorByUUID, setItemPreviewErrorByUUID] = useState<Record<string, string>>({});
+  const [detailTextMode, setDetailTextMode] = useState<"translated" | "original">(
+    activeLang ? "translated" : "original",
+  );
   const previousStoryUUIDRef = useRef<string>("");
 
   const memberGroups = useMemo<MemberURLGroup[]>(() => {
@@ -157,6 +162,10 @@ export function StoryDetailPanel({
   }, [detail, memberGroups, selectedGroupKey]);
 
   useEffect(() => {
+    setDetailTextMode(activeLang ? "translated" : "original");
+  }, [activeLang]);
+
+  useEffect(() => {
     if (!detail) {
       return;
     }
@@ -184,7 +193,7 @@ export function StoryDetailPanel({
         return next;
       });
 
-      void getStoryArticlePreview(itemUUID, 1000)
+      void getStoryArticlePreview(itemUUID, 1000, activeLang)
         .then((preview) => {
           setItemPreviewByUUID((previous) => ({
             ...previous,
@@ -209,7 +218,7 @@ export function StoryDetailPanel({
           });
         });
     }
-  }, [detail, itemPreviewRequestedByUUID]);
+  }, [activeLang, detail, itemPreviewRequestedByUUID]);
 
   function buildMemberPreview(text?: string): string {
     const collapsed = (text ?? "").replace(/\s+/g, " ").trim();
@@ -236,9 +245,19 @@ export function StoryDetailPanel({
       return <></>;
     }
 
+    const originalTitle = (detail.story.original_title || detail.story.title || "").trim();
+    const translatedTitle = (detail.story.translated_title || "").trim();
+    const showTranslatedTitle = activeLang !== "" && translatedTitle !== "";
+    const displayTitle = showTranslatedTitle ? translatedTitle : originalTitle;
+
     return (
       <>
-        <h2 className="detail-title">{detail.story.title || "(untitled)"}</h2>
+        <h2 className="detail-title">{displayTitle || "(untitled)"}</h2>
+        {showTranslatedTitle ? (
+          <p className="detail-title-original">
+            Original: {originalTitle || "(untitled)"}
+          </p>
+        ) : null}
         <p className="detail-meta">
           Collection: {detail.story.collection} • {detail.story.article_count} items • {detail.story.source_count} sources
         </p>
@@ -254,6 +273,24 @@ export function StoryDetailPanel({
     return (
       <>
         {renderStoryHeader()}
+        {activeLang ? (
+          <div className="detail-text-mode-toggle" role="group" aria-label="Detail text mode">
+            <button
+              type="button"
+              className={`detail-text-mode-btn ${detailTextMode === "translated" ? "active" : ""}`.trim()}
+              onClick={() => setDetailTextMode("translated")}
+            >
+              Translated
+            </button>
+            <button
+              type="button"
+              className={`detail-text-mode-btn ${detailTextMode === "original" ? "active" : ""}`.trim()}
+              onClick={() => setDetailTextMode("original")}
+            >
+              Original
+            </button>
+          </div>
+        ) : null}
         <section className="member-grid">
           {memberGroups.length === 0 ? <p className="muted">No items found for this story.</p> : null}
           {memberGroups.map((group) => {
@@ -265,19 +302,49 @@ export function StoryDetailPanel({
             const previewTexts = group.members
               .map((member) => itemPreviewByUUID[member.story_article_uuid]?.preview_text?.trim() ?? "")
               .filter((text) => text.length > 0);
-            const normalizedTexts = group.members
-              .map((member) => member.normalized_text?.trim() ?? "")
+            const originalTexts = group.members
+              .map((member) => member.original_text?.trim() || member.normalized_text?.trim() || "")
+              .filter((text) => text.length > 0);
+            const translatedTexts = group.members
+              .map((member) => member.translated_text?.trim() ?? "")
               .filter((text) => text.length > 0);
 
-            const resolvedExpandedText = previewTexts[0] || normalizedTexts[0] || "";
-            const resolvedParagraphs = toParagraphs(resolvedExpandedText);
-            const hasResolvedContent = resolvedParagraphs.length > 0;
+            const resolvedOriginalText = previewTexts[0] || originalTexts[0] || "";
+            const resolvedTranslatedText = translatedTexts[0] || "";
+            const originalParagraphs = toParagraphs(resolvedOriginalText);
+            const translatedParagraphs = toParagraphs(resolvedTranslatedText);
+            const hasOriginalContent = originalParagraphs.length > 0;
+            const hasTranslatedContent = translatedParagraphs.length > 0;
             const isPreviewLoading = group.members.some(
               (member) => Boolean(itemPreviewLoadingByUUID[member.story_article_uuid]),
             );
             const previewError = group.members.some(
               (member) => Boolean(itemPreviewErrorByUUID[member.story_article_uuid]),
             );
+            const showTextModeToggle = hasOriginalContent && hasTranslatedContent;
+            const orderedBlocks =
+              detailTextMode === "translated"
+                ? [
+                    { key: "translated", paragraphs: translatedParagraphs, label: "Translated" },
+                    { key: "original", paragraphs: originalParagraphs, label: "Original" },
+                  ]
+                : [
+                    { key: "original", paragraphs: originalParagraphs, label: "Original" },
+                    { key: "translated", paragraphs: translatedParagraphs, label: "Translated" },
+                  ];
+            const collapsedPreviewText =
+              detailTextMode === "translated"
+                ? resolvedTranslatedText || resolvedOriginalText
+                : resolvedOriginalText || resolvedTranslatedText;
+
+            const representativeOriginalTitle = (
+              representative.original_title || representative.normalized_title || ""
+            ).trim();
+            const representativeTranslatedTitle = (representative.translated_title || "").trim();
+            const representativeDisplayTitle =
+              activeLang !== "" && representativeTranslatedTitle !== ""
+                ? representativeTranslatedTitle
+                : representativeOriginalTitle;
             const routeItemUUID = hasSelectedMember ? selectedItemUUID : representative.story_article_uuid;
 
             return (
@@ -308,9 +375,9 @@ export function StoryDetailPanel({
                     onSelectItem(routeItemUUID);
                   }}
                   aria-expanded={isExpanded}
-                  aria-label={`${isExpanded ? "Collapse" : "Expand"} item ${representative.normalized_title || "(no title)"}`}
+                  aria-label={`${isExpanded ? "Collapse" : "Expand"} item ${representativeDisplayTitle || "(no title)"}`}
                 >
-                  <p className="member-head">{representative.normalized_title || "(no title)"}</p>
+                  <p className="member-head">{representativeDisplayTitle || "(no title)"}</p>
                   {isExpanded ? (
                     <ChevronDown className="member-toggle-icon" aria-hidden="true" />
                   ) : (
@@ -340,21 +407,39 @@ export function StoryDetailPanel({
                       </a>
                     ) : null}
                     <article className="detail-item-content member-expanded-content">
-                      {isPreviewLoading ? <p className="muted">Fetching reader preview...</p> : null}
-                      {!isPreviewLoading && hasResolvedContent ? (
-                        <div className="detail-item-content-body">
-                          {resolvedParagraphs.map((paragraph, index) => (
-                            <p
-                              key={`${group.key}-paragraph-${index}`}
-                              className="detail-item-content-text"
-                            >
-                              {paragraph}
-                            </p>
-                          ))}
-                        </div>
+                      {isPreviewLoading && !hasOriginalContent ? <p className="muted">Fetching reader preview...</p> : null}
+                      {!isPreviewLoading && !hasOriginalContent && !hasTranslatedContent ? (
+                        <p className="muted">No content captured for this item.</p>
                       ) : null}
-                      {!isPreviewLoading && !hasResolvedContent ? <p className="muted">No content captured for this item.</p> : null}
-                      {!isPreviewLoading && previewError && previewTexts.length === 0 ? (
+
+                      {showTextModeToggle ? (
+                        <p className="detail-item-content-mode-hint">
+                          Showing {detailTextMode === "translated" ? "translated first" : "original first"}.
+                        </p>
+                      ) : null}
+
+                      <div className="detail-item-content-body">
+                        {orderedBlocks.map((block) =>
+                          block.paragraphs.length > 0 ? (
+                            <section
+                              key={`${group.key}-${block.key}`}
+                              className={`detail-text-block detail-text-block-${block.key}`.trim()}
+                            >
+                              <p className="detail-text-label">{block.label}</p>
+                              {block.paragraphs.map((paragraph, index) => (
+                                <p
+                                  key={`${group.key}-${block.key}-paragraph-${index}`}
+                                  className="detail-item-content-text"
+                                >
+                                  {paragraph}
+                                </p>
+                              ))}
+                            </section>
+                          ) : null,
+                        )}
+                      </div>
+
+                      {!isPreviewLoading && previewError && previewTexts.length === 0 && hasOriginalContent ? (
                         <p className="muted">Reader preview unavailable. Showing captured content when available.</p>
                       ) : null}
                     </article>
@@ -399,7 +484,7 @@ export function StoryDetailPanel({
                   </>
                 ) : null}
                 {!isExpanded ? (
-                  <p className="member-preview member-preview-collapsed">{buildMemberPreview(resolvedExpandedText)}</p>
+                  <p className="member-preview member-preview-collapsed">{buildMemberPreview(collapsedPreviewText)}</p>
                 ) : null}
               </article>
             );

@@ -35,6 +35,26 @@
     @apply flex w-full items-center justify-end gap-2;
   }
 
+  .lang-switcher {
+    @apply shrink-0;
+  }
+
+  .lang-select-trigger {
+    @apply h-10 min-w-[130px] border-panel-500 bg-panel-700 px-2.5 py-1.5 text-[0.8rem] text-panel-100;
+  }
+
+  .lang-select-label {
+    @apply inline-flex items-center gap-1.5;
+  }
+
+  .lang-select-icon {
+    @apply h-3.5 w-3.5 text-panel-400;
+  }
+
+  .lang-select-content {
+    @apply font-mono text-[0.78rem];
+  }
+
   .brand-select {
     @apply min-w-0 max-w-full;
   }

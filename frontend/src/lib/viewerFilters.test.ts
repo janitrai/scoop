@@ -11,6 +11,7 @@ function makeBaseFilters(overrides: Partial<StoryFilters> = {}): StoryFilters {
     query: "",
     from: "",
     to: "",
+    lang: "",
     ...overrides,
   };
 }

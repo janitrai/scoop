@@ -6,7 +6,7 @@ import { StoryDetailPanel } from "./StoryDetailPanel";
 import type { StoryDetailResponse } from "../types";
 
 vi.mock("../api", () => ({
-  getStoryArticlePreview: vi.fn(async (storyMemberUUID: string) => ({
+  getStoryArticlePreview: vi.fn(async (storyMemberUUID: string, _maxChars = 1000, _lang = "") => ({
     story_article_uuid: storyMemberUUID,
     preview_text: `Fetched preview for ${storyMemberUUID}.\n\nSecond paragraph for ${storyMemberUUID}.`,
     source: "normalized_text",
@@ -22,6 +22,8 @@ function makeDetail(): StoryDetailResponse {
       story_uuid: "story-uuid-1",
       collection: "ai_news",
       title: "Story Title",
+      original_title: "Story Title",
+      translated_title: null,
       canonical_url: "https://example.com/story",
       status: "active",
       first_seen_at: "2026-02-14T09:00:00Z",
@@ -40,6 +42,10 @@ function makeDetail(): StoryDetailResponse {
         published_at: "2026-02-14T09:00:00Z",
         normalized_title: "First item",
         normalized_text: "First expanded content body.",
+        original_title: "First item",
+        translated_title: null,
+        original_text: "First expanded content body.",
+        translated_text: null,
         matched_at: "2026-02-14T15:13:00Z",
         match_type: "exact_url",
         dedup_decision: "AUTO_MERGE",
@@ -54,6 +60,10 @@ function makeDetail(): StoryDetailResponse {
         published_at: "2026-02-14T10:00:00Z",
         normalized_title: "Second item",
         normalized_text: "Second expanded content body.",
+        original_title: "Second item",
+        translated_title: null,
+        original_text: "Second expanded content body.",
+        translated_text: null,
         matched_at: "2026-02-14T15:14:00Z",
         match_type: "semantic",
         dedup_decision: "AUTO_MERGE",
@@ -69,6 +79,8 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
       story_uuid: "story-uuid-shared",
       collection: "ai_news",
       title: "Shared URL Story",
+      original_title: "Shared URL Story",
+      translated_title: null,
       canonical_url: "https://shared.example.com/glm-5",
       status: "active",
       first_seen_at: "2026-02-14T09:00:00Z",
@@ -87,6 +99,10 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
         published_at: "2026-02-13T09:00:00Z",
         normalized_title: "glm-5: from vibe coding to agentic engineering",
         normalized_text: "First source text.",
+        original_title: "glm-5: from vibe coding to agentic engineering",
+        translated_title: null,
+        original_text: "First source text.",
+        translated_text: null,
         matched_at: "2026-02-15T20:34:45Z",
         match_type: "seed",
         match_score: 1,
@@ -102,6 +118,10 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
         published_at: "2026-02-13T09:00:00Z",
         normalized_title: "glm-5: 754b parameter mit-licensed model released",
         normalized_text: "Second source text.",
+        original_title: "glm-5: 754b parameter mit-licensed model released",
+        translated_title: null,
+        original_text: "Second source text.",
+        translated_text: null,
         matched_at: "2026-02-15T20:34:46Z",
         match_type: "exact_url",
         match_score: 1,
@@ -118,6 +138,7 @@ describe("StoryDetailPanel", () => {
         selectedStoryUUID="story-uuid-1"
         selectedItemUUID=""
         detail={makeDetail()}
+        activeLang=""
         isLoading={false}
         error=""
         onSelectItem={vi.fn()}
@@ -129,8 +150,8 @@ describe("StoryDetailPanel", () => {
       expect(screen.getByText("Fetched preview for member-1.")).toBeInTheDocument();
       expect(screen.getByText("Fetched preview for member-2.")).toBeInTheDocument();
       expect(screen.queryByText("Fetched content by URL")).not.toBeInTheDocument();
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-1", 1000);
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-2", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-1", 1000, "");
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-2", 1000, "");
     });
   });
 
@@ -140,6 +161,7 @@ describe("StoryDetailPanel", () => {
         selectedStoryUUID="story-uuid-shared"
         selectedItemUUID=""
         detail={makeDetailWithSharedURL()}
+        activeLang=""
         isLoading={false}
         error=""
         onSelectItem={vi.fn()}
@@ -157,8 +179,8 @@ describe("StoryDetailPanel", () => {
       expect(
         screen.getByText("simon_willison:simonwillison.net_2026_Feb_11_glm-5 • exact_url • score 1.000"),
       ).toBeInTheDocument();
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-1", 1000);
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-2", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-1", 1000, "");
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-2", 1000, "");
     });
   });
 });

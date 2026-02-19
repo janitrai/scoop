@@ -27,20 +27,38 @@ async function fetchJSend<T>(path: string): Promise<T> {
   return payload.data as T;
 }
 
-export async function getStats(): Promise<StatsResponse> {
-  return fetchJSend<StatsResponse>("/api/v1/stats");
+function appendLang(params: URLSearchParams, lang?: string): void {
+  const trimmed = (lang || "").trim();
+  if (!trimmed) {
+    return;
+  }
+  params.set("lang", trimmed);
 }
 
-export async function getCollections(): Promise<{ items: CollectionSummary[] }> {
-  return fetchJSend<{ items: CollectionSummary[] }>("/api/v1/collections");
+function withLang(path: string, lang?: string): string {
+  const trimmed = (lang || "").trim();
+  if (!trimmed) {
+    return path;
+  }
+  const separator = path.includes("?") ? "&" : "?";
+  return `${path}${separator}lang=${encodeURIComponent(trimmed)}`;
 }
 
-export async function getStoryDays(collection: string, limit = 45): Promise<{ items: StoryDayBucket[] }> {
+export async function getStats(lang = ""): Promise<StatsResponse> {
+  return fetchJSend<StatsResponse>(withLang("/api/v1/stats", lang));
+}
+
+export async function getCollections(lang = ""): Promise<{ items: CollectionSummary[] }> {
+  return fetchJSend<{ items: CollectionSummary[] }>(withLang("/api/v1/collections", lang));
+}
+
+export async function getStoryDays(collection: string, limit = 45, lang = ""): Promise<{ items: StoryDayBucket[] }> {
   const params = new URLSearchParams();
   params.set("limit", String(limit));
   if (collection) {
     params.set("collection", collection);
   }
+  appendLang(params, lang);
   return fetchJSend<{ items: StoryDayBucket[] }>(`/api/v1/story-days?${params.toString()}`);
 }
 
@@ -60,19 +78,22 @@ export async function getStories(filters: StoryFilters): Promise<StoriesResponse
   if (filters.to) {
     params.set("to", filters.to);
   }
+  appendLang(params, filters.lang);
 
   return fetchJSend<StoriesResponse>(`/api/v1/stories?${params.toString()}`);
 }
 
-export async function getStoryDetail(storyUUID: string): Promise<StoryDetailResponse> {
-  return fetchJSend<StoryDetailResponse>(`/api/v1/stories/${storyUUID}`);
+export async function getStoryDetail(storyUUID: string, lang = ""): Promise<StoryDetailResponse> {
+  return fetchJSend<StoryDetailResponse>(withLang(`/api/v1/stories/${storyUUID}`, lang));
 }
 
 export async function getStoryArticlePreview(
   storyArticleUUID: string,
   maxChars = 1000,
+  lang = "",
 ): Promise<StoryArticlePreview> {
   const params = new URLSearchParams();
   params.set("max_chars", String(maxChars));
+  appendLang(params, lang);
   return fetchJSend<StoryArticlePreview>(`/api/v1/articles/${storyArticleUUID}/preview?${params.toString()}`);
 }
