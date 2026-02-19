@@ -26,8 +26,8 @@ export function LanguageSwitcher({ value, onChange }: LanguageSwitcherProps): JS
       >
         <SelectTrigger variant="default" className="lang-select-trigger" aria-label="Content language">
           <span className="lang-select-label">
-            <Globe className="lang-select-icon" aria-hidden="true" />
-            <span>{LANGUAGE_LABEL[value]}</span>
+            <Globe className="lang-select-icon" aria-hidden="true" style={{ flexShrink: 0 }} />
+            {LANGUAGE_LABEL[value]}
           </span>
         </SelectTrigger>
         <SelectContent className="lang-select-content">
