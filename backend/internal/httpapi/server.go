@@ -813,10 +813,17 @@ FROM news.stories s
 LEFT JOIN news.articles rd
 	ON rd.article_id = s.representative_article_id
 	AND rd.deleted_at IS NULL
-LEFT JOIN news.translations st
-	ON st.source_type = 'story_title'
-	AND st.source_id = s.story_id
-	AND st.target_lang = $6
+LEFT JOIN LATERAL (
+	SELECT tr.translated_text
+	FROM news.translation_sources ts
+	JOIN news.translation_results tr
+		ON tr.translation_source_id = ts.translation_source_id
+	WHERE ts.source_type = 'story_title'
+		AND ts.source_id = s.story_id
+		AND tr.target_lang = $6
+	ORDER BY ts.captured_at DESC, ts.translation_source_id DESC
+	LIMIT 1
+) st ON TRUE
 WHERE s.deleted_at IS NULL
   AND ($1 = '' OR s.collection = $1)
   AND ($2 = '' OR s.status = $2)
@@ -995,10 +1002,17 @@ FROM news.stories s
 LEFT JOIN news.articles rd
 	ON rd.article_id = s.representative_article_id
 	AND rd.deleted_at IS NULL
-LEFT JOIN news.translations st
-	ON st.source_type = 'story_title'
-	AND st.source_id = s.story_id
-	AND st.target_lang = $2
+LEFT JOIN LATERAL (
+	SELECT tr.translated_text
+	FROM news.translation_sources ts
+	JOIN news.translation_results tr
+		ON tr.translation_source_id = ts.translation_source_id
+	WHERE ts.source_type = 'story_title'
+		AND ts.source_id = s.story_id
+		AND tr.target_lang = $2
+	ORDER BY ts.captured_at DESC, ts.translation_source_id DESC
+	LIMIT 1
+) st ON TRUE
 WHERE s.story_uuid = $1::uuid
   AND s.deleted_at IS NULL
 `
@@ -1074,14 +1088,28 @@ FROM news.story_articles sm
 JOIN news.articles d
 	ON d.article_id = sm.article_id
 	AND d.deleted_at IS NULL
-LEFT JOIN news.translations at
-	ON at.source_type = 'article_title'
-	AND at.source_id = d.article_id
-	AND at.target_lang = $2
-LEFT JOIN news.translations ax
-	ON ax.source_type = 'article_text'
-	AND ax.source_id = d.article_id
-	AND ax.target_lang = $2
+LEFT JOIN LATERAL (
+	SELECT atr.translated_text
+	FROM news.translation_sources ats
+	JOIN news.translation_results atr
+		ON atr.translation_source_id = ats.translation_source_id
+	WHERE ats.source_type = 'article_title'
+		AND ats.source_id = d.article_id
+		AND atr.target_lang = $2
+	ORDER BY ats.captured_at DESC, ats.translation_source_id DESC
+	LIMIT 1
+) at ON TRUE
+LEFT JOIN LATERAL (
+	SELECT axr.translated_text
+	FROM news.translation_sources axs
+	JOIN news.translation_results axr
+		ON axr.translation_source_id = axs.translation_source_id
+	WHERE axs.source_type = 'article_text'
+		AND axs.source_id = d.article_id
+		AND axr.target_lang = $2
+	ORDER BY axs.captured_at DESC, axs.translation_source_id DESC
+	LIMIT 1
+) ax ON TRUE
 LEFT JOIN news.dedup_events de
 	ON de.article_id = d.article_id
 WHERE sm.story_id = $1
