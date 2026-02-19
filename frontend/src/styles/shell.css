@@ -41,10 +41,13 @@
 
   .lang-select-trigger {
     @apply h-10 min-w-[130px] border-panel-500 bg-panel-700 px-2.5 py-1.5 text-[0.8rem] text-panel-100;
+    flex-wrap: nowrap;
   }
 
   .lang-select-label {
     @apply inline-flex items-center gap-1.5;
+    white-space: nowrap;
+    flex-wrap: nowrap;
   }
 
   .lang-select-icon {
