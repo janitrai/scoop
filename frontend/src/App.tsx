@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
 import { CollectionDropdown } from "./components/header/CollectionDropdown";
@@ -57,6 +57,7 @@ export function StoryViewerPage(): JSX.Element {
   const [searchInput, setSearchInput] = useState(filters.query);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
   const [language, setLanguage] = useState<ViewerLanguage>(() => getViewerLanguage());
+  const [translatingStoryUUIDs, setTranslatingStoryUUIDs] = useState<string[]>([]);
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -359,6 +360,27 @@ export function StoryViewerPage(): JSX.Element {
     }
   }
 
+  const onTranslationStateChange = useCallback((storyUUID: string, isTranslating: boolean): void => {
+    if (!storyUUID) {
+      return;
+    }
+
+    setTranslatingStoryUUIDs((previous) => {
+      if (isTranslating) {
+        if (previous.includes(storyUUID)) {
+          return previous;
+        }
+        return [...previous, storyUUID];
+      }
+
+      if (!previous.includes(storyUUID)) {
+        return previous;
+      }
+
+      return previous.filter((uuid) => uuid !== storyUUID);
+    });
+  }, []);
+
   const currentCollectionLabel = useCurrentCollectionLabel(collections, filters.collection);
 
   useEffect(() => {
@@ -422,6 +444,7 @@ export function StoryViewerPage(): JSX.Element {
               from={effectiveFilters.from}
               to={effectiveFilters.to}
               activeLang={apiLanguage}
+              translatingStoryUUIDs={translatingStoryUUIDs}
               totalItems={pagination.total_items}
               loadedItems={stories.length}
               selectedStoryUUID={selectedStoryUUID}
@@ -454,6 +477,7 @@ export function StoryViewerPage(): JSX.Element {
               error={detailError}
               onSelectItem={goToItem}
               onClearSelectedItem={clearSelectedItem}
+              onTranslationStateChange={onTranslationStateChange}
             />
           </Panel>
         </Group>

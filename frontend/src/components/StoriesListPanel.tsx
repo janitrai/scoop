@@ -12,6 +12,7 @@ interface StoriesListPanelProps {
   from: string;
   to: string;
   activeLang: string;
+  translatingStoryUUIDs: string[];
   totalItems: number;
   loadedItems: number;
   selectedStoryUUID: string;
@@ -34,6 +35,7 @@ export function StoriesListPanel({
   from,
   to,
   activeLang,
+  translatingStoryUUIDs,
   totalItems,
   loadedItems,
   selectedStoryUUID,
@@ -53,6 +55,7 @@ export function StoriesListPanel({
   const listRef = useRef<HTMLDivElement | null>(null);
   const loadTriggerRef = useRef<HTMLDivElement | null>(null);
   const showTimestampInFeed = searchInput.trim() !== "";
+  const translatingStoryUUIDSet = new Set(translatingStoryUUIDs);
 
   useEffect(() => {
     if (!hasNextPage || isLoading || isFetchingNextPage || Boolean(error)) {
@@ -202,6 +205,7 @@ export function StoriesListPanel({
                 const translatedTitle = (story.translated_title || "").trim();
                 const showTranslated = activeLang !== "" && translatedTitle !== "";
                 const displayTitle = showTranslated ? translatedTitle : originalTitle;
+                const isTranslatingStory = translatingStoryUUIDSet.has(story.story_uuid);
 
                 return (
                   <article
@@ -219,11 +223,19 @@ export function StoriesListPanel({
                   >
                     <header className="story-title-row">
                       <h3 className="story-title">{displayTitle || "(untitled)"}</h3>
-                      {showTranslated ? (
-                        <span className="story-translation-badge" aria-label={`Translated to ${activeLang}`}>
-                          [{activeLang.toUpperCase()}]
-                        </span>
-                      ) : null}
+                      <div className="story-title-flags">
+                        {isTranslatingStory ? (
+                          <span className="story-translating-indicator" aria-label="Translation in progress">
+                            <span className="story-translating-dot" aria-hidden="true" />
+                            Translating
+                          </span>
+                        ) : null}
+                        {showTranslated ? (
+                          <span className="story-translation-badge" aria-label={`Translated to ${activeLang}`}>
+                            [{activeLang.toUpperCase()}]
+                          </span>
+                        ) : null}
+                      </div>
                     </header>
                     <p className="story-meta">
                       {buildFeedMetaText(story, showTimestampInFeed)}
