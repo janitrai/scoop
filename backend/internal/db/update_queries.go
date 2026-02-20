@@ -173,9 +173,9 @@ func (p *Pool) UpdateArticle(ctx context.Context, articleUUID string, opts Updat
 		source     *string
 		collection *string
 
-		canonicalURL    *string
+		canonicalURL     *string
 		canonicalURLHash []byte
-		sourceDomain    *string
+		sourceDomain     *string
 	)
 
 	if opts.Source != nil {
@@ -498,4 +498,3 @@ func hashToken64(token string) uint64 {
 	_, _ = hasher.Write([]byte(token))
 	return hasher.Sum64()
 }
-
