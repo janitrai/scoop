@@ -19,6 +19,7 @@ import {
 } from "./lib/userSettings";
 import { buildStoryFilters } from "./lib/viewerFilters";
 import { formatCount } from "./lib/viewerFormat";
+import { normalizeLanguageTag } from "./lib/language";
 import type { ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
 
@@ -107,7 +108,7 @@ export function StoryViewerPage(): JSX.Element {
 
   const feedWidthBounds = useMemo(() => getDesktopFeedWidthBounds(), []);
   const preferredLanguage = useMemo(() => {
-    const value = (settings?.preferred_language || "en").trim().toLowerCase();
+    const value = normalizeLanguageTag(settings?.preferred_language || "");
     return value || "en";
   }, [settings?.preferred_language]);
   const languageOptions = useMemo(() => {

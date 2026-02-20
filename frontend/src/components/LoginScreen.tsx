@@ -8,7 +8,7 @@ interface LoginScreenProps {
 
 export function LoginScreen({ isSubmitting, error, onSubmit }: LoginScreenProps): JSX.Element {
   const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("changeme123");
+  const [password, setPassword] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();

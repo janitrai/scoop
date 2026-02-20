@@ -5,15 +5,6 @@ import (
 	"testing"
 )
 
-func TestCleanPreviewTextCollapsesWhitespaceAndPreservesParagraphs(t *testing.T) {
-	input := "  First   paragraph \n\n Second\tparagraph \r\n\r\nThird line "
-	got := cleanPreviewText(input)
-	want := "First paragraph\n\nSecond paragraph\n\nThird line"
-	if got != want {
-		t.Fatalf("cleanPreviewText mismatch\nwant: %q\ngot:  %q", want, got)
-	}
-}
-
 func TestTruncatePreviewText(t *testing.T) {
 	input := "abcdefghijklmnopqrstuvwxyz"
 

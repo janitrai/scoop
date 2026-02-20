@@ -207,19 +207,6 @@ func isChineseLanguage(lang string) bool {
 	return normalizeLangCode(lang) == "zh"
 }
 
-func normalizeLangCode(raw string) string {
-	trimmed := strings.TrimSpace(strings.ToLower(raw))
-	if trimmed == "" {
-		return ""
-	}
-	trimmed = strings.ReplaceAll(trimmed, "_", "-")
-	parts := strings.Split(trimmed, "-")
-	if len(parts) == 0 {
-		return ""
-	}
-	return parts[0]
-}
-
 func normalizeEndpoint(raw string) string {
 	endpoint := strings.TrimSpace(raw)
 	if endpoint == "" {

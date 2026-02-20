@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog"
+	"golang.org/x/crypto/bcrypt"
 
 	"horse.fit/scoop/internal/auth"
 	"horse.fit/scoop/internal/config"
@@ -27,11 +28,11 @@ func ensureDefaultAdmin(ctx context.Context, pool *db.Pool, cfg *config.Config, 
 
 	username := auth.NormalizeUsername(cfg.DefaultAdminUser)
 	password := strings.TrimSpace(cfg.DefaultAdminPassword)
-	if username == "" || password == "" {
-		return fmt.Errorf("default admin credentials are empty")
+	if username == "" {
+		return fmt.Errorf("default admin username is empty")
 	}
 
-	passwordHash, err := auth.HashPassword(password)
+	passwordHash, err := hashDefaultAdminPassword(password)
 	if err != nil {
 		return fmt.Errorf("hash default admin password: %w", err)
 	}
@@ -54,4 +55,17 @@ func ensureDefaultAdmin(ctx context.Context, pool *db.Pool, cfg *config.Config, 
 		Msg("created default admin user")
 
 	return nil
+}
+
+func hashDefaultAdminPassword(password string) (string, error) {
+	trimmed := strings.TrimSpace(password)
+	if trimmed != "" {
+		return auth.HashPassword(trimmed)
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(""), auth.DefaultBcryptCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), nil
 }

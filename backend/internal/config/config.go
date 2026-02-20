@@ -16,11 +16,12 @@ type Config struct {
 	DBMaxConns  int32  `envconfig:"NP_DB_MAX_CONNS" default:"8"`
 
 	DefaultAdminUser               string `envconfig:"DEFAULT_ADMIN_USER" default:"admin"`
-	DefaultAdminPassword           string `envconfig:"DEFAULT_ADMIN_PASSWORD" default:"changeme123"`
-	DefaultAdminMustChangePassword bool   `envconfig:"DEFAULT_ADMIN_MUST_CHANGE_PASSWORD" default:"true"`
+	DefaultAdminPassword           string `envconfig:"DEFAULT_ADMIN_PASSWORD" default:""`
+	DefaultAdminMustChangePassword bool   `envconfig:"DEFAULT_ADMIN_MUST_CHANGE_PASSWORD" default:"false"`
 	SessionTTLHours                int    `envconfig:"SESSION_TTL_HOURS" default:"168"`
 	SessionCookieName              string `envconfig:"SESSION_COOKIE_NAME" default:"scoop_session"`
 	SessionCookieSecure            bool   `envconfig:"SESSION_COOKIE_SECURE" default:"false"`
+	CORSAllowedOrigins             string `envconfig:"CORS_ALLOWED_ORIGINS" default:""`
 }
 
 func Load() (*Config, error) {
@@ -50,9 +51,6 @@ func (c *Config) Validate() error {
 	if strings.TrimSpace(c.DefaultAdminUser) == "" {
 		return fmt.Errorf("DEFAULT_ADMIN_USER is required")
 	}
-	if strings.TrimSpace(c.DefaultAdminPassword) == "" {
-		return fmt.Errorf("DEFAULT_ADMIN_PASSWORD is required")
-	}
 	if c.SessionTTLHours < 1 {
 		return fmt.Errorf("SESSION_TTL_HOURS must be >= 1")
 	}
@@ -60,4 +58,26 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("SESSION_COOKIE_NAME is required")
 	}
 	return nil
+}
+
+func (c *Config) CORSAllowedOriginsList() []string {
+	if c == nil {
+		return nil
+	}
+
+	parts := strings.Split(c.CORSAllowedOrigins, ",")
+	origins := make([]string, 0, len(parts))
+	seen := make(map[string]struct{}, len(parts))
+	for _, part := range parts {
+		origin := strings.TrimSpace(part)
+		if origin == "" {
+			continue
+		}
+		if _, exists := seen[origin]; exists {
+			continue
+		}
+		seen[origin] = struct{}{}
+		origins = append(origins, origin)
+	}
+	return origins
 }

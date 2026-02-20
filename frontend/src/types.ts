@@ -155,13 +155,13 @@ export interface LanguageOption {
 export interface AuthUser {
   user_id: number;
   username: string;
-  must_change_password: boolean;
   created_at: string;
   last_login_at?: string;
 }
 
 export interface UserSettings {
   preferred_language: string;
+  password_enabled: boolean;
   ui_prefs: Record<string, unknown>;
 }
 

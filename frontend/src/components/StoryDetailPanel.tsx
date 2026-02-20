@@ -52,6 +52,9 @@ function memberGroupKey(member: StoryArticle): string {
   return `member:${member.story_article_uuid}`;
 }
 
+const previewRequestBatchSize = 4;
+const previewRequestDebounceMs = 120;
+
 export function StoryDetailPanel({
   selectedStoryUUID,
   selectedItemUUID,
@@ -72,6 +75,7 @@ export function StoryDetailPanel({
     activeLang ? "translated" : "original",
   );
   const [isTranslating, setIsTranslating] = useState(false);
+  const [translationError, setTranslationError] = useState("");
   const translationRequestedRef = useRef<string>("");
   const activeTranslationKeyRef = useRef<string>("");
   const previousStoryUUIDRef = useRef<string>("");
@@ -97,6 +101,7 @@ export function StoryDetailPanel({
     if (translationRequestedRef.current === reqKey) return; // already requested
     translationRequestedRef.current = reqKey;
     activeTranslationKeyRef.current = reqKey;
+    setTranslationError("");
     setIsTranslating(true);
     onTranslationStateChange?.(targetStoryUUID, true);
 
@@ -119,7 +124,8 @@ export function StoryDetailPanel({
       })
       .catch((err) => {
         translationRequestedRef.current = "";
-        console.error("Translation request failed:", err);
+        const message = err instanceof Error ? err.message : "Failed to translate story.";
+        setTranslationError(message);
       })
       .finally(() => {
         if (activeTranslationKeyRef.current === reqKey) {
@@ -129,6 +135,10 @@ export function StoryDetailPanel({
         onTranslationStateChange?.(targetStoryUUID, false);
       });
   }, [activeLang, detail, hasPendingTranslations, onTranslationStateChange, queryClient, selectedStoryUUID]);
+
+  useEffect(() => {
+    setTranslationError("");
+  }, [selectedStoryUUID, activeLang]);
 
   const memberGroups = useMemo<MemberURLGroup[]>(() => {
     if (!detail) {
@@ -234,55 +244,77 @@ export function StoryDetailPanel({
       return;
     }
 
-    for (const member of detail.members) {
-      const itemUUID = member.story_article_uuid;
-      if (itemPreviewRequestedByUUID[itemUUID]) {
-        continue;
+    const pendingUUIDs = detail.members
+      .map((member) => member.story_article_uuid)
+      .filter((itemUUID) => !itemPreviewRequestedByUUID[itemUUID]);
+    if (pendingUUIDs.length === 0) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      const batch = pendingUUIDs.slice(0, previewRequestBatchSize);
+      if (batch.length === 0) {
+        return;
       }
 
-      setItemPreviewRequestedByUUID((previous) => ({
-        ...previous,
-        [itemUUID]: true,
-      }));
-      setItemPreviewLoadingByUUID((previous) => ({
-        ...previous,
-        [itemUUID]: true,
-      }));
-      setItemPreviewErrorByUUID((previous) => {
-        if (!previous[itemUUID]) {
-          return previous;
-        }
+      setItemPreviewRequestedByUUID((previous) => {
         const next = { ...previous };
-        delete next[itemUUID];
+        for (const itemUUID of batch) {
+          next[itemUUID] = true;
+        }
         return next;
       });
-
-      void getStoryArticlePreview(itemUUID, 1000, activeLang)
-        .then((preview) => {
-          setItemPreviewByUUID((previous) => ({
-            ...previous,
-            [itemUUID]: preview,
-          }));
-        })
-        .catch((fetchErr) => {
-          const message = fetchErr instanceof Error ? fetchErr.message : "Failed to fetch reader preview.";
-          setItemPreviewErrorByUUID((previous) => ({
-            ...previous,
-            [itemUUID]: message,
-          }));
-        })
-        .finally(() => {
-          setItemPreviewLoadingByUUID((previous) => {
-            if (!previous[itemUUID]) {
-              return previous;
-            }
-            const next = { ...previous };
+      setItemPreviewLoadingByUUID((previous) => {
+        const next = { ...previous };
+        for (const itemUUID of batch) {
+          next[itemUUID] = true;
+        }
+        return next;
+      });
+      setItemPreviewErrorByUUID((previous) => {
+        let changed = false;
+        const next = { ...previous };
+        for (const itemUUID of batch) {
+          if (next[itemUUID]) {
             delete next[itemUUID];
-            return next;
+            changed = true;
+          }
+        }
+        return changed ? next : previous;
+      });
+
+      for (const itemUUID of batch) {
+        void getStoryArticlePreview(itemUUID, 1000)
+          .then((preview) => {
+            setItemPreviewByUUID((previous) => ({
+              ...previous,
+              [itemUUID]: preview,
+            }));
+          })
+          .catch((fetchErr) => {
+            const message = fetchErr instanceof Error ? fetchErr.message : "Failed to fetch reader preview.";
+            setItemPreviewErrorByUUID((previous) => ({
+              ...previous,
+              [itemUUID]: message,
+            }));
+          })
+          .finally(() => {
+            setItemPreviewLoadingByUUID((previous) => {
+              if (!previous[itemUUID]) {
+                return previous;
+              }
+              const next = { ...previous };
+              delete next[itemUUID];
+              return next;
+            });
           });
-        });
-    }
-  }, [activeLang, detail, itemPreviewRequestedByUUID]);
+      }
+    }, previewRequestDebounceMs);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [detail, itemPreviewRequestedByUUID]);
 
   function buildMemberPreview(text?: string): string {
     const collapsed = (text ?? "").replace(/\s+/g, " ").trim();
@@ -370,6 +402,7 @@ export function StoryDetailPanel({
             </p>
           </section>
         ) : null}
+        {translationError ? <p className="banner-error">{translationError}</p> : null}
         <section className="member-grid">
           {memberGroups.length === 0 ? <p className="muted">No items found for this story.</p> : null}
           {memberGroups.map((group) => {

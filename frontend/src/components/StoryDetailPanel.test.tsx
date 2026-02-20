@@ -7,7 +7,7 @@ import { StoryDetailPanel } from "./StoryDetailPanel";
 import type { StoryDetailResponse } from "../types";
 
 vi.mock("../api", () => ({
-  getStoryArticlePreview: vi.fn(async (storyMemberUUID: string, _maxChars = 1000, _lang = "") => ({
+  getStoryArticlePreview: vi.fn(async (storyMemberUUID: string, _maxChars = 1000) => ({
     story_article_uuid: storyMemberUUID,
     preview_text: `Fetched preview for ${storyMemberUUID}.\n\nSecond paragraph for ${storyMemberUUID}.`,
     source: "normalized_text",
@@ -166,8 +166,8 @@ describe("StoryDetailPanel", () => {
       expect(screen.getByText("Fetched preview for member-1.")).toBeInTheDocument();
       expect(screen.getByText("Fetched preview for member-2.")).toBeInTheDocument();
       expect(screen.queryByText("Fetched content by URL")).not.toBeInTheDocument();
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-1", 1000, "");
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-2", 1000, "");
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-1", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("member-2", 1000);
     });
   });
 
@@ -203,8 +203,8 @@ describe("StoryDetailPanel", () => {
       expect(
         screen.getByText("simon_willison:simonwillison.net_2026_Feb_11_glm-5 • exact_url • score 1.000"),
       ).toBeInTheDocument();
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-1", 1000, "");
-      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-2", 1000, "");
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-1", 1000);
+      expect(vi.mocked(getStoryArticlePreview)).toHaveBeenCalledWith("shared-member-2", 1000);
     });
   });
 });

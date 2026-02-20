@@ -1,4 +1,5 @@
 import type { StoryFilters, ViewerSearch } from "./types";
+import { normalizeLanguageCode } from "./lib/language";
 
 export const DEFAULT_PAGE_SIZE = 25;
 
@@ -47,15 +48,11 @@ function normalizeLanguage(value: unknown): string | undefined {
   if (typeof value !== "string") {
     return undefined;
   }
-
-  const trimmed = value.trim().toLowerCase().replaceAll("_", "-");
-  if (trimmed === "") {
+  const normalized = normalizeLanguageCode(value);
+  if (normalized === "") {
     return undefined;
   }
-  if (!/^[a-z-]+$/.test(trimmed)) {
-    return undefined;
-  }
-  return trimmed;
+  return normalized;
 }
 
 export function normalizeViewerSearch(input: Record<string, unknown>): ViewerSearch {
