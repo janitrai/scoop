@@ -288,6 +288,38 @@ type Translation struct {
 
 func (Translation) TableName() string { return "news.translations" }
 
+// User maps news.users.
+type User struct {
+	UserID             int64      `gorm:"column:user_id;primaryKey;autoIncrement"`
+	Username           string     `gorm:"column:username;type:text;not null;uniqueIndex:uq_users_username"`
+	PasswordHash       string     `gorm:"column:password_hash;type:text;not null"`
+	MustChangePassword bool       `gorm:"column:must_change_password;type:boolean;not null;default:false"`
+	CreatedAt          time.Time  `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+	LastLoginAt        *time.Time `gorm:"column:last_login_at;type:timestamptz"`
+}
+
+func (User) TableName() string { return "news.users" }
+
+// Session maps news.sessions.
+type Session struct {
+	SessionID  string    `gorm:"column:session_id;type:uuid;primaryKey;default:gen_random_uuid()"`
+	UserID     int64     `gorm:"column:user_id;type:bigint;not null;index:idx_sessions_user_expires,priority:1"`
+	ExpiresAt  time.Time `gorm:"column:expires_at;type:timestamptz;not null;index:idx_sessions_user_expires,priority:2"`
+	CreatedAt  time.Time `gorm:"column:created_at;type:timestamptz;not null;default:now()"`
+	LastSeenAt time.Time `gorm:"column:last_seen_at;type:timestamptz;not null;default:now()"`
+}
+
+func (Session) TableName() string { return "news.sessions" }
+
+// UserSettings maps news.user_settings.
+type UserSettings struct {
+	UserID            int64           `gorm:"column:user_id;type:bigint;primaryKey"`
+	PreferredLanguage string          `gorm:"column:preferred_language;type:text;not null;default:original"`
+	UIPrefs           json.RawMessage `gorm:"column:ui_prefs;type:jsonb;not null;default:'{}'::jsonb"`
+}
+
+func (UserSettings) TableName() string { return "news.user_settings" }
+
 func autoMigrateModels() []any {
 	return []any{
 		&IngestRun{},
@@ -307,5 +339,8 @@ func autoMigrateModels() []any {
 		&TranslationSource{},
 		&TranslationResult{},
 		&Translation{},
+		&User{},
+		&Session{},
+		&UserSettings{},
 	}
 }

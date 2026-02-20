@@ -18,6 +18,7 @@ import (
 
 	"horse.fit/scoop/internal/db"
 	"horse.fit/scoop/internal/globaltime"
+	"horse.fit/scoop/internal/langdetect"
 	payloadschema "horse.fit/scoop/schema"
 )
 
@@ -459,6 +460,13 @@ func buildNormalizedArticle(row rawArrivalRow, logger zerolog.Logger) normalized
 
 	if title == "" {
 		title = sourceItemID
+	}
+	language = normalizeISO6391Language(language)
+	if language == "" || language == "und" {
+		detected := langdetect.DetectISO6391(strings.TrimSpace(title + "\n" + bodyText))
+		if detected != "" {
+			language = detected
+		}
 	}
 	if language == "" {
 		language = "und"
@@ -1380,6 +1388,27 @@ func extractCollectionFromMetadata(metadata map[string]any) string {
 
 func normalizeCollectionLabel(raw string) string {
 	return strings.TrimSpace(strings.ToLower(raw))
+}
+
+func normalizeISO6391Language(raw string) string {
+	lang := strings.TrimSpace(strings.ToLower(raw))
+	if lang == "" {
+		return ""
+	}
+
+	lang = strings.ReplaceAll(lang, "_", "-")
+	if parts := strings.Split(lang, "-"); len(parts) > 0 {
+		lang = strings.TrimSpace(parts[0])
+	}
+	if len(lang) != 2 {
+		return ""
+	}
+	for _, r := range lang {
+		if r < 'a' || r > 'z' {
+			return ""
+		}
+	}
+	return lang
 }
 
 func normalizeURL(raw string) (canonical string, host string) {

@@ -69,6 +69,12 @@ func runServe(args []string) int {
 	}
 	defer pool.Close()
 
+	if err := ensureDefaultAdmin(dbCtx, pool, cfg, logger); err != nil {
+		logger.Error().Err(err).Msg("serve failed to bootstrap default admin")
+		fmt.Fprintf(os.Stderr, "Failed to bootstrap default admin: %v\n", err)
+		return 1
+	}
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -87,6 +93,9 @@ func runServe(args []string) int {
 		ReadTimeout:     *readTimeout,
 		WriteTimeout:    *writeTimeout,
 		ShutdownTimeout: *shutdownTimeout,
+		SessionTTL:      time.Duration(cfg.SessionTTLHours) * time.Hour,
+		SessionCookie:   cfg.SessionCookieName,
+		SessionSecure:   cfg.SessionCookieSecure,
 	})
 
 	if err := srv.Start(ctx); err != nil {

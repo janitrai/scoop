@@ -159,3 +159,46 @@ func TestBuildNormalizedArticle_FallsBackToRowCollection(t *testing.T) {
 		t.Fatalf("unexpected collection fallback: got %q want %q", article.Collection, "world_news")
 	}
 }
+
+func TestBuildNormalizedArticle_DetectsLanguageWhenMissing(t *testing.T) {
+	t.Parallel()
+
+	row := rawArrivalRow{
+		RawArrivalID: 3,
+		Source:       "source-c",
+		SourceItemID: "item-3",
+		RawPayload: []byte(`{
+			"payload_version":"v1",
+			"source":"source-c",
+			"source_item_id":"item-3",
+			"title":"Space startup closes major funding round",
+			"body_text":"The company announced a new launch partnership and said the investment will expand satellite production capacity.",
+			"source_metadata":{
+				"collection":"space_news",
+				"job_name":"job",
+				"job_run_id":"run-1",
+				"scraped_at":"2026-02-14T00:00:00Z"
+			}
+		}`),
+		FetchedAt: time.Date(2026, 2, 14, 0, 0, 0, 0, time.UTC),
+	}
+
+	article := buildNormalizedArticle(row, zerolog.Nop())
+	if article.NormalizedLang != "en" {
+		t.Fatalf("expected detected language en, got %q", article.NormalizedLang)
+	}
+}
+
+func TestNormalizeISO6391Language(t *testing.T) {
+	t.Parallel()
+
+	if got := normalizeISO6391Language("EN-us"); got != "en" {
+		t.Fatalf("expected en, got %q", got)
+	}
+	if got := normalizeISO6391Language("zh_Hans"); got != "zh" {
+		t.Fatalf("expected zh, got %q", got)
+	}
+	if got := normalizeISO6391Language("english"); got != "" {
+		t.Fatalf("expected empty normalization for non-iso input, got %q", got)
+	}
+}

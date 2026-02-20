@@ -1,12 +1,17 @@
 import { Outlet, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
 
 import { StoryViewerPage } from "./App";
+import { AuthGate } from "./components/AuthGate";
 import { StatsPage } from "./pages/StatsPage";
 import type { ViewerSearch } from "./types";
 import { normalizeViewerSearch } from "./viewerSearch";
 
 function RootLayout(): JSX.Element {
-  return <Outlet />;
+  return (
+    <AuthGate>
+      <Outlet />
+    </AuthGate>
+  );
 }
 
 function validateViewerSearch(search: Record<string, unknown>): ViewerSearch {

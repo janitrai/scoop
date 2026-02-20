@@ -2,10 +2,12 @@ import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
+import { useAuth } from "./auth";
 import { CollectionDropdown } from "./components/header/CollectionDropdown";
 import { DayNavigator } from "./components/header/DayNavigator";
-import { LanguageSwitcher, type ViewerLanguage } from "./components/header/LanguageSwitcher";
+import { LanguageSwitcher } from "./components/header/LanguageSwitcher";
 import { PageShell } from "./components/PageShell";
+import { SettingsModal } from "./components/SettingsModal";
 import { StoriesListPanel } from "./components/StoriesListPanel";
 import { StoryDetailPanel } from "./components/StoryDetailPanel";
 import { useCurrentCollectionLabel } from "./hooks/useCurrentCollectionLabel";
@@ -14,9 +16,7 @@ import { useViewerQueries } from "./hooks/useViewerQueries";
 import {
   getDesktopFeedWidthBounds,
   getDesktopFeedWidthPct,
-  getViewerLanguage,
   setDesktopFeedWidthPct,
-  setViewerLanguage,
 } from "./lib/userSettings";
 import { buildStoryFilters } from "./lib/viewerFilters";
 import { formatCount } from "./lib/viewerFormat";
@@ -24,6 +24,7 @@ import type { ViewerSearch } from "./types";
 import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./viewerSearch";
 
 export function StoryViewerPage(): JSX.Element {
+  const { user, settings, languages, logout, updateSettings } = useAuth();
   const allCollectionsValue = "__all_collections__";
   const navigate = useNavigate();
   const rawSearch = useSearch({ strict: false });
@@ -56,8 +57,10 @@ export function StoryViewerPage(): JSX.Element {
 
   const [searchInput, setSearchInput] = useState(filters.query);
   const [desktopFeedWidthPct, setDesktopFeedWidthPctState] = useState(() => getDesktopFeedWidthPct());
-  const [language, setLanguage] = useState<ViewerLanguage>(() => getViewerLanguage());
   const [translatingStoryUUIDs, setTranslatingStoryUUIDs] = useState<string[]>([]);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsError, setSettingsError] = useState("");
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
   const [isDesktopLayout, setIsDesktopLayout] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -97,6 +100,21 @@ export function StoryViewerPage(): JSX.Element {
   }, []);
 
   const feedWidthBounds = useMemo(() => getDesktopFeedWidthBounds(), []);
+  const preferredLanguage = useMemo(() => {
+    const value = (settings?.preferred_language || "original").trim().toLowerCase();
+    return value || "original";
+  }, [settings?.preferred_language]);
+  const languageOptions = useMemo(() => {
+    if (languages.length > 0) {
+      return languages;
+    }
+    return [
+      { code: "original", label: "Original" },
+      { code: "en", label: "English" },
+      { code: "zh", label: "Chinese" },
+    ];
+  }, [languages]);
+  const language = preferredLanguage;
   const apiLanguage = useMemo(() => (language === "original" ? "" : language), [language]);
   const effectiveFilters = useMemo(
     () => ({
@@ -413,9 +431,13 @@ export function StoryViewerPage(): JSX.Element {
       />
       <LanguageSwitcher
         value={language}
+        options={languageOptions}
         onChange={(nextValue) => {
-          setLanguage(nextValue);
-          setViewerLanguage(nextValue);
+          setSettingsError("");
+          void updateSettings({ preferred_language: nextValue }).catch((err) => {
+            const message = err instanceof Error ? err.message : "Failed to update preferred language";
+            setSettingsError(message);
+          });
         }}
       />
     </div>
@@ -460,6 +482,14 @@ export function StoryViewerPage(): JSX.Element {
               onToChange={onToChange}
               onLoadNextPage={fetchNextStoriesPage}
               onSelectStory={goToStory}
+              currentUsername={user?.username || "User"}
+              onOpenSettings={() => {
+                setSettingsError("");
+                setIsSettingsOpen(true);
+              }}
+              onLogout={() => {
+                void logout();
+              }}
             />
           </Panel>
 
@@ -482,6 +512,30 @@ export function StoryViewerPage(): JSX.Element {
           </Panel>
         </Group>
       </main>
+
+      <SettingsModal
+        open={isSettingsOpen}
+        preferredLanguage={language}
+        languageOptions={languageOptions}
+        isSaving={isSavingSettings}
+        error={settingsError}
+        onClose={() => {
+          setIsSettingsOpen(false);
+        }}
+        onSave={async (nextLanguage) => {
+          setIsSavingSettings(true);
+          setSettingsError("");
+          try {
+            await updateSettings({ preferred_language: nextLanguage });
+            setIsSettingsOpen(false);
+          } catch (err) {
+            const message = err instanceof Error ? err.message : "Failed to update preferred language";
+            setSettingsError(message);
+          } finally {
+            setIsSavingSettings(false);
+          }
+        }}
+      />
     </PageShell>
   );
 }

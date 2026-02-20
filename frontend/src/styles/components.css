@@ -57,4 +57,60 @@
   .app-root-viewer .banner-error {
     @apply mb-0 border-x-0;
   }
+
+  .auth-screen {
+    @apply flex min-h-screen items-center justify-center bg-panel-900 p-4;
+  }
+
+  .auth-card {
+    @apply w-full max-w-[420px] p-6;
+  }
+
+  .auth-title {
+    @apply m-0 font-display text-[1.5rem] tracking-[0.08em] text-panel-100;
+  }
+
+  .auth-subtitle {
+    @apply mb-4 mt-2 text-[0.86rem] text-panel-400;
+  }
+
+  .auth-form {
+    @apply grid gap-3;
+  }
+
+  .auth-error {
+    @apply mb-3;
+  }
+
+  .settings-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-panel-900/70 p-4 backdrop-blur-sm;
+  }
+
+  .settings-modal {
+    @apply w-full max-w-[420px] p-4;
+  }
+
+  .settings-header h2 {
+    @apply m-0 text-[1.05rem] text-panel-100;
+  }
+
+  .settings-content {
+    @apply mt-3 grid gap-3;
+  }
+
+  .settings-select-trigger {
+    @apply min-h-10 w-full justify-between border-panel-500 bg-panel-700 text-panel-100;
+  }
+
+  .settings-select-content {
+    @apply border-panel-500 bg-panel-800 text-panel-100;
+  }
+
+  .settings-actions {
+    @apply mt-4 flex items-center justify-end gap-2;
+  }
+
+  .settings-error {
+    @apply mb-0;
+  }
 }

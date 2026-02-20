@@ -51,6 +51,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_results_uuid
 CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_uuid
 	ON news.translations (translation_uuid);
 
+CREATE UNIQUE INDEX IF NOT EXISTS uq_users_username
+	ON news.users (username);
+
 CREATE UNIQUE INDEX IF NOT EXISTS uq_raw_arrivals_source_item_payload
 	ON news.raw_arrivals (source, source_item_id, payload_hash);
 
@@ -262,6 +265,15 @@ CREATE INDEX IF NOT EXISTS idx_translations_source_lookup
 
 CREATE INDEX IF NOT EXISTS idx_translations_target_lang
 	ON news.translations (target_lang);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_user_expires
+	ON news.sessions (user_id, expires_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_expires_at
+	ON news.sessions (expires_at);
+
+CREATE INDEX IF NOT EXISTS idx_user_settings_preferred_language
+	ON news.user_settings (preferred_language);
 
 INSERT INTO news.translation_sources (
 	source_type,
@@ -831,6 +843,56 @@ BEGIN
 		ALTER TABLE news.translation_results
 			ADD CONSTRAINT translation_results_latency_ms_check CHECK (latency_ms IS NULL OR latency_ms >= 0);
 	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'users_username_check'
+			AND conrelid = 'news.users'::regclass
+	) THEN
+		ALTER TABLE news.users
+			ADD CONSTRAINT users_username_check CHECK (length(trim(username)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'users_password_hash_check'
+			AND conrelid = 'news.users'::regclass
+	) THEN
+		ALTER TABLE news.users
+			ADD CONSTRAINT users_password_hash_check CHECK (length(trim(password_hash)) > 0);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'sessions_expires_after_created'
+			AND conrelid = 'news.sessions'::regclass
+	) THEN
+		ALTER TABLE news.sessions
+			ADD CONSTRAINT sessions_expires_after_created CHECK (expires_at > created_at);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'sessions_last_seen_after_created'
+			AND conrelid = 'news.sessions'::regclass
+	) THEN
+		ALTER TABLE news.sessions
+			ADD CONSTRAINT sessions_last_seen_after_created CHECK (last_seen_at >= created_at);
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'user_settings_preferred_language_check'
+			AND conrelid = 'news.user_settings'::regclass
+	) THEN
+		ALTER TABLE news.user_settings
+			ADD CONSTRAINT user_settings_preferred_language_check CHECK (length(trim(preferred_language)) > 0);
+	END IF;
 END
 $$;
 
@@ -1067,6 +1129,32 @@ BEGIN
 			ADD CONSTRAINT translation_results_translation_source_id_fkey
 			FOREIGN KEY (translation_source_id)
 			REFERENCES news.translation_sources(translation_source_id)
+			ON DELETE CASCADE;
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'sessions_user_id_fkey'
+			AND conrelid = 'news.sessions'::regclass
+	) THEN
+		ALTER TABLE news.sessions
+			ADD CONSTRAINT sessions_user_id_fkey
+			FOREIGN KEY (user_id)
+			REFERENCES news.users(user_id)
+			ON DELETE CASCADE;
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT 1
+		FROM pg_constraint
+		WHERE conname = 'user_settings_user_id_fkey'
+			AND conrelid = 'news.user_settings'::regclass
+	) THEN
+		ALTER TABLE news.user_settings
+			ADD CONSTRAINT user_settings_user_id_fkey
+			FOREIGN KEY (user_id)
+			REFERENCES news.users(user_id)
 			ON DELETE CASCADE;
 	END IF;
 END

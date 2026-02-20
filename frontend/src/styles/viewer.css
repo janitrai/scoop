@@ -286,6 +286,10 @@
     @apply inline-flex shrink-0 rounded-full border border-brand-500/40 bg-brand-500/10 px-1.5 py-0.5 font-mono text-[0.62rem] font-bold text-brand-400;
   }
 
+  .story-language-badge {
+    @apply inline-flex shrink-0 rounded-full border border-panel-500 bg-panel-600 px-1.5 py-0.5 font-mono text-[0.62rem] font-semibold text-panel-400;
+  }
+
   .story-translating-indicator {
     @apply inline-flex items-center gap-1 rounded-full border border-brand-500/25 bg-brand-500/10 px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.05em] text-brand-400;
   }
@@ -303,12 +307,60 @@
     @apply m-0 font-mono text-[0.8rem] text-panel-400;
   }
 
+  .detail-title-row {
+    @apply flex items-start gap-2.5;
+  }
+
   .detail-title {
     @apply m-0 font-news text-[1.08rem] leading-[1.3] text-panel-100;
   }
 
+  .detail-language-badge {
+    @apply inline-flex shrink-0 rounded-full border border-panel-500 bg-panel-700 px-2 py-0.5 font-mono text-[0.62rem] font-semibold text-panel-400;
+  }
+
   .detail-title-original {
     @apply m-0 text-[0.74rem] text-panel-400;
+  }
+
+  .sidebar-user {
+    @apply relative mt-2.5 border-t border-panel-500 px-3 pt-3;
+  }
+
+  .sidebar-user-trigger {
+    @apply flex w-full items-center gap-2 rounded-[10px] border border-panel-500 bg-panel-700 px-2.5 py-2 text-left text-panel-100;
+  }
+
+  .sidebar-user-trigger:hover {
+    @apply border-brand-500/60;
+  }
+
+  .sidebar-user-bubble {
+    @apply inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-500/20 font-mono text-[0.72rem] font-bold text-brand-400;
+  }
+
+  .sidebar-user-name {
+    @apply min-w-0 flex-1 truncate text-[0.82rem] font-medium;
+  }
+
+  .sidebar-user-chevron {
+    @apply h-4 w-4 shrink-0 text-panel-400 transition-transform duration-150;
+  }
+
+  .sidebar-user-chevron.open {
+    transform: rotate(180deg);
+  }
+
+  .sidebar-user-menu {
+    @apply absolute right-3 bottom-[calc(100%+0.45rem)] z-20 grid min-w-[170px] gap-1 rounded-[10px] border border-panel-500 bg-panel-800 p-1 shadow-panel;
+  }
+
+  .sidebar-user-menu-item {
+    @apply inline-flex items-center gap-2 rounded-[8px] px-2.5 py-2 text-left text-[0.8rem] text-panel-100;
+  }
+
+  .sidebar-user-menu-item:hover {
+    @apply bg-panel-700;
   }
 
   .detail-text-mode-toggle {
