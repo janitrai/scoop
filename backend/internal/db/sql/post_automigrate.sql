@@ -48,9 +48,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_digest_entries_uuid
 CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_results_uuid
 	ON news.translation_results (translation_result_uuid);
 
-CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_uuid
-	ON news.translations (translation_uuid);
-
 CREATE UNIQUE INDEX IF NOT EXISTS uq_users_username
 	ON news.users (username);
 
@@ -83,9 +80,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_sources_identity
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_translation_results_source_target
 	ON news.translation_results (translation_source_id, target_lang);
-
-CREATE UNIQUE INDEX IF NOT EXISTS uq_translations_source_target
-	ON news.translations (source_type, source_id, target_lang);
 
 CREATE INDEX IF NOT EXISTS idx_raw_arrivals_source_item_fetched
 	ON news.raw_arrivals (source, source_item_id, fetched_at DESC);
@@ -260,12 +254,6 @@ CREATE INDEX IF NOT EXISTS idx_translation_sources_lookup
 CREATE INDEX IF NOT EXISTS idx_translation_results_target_lang
 	ON news.translation_results (target_lang);
 
-CREATE INDEX IF NOT EXISTS idx_translations_source_lookup
-	ON news.translations (source_type, source_id);
-
-CREATE INDEX IF NOT EXISTS idx_translations_target_lang
-	ON news.translations (target_lang);
-
 CREATE INDEX IF NOT EXISTS idx_sessions_user_expires
 	ON news.sessions (user_id, expires_at DESC);
 
@@ -274,73 +262,6 @@ CREATE INDEX IF NOT EXISTS idx_sessions_expires_at
 
 CREATE INDEX IF NOT EXISTS idx_user_settings_preferred_language
 	ON news.user_settings (preferred_language);
-
-INSERT INTO news.translation_sources (
-	source_type,
-	source_id,
-	source_lang,
-	content_hash,
-	original_text,
-	content_origin,
-	captured_at,
-	created_at
-)
-SELECT DISTINCT ON (
-	t.source_type,
-	t.source_id,
-	digest(COALESCE(t.original_text, ''), 'sha256')
-)
-	t.source_type,
-	t.source_id,
-	COALESCE(NULLIF(trim(t.source_lang), ''), 'und') AS source_lang,
-	digest(COALESCE(t.original_text, ''), 'sha256') AS content_hash,
-	COALESCE(t.original_text, '') AS original_text,
-	'normalized' AS content_origin,
-	COALESCE(t.created_at, now()) AS captured_at,
-	COALESCE(t.created_at, now()) AS created_at
-FROM news.translations t
-ORDER BY
-	t.source_type,
-	t.source_id,
-	digest(COALESCE(t.original_text, ''), 'sha256'),
-	t.created_at DESC,
-	t.translation_id DESC
-ON CONFLICT (source_type, source_id, content_hash) DO UPDATE
-SET
-	source_lang = EXCLUDED.source_lang,
-	original_text = EXCLUDED.original_text;
-
-INSERT INTO news.translation_results (
-	translation_result_uuid,
-	translation_source_id,
-	target_lang,
-	translated_text,
-	provider_name,
-	model_name,
-	latency_ms,
-	created_at
-)
-SELECT
-	t.translation_uuid,
-	ts.translation_source_id,
-	t.target_lang,
-	t.translated_text,
-	t.provider_name,
-	t.model_name,
-	t.latency_ms,
-	COALESCE(t.created_at, now())
-FROM news.translations t
-JOIN news.translation_sources ts
-	ON ts.source_type = t.source_type
-	AND ts.source_id = t.source_id
-	AND ts.content_hash = digest(COALESCE(t.original_text, ''), 'sha256')
-ON CONFLICT (translation_source_id, target_lang) DO UPDATE
-SET
-	translated_text = EXCLUDED.translated_text,
-	provider_name = EXCLUDED.provider_name,
-	model_name = EXCLUDED.model_name,
-	latency_ms = EXCLUDED.latency_ms,
-	created_at = EXCLUDED.created_at;
 
 DO $$
 BEGIN

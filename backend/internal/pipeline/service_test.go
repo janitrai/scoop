@@ -189,6 +189,35 @@ func TestBuildNormalizedArticle_DetectsLanguageWhenMissing(t *testing.T) {
 	}
 }
 
+func TestBuildNormalizedArticle_FallsBackToUndWhenLinguaCannotDetect(t *testing.T) {
+	t.Parallel()
+
+	row := rawArrivalRow{
+		RawArrivalID: 4,
+		Source:       "source-d",
+		SourceItemID: "item-4",
+		RawPayload: []byte(`{
+			"payload_version":"v1",
+			"source":"source-d",
+			"source_item_id":"item-4",
+			"title":"Hi",
+			"body_text":"ok",
+			"source_metadata":{
+				"collection":"space_news",
+				"job_name":"job",
+				"job_run_id":"run-1",
+				"scraped_at":"2026-02-14T00:00:00Z"
+			}
+		}`),
+		FetchedAt: time.Date(2026, 2, 14, 0, 0, 0, 0, time.UTC),
+	}
+
+	article := buildNormalizedArticle(row, zerolog.Nop())
+	if article.NormalizedLang != "und" {
+		t.Fatalf("expected und fallback language, got %q", article.NormalizedLang)
+	}
+}
+
 func TestNormalizeISO6391Language(t *testing.T) {
 	t.Parallel()
 
