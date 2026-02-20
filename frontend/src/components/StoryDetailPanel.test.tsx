@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -13,6 +14,7 @@ vi.mock("../api", () => ({
     char_count: 64,
     truncated: false,
   })),
+  requestTranslation: vi.fn(async () => ({ stats: { translated: 1, cached: 0, failed: 0 } })),
 }));
 
 function makeDetail(): StoryDetailResponse {
@@ -133,17 +135,25 @@ function makeDetailWithSharedURL(): StoryDetailResponse {
 
 describe("StoryDetailPanel", () => {
   it("auto-expands all items when a story is opened", async () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+      },
+    });
+
     render(
-      <StoryDetailPanel
-        selectedStoryUUID="story-uuid-1"
-        selectedItemUUID=""
-        detail={makeDetail()}
-        activeLang=""
-        isLoading={false}
-        error=""
-        onSelectItem={vi.fn()}
-        onClearSelectedItem={vi.fn()}
-      />,
+      <QueryClientProvider client={queryClient}>
+        <StoryDetailPanel
+          selectedStoryUUID="story-uuid-1"
+          selectedItemUUID=""
+          detail={makeDetail()}
+          activeLang=""
+          isLoading={false}
+          error=""
+          onSelectItem={vi.fn()}
+          onClearSelectedItem={vi.fn()}
+        />
+      </QueryClientProvider>,
     );
 
     await waitFor(() => {
@@ -156,17 +166,25 @@ describe("StoryDetailPanel", () => {
   });
 
   it("collapses same-url duplicates into one visible item while showing dedup provenance rows", async () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+      },
+    });
+
     render(
-      <StoryDetailPanel
-        selectedStoryUUID="story-uuid-shared"
-        selectedItemUUID=""
-        detail={makeDetailWithSharedURL()}
-        activeLang=""
-        isLoading={false}
-        error=""
-        onSelectItem={vi.fn()}
-        onClearSelectedItem={vi.fn()}
-      />,
+      <QueryClientProvider client={queryClient}>
+        <StoryDetailPanel
+          selectedStoryUUID="story-uuid-shared"
+          selectedItemUUID=""
+          detail={makeDetailWithSharedURL()}
+          activeLang=""
+          isLoading={false}
+          error=""
+          onSelectItem={vi.fn()}
+          onClearSelectedItem={vi.fn()}
+        />
+      </QueryClientProvider>,
     );
 
     await waitFor(() => {

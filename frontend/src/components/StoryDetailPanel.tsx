@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -15,6 +15,7 @@ interface StoryDetailPanelProps {
   error: string;
   onSelectItem: (itemUUID: string) => void;
   onClearSelectedItem: () => void;
+  onTranslationStateChange?: (storyUUID: string, isTranslating: boolean) => void;
 }
 
 function pruneRecord<T>(record: Record<string, T>, validIDs: Set<string>): Record<string, T> {
@@ -60,6 +61,7 @@ export function StoryDetailPanel({
   error,
   onSelectItem,
   onClearSelectedItem,
+  onTranslationStateChange,
 }: StoryDetailPanelProps): JSX.Element {
   const [expandedGroupKeys, setExpandedGroupKeys] = useState<string[]>([]);
   const [itemPreviewByUUID, setItemPreviewByUUID] = useState<Record<string, StoryArticlePreview>>({});
@@ -71,35 +73,62 @@ export function StoryDetailPanel({
   );
   const [isTranslating, setIsTranslating] = useState(false);
   const translationRequestedRef = useRef<string>("");
+  const activeTranslationKeyRef = useRef<string>("");
   const previousStoryUUIDRef = useRef<string>("");
   const queryClient = useQueryClient();
+  const hasPendingTranslations = useMemo(() => {
+    if (!activeLang || !detail) {
+      return false;
+    }
+
+    const translatedTitle = (detail.story.translated_title || "").trim();
+    const hasUntranslatedBody = detail.members.some((member) => !(member.translated_text || "").trim());
+    return translatedTitle === "" || hasUntranslatedBody;
+  }, [activeLang, detail]);
 
   // On-demand translation: when a language is selected and translations are missing, trigger translation
   useEffect(() => {
     if (!activeLang || !detail || !selectedStoryUUID) return;
-    const translatedTitle = (detail.story.translated_title || "").trim();
-    const hasUntranslatedBody = detail.members.some(
-      (m) => !(m.translated_text || "").trim()
-    );
-    if (translatedTitle && !hasUntranslatedBody) return; // fully translated
+    if (!hasPendingTranslations) return;
+
+    const targetStoryUUID = selectedStoryUUID;
+    const targetLang = activeLang;
     const reqKey = `${selectedStoryUUID}:${activeLang}`;
     if (translationRequestedRef.current === reqKey) return; // already requested
     translationRequestedRef.current = reqKey;
+    activeTranslationKeyRef.current = reqKey;
     setIsTranslating(true);
-    requestTranslation(selectedStoryUUID, activeLang)
+    onTranslationStateChange?.(targetStoryUUID, true);
+
+    void requestTranslation(targetStoryUUID, targetLang)
       .then(() => {
-        // Invalidate detail query to refetch with translations
-        queryClient.invalidateQueries({ queryKey: ["story-detail", selectedStoryUUID, activeLang] });
-        // Also invalidate stories list so titles update
-        queryClient.invalidateQueries({ queryKey: ["stories"] });
+        // Keep the in-flight indicator visible until fresh translated content is loaded.
+        return Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["story-detail", targetStoryUUID, targetLang], exact: true }),
+          queryClient.invalidateQueries({ queryKey: ["stories"] }),
+        ]).then(() =>
+          Promise.all([
+            queryClient.refetchQueries({
+              queryKey: ["story-detail", targetStoryUUID, targetLang],
+              exact: true,
+              type: "active",
+            }),
+            queryClient.refetchQueries({ queryKey: ["stories"], type: "active" }),
+          ]),
+        );
       })
       .catch((err) => {
+        translationRequestedRef.current = "";
         console.error("Translation request failed:", err);
       })
       .finally(() => {
-        setIsTranslating(false);
+        if (activeTranslationKeyRef.current === reqKey) {
+          activeTranslationKeyRef.current = "";
+          setIsTranslating(false);
+        }
+        onTranslationStateChange?.(targetStoryUUID, false);
       });
-  }, [activeLang, detail, selectedStoryUUID, queryClient]);
+  }, [activeLang, detail, hasPendingTranslations, onTranslationStateChange, queryClient, selectedStoryUUID]);
 
   const memberGroups = useMemo<MemberURLGroup[]>(() => {
     if (!detail) {
@@ -142,6 +171,10 @@ export function StoryDetailPanel({
   }, [memberGroups]);
 
   const selectedGroupKey = selectedItemUUID ? (groupKeyByItemUUID[selectedItemUUID] ?? "") : "";
+  const showTranslationProgress =
+    activeLang !== "" &&
+    isTranslating &&
+    activeTranslationKeyRef.current === `${selectedStoryUUID}:${activeLang}`;
 
   useEffect(() => {
     if (!detail) {
@@ -321,6 +354,16 @@ export function StoryDetailPanel({
               Original
             </button>
           </div>
+        ) : null}
+        {showTranslationProgress ? (
+          <section className="translation-progress" role="status" aria-live="polite" aria-label="Translation in progress">
+            <div className="translation-progress-track" aria-hidden="true">
+              <span className="translation-progress-bar" />
+            </div>
+            <p className="translation-progress-label">
+              Translating to {activeLang.toUpperCase()}...
+            </p>
+          </section>
         ) : null}
         <section className="member-grid">
           {memberGroups.length === 0 ? <p className="muted">No items found for this story.</p> : null}
@@ -531,7 +574,6 @@ export function StoryDetailPanel({
         {!selectedStoryUUID ? <p className="muted">Pick a story to inspect merged articles.</p> : null}
         {selectedStoryUUID && isLoading ? <p className="muted">Fetching story detail...</p> : null}
         {selectedStoryUUID && !isLoading && error ? <p className="muted">{error}</p> : null}
-        {isTranslating ? <p className="muted">🌐 Translating...</p> : null}
         {selectedStoryUUID && !isLoading && !error && detail ? renderStoryView() : null}
       </div>
     </aside>
