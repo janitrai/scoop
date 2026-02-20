@@ -149,10 +149,6 @@ func fetchReaderPreviewText(ctx context.Context, canonicalURL string, title stri
 	return reader.FetchText(ctx, canonicalURL, title)
 }
 
-func cleanPreviewText(raw string) string {
-	return reader.CleanText(raw)
-}
-
 func truncatePreviewText(raw string, maxChars int) (string, bool) {
 	limit := maxChars
 	if limit <= 0 {

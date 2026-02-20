@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 	"time"
-	"unicode"
 
 	"horse.fit/scoop/internal/cli"
+	"horse.fit/scoop/internal/language"
 	"horse.fit/scoop/internal/translation"
 )
 
@@ -137,18 +137,7 @@ func runTranslate(args []string) int {
 }
 
 func normalizeLanguageFlag(raw string) string {
-	lang := strings.ToLower(strings.TrimSpace(raw))
-	if lang == "" {
-		return ""
-	}
-	lang = strings.ReplaceAll(lang, "_", "-")
-	for _, r := range lang {
-		if unicode.IsLetter(r) || r == '-' {
-			continue
-		}
-		return ""
-	}
-	return lang
+	return language.NormalizeCode(raw)
 }
 
 func printTranslateUsage() {

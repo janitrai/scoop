@@ -13,6 +13,7 @@ import type {
   StoriesResponse,
   UserSettings,
 } from "./types";
+import { normalizeLanguageCode } from "./lib/language";
 
 interface JSendRequestOptions extends Omit<RequestInit, "body"> {
   bodyJson?: unknown;
@@ -47,7 +48,7 @@ async function fetchJSend<T>(path: string, options: JSendRequestOptions = {}): P
 }
 
 function appendLang(params: URLSearchParams, lang?: string): void {
-  const trimmed = (lang || "").trim();
+  const trimmed = normalizeLanguageCode(lang || "");
   if (!trimmed) {
     return;
   }
@@ -55,7 +56,7 @@ function appendLang(params: URLSearchParams, lang?: string): void {
 }
 
 function withLang(path: string, lang?: string): string {
-  const trimmed = (lang || "").trim();
+  const trimmed = normalizeLanguageCode(lang || "");
   if (!trimmed) {
     return path;
   }
@@ -63,8 +64,8 @@ function withLang(path: string, lang?: string): string {
   return `${path}${separator}lang=${encodeURIComponent(trimmed)}`;
 }
 
-export async function getStats(lang = ""): Promise<StatsResponse> {
-  return fetchJSend<StatsResponse>(withLang("/api/v1/stats", lang));
+export async function getStats(): Promise<StatsResponse> {
+  return fetchJSend<StatsResponse>("/api/v1/stats");
 }
 
 export async function login(username: string, password: string): Promise<LoginResponse> {
@@ -99,17 +100,16 @@ export async function updateMySettings(payload: Partial<UserSettings>): Promise<
   });
 }
 
-export async function getCollections(lang = ""): Promise<{ items: CollectionSummary[] }> {
-  return fetchJSend<{ items: CollectionSummary[] }>(withLang("/api/v1/collections", lang));
+export async function getCollections(): Promise<{ items: CollectionSummary[] }> {
+  return fetchJSend<{ items: CollectionSummary[] }>("/api/v1/collections");
 }
 
-export async function getStoryDays(collection: string, limit = 45, lang = ""): Promise<{ items: StoryDayBucket[] }> {
+export async function getStoryDays(collection: string, limit = 45): Promise<{ items: StoryDayBucket[] }> {
   const params = new URLSearchParams();
   params.set("limit", String(limit));
   if (collection) {
     params.set("collection", collection);
   }
-  appendLang(params, lang);
   return fetchJSend<{ items: StoryDayBucket[] }>(`/api/v1/story-days?${params.toString()}`);
 }
 
@@ -143,7 +143,8 @@ export async function requestTranslation(
   targetLang: string,
   provider?: string,
 ): Promise<{ stats: { translated: number; cached: number; skipped: number; total: number } }> {
-  const body: Record<string, string> = { story_uuid: storyUUID, target_lang: targetLang };
+  const normalizedTargetLang = normalizeLanguageCode(targetLang);
+  const body: Record<string, string> = { story_uuid: storyUUID, target_lang: normalizedTargetLang || targetLang };
   if (provider) body.provider = provider;
   return fetchJSend<{ stats: { translated: number; cached: number; skipped: number; total: number } }>(
     "/api/v1/translate",
@@ -157,10 +158,8 @@ export async function requestTranslation(
 export async function getStoryArticlePreview(
   storyArticleUUID: string,
   maxChars = 1000,
-  lang = "",
 ): Promise<StoryArticlePreview> {
   const params = new URLSearchParams();
   params.set("max_chars", String(maxChars));
-  appendLang(params, lang);
   return fetchJSend<StoryArticlePreview>(`/api/v1/articles/${storyArticleUUID}/preview?${params.toString()}`);
 }

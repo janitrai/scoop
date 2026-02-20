@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"horse.fit/scoop/internal/language"
 )
 
 const defaultPreferredLanguage = "en"
@@ -353,12 +355,36 @@ RETURNING
 	return &row, nil
 }
 
+func (p *Pool) SetUserPasswordHash(
+	ctx context.Context,
+	userID int64,
+	passwordHash string,
+	mustChangePassword bool,
+) error {
+	const q = `
+UPDATE news.users
+SET
+	password_hash = $2,
+	must_change_password = $3
+WHERE user_id = $1
+`
+
+	tag, err := p.Exec(ctx, q, userID, strings.TrimSpace(passwordHash), mustChangePassword)
+	if err != nil {
+		return fmt.Errorf("update user password: %w", err)
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNoRows
+	}
+	return nil
+}
+
 func normalizeUsername(raw string) string {
 	return strings.ToLower(strings.TrimSpace(raw))
 }
 
 func normalizePreferredLanguage(raw string) string {
-	lang := strings.ToLower(strings.TrimSpace(raw))
+	lang := language.NormalizeTag(raw)
 	if lang == "" {
 		return defaultPreferredLanguage
 	}

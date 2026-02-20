@@ -36,7 +36,6 @@ func NewRegistry(defaultProvider string) *Registry {
 func NewRegistryFromEnv() *Registry {
 	registry := NewRegistry(os.Getenv(ProviderEnvVar))
 	_ = registry.Register(NewLocalProviderFromEnv())
-	_ = registry.Register(NewGoogleProvider())
 
 	if _, exists := registry.providers[registry.defaultProvider]; !exists {
 		registry.defaultProvider = DefaultProviderName

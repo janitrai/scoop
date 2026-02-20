@@ -14,7 +14,6 @@ import (
 
 const (
 	SourceTypeStoryTitle    = "story_title"
-	SourceTypeStorySummary  = "story_summary"
 	SourceTypeArticleTitle  = "article_title"
 	SourceTypeArticleText   = "article_text"
 	ContentOriginNormalized = "normalized"

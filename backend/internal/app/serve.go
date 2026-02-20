@@ -88,14 +88,15 @@ func runServe(args []string) int {
 	}()
 
 	srv := httpapi.NewServer(pool, logger, httpapi.Options{
-		Host:            *host,
-		Port:            *port,
-		ReadTimeout:     *readTimeout,
-		WriteTimeout:    *writeTimeout,
-		ShutdownTimeout: *shutdownTimeout,
-		SessionTTL:      time.Duration(cfg.SessionTTLHours) * time.Hour,
-		SessionCookie:   cfg.SessionCookieName,
-		SessionSecure:   cfg.SessionCookieSecure,
+		Host:               *host,
+		Port:               *port,
+		ReadTimeout:        *readTimeout,
+		WriteTimeout:       *writeTimeout,
+		ShutdownTimeout:    *shutdownTimeout,
+		SessionTTL:         time.Duration(cfg.SessionTTLHours) * time.Hour,
+		SessionCookie:      cfg.SessionCookieName,
+		SessionSecure:      cfg.SessionCookieSecure,
+		CORSAllowedOrigins: cfg.CORSAllowedOriginsList(),
 	})
 
 	if err := srv.Start(ctx); err != nil {

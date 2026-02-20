@@ -40,13 +40,13 @@ export function useViewerQueries({
   language,
 }: UseViewerQueriesArgs): UseViewerQueriesResult {
   const collectionsQuery = useQuery<{ items: CollectionSummary[] }>({
-    queryKey: ["collections", language],
-    queryFn: () => getCollections(language),
+    queryKey: ["collections"],
+    queryFn: () => getCollections(),
   });
 
   const dayBucketsQuery = useQuery<{ items: StoryDayBucket[] }>({
-    queryKey: ["story-days", filters.collection, language],
-    queryFn: () => getStoryDays(filters.collection, 45, language),
+    queryKey: ["story-days", filters.collection],
+    queryFn: () => getStoryDays(filters.collection, 45),
   });
 
   const storiesQuery = useInfiniteQuery<{ items: StoryListItem[]; pagination: StoryPagination }>({

@@ -1,6 +1,8 @@
 package httpapi
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -19,24 +21,49 @@ const (
 )
 
 type authPrincipal struct {
-	SessionID          string
-	UserID             int64
-	Username           string
-	MustChangePassword bool
-	ExpiresAt          time.Time
+	SessionID string
+	UserID    int64
+	Username  string
+	ExpiresAt time.Time
 }
 
 type authUserResponse struct {
-	UserID             int64      `json:"user_id"`
-	Username           string     `json:"username"`
-	MustChangePassword bool       `json:"must_change_password"`
-	CreatedAt          time.Time  `json:"created_at"`
-	LastLoginAt        *time.Time `json:"last_login_at,omitempty"`
+	UserID      int64      `json:"user_id"`
+	Username    string     `json:"username"`
+	CreatedAt   time.Time  `json:"created_at"`
+	LastLoginAt *time.Time `json:"last_login_at,omitempty"`
 }
 
 type loginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type authStore interface {
+	GetSession(ctx context.Context, sessionID string) (*db.AuthSession, error)
+	DeleteSession(ctx context.Context, sessionID string) error
+	TouchSession(ctx context.Context, sessionID string, seenAt time.Time) error
+	GetUserByUsername(ctx context.Context, username string) (*db.AuthUser, error)
+	GetUserByID(ctx context.Context, userID int64) (*db.AuthUser, error)
+	CreateSession(ctx context.Context, userID int64, expiresAt, now time.Time) (string, error)
+	SetUserLastLogin(ctx context.Context, userID int64, loginAt time.Time) error
+	DeleteExpiredSessions(ctx context.Context, now time.Time) (int64, error)
+	EnsureUserSettings(ctx context.Context, userID int64) (*db.UserSettingsRecord, error)
+	UpsertUserSettings(ctx context.Context, userID int64, preferredLanguage string, uiPrefs json.RawMessage) (*db.UserSettingsRecord, error)
+	SetUserPasswordHash(ctx context.Context, userID int64, passwordHash string, mustChangePassword bool) error
+}
+
+func (s *Server) authDataStore() authStore {
+	if s == nil {
+		return nil
+	}
+	if s.authStore != nil {
+		return s.authStore
+	}
+	if s.pool == nil {
+		return nil
+	}
+	return s.pool
 }
 
 func (s *Server) requireAuth() echo.MiddlewareFunc {
@@ -45,13 +72,17 @@ func (s *Server) requireAuth() echo.MiddlewareFunc {
 			if c == nil {
 				return unauthorizedResponse(c)
 			}
+			store := s.authDataStore()
+			if store == nil {
+				return internalError(c, "Failed to authorize request")
+			}
 
 			sessionID, found := s.sessionIDFromCookie(c)
 			if !found {
 				return unauthorizedResponse(c)
 			}
 
-			session, err := s.pool.GetSession(c.Request().Context(), sessionID)
+			session, err := store.GetSession(c.Request().Context(), sessionID)
 			if err != nil {
 				if errors.Is(err, db.ErrNoRows) {
 					s.clearSessionCookie(c)
@@ -63,21 +94,20 @@ func (s *Server) requireAuth() echo.MiddlewareFunc {
 
 			now := globaltime.UTC()
 			if !session.ExpiresAt.After(now) {
-				_ = s.pool.DeleteSession(c.Request().Context(), session.SessionID)
+				_ = store.DeleteSession(c.Request().Context(), session.SessionID)
 				s.clearSessionCookie(c)
 				return unauthorizedResponse(c)
 			}
 
 			if now.Sub(session.LastSeenAt) >= defaultSessionTouchInterval {
-				_ = s.pool.TouchSession(c.Request().Context(), session.SessionID, now)
+				_ = store.TouchSession(c.Request().Context(), session.SessionID, now)
 			}
 
 			c.Set("auth.principal", authPrincipal{
-				SessionID:          session.SessionID,
-				UserID:             session.UserID,
-				Username:           session.Username,
-				MustChangePassword: session.MustChangePassword,
-				ExpiresAt:          session.ExpiresAt.UTC(),
+				SessionID: session.SessionID,
+				UserID:    session.UserID,
+				Username:  session.Username,
+				ExpiresAt: session.ExpiresAt.UTC(),
 			})
 
 			return next(c)
@@ -86,6 +116,11 @@ func (s *Server) requireAuth() echo.MiddlewareFunc {
 }
 
 func (s *Server) handleLogin(c echo.Context) error {
+	store := s.authDataStore()
+	if store == nil {
+		return internalError(c, "Failed to process login")
+	}
+
 	var req loginRequest
 	if err := decodeJSONBody(c, &req); err != nil {
 		return failValidation(c, map[string]string{"body": err.Error()})
@@ -93,14 +128,11 @@ func (s *Server) handleLogin(c echo.Context) error {
 
 	username := auth.NormalizeUsername(req.Username)
 	password := strings.TrimSpace(req.Password)
-	if username == "" || password == "" {
-		return failValidation(c, map[string]string{
-			"username": "is required",
-			"password": "is required",
-		})
+	if username == "" {
+		return failValidation(c, map[string]string{"username": "is required"})
 	}
 
-	user, err := s.pool.GetUserByUsername(c.Request().Context(), username)
+	user, err := store.GetUserByUsername(c.Request().Context(), username)
 	if err != nil {
 		if errors.Is(err, db.ErrNoRows) {
 			return fail(c, http.StatusUnauthorized, "Invalid username or password", nil)
@@ -109,29 +141,33 @@ func (s *Server) handleLogin(c echo.Context) error {
 		return internalError(c, "Failed to process login")
 	}
 
-	if !auth.VerifyPassword(password, user.PasswordHash) {
+	settings, err := store.EnsureUserSettings(c.Request().Context(), user.UserID)
+	if err != nil {
+		s.logger.Error().Err(err).Int64("user_id", user.UserID).Msg("ensure settings failed")
+		return internalError(c, "Failed to load settings")
+	}
+
+	if isPasswordEnabled(settings) && !auth.VerifyPassword(password, user.PasswordHash) {
 		return fail(c, http.StatusUnauthorized, "Invalid username or password", nil)
 	}
 
 	now := globaltime.UTC()
+	if _, cleanupErr := store.DeleteExpiredSessions(c.Request().Context(), now); cleanupErr != nil {
+		s.logger.Warn().Err(cleanupErr).Msg("delete expired sessions failed")
+	}
+
 	expiresAt := s.sessionExpiry(now)
-	sessionID, err := s.pool.CreateSession(c.Request().Context(), user.UserID, expiresAt, now)
+	sessionID, err := store.CreateSession(c.Request().Context(), user.UserID, expiresAt, now)
 	if err != nil {
 		s.logger.Error().Err(err).Int64("user_id", user.UserID).Msg("create session failed")
 		return internalError(c, "Failed to process login")
 	}
 
-	if err := s.pool.SetUserLastLogin(c.Request().Context(), user.UserID, now); err != nil {
+	if err := store.SetUserLastLogin(c.Request().Context(), user.UserID, now); err != nil {
 		s.logger.Error().Err(err).Int64("user_id", user.UserID).Msg("update last login failed")
 	}
 	nowCopy := now
 	user.LastLoginAt = &nowCopy
-
-	settings, err := s.pool.EnsureUserSettings(c.Request().Context(), user.UserID)
-	if err != nil {
-		s.logger.Error().Err(err).Int64("user_id", user.UserID).Msg("ensure settings failed")
-		return internalError(c, "Failed to load settings")
-	}
 
 	s.setSessionCookie(c, sessionID, expiresAt)
 	return success(c, map[string]any{
@@ -146,20 +182,28 @@ func (s *Server) handleLogin(c echo.Context) error {
 }
 
 func (s *Server) handleLogout(c echo.Context) error {
+	store := s.authDataStore()
 	if sessionID, found := s.sessionIDFromCookie(c); found {
-		_ = s.pool.DeleteSession(c.Request().Context(), sessionID)
+		if store != nil {
+			_ = store.DeleteSession(c.Request().Context(), sessionID)
+		}
 	}
 	s.clearSessionCookie(c)
 	return success(c, map[string]any{"logged_out": true})
 }
 
 func (s *Server) handleMe(c echo.Context) error {
+	store := s.authDataStore()
+	if store == nil {
+		return internalError(c, "Failed to load user")
+	}
+
 	principal, ok := principalFromContext(c)
 	if !ok {
 		return unauthorizedResponse(c)
 	}
 
-	user, err := s.pool.GetUserByID(c.Request().Context(), principal.UserID)
+	user, err := store.GetUserByID(c.Request().Context(), principal.UserID)
 	if err != nil {
 		if errors.Is(err, db.ErrNoRows) {
 			return unauthorizedResponse(c)
@@ -168,7 +212,7 @@ func (s *Server) handleMe(c echo.Context) error {
 		return internalError(c, "Failed to load user")
 	}
 
-	settings, err := s.pool.EnsureUserSettings(c.Request().Context(), principal.UserID)
+	settings, err := store.EnsureUserSettings(c.Request().Context(), principal.UserID)
 	if err != nil {
 		s.logger.Error().Err(err).Int64("user_id", principal.UserID).Msg("load me settings failed")
 		return internalError(c, "Failed to load settings")
@@ -193,11 +237,10 @@ func buildAuthUserResponse(row *db.AuthUser) authUserResponse {
 		return authUserResponse{}
 	}
 	return authUserResponse{
-		UserID:             row.UserID,
-		Username:           row.Username,
-		MustChangePassword: row.MustChangePassword,
-		CreatedAt:          row.CreatedAt.UTC(),
-		LastLoginAt:        row.LastLoginAt,
+		UserID:      row.UserID,
+		Username:    row.Username,
+		CreatedAt:   row.CreatedAt.UTC(),
+		LastLoginAt: row.LastLoginAt,
 	}
 }
 
@@ -225,6 +268,10 @@ func (s *Server) sessionIDFromCookie(c echo.Context) (string, bool) {
 
 	sessionID := strings.TrimSpace(cookie.Value)
 	if sessionID == "" {
+		return "", false
+	}
+	if !isUUID(sessionID) {
+		s.clearSessionCookie(c)
 		return "", false
 	}
 	return sessionID, true
@@ -278,4 +325,29 @@ func (s *Server) sessionExpiry(now time.Time) time.Time {
 		ttl = 7 * 24 * time.Hour
 	}
 	return now.UTC().Add(ttl)
+}
+
+func isUUID(value string) bool {
+	if len(value) != 36 {
+		return false
+	}
+
+	for idx, ch := range value {
+		switch idx {
+		case 8, 13, 18, 23:
+			if ch != '-' {
+				return false
+			}
+			continue
+		}
+
+		switch {
+		case ch >= '0' && ch <= '9':
+		case ch >= 'a' && ch <= 'f':
+		case ch >= 'A' && ch <= 'F':
+		default:
+			return false
+		}
+	}
+	return true
 }

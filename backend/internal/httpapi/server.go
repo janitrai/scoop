@@ -17,6 +17,7 @@ import (
 
 	"horse.fit/scoop/internal/db"
 	"horse.fit/scoop/internal/globaltime"
+	"horse.fit/scoop/internal/language"
 	"horse.fit/scoop/internal/translation"
 )
 
@@ -28,18 +29,20 @@ const (
 var errStoryNotFound = errors.New("story not found")
 
 type Options struct {
-	Host            string
-	Port            int
-	ReadTimeout     time.Duration
-	WriteTimeout    time.Duration
-	ShutdownTimeout time.Duration
-	SessionTTL      time.Duration
-	SessionCookie   string
-	SessionSecure   bool
+	Host               string
+	Port               int
+	ReadTimeout        time.Duration
+	WriteTimeout       time.Duration
+	ShutdownTimeout    time.Duration
+	SessionTTL         time.Duration
+	SessionCookie      string
+	SessionSecure      bool
+	CORSAllowedOrigins []string
 }
 
 type Server struct {
 	pool               *db.Pool
+	authStore          authStore
 	logger             zerolog.Logger
 	opts               Options
 	registry           *translation.Registry
@@ -230,21 +233,27 @@ func newServer(
 	if service == nil {
 		service = translation.NewManager(pool, registry)
 	}
+	var authDataStore authStore
+	if pool != nil {
+		authDataStore = pool
+	}
 
 	return &Server{
 		pool:               pool,
+		authStore:          authDataStore,
 		logger:             logger,
 		registry:           registry,
 		translationService: service,
 		opts: Options{
-			Host:            host,
-			Port:            port,
-			ReadTimeout:     readTimeout,
-			WriteTimeout:    writeTimeout,
-			ShutdownTimeout: shutdownTimeout,
-			SessionTTL:      sessionTTL,
-			SessionCookie:   sessionCookie,
-			SessionSecure:   opts.SessionSecure,
+			Host:               host,
+			Port:               port,
+			ReadTimeout:        readTimeout,
+			WriteTimeout:       writeTimeout,
+			ShutdownTimeout:    shutdownTimeout,
+			SessionTTL:         sessionTTL,
+			SessionCookie:      sessionCookie,
+			SessionSecure:      opts.SessionSecure,
+			CORSAllowedOrigins: append([]string(nil), opts.CORSAllowedOrigins...),
 		},
 	}
 }
@@ -261,13 +270,20 @@ func (s *Server) Start(ctx context.Context) error {
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.RequestID())
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"*"},
+	corsConfig := middleware.CORSConfig{
 		AllowMethods:     []string{http.MethodGet, http.MethodOptions, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Cookie"},
 		AllowCredentials: true,
 		MaxAge:           3600,
-	}))
+	}
+	if len(s.opts.CORSAllowedOrigins) > 0 {
+		corsConfig.AllowOrigins = append([]string(nil), s.opts.CORSAllowedOrigins...)
+	} else {
+		corsConfig.AllowOriginFunc = func(origin string) (bool, error) {
+			return strings.TrimSpace(origin) != "", nil
+		}
+	}
+	e.Use(middleware.CORSWithConfig(corsConfig))
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus:    true,
 		LogURI:       true,
@@ -1386,18 +1402,7 @@ func normalizeCollection(raw string) string {
 }
 
 func normalizeLanguage(raw string) string {
-	lang := strings.ToLower(strings.TrimSpace(raw))
-	if lang == "" {
-		return ""
-	}
-	lang = strings.ReplaceAll(lang, "_", "-")
-	for _, r := range lang {
-		if (r >= 'a' && r <= 'z') || r == '-' {
-			continue
-		}
-		return ""
-	}
-	return lang
+	return language.NormalizeCode(raw)
 }
 
 func nullableString(value string) *string {

@@ -19,7 +19,6 @@ import (
 	"horse.fit/scoop/internal/db"
 	"horse.fit/scoop/internal/globaltime"
 	"horse.fit/scoop/internal/langdetect"
-	"horse.fit/scoop/internal/translation"
 	payloadschema "horse.fit/scoop/schema"
 )
 
@@ -50,9 +49,8 @@ var trackingQueryKeys = map[string]struct{}{
 }
 
 type Service struct {
-	pool               *db.Pool
-	logger             zerolog.Logger
-	translationService translation.Service
+	pool   *db.Pool
+	logger zerolog.Logger
 }
 
 type NormalizeResult struct {
@@ -166,14 +164,9 @@ const (
 )
 
 func NewService(pool *db.Pool, logger zerolog.Logger) *Service {
-	return NewServiceWithTranslationService(pool, logger, nil)
-}
-
-func NewServiceWithTranslationService(pool *db.Pool, logger zerolog.Logger, service translation.Service) *Service {
 	return &Service{
-		pool:               pool,
-		logger:             logger,
-		translationService: service,
+		pool:   pool,
+		logger: logger,
 	}
 }
 

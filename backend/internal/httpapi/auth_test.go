@@ -12,7 +12,7 @@ import (
 func TestNormalizeViewerLanguage(t *testing.T) {
 	t.Parallel()
 
-	if got := normalizeViewerLanguage(" EN-us "); got != "en-us" {
+	if got := normalizeViewerLanguage(" EN-us "); got != "en" {
 		t.Fatalf("unexpected normalized language: %q", got)
 	}
 	if got := normalizeViewerLanguage(""); got != defaultViewerLanguage {

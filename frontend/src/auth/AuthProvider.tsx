@@ -14,7 +14,6 @@ interface AuthContextValue {
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateSettings: (payload: Partial<UserSettings>) => Promise<void>;
-  refresh: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -46,15 +45,6 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     setLanguages([]);
     setStatus("unauthenticated");
   }, []);
-
-  const refresh = useCallback(async () => {
-    try {
-      const me = await getMe();
-      applyAuthenticatedState(me);
-    } catch {
-      applyUnauthenticatedState();
-    }
-  }, [applyAuthenticatedState, applyUnauthenticatedState]);
 
   useEffect(() => {
     let cancelled = false;
@@ -113,9 +103,8 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       login,
       logout,
       updateSettings,
-      refresh,
     }),
-    [status, user, settings, languages, login, logout, updateSettings, refresh],
+    [status, user, settings, languages, login, logout, updateSettings],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
