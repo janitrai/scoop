@@ -1,0 +1,15 @@
+{
+  "name": "scoop",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "fmt:go": "cd backend && gofmt -w .",
+    "lint:go": "cd backend && golangci-lint run",
+    "lint:ts": "pnpm -C frontend run lint",
+    "format:check:ts": "pnpm -C frontend run format:check",
+    "format:ts": "pnpm -C frontend run format"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

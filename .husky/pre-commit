@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+set -e
+
+echo "[husky] gofmt + golangci-lint"
+cd backend
+gofmt -w .
+golangci-lint run
+
+cd ../frontend
+echo "[husky] frontend lint + format check"
+pnpm run lint
+pnpm run format:check
