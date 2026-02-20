@@ -280,4 +280,3 @@ WHERE article_uuid = $1::uuid
 
 	return tag.RowsAffected(), nil
 }
-
