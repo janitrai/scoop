@@ -74,11 +74,14 @@ export function StoryDetailPanel({
   const previousStoryUUIDRef = useRef<string>("");
   const queryClient = useQueryClient();
 
-  // On-demand translation: when a language is selected and no translated_title exists, trigger translation
+  // On-demand translation: when a language is selected and translations are missing, trigger translation
   useEffect(() => {
     if (!activeLang || !detail || !selectedStoryUUID) return;
     const translatedTitle = (detail.story.translated_title || "").trim();
-    if (translatedTitle) return; // already translated
+    const hasUntranslatedBody = detail.members.some(
+      (m) => !(m.translated_text || "").trim()
+    );
+    if (translatedTitle && !hasUntranslatedBody) return; // fully translated
     const reqKey = `${selectedStoryUUID}:${activeLang}`;
     if (translationRequestedRef.current === reqKey) return; // already requested
     translationRequestedRef.current = reqKey;
