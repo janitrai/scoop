@@ -609,7 +609,10 @@ func (m *Manager) hydrateArticleTextForTranslation(
 	article.Text = strings.TrimSpace(article.Text)
 	article.TextOrigin = ContentOriginNormalized
 
-	if article.Text != "" {
+	// If the text is substantive (longer than the title + some margin), use it as-is.
+	// Otherwise, treat it as empty and try reader fetch — during ingestion we often
+	// store the title as body_text, which is not useful for translation.
+	if article.Text != "" && len(article.Text) > len(article.Title)+50 {
 		return nil
 	}
 
