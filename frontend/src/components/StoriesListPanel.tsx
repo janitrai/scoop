@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { Settings2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, LogOut, Settings2, X } from "lucide-react";
 
 import { buildFeedMetaText, formatCalendarDay, formatCount } from "../lib/viewerFormat";
 import type { StoryListItem } from "../types";
@@ -28,6 +28,9 @@ interface StoriesListPanelProps {
   onToChange: (value: string) => void;
   onLoadNextPage: () => void;
   onSelectStory: (storyUUID: string) => void;
+  currentUsername: string;
+  onOpenSettings: () => void;
+  onLogout: () => void;
 }
 
 export function StoriesListPanel({
@@ -51,11 +54,15 @@ export function StoriesListPanel({
   onToChange,
   onLoadNextPage,
   onSelectStory,
+  currentUsername,
+  onOpenSettings,
+  onLogout,
 }: StoriesListPanelProps): JSX.Element {
   const listRef = useRef<HTMLDivElement | null>(null);
   const loadTriggerRef = useRef<HTMLDivElement | null>(null);
   const showTimestampInFeed = searchInput.trim() !== "";
   const translatingStoryUUIDSet = new Set(translatingStoryUUIDs);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!hasNextPage || isLoading || isFetchingNextPage || Boolean(error)) {
@@ -206,6 +213,8 @@ export function StoriesListPanel({
                 const showTranslated = activeLang !== "" && translatedTitle !== "";
                 const displayTitle = showTranslated ? translatedTitle : originalTitle;
                 const isTranslatingStory = translatingStoryUUIDSet.has(story.story_uuid);
+                const detectedLanguage = (story.detected_language || "").trim().toLowerCase();
+                const showDetectedLanguage = detectedLanguage !== "" && detectedLanguage !== "und";
 
                 return (
                   <article
@@ -235,6 +244,11 @@ export function StoriesListPanel({
                             [{activeLang.toUpperCase()}]
                           </span>
                         ) : null}
+                        {showDetectedLanguage ? (
+                          <span className="story-language-badge" aria-label={`Detected language ${detectedLanguage}`}>
+                            {detectedLanguage.toUpperCase()}
+                          </span>
+                        ) : null}
                       </div>
                     </header>
                     <p className="story-meta">
@@ -255,6 +269,49 @@ export function StoriesListPanel({
         <div className="feed-count-overlay" aria-live="polite">
           {formatCount(Math.min(loadedItems, totalItems))}/{formatCount(totalItems)}
         </div>
+      </div>
+
+      <div className="sidebar-user">
+        <button
+          type="button"
+          className="sidebar-user-trigger"
+          onClick={() => {
+            setIsUserMenuOpen((previous) => !previous);
+          }}
+          aria-label="Open user menu"
+        >
+          <span className="sidebar-user-bubble">{(currentUsername || "U").slice(0, 1).toUpperCase()}</span>
+          <span className="sidebar-user-name">{currentUsername || "User"}</span>
+          <ChevronDown className={`sidebar-user-chevron ${isUserMenuOpen ? "open" : ""}`.trim()} aria-hidden="true" />
+        </button>
+
+        {isUserMenuOpen ? (
+          <div className="sidebar-user-menu" role="menu" aria-label="User menu">
+            <button
+              type="button"
+              className="sidebar-user-menu-item"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                onOpenSettings();
+              }}
+            >
+              <Settings2 className="h-4 w-4" aria-hidden="true" />
+              Settings
+            </button>
+
+            <button
+              type="button"
+              className="sidebar-user-menu-item"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                onLogout();
+              }}
+            >
+              <LogOut className="h-4 w-4" aria-hidden="true" />
+              Log out
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );

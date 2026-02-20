@@ -1,19 +1,38 @@
 import type {
+  LoginResponse,
+  MeResponse,
+  MySettingsResponse,
   CollectionSummary,
   JSendResponse,
+  LanguageOption,
   StatsResponse,
   StoryDayBucket,
   StoryDetailResponse,
   StoryFilters,
   StoryArticlePreview,
   StoriesResponse,
+  UserSettings,
 } from "./types";
 
-async function fetchJSend<T>(path: string): Promise<T> {
+interface JSendRequestOptions extends Omit<RequestInit, "body"> {
+  bodyJson?: unknown;
+}
+
+async function fetchJSend<T>(path: string, options: JSendRequestOptions = {}): Promise<T> {
+  const headers = new Headers(options.headers);
+  headers.set("Accept", "application/json");
+
+  let body: BodyInit | undefined;
+  if (options.bodyJson !== undefined) {
+    headers.set("Content-Type", "application/json");
+    body = JSON.stringify(options.bodyJson);
+  }
+
   const response = await fetch(path, {
-    headers: {
-      Accept: "application/json",
-    },
+    ...options,
+    headers,
+    body,
+    credentials: "include",
   });
 
   const payload = (await response.json().catch(() => ({}))) as Partial<JSendResponse<T>>;
@@ -46,6 +65,38 @@ function withLang(path: string, lang?: string): string {
 
 export async function getStats(lang = ""): Promise<StatsResponse> {
   return fetchJSend<StatsResponse>(withLang("/api/v1/stats", lang));
+}
+
+export async function login(username: string, password: string): Promise<LoginResponse> {
+  return fetchJSend<LoginResponse>("/api/v1/auth/login", {
+    method: "POST",
+    bodyJson: { username, password },
+  });
+}
+
+export async function logout(): Promise<{ logged_out: boolean }> {
+  return fetchJSend<{ logged_out: boolean }>("/api/v1/auth/logout", {
+    method: "POST",
+  });
+}
+
+export async function getMe(): Promise<MeResponse> {
+  return fetchJSend<MeResponse>("/api/v1/me");
+}
+
+export async function getLanguages(): Promise<{ items: LanguageOption[] }> {
+  return fetchJSend<{ items: LanguageOption[] }>("/api/v1/languages");
+}
+
+export async function getMySettings(): Promise<MySettingsResponse> {
+  return fetchJSend<MySettingsResponse>("/api/v1/me/settings");
+}
+
+export async function updateMySettings(payload: Partial<UserSettings>): Promise<MySettingsResponse> {
+  return fetchJSend<MySettingsResponse>("/api/v1/me/settings", {
+    method: "PUT",
+    bodyJson: payload,
+  });
 }
 
 export async function getCollections(lang = ""): Promise<{ items: CollectionSummary[] }> {
@@ -91,19 +142,16 @@ export async function requestTranslation(
   storyUUID: string,
   targetLang: string,
   provider?: string,
-): Promise<{ stats: { translated: number; cached: number; failed: number } }> {
+): Promise<{ stats: { translated: number; cached: number; skipped: number; total: number } }> {
   const body: Record<string, string> = { story_uuid: storyUUID, target_lang: targetLang };
   if (provider) body.provider = provider;
-  const response = await fetch("/api/v1/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(body),
-  });
-  const payload = (await response.json().catch(() => ({}))) as Partial<JSendResponse<any>>;
-  if (payload.status !== "success" || !payload.data) {
-    throw new Error(typeof payload.message === "string" ? payload.message : "Translation failed");
-  }
-  return payload.data;
+  return fetchJSend<{ stats: { translated: number; cached: number; skipped: number; total: number } }>(
+    "/api/v1/translate",
+    {
+      method: "POST",
+      bodyJson: body,
+    },
+  );
 }
 
 export async function getStoryArticlePreview(

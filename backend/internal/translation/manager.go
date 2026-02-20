@@ -336,6 +336,10 @@ func (m *Manager) runTasks(ctx context.Context, tasks []translationTask, opts Ru
 		if sourceLang == "" {
 			sourceLang = "und"
 		}
+		if shouldSkipTranslationTask(sourceLang, targetLang) {
+			stats.Skipped++
+			continue
+		}
 
 		translationSourceID, err := m.upsertTranslationSource(ctx, upsertTranslationSourceInput{
 			SourceType:    task.SourceType,
@@ -834,4 +838,8 @@ func normalizeContentOrigin(origin string) string {
 
 func normalizeCollection(raw string) string {
 	return strings.TrimSpace(strings.ToLower(raw))
+}
+
+func shouldSkipTranslationTask(sourceLang, targetLang string) bool {
+	return strings.TrimSpace(sourceLang) != "" && sourceLang == targetLang
 }

@@ -12,6 +12,7 @@ function makeStory(overrides: Partial<StoryListItem>): StoryListItem {
     title: "Test story",
     original_title: "Test story",
     translated_title: null,
+    detected_language: "en",
     status: "active",
     first_seen_at: "2026-02-15T00:00:00Z",
     last_seen_at: "2026-02-15T00:00:00Z",

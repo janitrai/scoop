@@ -33,12 +33,16 @@ type Options struct {
 	ReadTimeout     time.Duration
 	WriteTimeout    time.Duration
 	ShutdownTimeout time.Duration
+	SessionTTL      time.Duration
+	SessionCookie   string
+	SessionSecure   bool
 }
 
 type Server struct {
 	pool               *db.Pool
 	logger             zerolog.Logger
 	opts               Options
+	registry           *translation.Registry
 	translationManager *translation.Manager
 }
 
@@ -61,19 +65,20 @@ type storyRepresentative struct {
 }
 
 type storyListItem struct {
-	StoryID         int64                `json:"story_id"`
-	StoryUUID       string               `json:"story_uuid"`
-	Collection      string               `json:"collection"`
-	Title           string               `json:"title"`
-	OriginalTitle   string               `json:"original_title"`
-	TranslatedTitle *string              `json:"translated_title"`
-	CanonicalURL    *string              `json:"canonical_url,omitempty"`
-	Status          string               `json:"status"`
-	FirstSeenAt     time.Time            `json:"first_seen_at"`
-	LastSeenAt      time.Time            `json:"last_seen_at"`
-	SourceCount     int                  `json:"source_count"`
-	ArticleCount    int                  `json:"article_count"`
-	Representative  *storyRepresentative `json:"representative,omitempty"`
+	StoryID          int64                `json:"story_id"`
+	StoryUUID        string               `json:"story_uuid"`
+	Collection       string               `json:"collection"`
+	Title            string               `json:"title"`
+	OriginalTitle    string               `json:"original_title"`
+	TranslatedTitle  *string              `json:"translated_title"`
+	DetectedLanguage string               `json:"detected_language"`
+	CanonicalURL     *string              `json:"canonical_url,omitempty"`
+	Status           string               `json:"status"`
+	FirstSeenAt      time.Time            `json:"first_seen_at"`
+	LastSeenAt       time.Time            `json:"last_seen_at"`
+	SourceCount      int                  `json:"source_count"`
+	ArticleCount     int                  `json:"article_count"`
+	Representative   *storyRepresentative `json:"representative,omitempty"`
 }
 
 type StoryArticle struct {
@@ -86,6 +91,7 @@ type StoryArticle struct {
 	PublishedAt          *time.Time     `json:"published_at,omitempty"`
 	NormalizedTitle      string         `json:"normalized_title"`
 	NormalizedText       string         `json:"normalized_text,omitempty"`
+	DetectedLanguage     string         `json:"detected_language"`
 	OriginalTitle        string         `json:"original_title"`
 	TranslatedTitle      *string        `json:"translated_title"`
 	OriginalText         string         `json:"original_text"`
@@ -196,12 +202,21 @@ func NewServer(pool *db.Pool, logger zerolog.Logger, opts Options) *Server {
 	if shutdownTimeout <= 0 {
 		shutdownTimeout = 10 * time.Second
 	}
+	sessionTTL := opts.SessionTTL
+	if sessionTTL <= 0 {
+		sessionTTL = 7 * 24 * time.Hour
+	}
+	sessionCookie := strings.TrimSpace(opts.SessionCookie)
+	if sessionCookie == "" {
+		sessionCookie = "scoop_session"
+	}
 
 	registry := translation.NewRegistryFromEnv()
 
 	return &Server{
 		pool:               pool,
 		logger:             logger,
+		registry:           registry,
 		translationManager: translation.NewManager(pool, registry),
 		opts: Options{
 			Host:            host,
@@ -209,6 +224,9 @@ func NewServer(pool *db.Pool, logger zerolog.Logger, opts Options) *Server {
 			ReadTimeout:     readTimeout,
 			WriteTimeout:    writeTimeout,
 			ShutdownTimeout: shutdownTimeout,
+			SessionTTL:      sessionTTL,
+			SessionCookie:   sessionCookie,
+			SessionSecure:   opts.SessionSecure,
 		},
 	}
 }
@@ -226,10 +244,11 @@ func (s *Server) Start(ctx context.Context) error {
 	e.Use(middleware.Recover())
 	e.Use(middleware.RequestID())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{http.MethodGet, http.MethodOptions, http.MethodPost, http.MethodPatch, http.MethodDelete},
-		AllowHeaders: []string{"Origin", "Content-Type", "Accept"},
-		MaxAge:       3600,
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{http.MethodGet, http.MethodOptions, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Cookie"},
+		AllowCredentials: true,
+		MaxAge:           3600,
 	}))
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus:    true,
@@ -274,20 +293,29 @@ func (s *Server) Start(ctx context.Context) error {
 
 	api := e.Group("/api/v1")
 	api.GET("/health", s.handleHealth)
-	api.GET("/stats", s.handleStats)
-	api.GET("/collections", s.handleCollections)
-	api.GET("/story-days", s.handleStoryDays)
-	api.GET("/stories", s.handleStories)
-	api.GET("/stories/:story_uuid", s.handleStoryDetail)
-	api.POST("/translate", s.handleTranslate)
-	api.GET("/translations/:story_uuid", s.handleStoryTranslations)
-	api.DELETE("/stories/:story_uuid", s.handleDeleteStory)
-	api.PATCH("/stories/:story_uuid", s.handleUpdateStory)
-	api.POST("/stories/:story_uuid/restore", s.handleRestoreStory)
-	api.DELETE("/articles/:article_uuid", s.handleDeleteArticle)
-	api.PATCH("/articles/:article_uuid", s.handleUpdateArticle)
-	api.POST("/articles/:article_uuid/restore", s.handleRestoreArticle)
-	api.GET("/articles/:story_article_uuid/preview", s.handleStoryArticlePreview)
+	api.GET("/languages", s.handleLanguages)
+	api.POST("/auth/login", s.handleLogin)
+	api.POST("/auth/logout", s.handleLogout)
+
+	protected := api.Group("")
+	protected.Use(s.requireAuth())
+	protected.GET("/me", s.handleMe)
+	protected.GET("/me/settings", s.handleGetMySettings)
+	protected.PUT("/me/settings", s.handlePutMySettings)
+	protected.GET("/stats", s.handleStats)
+	protected.GET("/collections", s.handleCollections)
+	protected.GET("/story-days", s.handleStoryDays)
+	protected.GET("/stories", s.handleStories)
+	protected.GET("/stories/:story_uuid", s.handleStoryDetail)
+	protected.POST("/translate", s.handleTranslate)
+	protected.GET("/translations/:story_uuid", s.handleStoryTranslations)
+	protected.DELETE("/stories/:story_uuid", s.handleDeleteStory)
+	protected.PATCH("/stories/:story_uuid", s.handleUpdateStory)
+	protected.POST("/stories/:story_uuid/restore", s.handleRestoreStory)
+	protected.DELETE("/articles/:article_uuid", s.handleDeleteArticle)
+	protected.PATCH("/articles/:article_uuid", s.handleUpdateArticle)
+	protected.POST("/articles/:article_uuid/restore", s.handleRestoreArticle)
+	protected.GET("/articles/:story_article_uuid/preview", s.handleStoryArticlePreview)
 
 	addr := fmt.Sprintf("%s:%d", s.opts.Host, s.opts.Port)
 	httpServer := &http.Server{
@@ -805,6 +833,7 @@ SELECT
 		ON a.article_id = sa.article_id
 		AND a.deleted_at IS NULL
 	 WHERE sa.story_id = s.story_id) AS article_count,
+	COALESCE(rd.normalized_language, 'und') AS detected_language,
 	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
@@ -873,6 +902,7 @@ OFFSET $8
 			&row.LastSeenAt,
 			&row.SourceCount,
 			&row.ArticleCount,
+			&row.DetectedLanguage,
 			&repArticleUUID,
 			&repSource,
 			&repSourceItemID,
@@ -994,6 +1024,7 @@ SELECT
 		ON a.article_id = sa.article_id
 		AND a.deleted_at IS NULL
 	 WHERE sa.story_id = s.story_id) AS article_count,
+	COALESCE(rd.normalized_language, 'und') AS detected_language,
 	rd.article_uuid::text,
 	rd.source,
 	rd.source_item_id,
@@ -1036,6 +1067,7 @@ WHERE s.story_uuid = $1::uuid
 		&story.LastSeenAt,
 		&story.SourceCount,
 		&story.ArticleCount,
+		&story.DetectedLanguage,
 		&repArticleUUID,
 		&repSource,
 		&repSourceItemID,
@@ -1070,6 +1102,7 @@ SELECT
 	d.canonical_url,
 	d.published_at,
 	d.normalized_title,
+	COALESCE(d.normalized_language, 'und') AS detected_language,
 	at.translated_text,
 	d.normalized_text,
 	ax.translated_text,
@@ -1137,6 +1170,7 @@ ORDER BY sm.matched_at DESC
 			&member.CanonicalURL,
 			&member.PublishedAt,
 			&member.NormalizedTitle,
+			&member.DetectedLanguage,
 			&member.TranslatedTitle,
 			&member.NormalizedText,
 			&member.TranslatedText,

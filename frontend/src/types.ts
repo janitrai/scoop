@@ -28,6 +28,7 @@ export interface StoryListItem {
   title: string;
   original_title: string;
   translated_title?: string | null;
+  detected_language: string;
   canonical_url?: string;
   status: string;
   first_seen_at: string;
@@ -47,6 +48,7 @@ export interface StoryArticle {
   published_at?: string;
   normalized_title: string;
   normalized_text?: string;
+  detected_language: string;
   original_title: string;
   translated_title?: string | null;
   original_text: string;
@@ -142,4 +144,43 @@ export interface DayNavigationState {
   currentLabel: string;
   navigatorDay: string;
   relativeLabel: string;
+}
+
+export interface LanguageOption {
+  code: string;
+  label: string;
+  native?: string;
+}
+
+export interface AuthUser {
+  user_id: number;
+  username: string;
+  must_change_password: boolean;
+  created_at: string;
+  last_login_at?: string;
+}
+
+export interface UserSettings {
+  preferred_language: string;
+  ui_prefs: Record<string, unknown>;
+}
+
+export interface LoginResponse {
+  user: AuthUser;
+  settings: UserSettings;
+  languages: LanguageOption[];
+  session: {
+    session_id: string;
+    expires_at: string;
+  };
+}
+
+export interface MeResponse {
+  user: AuthUser;
+  settings: UserSettings;
+  languages: LanguageOption[];
+}
+
+export interface MySettingsResponse {
+  settings: UserSettings;
 }

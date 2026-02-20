@@ -1,39 +1,44 @@
 import { Globe } from "lucide-react";
 
+import type { LanguageOption } from "../../types";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 
-export type ViewerLanguage = "original" | "en" | "zh";
-
 interface LanguageSwitcherProps {
-  value: ViewerLanguage;
-  onChange: (value: ViewerLanguage) => void;
+  value: string;
+  options: LanguageOption[];
+  onChange: (value: string) => void;
 }
 
-const LANGUAGE_LABEL: Record<ViewerLanguage, string> = {
-  original: "Original",
-  en: "English",
-  zh: "Chinese",
-};
+function resolveLabel(value: string, options: LanguageOption[]): string {
+  const normalized = value.trim().toLowerCase();
+  const match = options.find((option) => option.code.trim().toLowerCase() === normalized);
+  if (match) {
+    return match.label;
+  }
+  return normalized ? normalized.toUpperCase() : "Original";
+}
 
-export function LanguageSwitcher({ value, onChange }: LanguageSwitcherProps): JSX.Element {
+export function LanguageSwitcher({ value, options, onChange }: LanguageSwitcherProps): JSX.Element {
   return (
     <div className="lang-switcher">
       <Select
         value={value}
         onValueChange={(nextValue) => {
-          onChange(nextValue as ViewerLanguage);
+          onChange(nextValue);
         }}
       >
         <SelectTrigger variant="default" className="lang-select-trigger" aria-label="Content language">
           <span className="lang-select-label">
             <Globe className="lang-select-icon" aria-hidden="true" style={{ flexShrink: 0 }} />
-            {LANGUAGE_LABEL[value]}
+            {resolveLabel(value, options)}
           </span>
         </SelectTrigger>
         <SelectContent className="lang-select-content">
-          <SelectItem value="original">Original</SelectItem>
-          <SelectItem value="en">English</SelectItem>
-          <SelectItem value="zh">Chinese</SelectItem>
+          {options.map((option) => (
+            <SelectItem key={option.code} value={option.code}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

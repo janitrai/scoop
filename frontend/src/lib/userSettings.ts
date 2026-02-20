@@ -1,28 +1,15 @@
-const STORAGE_KEY = "scoop.user_settings.v1";
+const STORAGE_KEY = "scoop.user_settings.v2";
 
 const FEED_WIDTH_MIN = 10;
 const FEED_WIDTH_MAX = 80;
 const FEED_WIDTH_DEFAULT = 35;
-const DEFAULT_VIEWER_LANGUAGE: ViewerLanguageSetting = "original";
-
-const VIEWER_LANGUAGES = new Set<ViewerLanguageSetting>(["original", "en", "zh"]);
-
-export type ViewerLanguageSetting = "original" | "en" | "zh";
-
-interface ViewerSettings {
-  desktopFeedWidthPct: number;
-  language: ViewerLanguageSetting;
-}
 
 interface UserSettings {
-  viewer: ViewerSettings;
+  desktopFeedWidthPct: number;
 }
 
 const DEFAULT_SETTINGS: UserSettings = {
-  viewer: {
-    desktopFeedWidthPct: FEED_WIDTH_DEFAULT,
-    language: DEFAULT_VIEWER_LANGUAGE,
-  },
+  desktopFeedWidthPct: FEED_WIDTH_DEFAULT,
 };
 
 function clampFeedWidth(value: number): number {
@@ -41,26 +28,14 @@ function normalizeSettings(input: unknown): UserSettings {
     return DEFAULT_SETTINGS;
   }
 
-  const viewerRaw = isObject(input.viewer) ? input.viewer : {};
-  const widthRaw = viewerRaw.desktopFeedWidthPct;
+  const widthFromV2 = input.desktopFeedWidthPct;
+  const widthFromV1 = isObject(input.viewer) ? input.viewer.desktopFeedWidthPct : undefined;
+  const widthRaw = typeof widthFromV2 === "number" ? widthFromV2 : widthFromV1;
   const widthValue = typeof widthRaw === "number" ? widthRaw : FEED_WIDTH_DEFAULT;
-  const languageRaw = typeof viewerRaw.language === "string" ? viewerRaw.language : DEFAULT_VIEWER_LANGUAGE;
-  const language = normalizeViewerLanguage(languageRaw);
 
   return {
-    viewer: {
-      desktopFeedWidthPct: clampFeedWidth(widthValue),
-      language,
-    },
+    desktopFeedWidthPct: clampFeedWidth(widthValue),
   };
-}
-
-function normalizeViewerLanguage(raw: string): ViewerLanguageSetting {
-  const normalized = raw.trim().toLowerCase() as ViewerLanguageSetting;
-  if (VIEWER_LANGUAGES.has(normalized)) {
-    return normalized;
-  }
-  return DEFAULT_VIEWER_LANGUAGE;
 }
 
 function readStorage(): UserSettings {
@@ -92,31 +67,12 @@ function writeStorage(settings: UserSettings): void {
 }
 
 export function getDesktopFeedWidthPct(): number {
-  return readStorage().viewer.desktopFeedWidthPct;
+  return readStorage().desktopFeedWidthPct;
 }
 
 export function setDesktopFeedWidthPct(value: number): void {
-  const current = readStorage();
   const next: UserSettings = {
-    viewer: {
-      ...current.viewer,
-      desktopFeedWidthPct: clampFeedWidth(value),
-    },
-  };
-  writeStorage(next);
-}
-
-export function getViewerLanguage(): ViewerLanguageSetting {
-  return readStorage().viewer.language;
-}
-
-export function setViewerLanguage(language: string): void {
-  const current = readStorage();
-  const next: UserSettings = {
-    viewer: {
-      ...current.viewer,
-      language: normalizeViewerLanguage(language),
-    },
+    desktopFeedWidthPct: clampFeedWidth(value),
   };
   writeStorage(next);
 }

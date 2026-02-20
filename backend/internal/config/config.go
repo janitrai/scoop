@@ -14,6 +14,13 @@ type Config struct {
 	DatabaseURL string `envconfig:"DATABASE_URL" required:"true"`
 	DBMinConns  int32  `envconfig:"NP_DB_MIN_CONNS" default:"1"`
 	DBMaxConns  int32  `envconfig:"NP_DB_MAX_CONNS" default:"8"`
+
+	DefaultAdminUser               string `envconfig:"DEFAULT_ADMIN_USER" default:"admin"`
+	DefaultAdminPassword           string `envconfig:"DEFAULT_ADMIN_PASSWORD" default:"changeme123"`
+	DefaultAdminMustChangePassword bool   `envconfig:"DEFAULT_ADMIN_MUST_CHANGE_PASSWORD" default:"true"`
+	SessionTTLHours                int    `envconfig:"SESSION_TTL_HOURS" default:"168"`
+	SessionCookieName              string `envconfig:"SESSION_COOKIE_NAME" default:"scoop_session"`
+	SessionCookieSecure            bool   `envconfig:"SESSION_COOKIE_SECURE" default:"false"`
 }
 
 func Load() (*Config, error) {
@@ -39,6 +46,18 @@ func (c *Config) Validate() error {
 	}
 	if c.DBMinConns > c.DBMaxConns {
 		return fmt.Errorf("NP_DB_MIN_CONNS (%d) cannot exceed NP_DB_MAX_CONNS (%d)", c.DBMinConns, c.DBMaxConns)
+	}
+	if strings.TrimSpace(c.DefaultAdminUser) == "" {
+		return fmt.Errorf("DEFAULT_ADMIN_USER is required")
+	}
+	if strings.TrimSpace(c.DefaultAdminPassword) == "" {
+		return fmt.Errorf("DEFAULT_ADMIN_PASSWORD is required")
+	}
+	if c.SessionTTLHours < 1 {
+		return fmt.Errorf("SESSION_TTL_HOURS must be >= 1")
+	}
+	if strings.TrimSpace(c.SessionCookieName) == "" {
+		return fmt.Errorf("SESSION_COOKIE_NAME is required")
 	}
 	return nil
 }
