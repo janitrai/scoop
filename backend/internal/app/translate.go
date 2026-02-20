@@ -71,7 +71,7 @@ func runTranslate(args []string) int {
 	defer pool.Close()
 
 	registry := translation.NewRegistryFromEnv()
-	manager := translation.NewManager(pool, registry)
+	var service translation.Service = translation.NewManager(pool, registry)
 
 	runOpts := translation.RunOptions{
 		TargetLang: targetLang,
@@ -88,7 +88,7 @@ func runTranslate(args []string) int {
 	var stats translation.RunStats
 	switch target {
 	case "story":
-		stats, err = manager.TranslateStoryByUUID(ctx, identifier, runOpts)
+		stats, err = service.TranslateStoryByUUID(ctx, identifier, runOpts)
 		if err != nil {
 			if errors.Is(err, translation.ErrStoryNotFound) {
 				fmt.Fprintf(os.Stderr, "Story not found: %s\n", identifier)
@@ -98,7 +98,7 @@ func runTranslate(args []string) int {
 			return 1
 		}
 	case "article":
-		stats, err = manager.TranslateArticleByUUID(ctx, identifier, runOpts)
+		stats, err = service.TranslateArticleByUUID(ctx, identifier, runOpts)
 		if err != nil {
 			if errors.Is(err, translation.ErrArticleNotFound) {
 				fmt.Fprintf(os.Stderr, "Article not found: %s\n", identifier)
@@ -108,7 +108,7 @@ func runTranslate(args []string) int {
 			return 1
 		}
 	default:
-		stats, err = manager.TranslateCollection(ctx, identifier, translation.CollectionRunOptions{
+		stats, err = service.TranslateCollection(ctx, identifier, translation.CollectionRunOptions{
 			RunOptions: runOpts,
 			Progress: func(p translation.CollectionProgress) {
 				fmt.Printf("Translating %d/%d stories...\n", p.Current, p.Total)

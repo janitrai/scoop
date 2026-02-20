@@ -43,7 +43,7 @@ type Server struct {
 	logger             zerolog.Logger
 	opts               Options
 	registry           *translation.Registry
-	translationManager *translation.Manager
+	translationService translation.Service
 }
 
 type storyListFilter struct {
@@ -182,6 +182,20 @@ type updatedArticle struct {
 }
 
 func NewServer(pool *db.Pool, logger zerolog.Logger, opts Options) *Server {
+	return newServer(pool, logger, opts, translation.NewRegistryFromEnv(), nil)
+}
+
+func NewServerWithTranslationService(pool *db.Pool, logger zerolog.Logger, opts Options, service translation.Service) *Server {
+	return newServer(pool, logger, opts, translation.NewRegistryFromEnv(), service)
+}
+
+func newServer(
+	pool *db.Pool,
+	logger zerolog.Logger,
+	opts Options,
+	registry *translation.Registry,
+	service translation.Service,
+) *Server {
 	host := strings.TrimSpace(opts.Host)
 	if host == "" {
 		host = "0.0.0.0"
@@ -210,14 +224,18 @@ func NewServer(pool *db.Pool, logger zerolog.Logger, opts Options) *Server {
 	if sessionCookie == "" {
 		sessionCookie = "scoop_session"
 	}
-
-	registry := translation.NewRegistryFromEnv()
+	if registry == nil {
+		registry = translation.NewRegistryFromEnv()
+	}
+	if service == nil {
+		service = translation.NewManager(pool, registry)
+	}
 
 	return &Server{
 		pool:               pool,
 		logger:             logger,
 		registry:           registry,
-		translationManager: translation.NewManager(pool, registry),
+		translationService: service,
 		opts: Options{
 			Host:            host,
 			Port:            port,
@@ -512,7 +530,7 @@ func (s *Server) handleStoryDetail(c echo.Context) error {
 }
 
 func (s *Server) handleTranslate(c echo.Context) error {
-	if s.translationManager == nil {
+	if s.translationService == nil {
 		return internalError(c, "Translation service is not initialized")
 	}
 
@@ -547,9 +565,9 @@ func (s *Server) handleTranslate(c echo.Context) error {
 	)
 	switch {
 	case storyUUID != "":
-		stats, err = s.translationManager.TranslateStoryByUUID(c.Request().Context(), storyUUID, runOpts)
+		stats, err = s.translationService.TranslateStoryByUUID(c.Request().Context(), storyUUID, runOpts)
 	case articleUUID != "":
-		stats, err = s.translationManager.TranslateArticleByUUID(c.Request().Context(), articleUUID, runOpts)
+		stats, err = s.translationService.TranslateArticleByUUID(c.Request().Context(), articleUUID, runOpts)
 	}
 	if err != nil {
 		switch {
@@ -567,7 +585,7 @@ func (s *Server) handleTranslate(c echo.Context) error {
 
 	resolvedProvider := provider
 	if resolvedProvider == "" {
-		resolvedProvider = s.translationManager.DefaultProvider()
+		resolvedProvider = s.translationService.DefaultProvider()
 	}
 
 	return success(c, map[string]any{
@@ -580,7 +598,7 @@ func (s *Server) handleTranslate(c echo.Context) error {
 }
 
 func (s *Server) handleStoryTranslations(c echo.Context) error {
-	if s.translationManager == nil {
+	if s.translationService == nil {
 		return internalError(c, "Translation service is not initialized")
 	}
 
@@ -589,7 +607,7 @@ func (s *Server) handleStoryTranslations(c echo.Context) error {
 		return failValidation(c, map[string]string{"story_uuid": "is required"})
 	}
 
-	items, err := s.translationManager.ListStoryTranslationsByUUID(c.Request().Context(), storyUUID)
+	items, err := s.translationService.ListStoryTranslationsByUUID(c.Request().Context(), storyUUID)
 	if err != nil {
 		if errors.Is(err, translation.ErrStoryNotFound) {
 			return failNotFound(c, "Story not found")

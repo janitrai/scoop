@@ -71,9 +71,7 @@ func (p *LocalProvider) ModelName() string {
 }
 
 func (p *LocalProvider) SupportedLanguages() []string {
-	return []string{
-		"ar", "de", "en", "es", "fr", "id", "it", "ja", "ko", "pl", "pt", "ru", "th", "tr", "vi", "zh",
-	}
+	return SupportedTranslationLanguageCodes()
 }
 
 func (p *LocalProvider) Translate(ctx context.Context, req TranslateRequest) (*TranslateResponse, error) {
@@ -183,30 +181,6 @@ type localChatErrorResponse struct {
 	} `json:"error"`
 }
 
-type langLabel struct {
-	english string
-	chinese string
-}
-
-var translationLangLabels = map[string]langLabel{
-	"ar": {english: "Arabic", chinese: "阿拉伯语"},
-	"de": {english: "German", chinese: "德语"},
-	"en": {english: "English", chinese: "英语"},
-	"es": {english: "Spanish", chinese: "西班牙语"},
-	"fr": {english: "French", chinese: "法语"},
-	"id": {english: "Indonesian", chinese: "印度尼西亚语"},
-	"it": {english: "Italian", chinese: "意大利语"},
-	"ja": {english: "Japanese", chinese: "日语"},
-	"ko": {english: "Korean", chinese: "韩语"},
-	"pl": {english: "Polish", chinese: "波兰语"},
-	"pt": {english: "Portuguese", chinese: "葡萄牙语"},
-	"ru": {english: "Russian", chinese: "俄语"},
-	"th": {english: "Thai", chinese: "泰语"},
-	"tr": {english: "Turkish", chinese: "土耳其语"},
-	"vi": {english: "Vietnamese", chinese: "越南语"},
-	"zh": {english: "Chinese", chinese: "中文"},
-}
-
 func buildHYMTPrompt(text, sourceLang, targetLang string) string {
 	target := targetLanguageLabel(targetLang)
 	if isChineseLanguage(sourceLang) || isChineseLanguage(targetLang) {
@@ -217,16 +191,16 @@ func buildHYMTPrompt(text, sourceLang, targetLang string) string {
 	return fmt.Sprintf("Translate the following segment into %s, without additional explanation.\n\n%s", target.english, text)
 }
 
-func targetLanguageLabel(lang string) langLabel {
+func targetLanguageLabel(lang string) languageLabel {
 	normalized := normalizeLangCode(lang)
-	if labels, ok := translationLangLabels[normalized]; ok {
+	if labels, ok := translationLanguageLabels[normalized]; ok {
 		return labels
 	}
 	fallback := strings.TrimSpace(lang)
 	if fallback == "" {
 		fallback = "English"
 	}
-	return langLabel{english: fallback, chinese: fallback}
+	return languageLabel{english: fallback, chinese: fallback}
 }
 
 func isChineseLanguage(lang string) bool {

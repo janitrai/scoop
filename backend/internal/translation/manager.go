@@ -75,14 +75,29 @@ type CachedTranslation struct {
 	CreatedAt       time.Time `json:"created_at"`
 }
 
+type translationStore interface {
+	GetTranslationStoryByUUID(ctx context.Context, storyUUID string) (db.TranslationStoryTarget, error)
+	ListTranslationStoriesByCollection(ctx context.Context, collection string) ([]db.TranslationStoryTarget, error)
+	ListTranslationStoryArticles(ctx context.Context, storyID int64) ([]db.TranslationArticleTarget, error)
+	GetTranslationArticleByUUID(ctx context.Context, articleUUID string) (db.TranslationArticleTarget, error)
+	ListStoryTranslationRows(ctx context.Context, storyID int64) ([]db.StoryTranslationRow, error)
+	LookupCachedTranslationRow(ctx context.Context, translationSourceID int64, targetLang string) (*db.CachedTranslationRow, error)
+	UpsertTranslationSource(ctx context.Context, row db.UpsertTranslationSourceParams) (int64, error)
+	UpsertTranslationResult(ctx context.Context, row db.UpsertTranslationResultParams) error
+}
+
 // Manager coordinates provider calls and persistent translation caching.
 type Manager struct {
-	pool     *db.Pool
+	store    translationStore
 	registry *Registry
 }
 
 func NewManager(pool *db.Pool, registry *Registry) *Manager {
-	return &Manager{pool: pool, registry: registry}
+	return NewManagerWithStore(pool, registry)
+}
+
+func NewManagerWithStore(store translationStore, registry *Registry) *Manager {
+	return &Manager{store: store, registry: registry}
 }
 
 func (m *Manager) DefaultProvider() string {
@@ -93,7 +108,7 @@ func (m *Manager) DefaultProvider() string {
 }
 
 func (m *Manager) TranslateStoryByUUID(ctx context.Context, storyUUID string, opts RunOptions) (RunStats, error) {
-	if m == nil || m.pool == nil {
+	if m == nil || m.store == nil {
 		return RunStats{}, fmt.Errorf("translation manager is not initialized")
 	}
 
@@ -105,7 +120,7 @@ func (m *Manager) TranslateStoryByUUID(ctx context.Context, storyUUID string, op
 }
 
 func (m *Manager) TranslateArticleByUUID(ctx context.Context, articleUUID string, opts RunOptions) (RunStats, error) {
-	if m == nil || m.pool == nil {
+	if m == nil || m.store == nil {
 		return RunStats{}, fmt.Errorf("translation manager is not initialized")
 	}
 
@@ -144,7 +159,7 @@ func (m *Manager) TranslateArticleByUUID(ctx context.Context, articleUUID string
 }
 
 func (m *Manager) TranslateCollection(ctx context.Context, collection string, opts CollectionRunOptions) (RunStats, error) {
-	if m == nil || m.pool == nil {
+	if m == nil || m.store == nil {
 		return RunStats{}, fmt.Errorf("translation manager is not initialized")
 	}
 
@@ -179,7 +194,7 @@ func (m *Manager) TranslateCollection(ctx context.Context, collection string, op
 }
 
 func (m *Manager) ListStoryTranslationsByUUID(ctx context.Context, storyUUID string) ([]CachedTranslation, error) {
-	if m == nil || m.pool == nil {
+	if m == nil || m.store == nil {
 		return nil, fmt.Errorf("translation manager is not initialized")
 	}
 
@@ -188,74 +203,27 @@ func (m *Manager) ListStoryTranslationsByUUID(ctx context.Context, storyUUID str
 		return nil, err
 	}
 
-	const q = `
-SELECT
-	r.translation_result_uuid::text,
-	ts.source_type,
-	ts.source_id,
-	CASE
-		WHEN ts.source_type = 'story_title' THEN s.story_uuid::text
-		WHEN ts.source_type IN ('article_title', 'article_text') THEN a.article_uuid::text
-		ELSE NULL
-	END AS source_uuid,
-	ts.source_lang,
-	r.target_lang,
-	ts.original_text,
-	r.translated_text,
-	r.provider_name,
-	r.model_name,
-	r.latency_ms,
-	r.created_at
-FROM news.translation_sources ts
-JOIN news.translation_results r
-	ON r.translation_source_id = ts.translation_source_id
-LEFT JOIN news.stories s
-	ON ts.source_type = 'story_title'
-	AND s.story_id = ts.source_id
-LEFT JOIN news.articles a
-	ON ts.source_type IN ('article_title', 'article_text')
-	AND a.article_id = ts.source_id
-WHERE (ts.source_type = 'story_title' AND ts.source_id = $1)
-   OR (
-		ts.source_type IN ('article_title', 'article_text')
-		AND ts.source_id IN (
-			SELECT sa.article_id
-			FROM news.story_articles sa
-			WHERE sa.story_id = $1
-		)
-	)
-ORDER BY r.target_lang, ts.source_type, ts.source_id, ts.captured_at DESC, r.created_at DESC
-	`
-
-	rows, err := m.pool.Query(ctx, q, story.StoryID)
+	rows, err := m.store.ListStoryTranslationRows(ctx, story.StoryID)
 	if err != nil {
-		return nil, fmt.Errorf("query story translations: %w", err)
+		return nil, err
 	}
-	defer rows.Close()
 
-	items := make([]CachedTranslation, 0, 32)
-	for rows.Next() {
-		var row CachedTranslation
-		if err := rows.Scan(
-			&row.TranslationUUID,
-			&row.SourceType,
-			&row.SourceID,
-			&row.SourceUUID,
-			&row.SourceLang,
-			&row.TargetLang,
-			&row.OriginalText,
-			&row.TranslatedText,
-			&row.ProviderName,
-			&row.ModelName,
-			&row.LatencyMS,
-			&row.CreatedAt,
-		); err != nil {
-			return nil, fmt.Errorf("scan story translation row: %w", err)
-		}
-		items = append(items, row)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate story translations: %w", err)
+	items := make([]CachedTranslation, 0, len(rows))
+	for _, row := range rows {
+		items = append(items, CachedTranslation{
+			TranslationUUID: row.TranslationUUID,
+			SourceType:      row.SourceType,
+			SourceID:        row.SourceID,
+			SourceUUID:      row.SourceUUID,
+			SourceLang:      row.SourceLang,
+			TargetLang:      row.TargetLang,
+			OriginalText:    row.OriginalText,
+			TranslatedText:  row.TranslatedText,
+			ProviderName:    row.ProviderName,
+			ModelName:       row.ModelName,
+			LatencyMS:       row.LatencyMS,
+			CreatedAt:       row.CreatedAt,
+		})
 	}
 
 	return items, nil
@@ -443,116 +411,57 @@ func (m *Manager) resolveProvider(requested string) (Provider, error) {
 }
 
 func (m *Manager) fetchStoryByUUID(ctx context.Context, storyUUID string) (storyTranslationTarget, error) {
-	const q = `
-SELECT
-	s.story_id,
-	s.story_uuid::text,
-	s.canonical_title,
-	COALESCE(rep.normalized_language, 'und') AS source_lang
-FROM news.stories s
-LEFT JOIN news.articles rep
-	ON rep.article_id = s.representative_article_id
-	AND rep.deleted_at IS NULL
-WHERE s.story_uuid = $1::uuid
-  AND s.deleted_at IS NULL
-LIMIT 1
-`
-
-	var row storyTranslationTarget
-	err := m.pool.QueryRow(ctx, q, strings.TrimSpace(storyUUID)).Scan(
-		&row.StoryID,
-		&row.StoryUUID,
-		&row.Title,
-		&row.SourceLang,
-	)
+	row, err := m.store.GetTranslationStoryByUUID(ctx, storyUUID)
 	if err != nil {
 		if errors.Is(err, db.ErrNoRows) {
 			return storyTranslationTarget{}, ErrStoryNotFound
 		}
-		return storyTranslationTarget{}, fmt.Errorf("query story: %w", err)
+		return storyTranslationTarget{}, err
 	}
-	return row, nil
+	return storyTranslationTarget{
+		StoryID:    row.StoryID,
+		StoryUUID:  row.StoryUUID,
+		Title:      row.Title,
+		SourceLang: row.SourceLang,
+	}, nil
 }
 
 func (m *Manager) listStoriesByCollection(ctx context.Context, collection string) ([]storyTranslationTarget, error) {
-	const q = `
-SELECT
-	s.story_id,
-	s.story_uuid::text,
-	s.canonical_title,
-	COALESCE(rep.normalized_language, 'und') AS source_lang
-FROM news.stories s
-LEFT JOIN news.articles rep
-	ON rep.article_id = s.representative_article_id
-	AND rep.deleted_at IS NULL
-WHERE s.deleted_at IS NULL
-  AND ($1 = '' OR s.collection = $1)
-ORDER BY s.last_seen_at DESC, s.story_id DESC
-`
-
-	rows, err := m.pool.Query(ctx, q, normalizeCollection(collection))
+	rows, err := m.store.ListTranslationStoriesByCollection(ctx, collection)
 	if err != nil {
-		return nil, fmt.Errorf("query collection stories: %w", err)
+		return nil, err
 	}
-	defer rows.Close()
 
-	items := make([]storyTranslationTarget, 0, 64)
-	for rows.Next() {
-		var row storyTranslationTarget
-		if err := rows.Scan(&row.StoryID, &row.StoryUUID, &row.Title, &row.SourceLang); err != nil {
-			return nil, fmt.Errorf("scan collection story row: %w", err)
-		}
-		items = append(items, row)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate collection stories: %w", err)
+	items := make([]storyTranslationTarget, 0, len(rows))
+	for _, row := range rows {
+		items = append(items, storyTranslationTarget{
+			StoryID:    row.StoryID,
+			StoryUUID:  row.StoryUUID,
+			Title:      row.Title,
+			SourceLang: row.SourceLang,
+		})
 	}
 
 	return items, nil
 }
 
 func (m *Manager) fetchStoryArticles(ctx context.Context, storyID int64) ([]articleTranslationTarget, error) {
-	const q = `
-SELECT
-	a.article_id,
-	a.article_uuid::text,
-	a.normalized_title,
-	a.normalized_text,
-	a.normalized_language,
-	a.canonical_url
-FROM news.story_articles sa
-JOIN news.articles a
-	ON a.article_id = sa.article_id
-	AND a.deleted_at IS NULL
-WHERE sa.story_id = $1
-ORDER BY sa.matched_at DESC, a.article_id DESC
-`
-
-	rows, err := m.pool.Query(ctx, q, storyID)
+	rows, err := m.store.ListTranslationStoryArticles(ctx, storyID)
 	if err != nil {
-		return nil, fmt.Errorf("query story articles: %w", err)
+		return nil, err
 	}
-	defer rows.Close()
 
-	items := make([]articleTranslationTarget, 0, 8)
-	for rows.Next() {
-		var row articleTranslationTarget
-		if err := rows.Scan(
-			&row.ArticleID,
-			&row.ArticleUUID,
-			&row.Title,
-			&row.Text,
-			&row.SourceLang,
-			&row.CanonicalURL,
-		); err != nil {
-			return nil, fmt.Errorf("scan story article row: %w", err)
-		}
-		items = append(items, row)
+	items := make([]articleTranslationTarget, 0, len(rows))
+	for _, row := range rows {
+		items = append(items, articleTranslationTarget{
+			ArticleID:    row.ArticleID,
+			ArticleUUID:  row.ArticleUUID,
+			Title:        row.Title,
+			Text:         row.Text,
+			SourceLang:   row.SourceLang,
+			CanonicalURL: row.CanonicalURL,
+		})
 	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate story articles: %w", err)
-	}
-	rows.Close()
 
 	for i := range items {
 		if err := m.hydrateArticleTextForTranslation(ctx, &items[i]); err != nil {
@@ -564,41 +473,28 @@ ORDER BY sa.matched_at DESC, a.article_id DESC
 }
 
 func (m *Manager) fetchArticleByUUID(ctx context.Context, articleUUID string) (articleTranslationTarget, error) {
-	const q = `
-SELECT
-	a.article_id,
-	a.article_uuid::text,
-	a.normalized_title,
-	a.normalized_text,
-	a.normalized_language,
-	a.canonical_url
-FROM news.articles a
-WHERE a.article_uuid = $1::uuid
-  AND a.deleted_at IS NULL
-LIMIT 1
-`
-
-	var row articleTranslationTarget
-	err := m.pool.QueryRow(ctx, q, strings.TrimSpace(articleUUID)).Scan(
-		&row.ArticleID,
-		&row.ArticleUUID,
-		&row.Title,
-		&row.Text,
-		&row.SourceLang,
-		&row.CanonicalURL,
-	)
+	row, err := m.store.GetTranslationArticleByUUID(ctx, articleUUID)
 	if err != nil {
 		if errors.Is(err, db.ErrNoRows) {
 			return articleTranslationTarget{}, ErrArticleNotFound
 		}
-		return articleTranslationTarget{}, fmt.Errorf("query article: %w", err)
-	}
-
-	if err := m.hydrateArticleTextForTranslation(ctx, &row); err != nil {
 		return articleTranslationTarget{}, err
 	}
 
-	return row, nil
+	item := articleTranslationTarget{
+		ArticleID:    row.ArticleID,
+		ArticleUUID:  row.ArticleUUID,
+		Title:        row.Title,
+		Text:         row.Text,
+		SourceLang:   row.SourceLang,
+		CanonicalURL: row.CanonicalURL,
+	}
+
+	if err := m.hydrateArticleTextForTranslation(ctx, &item); err != nil {
+		return articleTranslationTarget{}, err
+	}
+
+	return item, nil
 }
 
 func (m *Manager) hydrateArticleTextForTranslation(
@@ -647,48 +543,26 @@ func (m *Manager) lookupCachedTranslation(
 	translationSourceID int64,
 	targetLang string,
 ) (*CachedTranslation, error) {
-	const q = `
-SELECT
-	r.translation_result_uuid::text,
-	ts.source_type,
-	ts.source_id,
-	ts.source_lang,
-	r.target_lang,
-	ts.original_text,
-	r.translated_text,
-	r.provider_name,
-	r.model_name,
-	r.latency_ms,
-	r.created_at
-FROM news.translation_results r
-JOIN news.translation_sources ts
-	ON ts.translation_source_id = r.translation_source_id
-WHERE r.translation_source_id = $1
-	  AND r.target_lang = $2
-LIMIT 1
-	`
-
-	var row CachedTranslation
-	err := m.pool.QueryRow(ctx, q, translationSourceID, targetLang).Scan(
-		&row.TranslationUUID,
-		&row.SourceType,
-		&row.SourceID,
-		&row.SourceLang,
-		&row.TargetLang,
-		&row.OriginalText,
-		&row.TranslatedText,
-		&row.ProviderName,
-		&row.ModelName,
-		&row.LatencyMS,
-		&row.CreatedAt,
-	)
+	row, err := m.store.LookupCachedTranslationRow(ctx, translationSourceID, targetLang)
 	if err != nil {
-		if errors.Is(err, db.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, fmt.Errorf("query translation cache: %w", err)
+		return nil, err
 	}
-	return &row, nil
+	if row == nil {
+		return nil, nil
+	}
+	return &CachedTranslation{
+		TranslationUUID: row.TranslationUUID,
+		SourceType:      row.SourceType,
+		SourceID:        row.SourceID,
+		SourceLang:      row.SourceLang,
+		TargetLang:      row.TargetLang,
+		OriginalText:    row.OriginalText,
+		TranslatedText:  row.TranslatedText,
+		ProviderName:    row.ProviderName,
+		ModelName:       row.ModelName,
+		LatencyMS:       row.LatencyMS,
+		CreatedAt:       row.CreatedAt,
+	}, nil
 }
 
 type upsertTranslationSourceInput struct {
@@ -701,40 +575,14 @@ type upsertTranslationSourceInput struct {
 }
 
 func (m *Manager) upsertTranslationSource(ctx context.Context, row upsertTranslationSourceInput) (int64, error) {
-	const q = `
-INSERT INTO news.translation_sources (
-	source_type,
-	source_id,
-	source_lang,
-	content_hash,
-	original_text,
-	content_origin,
-	captured_at
-)
-VALUES ($1, $2, $3, $4, $5, $6, now())
-ON CONFLICT (source_type, source_id, content_hash)
-DO UPDATE SET
-	source_lang = EXCLUDED.source_lang,
-	original_text = EXCLUDED.original_text,
-	content_origin = EXCLUDED.content_origin,
-	captured_at = now()
-RETURNING translation_source_id
-	`
-
-	var translationSourceID int64
-	if err := m.pool.QueryRow(
-		ctx,
-		q,
-		row.SourceType,
-		row.SourceID,
-		row.SourceLang,
-		row.ContentHash,
-		row.OriginalText,
-		row.ContentOrigin,
-	).Scan(&translationSourceID); err != nil {
-		return 0, fmt.Errorf("upsert translation source: %w", err)
-	}
-	return translationSourceID, nil
+	return m.store.UpsertTranslationSource(ctx, db.UpsertTranslationSourceParams{
+		SourceType:    row.SourceType,
+		SourceID:      row.SourceID,
+		SourceLang:    row.SourceLang,
+		ContentHash:   row.ContentHash,
+		OriginalText:  row.OriginalText,
+		ContentOrigin: row.ContentOrigin,
+	})
 }
 
 type upsertTranslationResultInput struct {
@@ -747,38 +595,14 @@ type upsertTranslationResultInput struct {
 }
 
 func (m *Manager) upsertTranslationResult(ctx context.Context, row upsertTranslationResultInput) error {
-	const q = `
-INSERT INTO news.translation_results (
-	translation_source_id,
-	target_lang,
-	translated_text,
-	provider_name,
-	model_name,
-	latency_ms
-)
-VALUES ($1, $2, $3, $4, $5, $6)
-ON CONFLICT (translation_source_id, target_lang)
-DO UPDATE SET
-	translated_text = EXCLUDED.translated_text,
-	provider_name = EXCLUDED.provider_name,
-	model_name = EXCLUDED.model_name,
-	latency_ms = EXCLUDED.latency_ms,
-	created_at = now()
-	`
-
-	if _, err := m.pool.Exec(
-		ctx,
-		q,
-		row.TranslationSourceID,
-		row.TargetLang,
-		row.TranslatedText,
-		row.ProviderName,
-		row.ModelName,
-		row.LatencyMS,
-	); err != nil {
-		return fmt.Errorf("upsert translation result: %w", err)
-	}
-	return nil
+	return m.store.UpsertTranslationResult(ctx, db.UpsertTranslationResultParams{
+		TranslationSourceID: row.TranslationSourceID,
+		TargetLang:          row.TargetLang,
+		TranslatedText:      row.TranslatedText,
+		ProviderName:        row.ProviderName,
+		ModelName:           row.ModelName,
+		LatencyMS:           row.LatencyMS,
+	})
 }
 
 type translationTask struct {
@@ -834,10 +658,6 @@ func normalizeContentOrigin(origin string) string {
 	default:
 		return ContentOriginNormalized
 	}
-}
-
-func normalizeCollection(raw string) string {
-	return strings.TrimSpace(strings.ToLower(raw))
 }
 
 func shouldSkipTranslationTask(sourceLang, targetLang string) bool {

@@ -108,11 +108,7 @@ export function StoryViewerPage(): JSX.Element {
     if (languages.length > 0) {
       return languages;
     }
-    return [
-      { code: "original", label: "Original" },
-      { code: "en", label: "English" },
-      { code: "zh", label: "Chinese" },
-    ];
+    return [{ code: "original", label: "Original" }];
   }, [languages]);
   const language = preferredLanguage;
   const apiLanguage = useMemo(() => (language === "original" ? "" : language), [language]);

@@ -11,6 +11,39 @@ type LanguageOption struct {
 	Native string `json:"native,omitempty"`
 }
 
+type languageLabel struct {
+	english string
+	chinese string
+}
+
+var translationLanguageLabels = map[string]languageLabel{
+	"ar": {english: "Arabic", chinese: "阿拉伯语"},
+	"de": {english: "German", chinese: "德语"},
+	"en": {english: "English", chinese: "英语"},
+	"es": {english: "Spanish", chinese: "西班牙语"},
+	"fr": {english: "French", chinese: "法语"},
+	"id": {english: "Indonesian", chinese: "印度尼西亚语"},
+	"it": {english: "Italian", chinese: "意大利语"},
+	"ja": {english: "Japanese", chinese: "日语"},
+	"ko": {english: "Korean", chinese: "韩语"},
+	"pl": {english: "Polish", chinese: "波兰语"},
+	"pt": {english: "Portuguese", chinese: "葡萄牙语"},
+	"ru": {english: "Russian", chinese: "俄语"},
+	"th": {english: "Thai", chinese: "泰语"},
+	"tr": {english: "Turkish", chinese: "土耳其语"},
+	"vi": {english: "Vietnamese", chinese: "越南语"},
+	"zh": {english: "Chinese", chinese: "中文"},
+}
+
+func SupportedTranslationLanguageCodes() []string {
+	codes := make([]string, 0, len(translationLanguageLabels))
+	for code := range translationLanguageLabels {
+		codes = append(codes, code)
+	}
+	sort.Strings(codes)
+	return codes
+}
+
 func ViewerLanguageOptions(registry *Registry) []LanguageOption {
 	options := []LanguageOption{
 		{
@@ -25,7 +58,7 @@ func ViewerLanguageOptions(registry *Registry) []LanguageOption {
 func TranslationLanguageOptions(registry *Registry) []LanguageOption {
 	supported := map[string]struct{}{}
 
-	for code := range translationLangLabels {
+	for code := range translationLanguageLabels {
 		normalized := normalizeLangCode(code)
 		if normalized == "" {
 			continue
@@ -53,7 +86,7 @@ func TranslationLanguageOptions(registry *Registry) []LanguageOption {
 
 	options := make([]LanguageOption, 0, len(codes))
 	for _, code := range codes {
-		labels, hasLabels := translationLangLabels[code]
+		labels, hasLabels := translationLanguageLabels[code]
 		if hasLabels {
 			options = append(options, LanguageOption{
 				Code:   code,
