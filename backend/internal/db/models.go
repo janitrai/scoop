@@ -296,7 +296,7 @@ func (Session) TableName() string { return "news.sessions" }
 // UserSettings maps news.user_settings.
 type UserSettings struct {
 	UserID            int64           `gorm:"column:user_id;type:bigint;primaryKey"`
-	PreferredLanguage string          `gorm:"column:preferred_language;type:text;not null;default:original"`
+	PreferredLanguage string          `gorm:"column:preferred_language;type:text;not null;default:en"`
 	UIPrefs           json.RawMessage `gorm:"column:ui_prefs;type:jsonb;not null;default:'{}'::jsonb"`
 }
 

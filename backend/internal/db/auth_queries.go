@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const defaultPreferredLanguage = "original"
+const defaultPreferredLanguage = "en"
 
 type AuthUser struct {
 	UserID             int64      `json:"user_id"`

@@ -10,7 +10,7 @@ import (
 	"horse.fit/scoop/internal/translation"
 )
 
-const defaultViewerLanguage = "original"
+const defaultViewerLanguage = "en"
 
 type userSettingsResponse struct {
 	PreferredLanguage string         `json:"preferred_language"`
