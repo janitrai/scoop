@@ -352,7 +352,7 @@
   }
 
   .sidebar-user-menu {
-    @apply absolute right-3 bottom-[calc(100%+0.45rem)] z-20 grid min-w-[170px] gap-1 rounded-[10px] border border-panel-500 bg-panel-800 p-1 shadow-panel;
+    @apply absolute inset-x-0 bottom-[calc(100%+0.45rem)] z-20 grid min-w-0 gap-1 rounded-[10px] border border-panel-500 bg-panel-800 p-1 shadow-panel;
   }
 
   .sidebar-user-menu-item {

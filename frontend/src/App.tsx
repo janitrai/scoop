@@ -5,7 +5,6 @@ import { Group, Panel, Separator } from "react-resizable-panels";
 import { useAuth } from "./auth";
 import { CollectionDropdown } from "./components/header/CollectionDropdown";
 import { DayNavigator } from "./components/header/DayNavigator";
-import { LanguageSwitcher } from "./components/header/LanguageSwitcher";
 import { PageShell } from "./components/PageShell";
 import { SettingsModal } from "./components/SettingsModal";
 import { StoriesListPanel } from "./components/StoriesListPanel";
@@ -25,6 +24,13 @@ import { compactViewerSearch, normalizeViewerSearch, toStoryFilters } from "./vi
 
 export function StoryViewerPage(): JSX.Element {
   const { user, settings, languages, logout, updateSettings } = useAuth();
+  const fallbackLanguageOptions = useMemo(
+    () => [
+      { code: "en", label: "English" },
+      { code: "original", label: "Original" },
+    ],
+    [],
+  );
   const allCollectionsValue = "__all_collections__";
   const navigate = useNavigate();
   const rawSearch = useSearch({ strict: false });
@@ -101,15 +107,15 @@ export function StoryViewerPage(): JSX.Element {
 
   const feedWidthBounds = useMemo(() => getDesktopFeedWidthBounds(), []);
   const preferredLanguage = useMemo(() => {
-    const value = (settings?.preferred_language || "original").trim().toLowerCase();
-    return value || "original";
+    const value = (settings?.preferred_language || "en").trim().toLowerCase();
+    return value || "en";
   }, [settings?.preferred_language]);
   const languageOptions = useMemo(() => {
     if (languages.length > 0) {
       return languages;
     }
-    return [{ code: "original", label: "Original" }];
-  }, [languages]);
+    return fallbackLanguageOptions;
+  }, [fallbackLanguageOptions, languages]);
   const language = preferredLanguage;
   const apiLanguage = useMemo(() => (language === "original" ? "" : language), [language]);
   const effectiveFilters = useMemo(
@@ -417,26 +423,13 @@ export function StoryViewerPage(): JSX.Element {
   );
 
   const headerRight = (
-    <div className="topbar-controls">
-      <DayNavigator
-        dayNav={dayNav}
-        pickerDay={pickerDay}
-        onMoveOlder={() => moveDay(1)}
-        onMoveNewer={() => moveDay(-1)}
-        onSelectDay={setSingleDayFilter}
-      />
-      <LanguageSwitcher
-        value={language}
-        options={languageOptions}
-        onChange={(nextValue) => {
-          setSettingsError("");
-          void updateSettings({ preferred_language: nextValue }).catch((err) => {
-            const message = err instanceof Error ? err.message : "Failed to update preferred language";
-            setSettingsError(message);
-          });
-        }}
-      />
-    </div>
+    <DayNavigator
+      dayNav={dayNav}
+      pickerDay={pickerDay}
+      onMoveOlder={() => moveDay(1)}
+      onMoveNewer={() => moveDay(-1)}
+      onSelectDay={setSingleDayFilter}
+    />
   );
 
   return (
@@ -525,7 +518,7 @@ export function StoryViewerPage(): JSX.Element {
             await updateSettings({ preferred_language: nextLanguage });
             setIsSettingsOpen(false);
           } catch (err) {
-            const message = err instanceof Error ? err.message : "Failed to update preferred language";
+            const message = err instanceof Error ? err.message : "Failed to update translation language";
             setSettingsError(message);
           } finally {
             setIsSavingSettings(false);

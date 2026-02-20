@@ -68,9 +68,9 @@ export function SettingsModal({
 
         <div className="settings-content">
           <label className="field">
-            <span>Preferred language</span>
+            <span>Translate articles to:</span>
             <Select value={draftLanguage} onValueChange={setDraftLanguage}>
-              <SelectTrigger variant="default" className="settings-select-trigger" aria-label="Preferred language">
+              <SelectTrigger variant="default" className="settings-select-trigger" aria-label="Translate articles to">
                 <span>
                   {options.find((option) => option.code === draftLanguage)?.label ?? draftLanguage.toUpperCase()}
                 </span>
