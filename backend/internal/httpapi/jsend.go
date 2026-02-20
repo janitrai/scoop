@@ -20,13 +20,6 @@ func success(c echo.Context, data any) error {
 	})
 }
 
-func successWithStatus(c echo.Context, code int, data any) error {
-	return c.JSON(code, jsendResponse{
-		Status: "success",
-		Data:   data,
-	})
-}
-
 func fail(c echo.Context, code int, message string, data any) error {
 	resp := jsendResponse{
 		Status:  "fail",
